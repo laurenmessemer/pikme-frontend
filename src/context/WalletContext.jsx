@@ -14,7 +14,7 @@ export const WalletProvider = ({ children }) => {
     if (!user?.id) return;
 
     try {
-      const response = await axios.get(`http://localhost:5004/api/wallet?user_id=${user.id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`); // ✅ Use env variable
       console.log("✅ Updated Wallet Balance:", response.data.balance);
       setBalance(response.data.balance); // ✅ Ensure setBalance is used
     } catch (error) {

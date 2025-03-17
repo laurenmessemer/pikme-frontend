@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios
-        .get("http://localhost:5004/api/auth/me", {
+        .get(`${import.meta.env.VITE_API_URL}/api/auth/me`, { // ✅ Use env variable
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
