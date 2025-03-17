@@ -1,0 +1,261 @@
+import axios from "axios";
+import { useState } from "react";
+import "../styles/admin/CreateTheme.css";
+
+const CreateTheme = () => {
+  const [themeName, setThemeName] = useState("");
+  const [description, setDescription] = useState("");
+  const [specialRules, setSpecialRules] = useState("");
+  const [coverImage, setCoverImage] = useState(null); // ✅ Store image for preview
+  const [coverImageUrl, setCoverImageUrl] = useState(""); // ✅ Store S3 URL
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+
+  // ✅ Handle Image Upload to S3
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    console.log("📤 Uploading image:", file.name);
+
+    // ✅ Generate local preview while uploading
+    setCoverImage(URL.createObjectURL(file));
+    setIsUploading(true);
+
+    try {
+      // Step 1: Get Pre-Signed URL from Backend
+      const response = await axios.get(`http://localhost:5004/api/themes/get-upload-url`, {
+        params: { fileType: file.type },
+      });
+
+      const { uploadURL, fileKey, bucketName, region } = response.data;
+
+      // Step 2: Upload File to S3
+      await axios.put(uploadURL, file, {
+        headers: { "Content-Type": file.type },
+      });
+
+      // Step 3: Store Final Image URL
+      const imageUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileKey}`;
+      console.log("✅ Image uploaded successfully:", imageUrl);
+
+      setCoverImageUrl(imageUrl);
+      setIsUploading(false);
+    } catch (error) {
+      console.error("❌ Upload failed:", error);
+      setError("Failed to upload cover image.");
+      setIsUploading(false);
+    }
+  };
+
+  // ✅ Ensure Image URL is Ready Before Submitting
+  const handleSubmit = async () => {
+    if (isUploading) {
+      alert("Image is still uploading. Please wait...");
+      return;
+    }
+
+    console.log("🚀 Attempting to submit theme with image URL:", coverImageUrl);
+
+    if (!coverImageUrl) {
+      alert("Please upload a cover image before submitting.");
+      return;
+    }
+
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await axios.post("http://localhost:5004/api/themes/create", {
+        themeName,
+        description,
+        specialRules,
+        coverImageUrl, // ✅ Send S3 URL
+      });
+
+      console.log("✅ Theme created successfully:", response.data);
+      setSuccess("Theme added successfully!");
+
+      // Reset form
+      setThemeName("");
+      setDescription("");
+      setSpecialRules("");
+      setCoverImage(null);
+      setCoverImageUrl(""); // Reset for the next theme
+    } catch (err) {
+      console.error("❌ Error creating theme:", err);
+      setError(err.response?.data?.message || "Failed to create theme");
+    }
+  };
+
+  return (
+    <div className="create-theme-container">
+      <h2>Manage Themes - Add New Theme</h2>
+
+      {error && <p className="error-message">{error}</p>}
+      {success && <p className="success-message">{success}</p>}
+
+      <div className="form-section">
+        <div className="cover-image">
+          <label>Cover Image</label>
+          <div className="image-upload">
+            {coverImage || coverImageUrl ? (
+              <img src={coverImageUrl || coverImage} alt="Cover" className="uploaded-image" />
+            ) : (
+              <div className="image-placeholder">+</div>
+            )}
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+          </div>
+        </div>
+
+        <div className="theme-details">
+          <label>Theme Name:</label>
+          <input type="text" value={themeName} onChange={(e) => setThemeName(e.target.value)} />
+
+          <label>Theme Description:</label>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+
+          <label>Special Rules:</label>
+          <textarea value={specialRules} onChange={(e) => setSpecialRules(e.target.value)} />
+        </div>
+      </div>
+
+      <div className="buttons">
+        <button className="cancel">Cancel</button>
+        <button className="submit" onClick={handleSubmit} disabled={isUploading}>
+          {isUploading ? "Uploading..." : "Add Theme"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CreateTheme;
+
+// import axios from "axios";
+// import { useState } from "react";
+// import "../styles/admin/CreateTheme.css";
+
+// const CreateTheme = () => {
+//   const [themeName, setThemeName] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [specialRules, setSpecialRules] = useState("");
+//   const [coverImage, setCoverImage] = useState(null);
+//   const [entries, setEntries] = useState([]);
+//   const [error, setError] = useState("");
+//   const [success, setSuccess] = useState("");
+
+//   // ✅ Handle image uploads (Cover & Entries)
+//   const handleImageUpload = (event, type) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       if (type === "cover") {
+//         setCoverImage(file);
+//       } else {
+//         setEntries([...entries, file]);
+//       }
+//     }
+//   };
+  
+
+//   const removeEntry = (index) => {
+//     setEntries(entries.filter((_, i) => i !== index));
+//   };
+
+//   // ✅ Submit theme to backend
+//   const handleSubmit = async () => {
+//     setError("");
+//     setSuccess("");
+  
+//     const formData = new FormData();
+//     formData.append("themeName", themeName);
+//     formData.append("description", description);
+//     formData.append("specialRules", specialRules);
+  
+//     if (coverImage) {
+//       formData.append("coverImage", coverImage);
+//     }
+  
+//     try {
+//       const response = await axios.post("http://localhost:5004/api/themes/create", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+  
+//       console.log("✅ Theme created:", response.data);
+//       setSuccess("Theme added successfully!");
+  
+//       // Reset form
+//       setThemeName("");
+//       setDescription("");
+//       setSpecialRules("");
+//       setCoverImage(null);
+//     } catch (err) {
+//       console.error("❌ Error creating theme:", err);
+//       setError(err.response?.data?.message || "Failed to create theme");
+//     }
+//   };
+  
+  
+
+//   return (
+//     <div className="create-theme-container">
+//       <h2>Manage Themes - Add New Theme</h2>
+
+//       {error && <p className="error-message">{error}</p>}
+//       {success && <p className="success-message">{success}</p>}
+
+//       <div className="form-section">
+//         <div className="cover-image">
+//           <label>Cover Image</label>
+//           <div className="image-upload">
+//             {coverImage ? (
+//               <img src={coverImage} alt="Cover" className="uploaded-image" />
+//             ) : (
+//               <div className="image-placeholder">+</div>
+//             )}
+//             <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "cover")} />
+//           </div>
+//         </div>
+
+//         <div className="theme-details">
+//           <label>Theme Name:</label>
+//           <input type="text" value={themeName} onChange={(e) => setThemeName(e.target.value)} />
+
+//           <label>Theme Description:</label>
+//           <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+
+//           <label>Special Rules:</label>
+//           <textarea value={specialRules} onChange={(e) => setSpecialRules(e.target.value)} />
+//         </div>
+//       </div>
+
+//       <hr />
+
+//       <div className="entries-section">
+//         <label>In-House Entries</label>
+//         <div className="entries-grid">
+//           {entries.map((entry, index) => (
+//             <div key={index} className="entry">
+//               <img src={entry} alt={`Entry ${index + 1}`} />
+//               <button className="delete-entry" onClick={() => removeEntry(index)}>×</button>
+//             </div>
+//           ))}
+//           {entries.length < 15 && (
+//             <div className="image-upload">
+//               <div className="image-placeholder">+</div>
+//               <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "entry")} />
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       <div className="buttons">
+//         <button className="cancel">Cancel</button>
+//         <button className="submit" onClick={handleSubmit}>Add Theme</button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CreateTheme;

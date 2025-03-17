@@ -1,0 +1,189 @@
+/* Outer container with gradient */
+.h2h-card {
+    width: 100%;
+    max-width: 80em;
+    padding: 15px; /* Spacing for gradient effect */
+    padding-right: 20px;
+    background: linear-gradient(90deg, rgba(255, 0, 150, 0.3), rgba(15, 58, 21, 0.3));
+    border: 2px solid var(--dark);
+    cursor: pointer;
+    transition: height 0.3s ease-in-out;
+    flex-grow: calc(100% / 3 - 20px); /* Adjust based on number of cards per row */
+    overflow: hidden; /* Ensure the expanded grid does not exceed boundaries */
+}
+
+/* Inner container */
+.h2h-card__inner {
+    display: flex;
+    align-items: stretch; /* Ensures the image stretches to full height */
+    background: var(--light);
+    border: 2px solid var(--dark);
+    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+    width: 100%;
+}
+
+/* Theme Image */
+.h2h-card__image-container {
+    flex: 1.9;
+    max-width: 9em; /* Increased width */
+    overflow: hidden;
+    display: flex;
+    align-items: stretch; /* Ensures it stretches */
+}
+
+/* Ensuring the image always matches the height of the inner container */
+.h2h-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Content Section */
+.h2h-card__content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    padding-left: 1.5em; /* Increased padding */
+    justify-content: center; /* Ensures text is vertically centered */
+}
+
+/* Timer */
+.h2h-card__timer {
+    align-self: flex-start;
+}
+
+/* Theme Name */
+.h2h-card__title {
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+/* Theme Description */
+.h2h-card__description {
+    margin-top: 1px;
+}
+
+
+/* Expanded Grid (Only appears when expanded) */
+.h2h-card.expanded {
+    height: auto;
+    padding-bottom: 20px;
+}
+
+
+/* When expanded, increase the height */
+.h2h-card.expanded {
+    height: auto;
+    padding-bottom: 20px;
+}
+
+/* Inner container (stays at the top, does not change) */
+.h2h-card__inner {
+    display: flex;
+    align-items: stretch;
+    background: var(--light);
+    border: 1px solid var(--dark);
+    width: 100%;
+}
+
+/* Expanded Grid - Contained inside Outer Container */
+.h2h-card__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 12px;
+    padding: 15px;
+    margin-top: 10px;
+    width: 100%;
+    max-height: 500px; /* Adjust as needed to contain within outer container */
+    overflow-y: auto; /* Allows scrolling if needed */
+}
+
+/* Grid Items - Ensures perfect squares */
+.h2h-card__grid-item {
+    width: 75%;
+    aspect-ratio: 1 / 1; /* Ensures square shape */
+    background: var(--light);
+    border: 2px solid var(--dark);
+    display: flex;
+    flex-direction: column; /* Stack content */
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    color: var(--dark);
+    padding: 8px;
+    margin: 2px;
+    text-align: center;
+    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+}
+/* Medal Container */
+.medal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Medal Image */
+.medal-icon {
+    margin-top: 10px;
+    width: 90%;
+    max-width: 10em;
+    height: auto;
+}
+
+/* Prize Pool Styling - White Text with Dark Border */
+.grid-prize {
+    margin-top: 8px;;
+    font-family: "Familj Grotesk", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light); /* White text */
+    text-shadow: -1px -1px 0 var(--dark),  
+                 1px -1px 0 var(--dark),  
+                -1px  1px 0 var(--dark),  
+                 1px  2px 0 var(--dark); /* Creates a dark border around the text */
+}
+
+/* Medal Slots - Make Transparent */
+.transparent {
+    background-color: transparent !important;
+    border: none; /* Remove border */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 0px #464242; /* Shadow for the card */
+}
+
+/* Entry Fee Section */
+.grid-entry-fee {
+    font-size: 14px;
+    margin: 3px 0;
+}
+
+/* Challenge Button */
+.challenge-button {
+    width: 100%;
+    max-width: 90%;
+}
+
+.bg-light {
+    background-color: var(--light);
+}
+
+/* Challenge Background Colors */
+.bg-challenge-1 {
+    background-color: var(--challenge-background-1);
+}
+
+.bg-challenge-2 {
+    background-color: var(--challenge-background-2);
+}
+
+.bg-challenge-3 {
+    background-color: var(--challenge-background-3);
+}
+
+.bg-challenge-4 {
+    background-color: var(--challenge-background-4);
+}

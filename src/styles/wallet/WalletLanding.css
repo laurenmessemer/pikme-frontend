@@ -1,0 +1,46 @@
+/* ✅ Wallet Landing Page Styling */
+.wallet-landing {
+  text-align: center;
+  padding: 20px;
+}
+
+.wallet-landing-title {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.wallet-landing-description {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+.wallet-landing-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+
+/* ✅ Wallet Actions */
+.wallet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.wallet-action-button {
+  width: 200px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.wallet-action-button:hover {
+  background-color: var(--primary-dark);
+}

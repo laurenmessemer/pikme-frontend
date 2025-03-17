@@ -1,0 +1,93 @@
+/* ✅ Dropdown Container */
+.settings-dropdown {
+    font-family: 'Azeret Mono', monospace;
+    position: absolute !important;
+    top: 75px; /* Adjust to align correctly */
+    right: 20px; /* Align with the username */
+    background: var(--light);
+    border: 1.6px solid var(--dark);
+    width: 215px;
+    z-index: 9999999 !important; /* Ensure it's above everything */
+    padding: 10px 0;
+}
+
+/* ✅ Create the dropdown "notch" at the top */
+.settings-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -10px; /* Position above the dropdown */
+    right: 15px; /* Align with username */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid var(--dark); /* Dark border */
+}
+
+.settings-dropdown::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 9px solid var(--light); /* Matches dropdown background */
+}
+
+/* ✅ Dropdown Header */
+.dropdown-header {
+    font-weight: bold;
+    padding: 5px 15px;
+    font-size: 1em;
+    color: var(--dark);
+}
+
+/* ✅ Dropdown List */
+.settings-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ Dropdown Items */
+.settings-dropdown li {
+    padding: 5px 15px;
+    cursor: pointer;
+    font-size: .8em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark);
+}
+
+/* ✅ Alerts Item */
+.settings-dropdown .status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #FF69B4; /* Pink */
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* ✅ Hover Effect */
+.settings-dropdown li:hover {
+    background: #F5F5F5;
+}
+
+/* ✅ Divider */
+.settings-dropdown hr {
+    border: none;
+    height: 1px;
+    background: #ccc;
+    margin: 5px 15px;
+}
+
+/* ✅ Sign Out Button */
+.logout-btn {
+    text-align: center;
+    font-weight: bold;
+    padding: 12px 15px;
+    cursor: pointer;
+}

@@ -1,0 +1,48 @@
+.step-four-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    margin-top: 80px;;
+}
+
+
+.step-four-container .confirmation-container {
+    flex: 1; 
+    width: 900px;
+    max-width: 900px; /* Set a larger max width */
+    flex-grow: 1;
+}
+
+/* ✅ Right Side: Uploaded Image */
+.uploaded-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploaded-image {
+    /* max-width: 100%;
+    height: auto; */
+    border-radius: 8px;
+    box-shadow: 6px 6px 0px var(--dark);
+}
+
+/* ✅ Responsive Adjustments */
+@media (max-width: 768px) {
+    .step-four-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .uploaded-image-container {
+        width: 100%;
+    }
+
+    .uploaded-image {
+        max-width: 80%;
+    }
+}

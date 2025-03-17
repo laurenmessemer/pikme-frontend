@@ -1,0 +1,31 @@
+.payout-container {
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.payout-toggle {
+    background: var(--accent);
+    border: none;
+    color: var(--dark);
+    font-weight: bold;
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.payout-toggle:hover {
+    background: var(--cta);
+}
+
+.payout-dropdown {
+    background: var(--light);
+    border: 1px solid var(--dark);
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}

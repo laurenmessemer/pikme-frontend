@@ -1,0 +1,235 @@
+/* ✅ General Page Styling */
+.manage-users-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Page Title */
+.manage-users-container h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* ✅ Table Styling */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Table Header */
+.users-table thead {
+    background: #333;
+    color: white;
+    text-align: left;
+}
+
+.users-table th {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ✅ Table Body */
+.users-table tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background 0.2s ease-in-out;
+}
+
+.users-table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* ✅ Table Cells */
+.users-table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #444;
+}
+
+/* ✅ Highlight Suspended/Banned Rows */
+.highlight-row {
+    background: #ffdddd;
+}
+
+/* ✅ Status Styling */
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ✅ Status Colors */
+.status.active {
+    background: #d4f5d4;
+    color: #2a7a2a;
+}
+
+.status.suspended {
+    background: #fdf5a6;
+    color: #856404;
+}
+
+.status.banned {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ✅ Edit Button */
+.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
+}
+
+.edit {
+    background: #007bff;
+    color: white;
+}
+
+.edit:hover {
+    background: #0056b3;
+}
+
+/* ✅ User Edit Modal */
+.user-edit-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* ✅ Modal Title */
+.user-edit-modal h3 {
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ✅ Form Styling */
+.user-edit-modal label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 10px;
+}
+
+.user-edit-modal input,
+.user-edit-modal select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* ✅ Token Adjustment Controls */
+.token-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.token-controls button {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    background: #4caf50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.token-controls button:hover {
+    background: #388e3c;
+}
+
+/* ✅ Set Token Balance */
+.set-balance {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.set-balance input {
+    flex-grow: 1;
+    padding: 6px;
+    text-align: center;
+}
+
+/* ✅ Save & Cancel Buttons */
+.save-btn,
+.close-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+.save-btn:hover {
+    background: #218838;
+}
+
+.close-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+
+.close-btn:hover {
+    background: #c82333;
+}
+
+/* ✅ Responsive Styles */
+@media (max-width: 768px) {
+    .manage-users-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .users-table th,
+    .users-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .user-edit-modal {
+        width: 90%;
+    }
+}

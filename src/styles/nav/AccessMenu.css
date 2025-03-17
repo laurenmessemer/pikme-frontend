@@ -1,0 +1,96 @@
+/* ✅ Ensure AccessMenu & WalletBadge are in a row */
+.access-container {
+  position: fixed;
+  top: 0;
+  right: 20px;
+  display: flex;
+  flex-direction: row; /* Make it a row layout */
+  align-items: center; /* Keep WalletBadge and AccessMenu aligned */
+  gap: 10px; /* Space between WalletBadge and AccessMenu */
+  z-index: 9999999;
+}
+
+/* ✅ Ensure AccessMenu stays flush with the viewport */
+.access-menu {
+  background-color: var(--light);
+  border: 2px solid var(--dark);
+  border-top: transparent;
+  padding: 7px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative; /* Fix it to the top */
+}
+
+/* ✅ Accent Dashed Line */
+.access-menu::before {
+  content: "";
+  width: 99%;
+  border-top: 1px dashed var(--dark);
+  margin: 8px 0;
+}
+
+/* ✅ Wrap Login & Sign Up in a Row */
+.access-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ✅ Styles for Links */
+.access-menu li {
+  list-style: none;
+  margin: 5px 0;
+}
+
+.access-menu a {
+  text-decoration: none;
+  color: var(--dark);
+  transition: color 0.3s ease-in-out;
+}
+
+.access-menu a:hover {
+  color: var(--primary-brand);
+}
+
+/* ✅ Styles for Welcome Text */
+.access-menu li:first-child {
+  font-weight: bold;
+  color: var(--dark);
+}
+
+
+/* 🔽 NEW: Logged-in User Section */
+.access-logged-in {
+  position: relative;
+  display: inline-block;
+}
+
+/* ✅ Username with dropdown toggle */
+.access-username {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .8em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 12px;
+  background: var(--light);
+}
+
+/* ✅ Pink Dot */
+.status-dot {
+  height: 8px;
+  width: 8px;
+  background-color: #FF69B4; /* Pink */
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ✅ Arrow for Dropdown */
+.dropdown-arrow {
+  font-size: 14px;
+}
+

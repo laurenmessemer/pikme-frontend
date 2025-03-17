@@ -1,0 +1,77 @@
+.boost-vote-container {
+    position: absolute;
+    top: 79.5%; /* Adjusted to be more in the center of the screen */
+    left: 64%; /* Center horizontally */
+    transform: translateX(-50%); /* Keeps it horizontally centered */
+    width: 100%;
+    max-width: 380px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-top: 10px;
+    z-index: 3;
+    transform: scale(.87); /* Remove scaling to ensure visibility */
+    pointer-events: auto; /* Ensure the component is clickable and interactive */
+}
+
+/* Row container for progress bar, percentage, icon, and button */
+.boost-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Progress Bar */
+.progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #ffc107;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Boost Percentage */
+.boost-percentage {
+    font-size: 0.85rem;
+    color: white;
+    margin-left: 10px;
+}
+
+/* Boost Icon */
+.boost-icon {
+    width: 35px;
+    height: auto;
+    margin-left: 10px;
+}
+
+/* Boost Button */
+.boost-button {
+    background: white;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    margin-left: 10px;
+}
+
+.boost-button:hover {
+    background: #ddd;
+}
+
+/* Text Under Boost Progress */
+.boost-text {
+    font-size: 0.88rem;
+    color: white;
+    margin-top: 5px;
+    text-align: center; /* Centers the text */
+}

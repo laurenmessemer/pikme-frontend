@@ -1,0 +1,39 @@
+import { useState } from "react";
+import icon from "../assets/icons/piggybank.svg";
+import SubmissionCard from "../components/Cards/SubmissionCard"; // ✅ Import SubmissionCard
+import UploadImage from "../components/Cards/UploadImage";
+import "../styles/pages/Compete.css";
+
+const Compete2 = () => {
+    const [uploadedFile, setUploadedFile] = useState(null);
+
+    const handleUpload = (file) => {
+        console.log("Uploaded file:", file.name);
+        setUploadedFile(URL.createObjectURL(file)); 
+    };
+
+    return (
+        <div className="compete-page bg-secondary flex">
+            <div className="container compete-container">
+                
+                <div className="compete-content">
+                    {/* ✅ Left Side: SubmissionCard */}
+                    <SubmissionCard 
+                        contestIcon={icon}
+                        contestTitle="Sunset Vibes"
+                        contestDescription="Capture the perfect sunset moment!"
+                        rules={["No filters", "Must be original", "High resolution only"]}
+                    />
+
+                    {/* ✅ Right Side: UploadImage */}
+                    <UploadImage onUpload={handleUpload} />
+                </div>
+
+                {/* ✅ Show preview if an image was uploaded */}
+                {uploadedFile && <img src={uploadedFile} alt="Uploaded Preview" className="uploaded-image-preview" />}
+            </div>
+        </div>
+    );
+};
+
+export default Compete2;

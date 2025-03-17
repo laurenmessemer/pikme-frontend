@@ -1,0 +1,18 @@
+.opponent-button {
+    background: linear-gradient(90deg, #edcf93, #85e5c6, #e7b7e3, #f0d6a2);
+    border: 1.5px solid var(--dark);
+    color: var(--dark);
+    font-weight: bold;
+    padding: 25px 20px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.opponent-button:hover,
+.opponent-button:focus {
+    box-shadow: 4px 4px 0px var(--dark);
+    transform: translateY(-2px);
+}

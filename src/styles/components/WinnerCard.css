@@ -1,0 +1,113 @@
+.winner-card {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+    height: 15em;
+    overflow: hidden;
+    border: 4px solid var(--dark);
+    position: relative;
+}
+
+/* Image Container */
+.card-image {
+    position: relative;
+    width: 100%;
+    height: 80%; /* 4/5 of the container */
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+/* Winner Label */
+.winner-box {
+    position: absolute;
+    top: 165px; /* Adjust to make it straddle */
+    left: 9px;
+    background: var(--cta);
+    color: var(--dark);
+    padding: 3px 6px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    border: 1px solid var(--dark);
+    z-index: 1; /* Ensure it sits above content */
+}
+
+/* Winner Image */
+.winner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Date Box */
+.date-box {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: var(--dark);
+    border: 1px solid var(--light);
+    color: white;
+    padding: 3px 6px;
+    font-size: 0.6rem;
+}
+
+/* White Content Section */
+.card-content {
+    width: 100%;
+    height: 20%; /* 1/5 of the container */
+    background-color: white;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 4px solid var(--dark);
+    position: relative;
+    z-index: 0;
+}
+
+.theme-name,
+.payout {
+    flex: 1;
+    text-align: left;
+}
+
+/* Left-aligned Theme and Payout */
+.theme-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    padding-top: 9px;
+    text-align: left;
+}
+
+.payout {
+    font-size: 0.8rem;
+    color: #333;
+    margin: 3px 0;
+    text-align: left;
+    padding-top: 5px;
+}
+
+.entries {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    border: 1px solid var(--dark);
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--dark);
+    padding: 7px;
+    margin-right: 1.4em;
+}
+
+.entries .icon {
+    margin: 0;
+    font-size: 1rem;
+}

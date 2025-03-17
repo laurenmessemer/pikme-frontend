@@ -1,0 +1,48 @@
+/* ✅ Upload Card & Uploaded Image Container - Consistent Size */
+.upload-container,
+.uploaded-image-container {
+    position: relative; /* ✅ Allows X button to stay inside */
+    width: 300px;
+    min-width: 300px; /* ✅ Ensures full width */
+    height: 300px;
+    background: #b0b0b0;
+    border: 3px solid var(--dark);
+    box-shadow: 6px 6px 0px #464242;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: 10%;
+    overflow: hidden; /* ✅ Prevents any overflow issues */
+    flex-shrink: 0; /* ✅ Prevents container from shrinking */
+}
+
+
+/* ✅ Ensures Image Fully Fills Container */
+.uploaded-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ✅ Fix for Upload Card Shrinking */
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/* ✅ Keeps Proportions Correct on Small Screens */
+@media (max-width: 700px) {
+    .upload-container, 
+    .uploaded-image-container {
+        max-width: 250px;
+        width: 250px;
+        height: 250px;
+    }
+}

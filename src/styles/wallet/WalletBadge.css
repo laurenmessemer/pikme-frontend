@@ -1,0 +1,78 @@
+/* Wrapper ensures correct positioning of the badge */
+.wallet-badge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999999;
+  }
+  
+  /* Badge container, controlling overall size */
+  .wallet-badge {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4em; /* ✅ This sets the badge width */
+    height: 4em; /* ✅ This sets the badge height */
+    z-index: 10;
+    background-color: transparent;
+    border: none;
+}
+
+
+  .wallet-badge:hover {
+    transform: scale(1.1);
+  }
+  
+  
+  /* Controls the size of the badge icon */
+  .wallet-badge-icon {
+    width: 100%; /* Matches the container size */
+    height: 100%;
+  }
+  
+
+
+  /* ✅ Ensure balance text is centered in the badge */
+  .wallet-badge-balance {
+    font-family: "Poppins", sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center both vertically and horizontally */
+    color: var(--dark);
+    font-size: 12.5px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 8px;
+    z-index: 11;
+    -webkit-text-stroke: 0.3px var(--light); /* Stroke around text */
+    text-align: center;
+    white-space: nowrap;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .wallet-badge {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .wallet-badge-balance {
+      font-size: 12px;
+      padding: 3px 6px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .wallet-badge {
+      width: 30px;
+      height: 30px;
+    }
+  
+    .wallet-badge-balance {
+      font-size: 10px;
+      padding: 2px 5px;
+    }
+  }
+  

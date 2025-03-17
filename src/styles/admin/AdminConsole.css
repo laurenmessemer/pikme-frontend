@@ -1,0 +1,112 @@
+/* Admin Container */
+.admin-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden; /* Prevents the whole page from scrolling */
+  }
+  
+  /* Sidebar */
+  .admin-sidebar {
+    width: 200px;
+    background: #3a3a3a;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto; /* Allows sidebar scrolling if needed */
+  }
+
+  
+  .admin-sidebar h2 {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
+  
+  .admin-sidebar nav {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .admin-sidebar nav h3 {
+    font-size: 1em;
+    margin: 15px 0 5px;
+    font-weight: bold;
+  }
+  
+  .admin-sidebar nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
+  .admin-sidebar nav a:hover {
+    background: #555;
+  }
+  
+  /* Active Link */
+  .active-link {
+    background: #ffd700;
+    color: black !important;
+    font-weight: bold;
+  }
+  
+  /* Main Content */
+/* Ensure the main content area scrolls when content overflows */
+.admin-main {
+  flex: 1;
+  padding: 20px;
+  background: #f5f5f5;
+  overflow: hidden; /* Prevents entire page from scrolling */
+  display: flex;
+  flex-direction: column;
+}
+
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .admin-username {
+    font-weight: bold;
+  }
+  
+  .logout-button {
+    margin-top: 20px;
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .logout-button:hover {
+    background: #c9302c;
+  }
+  
+  /* Content Wrapper */
+  .content-wrapper {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Allows scrolling */
+    height: 100%; /* Ensure it takes up the available space */
+    min-height: 0; /* Prevents flexbox from collapsing */
+  }
+  
+  
+  .section-title {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  

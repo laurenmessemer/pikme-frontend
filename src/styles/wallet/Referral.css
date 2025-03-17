@@ -1,0 +1,83 @@
+.referral-container {
+    width: 400px;
+    padding: 20px;
+    border: 3px solid #3c3c3c;
+    border-radius: 12px;
+    background: white;
+    text-align: center;
+    box-shadow: 4px 4px 0px #3c3c3c;
+    font-family: "Arial", sans-serif;
+    margin-right: 20px;
+}
+
+/* ✅ Title Styling */
+.referral-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3c3c3c;
+    margin: 2.5em 0em 2.5em;
+}
+
+/* ✅ Referral Link Box */
+.referral-link-container {
+    display: flex;
+    align-items: center;
+    border: 2px solid #3c3c3c;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+    max-width: 100%;
+    margin-bottom: 1.5em;
+}
+
+.referral-link {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    background: transparent;
+    color: #333;
+    font-weight: bold;
+}
+
+.referral-link:focus {
+    outline: none;
+}
+
+/* ✅ Copy Button */
+.copy-button {
+    background: #FFD966;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    transition: background 0.2s ease-in-out;
+}
+
+.copy-button:hover {
+    background: #e6c855;
+}
+
+/* ✅ Copy Icon */
+.copy-icon {
+    color: #3c3c3c;
+    font-size: 18px;
+}
+
+/* ✅ Success Message */
+.copy-message {
+    font-size: 12px;
+    color: green;
+    margin-top: 5px;
+}
+
+/* ✅ Referral Text */
+.referral-text {
+    font-size: 13px;
+    color: #3c3c3c;
+    margin-top: 10px;
+    margin-bottom: 5.5em;
+}

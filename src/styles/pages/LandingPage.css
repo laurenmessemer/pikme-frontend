@@ -1,0 +1,94 @@
+/* ✅ General Styles */
+.landing-container {
+    width: 90%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 90px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* ✅ Hero Section */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    /* padding: 10px; */
+}
+
+/* ✅ Hero Text */
+.text-content {
+    flex: 1;
+    text-align: left;
+}
+
+.hero-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.hero-subtext {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+    width: 80%;
+}
+
+/* ✅ CTA Box */
+.lottie-container {
+    width: 580px;
+    height: 250px;
+    margin: 40px 0px 50px;
+    background-color: #fff;
+    /* border: 2px solid var(--dark); */
+    /* box-shadow: 3px 3px 0px rgba(0, 0, 0, 1); */
+    text-align: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.cta-earnings {
+    margin-top: 60px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cta-subtext {
+    font-size: 12px;
+    color: #000;
+}
+
+
+/* ✅ Winners Section */
+.winners-section {
+    /* transform: scale(.9); */
+    background-color: var(--landing-blue);
+    padding: 10px 20px;
+    border: 2px solid var(--dark);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    margin-top: 0px;
+    text-align: left; /* ✅ Ensures text aligns to the left */
+}
+
+/* ✅ Ensure the title and text inside the section are also aligned left */
+.winners-title {
+    font-family: 'Azeret Mono', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--dark);
+    margin-bottom: 25px;
+    text-align: left; /* ✅ Title specifically aligned left */
+}
+
+.winners-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    text-align: left; /* ✅ Aligns text inside cards */
+}
+
+.winners-cards {
+    margin-bottom: 25px;
+}

@@ -1,0 +1,74 @@
+/* ✅ Main Dropdown Container */
+.dropdown-container {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* ✅ Dropdown Items Wrapper */
+.dropdown-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ✅ Individual Dropdown Item */
+.dropdown {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    width: 100%;
+    justify-content: space-between;
+    border: 1px solid #2d2d2d;
+    border-radius: 5px;
+    box-shadow: 1px 1px 0px #2d2d2d;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Dropdown Header */
+.dropdown-header {
+    background-color: #f4f8fb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 12px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+/* ✅ Open Dropdown Header */
+.dropdown-header.open {
+    background-color: #e0e0e0;
+}
+
+/* ✅ Dropdown Icon (Expand/Collapse) */
+.dropdown-icon {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* ✅ Dropdown Content */
+.dropdown-content {
+    padding: 4px 0px;
+    text-align: left;
+    font-size: 0.7rem;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+    animation: dropdownSlide 0.3s ease-in-out;
+}
+
+/* ✅ Smooth Dropdown Open/Close Animation */
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

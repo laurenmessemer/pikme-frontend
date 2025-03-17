@@ -1,0 +1,184 @@
+.livejackpot-container {
+    border: 3px solid var(--dark);
+    background: var(--light);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+    padding: 0px 20px 20px 20px;
+    margin: 0;
+    height: 100%;
+}
+
+.toggle-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Header Layout */
+.livejackpot-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align the entire header to the left */
+    padding: 10px 0; /* Added padding for spacing */
+}
+
+/* Make Piggybank Icon & Contest Name Align Side by Side */
+.theme-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: .25em;
+    align-self: flex-start; /* Ensures the title aligns to the left */
+}
+
+/* Piggybank Icon */
+.piggybank-icon {
+    width: 60px;
+    height: 60px;
+}
+
+/* Contest Name */
+.contest-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Timer, Entries, Prize Pool, Payout */
+.submission-timer {
+    transform: scale(.7);
+    text-align: left; /* Ensures timer aligns to the left */
+    transform-origin: top left; /* Ensures scaling happens from the top left corner */
+    position: relative; /* Allows fine-tuned positioning */
+    left: 0; /* Forces the timer to align left */
+}
+
+.submission-timer,
+.contest-details,
+.prize-pool,
+.payout-details {
+    font-size: 1rem;
+    font-weight: normal;
+    margin: .3em 0;
+    text-align: left; /* Ensures text is aligned left */
+}
+
+/* Main Content */
+.livejackpot-content {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Leaderboard */
+.leaderboard-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ✅ Explicit Divider Below User Submission */
+.user-submission-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--dark);
+    margin: 15px 0;
+}
+
+/* User Submission */
+.user-submission-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.user-submission-image {
+    width: 100%;
+    max-width: 250px;
+    border: 2px solid var(--dark);
+    margin-bottom: 10px;
+}
+
+/* ✅ Leaderboard Cards */
+.leaderboard-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* ✅ Align everything to the left */
+    border: 2px solid var(--dark);
+    padding: 10px;
+    background: var(--light);
+    gap: 15px;
+    position: relative; /* ✅ Needed for the shadow overlay */
+}
+
+/* Submission Image (Aligned Left) */
+.leaderboard-card .submission-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    position: relative;
+}
+
+/* ✅ Dark Transparent Shadow Overlay on Images */
+.leaderboard-card .submission-image::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* ✅ Dark transparent overlay */
+    border-radius: 8px;
+}
+
+/* ✅ Updated User Info Alignment */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* ✅ Ensures left alignment */
+    gap: 3px;
+}
+
+/* Username */
+.username {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: left; /* ✅ Ensure text aligns left */
+}
+
+/* ✅ Votes Now Directly Under Username */
+.user-votes {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    text-align: left;
+    margin-top: -18px; /* ✅ Reduces space between username & votes */
+}
+
+/* ✅ Updated Payout Box */
+.earnings-container {
+    margin-left: auto; /* ✅ Keeps payout on the right */
+    padding: 8px 12px;
+    background: var(--accent);
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 80px;
+    border: 1px solid var(--dark); /* ✅ Adds 1px --dark border */
+}
+
+/* User's Own Earnings - Uses --compete-background */
+.user-earnings {
+    background: var(--compete-background);
+    color: var(--dark);
+}
+
+/* Other Users' Earnings - Uses --cta */
+.other-earnings {
+    background: var(--cta);
+    color: var(--dark);
+}

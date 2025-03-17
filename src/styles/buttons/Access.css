@@ -1,0 +1,42 @@
+  /* ✅ Default Button Styling */
+  .access-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 2px solid var(--dark);
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--dark);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 2px 2px 0px var(--dark);
+    width: 12em;
+  }
+  
+  /* ✅ Light Variant (White Background) */
+  .access-button.light {
+    background-color: var(--light);
+    color: var(--dark);
+  }
+  
+  /* ✅ CTA Variant (Yellow Background) */
+  .access-button.cta {
+    background-color: var(--cta);
+    color: var(--dark);
+  }
+  
+  /* ✅ Hover & Active States */
+  .access-button:hover {
+    background-color: var(--cta-pressed);
+  }
+  
+  .access-button:active {
+    background-color: var(--cta-pressed-2);
+    transform: translateY(2px);
+    box-shadow: 2px 2px 0px var(--dark);
+  }
+  

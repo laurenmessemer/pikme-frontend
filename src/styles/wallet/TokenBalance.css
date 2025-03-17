@@ -1,0 +1,118 @@
+/* ✅ Styles for the main container */
+.token-balance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    margin-left: 20px;
+}
+
+/* ✅ Balance Section */
+.balance-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.token-amount {
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.token-icon {
+    font-size: 1.2em;
+}
+
+/* ✅ Prize History Title */
+.prize-history-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+/* ✅ Prize History List */
+.prize-history-list {
+    width: 100%;
+    border: 2px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* ✅ Prize Entry - Flexbox for Alignment */
+.prize-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+}
+
+.prize-entry:last-child {
+    border-bottom: none;
+}
+
+/* ✅ Left Side: Description & Date */
+.prize-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.prize-description {
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 5px;;
+}
+
+.prize-date {
+    font-size: 12px;
+    color: gray;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    text-align: left;
+}
+
+/* ✅ Right Side: Prize Amount */
+.prize-right {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ✅ Positive (Green) and Negative (Red) */
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+/* ✅ Empty State */
+.empty-prize-history {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.prize-icon {
+    font-size: 24px;
+}
+
+/* ✅ Button */
+.compete-button {
+    margin-top: 15px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid black;
+    background: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.compete-button:hover {
+    background: black;
+    color: white;
+}

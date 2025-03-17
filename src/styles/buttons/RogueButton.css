@@ -1,0 +1,35 @@
+/* ✅ General Button Styling */
+.rogueButton {
+    border: 2px solid var(--dark);
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+    box-shadow: 2px 2px 0px var(--dark);
+    font-family: 'Azeret Mono', monospace;
+}
+
+/* ✅ Default (View Submission) */
+.rogueButton.default {
+    background-color: #E6E6E6; /* Light gray */
+}
+
+.rogueButton.default:hover {
+    background-color: #D5D5D5;
+}
+
+/* ✅ Highlighted (Vote Now) */
+.rogueButton.highlighted {
+    background-color: #FDD663; /* Yellow */
+}
+
+.rogueButton.highlighted:hover {
+    background-color: #E6C157;
+}
+
+/* ✅ Responsive */
+@media (max-width: 500px) {
+    .rogueButton {
+        width: 100%;
+    }
+}

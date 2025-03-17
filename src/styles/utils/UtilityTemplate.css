@@ -1,0 +1,91 @@
+/* ✅ Ensure Full-Screen Coverage */
+.utility-template {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw; /* Ensures it always matches the viewport */
+  box-sizing: border-box;
+  background-color: #fff; /* White background locked in */
+  overflow: hidden; /* Prevents scrolling that exposes background */
+}
+
+/* ✅ Full-Width Header */
+.utility-header {
+  width: 100vw; /* Full viewport width */
+  height: 8em; /* Adjust header height as needed */
+  padding: 14px 20px;
+  background-color: #FFD685; /* Header background color */
+  border-bottom: 3px solid #2d2d2d;
+  box-sizing: border-box;
+  flex-shrink: 0; /* Prevents shrinking */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ✅ Aligns content to the left */
+  justify-content: center; /* Centers vertically */
+  gap: 10px; /* ✅ Adds space between button and title */
+}
+
+/* ✅ Ensure Main Content Fills Viewport & No Extra Space */
+.utility-content {
+  flex: 1;
+  background-color: #fff;
+  width: 100vw; /* Ensures full width */
+  height: calc(100vh - 8em); /* ✅ Subtracts header height to lock content */
+  padding: 20px;
+  box-sizing: border-box;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  overflow: auto; /* Allows internal scrolling if needed */
+}
+
+/* ✅ Prevent body from allowing scrolling */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevents scrolling beyond viewport */
+}
+
+.pikme-logo-image {
+  width: 10em; /* Adjust logo size */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* ✅ Adjust Return Home Button */
+.return-home-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2d2d2d;
+  background-color: #FFD685;
+  border: 1.5px solid #2d2d2d;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.return-home-button:hover {
+  background-color: #ffe6b5;
+  transform: translateY(-1px);
+}
+
+/* ✅ Adjust Arrow Icon */
+.arrow-left-icon {
+  width: 12px; 
+  height: auto;
+  margin-right: 8px;
+}
+
+/* ✅ Title Below Button */
+.utility-header-title {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d2d2d;
+  text-align: left;
+  margin-left: 8px; /* ✅ Indents slightly for spacing */
+}

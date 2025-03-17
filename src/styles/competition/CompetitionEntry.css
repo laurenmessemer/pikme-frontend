@@ -1,0 +1,40 @@
+.competition-entry-container {
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+  }
+  
+  .step-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    margin: 20px 0;
+  }
+  
+  .primary-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .primary-button:hover {
+    background: #0056b3;
+  }
+  
+  .secondary-button {
+    background: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .secondary-button:hover {
+    background: #bbb;
+  }
+  

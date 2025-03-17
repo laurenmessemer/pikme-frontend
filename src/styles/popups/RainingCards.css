@@ -1,0 +1,37 @@
+/* ✅ Full-screen money rain */
+.raining-cards {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Prevents blocking clicks */
+    overflow: hidden;
+    z-index: 999; /* Above everything */
+    display: none;
+}
+
+.raining-cards.active {
+    display: block;
+}
+
+/* ✅ Falling card animation */
+.raining-card {
+    position: absolute;
+    top: -200px;
+    width: 100px;
+    height: auto;
+    /* animation: rain 2.5s linear forwards; */
+    opacity: 0.9;
+}
+
+@keyframes rain {
+    0% {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}

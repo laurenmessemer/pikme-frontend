@@ -1,0 +1,32 @@
+.winners-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.winners-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cards per row by default */
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) { /* Medium screens */
+    .winners-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    }
+}
+
+@media (max-width: 768px) { /* Tablet size */
+    .winners-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    }
+}
+
+@media (max-width: 480px) { /* Mobile */
+    .winners-grid {
+        grid-template-columns: 1fr; /* 1 card per row */
+    }
+}

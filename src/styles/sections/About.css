@@ -1,0 +1,49 @@
+.about-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+  }
+  
+  .about-gif-container {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .about-gif {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .about-text-container {
+    max-width: 600px;
+  }
+  
+  .about-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
+  }
+  
+  .about-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+  }
+  
+  .about-icon {
+    width: 55px; /* Adjust size */
+    height: 55px; /* Adjust size */
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }

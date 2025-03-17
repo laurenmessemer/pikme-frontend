@@ -1,0 +1,93 @@
+/* Scalable Container */
+.scalable-container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: auto;
+    top: 1.3em;
+    transform-origin: top left;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    transform: scale(1.9); /* Set a fixed scale */
+    position: relative;
+}
+
+/* Parent container */
+.tab-container1 {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Wrapper that scales everything together */
+.tab-wrapper1 {
+    position: relative;
+    width: 80vw;
+    max-width: 1300px;
+    height: auto;
+    transform-origin: top left;
+}
+
+/* Clickable tab buttons */
+.tab-buttons1 {
+    position: absolute;
+    top: 10px; /* Adjusts alignment with assets */
+    left: 6px;
+    display: flex;
+    width: 100%;
+    gap: 5px;
+    padding: 5px;
+    z-index: 300002; /* Ensure it's above images */
+    pointer-events: auto; /* Allow clicking */
+}
+
+/* Fix button interactions */
+.tab-button1 {
+    width: 6vw;
+    max-width: 130px;
+    aspect-ratio: 4 / 1;
+    /* border: 2px solid #00aaff; */
+    color: rgba(255, 255, 255, 0);
+    border: none;
+    background-color: transparent;
+    font-size: 1vw;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 300003;
+    position: relative; /* Ensures it appears over images */
+    pointer-events: auto; /* Allow clicking */
+}
+
+.tab-button1:hover {
+    color: rgba(255, 255, 255, 0);
+}
+
+/* Background container */
+.tab-background-container1 {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: left;
+    z-index: 20002;
+}
+
+/* Background images */
+.tab-background-image1 {
+    position: absolute;
+    width: 100%;
+    max-width: 1100px;
+    height: auto;
+    object-fit: contain;
+    top: 15px;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    pointer-events: auto;
+}
