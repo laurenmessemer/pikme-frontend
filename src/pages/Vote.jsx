@@ -22,7 +22,7 @@ const Vote = () => {
     // ✅ Fetch active competitions
     const fetchVotingEntries = async () => {
         try {
-            const response = await axios.get("http://localhost:5004/api/vote/get-entries");
+            const response = await axios.get("${import.meta.env.VITE_API_URL}/api/vote/get-entries");
             console.log("✅ Competitions for voting:", response.data);
 
             if (response.data.competitions.length > 0) {
@@ -46,7 +46,7 @@ const Vote = () => {
     
         try {
             // ✅ Send vote request to backend
-            const response = await axios.post("http://localhost:5004/api/vote/vote", { 
+            const response = await axios.post("${import.meta.env.VITE_API_URL}/api/vote/vote", { 
                 competitionId, 
                 selectedImage 
             });

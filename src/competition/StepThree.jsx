@@ -28,7 +28,7 @@ const StepThree = ({ nextStep }) => {
     const fetchContestData = async () => {
       try {
         console.log("📡 Fetching contest data for:", contestId);
-        const response = await axios.get(`http://localhost:5004/api/contests/${contestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
         setEntryFee(response.data.entry_fee ?? 0);
       } catch (error) {
         console.error("❌ Error fetching contest details:", error);
@@ -62,7 +62,7 @@ const StepThree = ({ nextStep }) => {
       console.log("📡 Sending Confirm Payment Request:", payload); // ✅ Debugging
   
       const response = await axios.post(
-        "http://localhost:5004/api/competition-entry/confirm-payment",
+        "${import.meta.env.VITE_API_URL}/api/competition-entry/confirm-payment",
         payload
       );
   

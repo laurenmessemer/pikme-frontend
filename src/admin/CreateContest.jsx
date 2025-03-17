@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/CreateContest.css";
 
-const API_URL = "http://localhost:5004/api/contests";
+const API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 
 const CreateContest = () => {
   const [themes, setThemes] = useState([]); // Available themes
@@ -19,11 +19,12 @@ const CreateContest = () => {
 
   useEffect(() => {
     // ✅ Fetch themes from API
-    fetch("http://localhost:5004/api/themes")
+    fetch(`${import.meta.env.VITE_API_URL}/api/themes`)
       .then((res) => res.json())
       .then((data) => setThemes(data))
       .catch((err) => console.error("Error fetching themes:", err));
   }, []);
+  
 
   // ✅ Function to add days to a given date
   const addDays = (dateString, days) => {

@@ -12,7 +12,7 @@ const MySubmissions = ({ userId }) => {
         const fetchSubmissions = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5004/api/leaderboard/mysubmissions?userId=${userId}`
+                    `${import.meta.env.VITE_API_URL}/api/leaderboard/mysubmissions?userId=${userId}`
                 );
 
                 if (response.data.success) {

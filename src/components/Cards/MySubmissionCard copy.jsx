@@ -10,7 +10,7 @@ const MySubmissionCard = ({ image, username, theme, status, position, payout, co
   // ✅ Dynamically determine the correct image source
   const imageUrl = image?.startsWith("data:image") || image?.startsWith("http") 
     ? image // ✅ If Base64 or an external URL, use as is
-    : `http://localhost:5004/uploads/${image}`; // ✅ Otherwise, assume it's a stored file
+    : `${import.meta.env.VITE_API_URL}/uploads/${image}`; // ✅ Otherwise, assume it's a stored file
 
   // ✅ Determine status-based styling
   const getStatusClass = (status) => {

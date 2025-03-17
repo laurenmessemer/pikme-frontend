@@ -61,7 +61,7 @@ const BoostVote = ({ voteCount, submissions, onTriggerRain }) => {
                 <div className="boost-popup-overlay">
                     <div className="boost-popup-content">
                         <img 
-                            src={`http://localhost:5004${boostedEntry.image_url}`} 
+                            src={`${import.meta.env.VITE_API_URL}${boostedEntry.image_url}`} 
                             alt="Boosted Entry" 
                             className="boosted-entry"
                         />

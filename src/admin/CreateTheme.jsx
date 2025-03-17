@@ -25,9 +25,10 @@ const CreateTheme = () => {
 
     try {
       // Step 1: Get Pre-Signed URL from Backend
-      const response = await axios.get(`http://localhost:5004/api/themes/get-upload-url`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes/get-upload-url`, {
         params: { fileType: file.type },
       });
+    
 
       const { uploadURL, fileKey, bucketName, region } = response.data;
 
@@ -67,7 +68,7 @@ const CreateTheme = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post("http://localhost:5004/api/themes/create", {
+      const response = await axios.post("${import.meta.env.VITE_API_URL}/api/themes/create", {
         themeName,
         description,
         specialRules,
@@ -178,7 +179,7 @@ export default CreateTheme;
 //     }
   
 //     try {
-//       const response = await axios.post("http://localhost:5004/api/themes/create", formData, {
+//       const response = await axios.post("${import.meta.env.VITE_API_URL}/api/themes/create", formData, {
 //         headers: { "Content-Type": "multipart/form-data" },
 //       });
   

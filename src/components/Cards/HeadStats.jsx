@@ -13,7 +13,7 @@ const HeadStats = () => {
         const fetchLiveContest = async () => {
             try {
                 console.log("📢 Fetching live contest data...");
-                const response = await axios.get("http://localhost:5004/api/leaderboard/live-contests");
+                const response = await axios.get("${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests");
 
                 if (response.data.success) {
                     setContestData(response.data.contest);

@@ -28,7 +28,7 @@ const StepThree = ({ nextStep }) => {
 
     const fetchContestData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5004/api/contests/${contestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
         setEntryFee(response.data.entry_fee ?? 0); // Prevent null errors
       } catch (error) {
         console.error("❌ Error fetching contest details:", error);
@@ -64,7 +64,7 @@ const StepThree = ({ nextStep }) => {
   
     try {
       // ✅ Deduct tokens first
-      const tokenResponse = await axios.post("http://localhost:5004/api/competition-entry/use-token", {
+      const tokenResponse = await axios.post("${import.meta.env.VITE_API_URL}/api/competition-entry/use-token", {
         user_id: user.id,
         contest_id: contestId,
         user1_image: imageUrl, // ✅ Ensure image is included
@@ -78,7 +78,7 @@ const StepThree = ({ nextStep }) => {
       refreshBalance(); // ✅ Ensure consistency
 
       // ✅ Directly enter the competition (no checks for duplicates or open matches)
-      await axios.post("http://localhost:5004/api/competition-entry/enter", {
+      await axios.post("${import.meta.env.VITE_API_URL}/api/competition-entry/enter", {
         user_id: user.id,
         contest_id: contestId,
         image_url: imageUrl, // ✅ Ensure image is included

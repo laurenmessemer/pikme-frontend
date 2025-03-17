@@ -14,7 +14,7 @@ const StepOne = ({ nextStep }) => {
   useEffect(() => {
     const fetchLiveContests = async () => {
       try {
-        const response = await axios.get("http://localhost:5004/api/contests/live");
+        const response = await axios.get("${import.meta.env.VITE_API_URL}/api/contests/live");
         setContests(response.data);
       } catch (err) {
         setError("Error fetching contests.");

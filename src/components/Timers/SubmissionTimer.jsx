@@ -13,7 +13,7 @@ const SubmissionTimer = ({ contestId }) => {
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5004/api/contests/${contestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
 
         // ✅ Extract submission deadline & entry fee
         const { submission_deadline, entry_fee } = response.data;

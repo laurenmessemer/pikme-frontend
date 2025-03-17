@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageContests.css";
 
-const API_URL = "http://localhost:5004/api/contests";
+const API_URL = "${import.meta.env.VITE_API_URL}/api/contests";
 
 const ManageContests = () => {
   const [contests, setContests] = useState([]);

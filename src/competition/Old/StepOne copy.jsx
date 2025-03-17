@@ -15,7 +15,7 @@ const StepOne = ({ nextStep }) => {
   useEffect(() => {
     const fetchLiveContests = async () => {
       try {
-        const response = await axios.get("http://localhost:5004/api/contests/live");
+        const response = await axios.get("${import.meta.env.VITE_API_URL}/api/contests/live");
         // console.log("✅ API Response:", response.data);
         setContests(response.data);
       } catch (err) {
@@ -50,7 +50,7 @@ const StepOne = ({ nextStep }) => {
               contestId={contest.id}
               themePhoto={
                 contest.Theme?.cover_image_url
-                  ? `http://localhost:5004${contest.Theme.cover_image_url}`
+                  ? `${import.meta.env.VITE_API_URL}${contest.Theme.cover_image_url}`
                   : themePlaceholder
               }
               entryFee={Number(contest.entry_fee)}

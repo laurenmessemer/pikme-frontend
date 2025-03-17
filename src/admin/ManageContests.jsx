@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageContests.css";
 
-const CONTESTS_API_URL = "http://localhost:5004/api/contests";
-const COMPETITIONS_API_URL = "http://localhost:5004/api/competitions";
-const WINNERS_API_URL = "http://localhost:5004/api/competitions/determine-winners"; // ✅ New API for determining winners
+const CONTESTS_API_URL = "${import.meta.env.VITE_API_URL}/api/contests";
+const COMPETITIONS_API_URL = "${import.meta.env.VITE_API_URL}/api/competitions";
+const WINNERS_API_URL = "${import.meta.env.VITE_API_URL}/api/competitions/determine-winners"; // ✅ New API for determining winners
 
 const ManageContests = () => {
   console.log("📌 ManageContests component is rendering!");

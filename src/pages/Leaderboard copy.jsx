@@ -34,7 +34,7 @@ const Leaderboard = () => {
         setError(null);
         try {
             console.log("📢 Fetching real past winners from API...");
-            const response = await axios.get("http://localhost:5004/api/leaderboard/winners");
+            const response = await axios.get("${import.meta.env.VITE_API_URL}/api/leaderboard/winners");
     
             if (response.data.success) {
                 setWinnersData(response.data.winners);

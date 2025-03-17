@@ -14,7 +14,7 @@ const ResetPassword = () => {
     if (step === 1) {
       // Request reset email
       try {
-        const response = await axios.post("http://localhost:5004/api/auth/reset-password-request", {
+        const response = await axios.post("${import.meta.env.VITE_API_URL}/api/auth/reset-password-request", {
           email: formValues.email,
         });
         setEmail(formValues.email);
@@ -26,7 +26,7 @@ const ResetPassword = () => {
     } else if (step === 2) {
       // Verify code
       try {
-        await axios.post("http://localhost:5004/api/auth/verify-code", {
+        await axios.post("${import.meta.env.VITE_API_URL}/api/auth/verify-code", {
           email,
           code: formValues.verificationCode,
         });
@@ -41,7 +41,7 @@ const ResetPassword = () => {
           setMessage("Passwords do not match");
           return;
         }
-        const response = await axios.post("http://localhost:5004/api/auth/reset-password", {
+        const response = await axios.post("${import.meta.env.VITE_API_URL}/api/auth/reset-password", {
           token,
           password: formValues.password,
         });

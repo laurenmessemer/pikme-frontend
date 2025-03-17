@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/Users.css";
 
-const API_URL = "http://localhost:5004/api/users"; 
+const API_URL = "${import.meta.env.VITE_API_URL}/api/users"; 
 
 
 const Users = () => {
@@ -44,7 +44,7 @@ const Users = () => {
       try {
           console.log("🚀 Sending update request:", selectedUser);
   
-          const response = await fetch(`http://localhost:5004/api/users/${selectedUser.id}`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/users/${selectedUser.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

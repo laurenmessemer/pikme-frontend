@@ -24,7 +24,7 @@ const ManageThemes = () => {
   const fetchThemes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5004/api/themes");
+      const response = await axios.get("${import.meta.env.VITE_API_URL}/api/themes");
       setThemes(response.data);
     } catch (error) {
       console.error("❌ Error fetching themes:", error);
@@ -59,7 +59,7 @@ const ManageThemes = () => {
     console.log("📤 Uploading new cover image:", file.name);
 
     try {
-      const response = await axios.get("http://localhost:5004/api/themes/get-upload-url", {
+      const response = await axios.get("${import.meta.env.VITE_API_URL}/api/themes/get-upload-url", {
         params: { fileType: file.type },
       });
 
@@ -114,7 +114,7 @@ const ManageThemes = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5004/api/themes/${editingTheme}`, updatedThemeData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}`, updatedThemeData);
 
       console.log("✅ Theme updated successfully.");
 
@@ -125,7 +125,7 @@ const ManageThemes = () => {
           formData.append("entries", image);
         });
 
-        await axios.post(`http://localhost:5004/api/themes/${editingTheme}/entries`, formData, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}/entries`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 

@@ -22,7 +22,7 @@ const StepTwo = ({ nextStep }) => { // ❌ Removed userId
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5004/api/contests/${contestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
         setContest(response.data);
       } catch (err) {
         console.error("❌ Error fetching contest details:", err);

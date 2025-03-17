@@ -16,7 +16,7 @@ const WalletLanding = () => {
       if (!user) return; // ✅ Ensure user exists
 
       try {
-        const response = await axios.get(`http://localhost:5004/api/wallet?user_id=${user.id}`); // ✅ Send user_id
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`); // ✅ Send user_id
 
         setBalance(response.data.balance);
         setPrizeHistory(generateFakePrizeHistory()); // ✅ Replace with fake history

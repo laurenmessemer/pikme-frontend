@@ -26,7 +26,7 @@ const StepTwo = ({ nextStep }) => {
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5004/api/contests/${contestId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
         setContest(response.data);
       } catch (err) {
         console.error("❌ Error fetching contest details:", err);
@@ -47,7 +47,7 @@ const StepTwo = ({ nextStep }) => {
     
     try {
       // ✅ Step 1: Request pre-signed URL from backend
-      const response = await axios.get(`http://localhost:5004/api/competition-entry/get-upload-url`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`, {
         params: { 
           user_id: userId,  // Replace with actual user ID from context
           contest_id: contestId,
@@ -74,7 +74,7 @@ const StepTwo = ({ nextStep }) => {
       // ✅ Step 4: Send the final image URL to the backend
       console.log("📡 Sending Image URL to Backend:", { pendingEntryId, imageUrl });
   
-      const updateResponse = await axios.post("http://localhost:5004/api/competition-entry/update-image", {
+      const updateResponse = await axios.post("${import.meta.env.VITE_API_URL}/api/competition-entry/update-image", {
         pendingEntryId,  // Pass the pending entry ID
         imageUrl,
       });
