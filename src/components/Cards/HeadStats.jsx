@@ -13,7 +13,8 @@ const HeadStats = () => {
         const fetchLiveContest = async () => {
             try {
                 console.log("📢 Fetching live contest data...");
-                const response = await axios.get("${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests");
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
+                console.log("✅ Live Contest Data:", response);
 
                 if (response.data.success) {
                     setContestData(response.data.contest);
@@ -21,6 +22,7 @@ const HeadStats = () => {
                     throw new Error("Failed to fetch live contests.");
                 }
             } catch (error) {
+                console.log(error);
                 console.error("❌ Error fetching live contests:", error);
                 setError("Failed to load live contest.");
             } finally {

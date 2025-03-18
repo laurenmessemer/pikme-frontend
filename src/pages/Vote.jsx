@@ -19,23 +19,48 @@ const Vote = () => {
         fetchVotingEntries();
     }, []);
 
-    // ✅ Fetch active competitions
     const fetchVotingEntries = async () => {
         try {
-            const response = await axios.get("${import.meta.env.VITE_API_URL}/api/vote/get-entries");
-            console.log("✅ Competitions for voting:", response.data);
-
-            if (response.data.competitions.length > 0) {
-                setCompetitions(response.data.competitions);
-                setCurrentCompetitionIndex(0); // Start with first competition
+            console.log("📡 Fetching competitions...");
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
+            
+            console.log("📡 API Request Sent:", `${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
+            console.log("✅ Full API Response:", response);
+            
+            if (response.data) {
+                console.log("✅ Response Data:", response.data);
+    
+                if (Array.isArray(response.data.competitions)) {
+                    console.log("✅ Competitions for voting:", response.data.competitions);
+                    
+                    if (response.data.competitions.length > 0) {
+                        setCompetitions(response.data.competitions);
+                        setCurrentCompetitionIndex(0); // Start with first competition
+                    } else {
+                        setShowEndVotingPopup(true); // No competitions left
+                    }
+                } else {
+                    console.error("❌ competitions is not an array:", response.data.competitions);
+                    setError("Unexpected response format.");
+                }
             } else {
-                setShowEndVotingPopup(true); // No competitions left
+                console.error("❌ Response data is undefined or null.");
+                setError("No data received from the server.");
             }
         } catch (error) {
             console.error("❌ Error fetching competitions:", error);
+            console.error("🔍 Error Details:", {
+                message: error.message,
+                response: error.response ? {
+                    status: error.response.status,
+                    statusText: error.response.statusText,
+                    data: error.response.data
+                } : "No response received"
+            });
             setError("Failed to load competitions.");
         }
     };
+    
 
     // ✅ Handle voting
     const handleVote = async (selectedImage) => {
@@ -46,7 +71,7 @@ const Vote = () => {
     
         try {
             // ✅ Send vote request to backend
-            const response = await axios.post("${import.meta.env.VITE_API_URL}/api/vote/vote", { 
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, { 
                 competitionId, 
                 selectedImage 
             });

@@ -15,7 +15,7 @@ const StepOne = ({ nextStep }) => {
   useEffect(() => {
     const fetchLiveContests = async () => {
       try {
-        const response = await axios.get("${import.meta.env.VITE_API_URL}/api/contests/live");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/live`);
         // console.log("✅ API Response:", response.data);
         setContests(response.data);
       } catch (err) {

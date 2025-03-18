@@ -24,7 +24,7 @@ const ManageThemes = () => {
   const fetchThemes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("${import.meta.env.VITE_API_URL}/api/themes");
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes`);
       setThemes(response.data);
     } catch (error) {
       console.error("❌ Error fetching themes:", error);
@@ -59,7 +59,7 @@ const ManageThemes = () => {
     console.log("📤 Uploading new cover image:", file.name);
 
     try {
-      const response = await axios.get("${import.meta.env.VITE_API_URL}/api/themes/get-upload-url", {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes/get-upload-url`, {
         params: { fileType: file.type },
       });
 

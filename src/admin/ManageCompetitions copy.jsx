@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageCompetitions.css";
 
-const API_URL = "${import.meta.env.VITE_API_URL}/api/competitions";
-const WINNERS_API_URL = "${import.meta.env.VITE_API_URL}/api/competitions/determine-winners"; // ✅ New API for determining winners
+const API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
+const WINNERS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions/determine-winners`; // ✅ New API for determining winners
 
 const ManageCompetitions = () => {
   const [competitions, setCompetitions] = useState([]);

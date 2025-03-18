@@ -62,7 +62,7 @@ const StepThree = ({ nextStep }) => {
       console.log("📡 Sending Confirm Payment Request:", payload); // ✅ Debugging
   
       const response = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/competition-entry/confirm-payment",
+        `${import.meta.env.VITE_API_URL}/api/competition-entry/confirm-payment`,
         payload
       );
   

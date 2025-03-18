@@ -13,7 +13,7 @@ const WinnerSubmissions = () => {
         const fetchWinners = async () => {
             try {
                 console.log("📢 Fetching past winners...");
-                const response = await axios.get("${import.meta.env.VITE_API_URL}/api/leaderboard/winners");
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/winners`);
                 if (response.data.success) {
                     setWinners(response.data.winners);
                     console.log("🏆 Winners fetched successfully:", response.data.winners);

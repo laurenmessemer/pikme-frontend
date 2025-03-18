@@ -74,7 +74,7 @@ const StepTwo = ({ nextStep }) => {
       // ✅ Step 4: Send the final image URL to the backend
       console.log("📡 Sending Image URL to Backend:", { pendingEntryId, imageUrl });
   
-      const updateResponse = await axios.post("${import.meta.env.VITE_API_URL}/api/competition-entry/update-image", {
+      const updateResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/competition-entry/update-image`, {
         pendingEntryId,  // Pass the pending entry ID
         imageUrl,
       });

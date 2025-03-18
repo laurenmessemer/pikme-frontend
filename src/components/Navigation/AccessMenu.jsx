@@ -14,7 +14,7 @@ function AccessMenu() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Updated user:", user);
+    console.log("THIS IS THE Updated user:", user);
   }, [user]);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
