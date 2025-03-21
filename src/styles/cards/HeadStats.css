@@ -172,3 +172,36 @@
     background: var(--cta);
     color: var(--dark);
 }
+
+
+/* 🟢 Image Carousel Section */
+.image-carousel {
+    flex: 1.5;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 15px;
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    position: relative;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Hide scrollbar for cleaner look */
+}
+
+.image-carousel::-webkit-scrollbar {
+    display: none; /* Hide scrollbar on Webkit browsers */
+}
+
+.carousel-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-carousel:hover .carousel-image {
+    transform: scale(1.05);
+}
