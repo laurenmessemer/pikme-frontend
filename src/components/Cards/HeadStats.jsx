@@ -8,8 +8,7 @@ const HeadStats = () => {
     const [contestData, setContestData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [autoScroll, setAutoScroll] = useState(true);
-    
+
     useEffect(() => {
         const fetchLiveContest = async () => {
             try {
@@ -23,6 +22,7 @@ const HeadStats = () => {
                     throw new Error("Failed to fetch live contests.");
                 }
             } catch (error) {
+                console.log(error);
                 console.error("❌ Error fetching live contests:", error);
                 setError("Failed to load live contest.");
             } finally {
@@ -32,27 +32,6 @@ const HeadStats = () => {
 
         fetchLiveContest();
     }, []);
-
-    // Auto-scroll function
-    useEffect(() => {
-        if (!contestData || !contestData.entries) return;
-
-        let interval;
-        if (autoScroll) {
-            interval = setInterval(() => {
-                const container = document.querySelector(".image-carousel");
-                if (container) {
-                    container.scrollBy({ left: 200, behavior: "smooth" });
-
-                    // Reset scroll when reaching the end
-                    if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
-                        container.scrollTo({ left: 0, behavior: "smooth" });
-                    }
-                }
-            }, 2000); // Scroll every 2 seconds
-        }
-        return () => clearInterval(interval);
-    }, [contestData, autoScroll]);
 
     if (loading) return <p>Loading live contest...</p>;
     if (error) return <p className="error-message">{error}</p>;
@@ -90,10 +69,27 @@ const HeadStats = () => {
                 </div>
             </div>
 
-            {/* Leaderboard & Image Carousel */}
+            {/* Leaderboard Section */}
             <div className="headstats-content">
-                {/* Leaderboard Column */}
                 <div className="leaderboard-column">
+                    {/* If user has submitted, show their entry */}
+                    {contestData.userSubmission && (
+                        <>
+                            <div className="leaderboard-card user-submission">
+                                <img src={contestData.userSubmission.imageUrl} alt="Your Submission" className="submission-image" />
+                                <div className="user-info">
+                                    <p className="username">{contestData.userSubmission.username}</p>
+                                    <p className="user-votes">{contestData.userSubmission.votes} Votes</p>
+                                </div>
+                                <div className="earnings-container user-earnings">
+                                    {contestData.userSubmission.earnings}
+                                </div>
+                            </div>
+                            <div className="user-submission-divider"></div>
+                        </>
+                    )}
+
+                    {/* Top Leaderboard Users */}
                     {contestData.leaderboard.map((user) => (
                         <div key={user.id} className="leaderboard-card">
                             <img src={user.imageUrl} alt={user.username} className="submission-image" />
@@ -105,17 +101,6 @@ const HeadStats = () => {
                                 {user.earnings}
                             </div>
                         </div>
-                    ))}
-                </div>
-
-                {/* Image Carousel */}
-                <div 
-                    className="image-carousel"
-                    onMouseEnter={() => setAutoScroll(false)} 
-                    onMouseLeave={() => setAutoScroll(true)}
-                >
-                    {contestData.entries.map((entry, index) => (
-                        <img key={index} src={entry.imageUrl} alt="Contest Entry" className="carousel-image" />
                     ))}
                 </div>
             </div>
