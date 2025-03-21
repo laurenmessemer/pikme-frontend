@@ -1,7 +1,7 @@
 /* ✅ General Styles */
 .signup-container {
     width: 100%;
-    max-width: 275px;
+    max-width: 295px;
     margin: 0 auto;
     padding: 15px;
     background-color: var(--form-blue); /* ✅ Uses your background color */
@@ -61,7 +61,7 @@
 /* ✅ Eye Icon for Password Toggle */
 .eye-icon {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
     background: none;

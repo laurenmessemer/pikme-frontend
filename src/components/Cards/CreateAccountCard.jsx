@@ -42,6 +42,7 @@ const CreateAccountCard = ({ onSubmit }) => {
           value={formValues.username}
           onChange={handleInputChange}
           required
+          style={{ width: '230px' }}
         />
 
         {/* Email */}
@@ -54,6 +55,7 @@ const CreateAccountCard = ({ onSubmit }) => {
           value={formValues.email}
           onChange={handleInputChange}
           required
+          style={{ width: '230px' }}
         />
 
         {/* Password */}
@@ -67,6 +69,7 @@ const CreateAccountCard = ({ onSubmit }) => {
             value={formValues.password}
             onChange={handleInputChange}
             required
+            style={{ width: '230px' }}
           />
           <button type="button" className="eye-icon" onClick={togglePasswordVisibility}>
             {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -84,6 +87,7 @@ const CreateAccountCard = ({ onSubmit }) => {
             value={formValues.confirmPassword}
             onChange={handleInputChange}
             required
+            style={{ width: '230px' }}
           />
           <button type="button" className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
