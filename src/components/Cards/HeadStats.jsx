@@ -18,55 +18,26 @@ const HeadStats = () => {
 
     useEffect(() => {
         const fetchLiveContest = async () => {
-          try {
-            console.log("📢 Fetching live contest data...");
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
-            console.log("✅ Live Contest Data:", response.data);
-      
-            const allContests = response.data;
-      
-            // ✅ Temporarily filter for contest with id = 20
-            const targetContest = allContests.find(contest => contest.id === 20);
-      
-            if (targetContest) {
-              setContestData(targetContest);
-            } else {
-              throw new Error("Contest with ID 20 not found.");
+            try {
+                console.log("📢 Fetching live contest data...");
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
+                console.log("✅ Live Contest Data:", response.data);
+
+                if (response.data.success) {
+                    setContestData(response.data.contest);
+                } else {
+                    throw new Error("Failed to fetch live contests.");
+                }
+            } catch (error) {
+                console.error("❌ Error fetching live contests:", error);
+                setError("Failed to load live contest.");
+            } finally {
+                setLoading(false);
             }
-          } catch (error) {
-            console.error("❌ Error fetching live contests:", error);
-            setError("Failed to load live contest.");
-          } finally {
-            setLoading(false);
-          }
         };
-      
+
         fetchLiveContest();
-      }, []);
-      
-
-    // useEffect(() => {
-    //     const fetchLiveContest = async () => {
-    //         try {
-    //             console.log("📢 Fetching live contest data...");
-    //             const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
-    //             console.log("✅ Live Contest Data:", response.data);
-
-    //             if (response.data.success) {
-    //                 setContestData(response.data.contest);
-    //             } else {
-    //                 throw new Error("Failed to fetch live contests.");
-    //             }
-    //         } catch (error) {
-    //             console.error("❌ Error fetching live contests:", error);
-    //             setError("Failed to load live contest.");
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-
-    //     fetchLiveContest();
-    // }, []);
+    }, []);
 
     // Auto-scroll effect
     useEffect(() => {
