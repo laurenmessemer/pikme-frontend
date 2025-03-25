@@ -92,9 +92,9 @@ return (
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr><td>🥇 1st</td><td>{contestData.leaderboard[0]?.earnings || "$0"}</td></tr>
-                                <tr><td>🥈 2nd</td><td>{contestData.leaderboard[1]?.earnings || "$0"}</td></tr>
-                                <tr><td>🥉 3rd</td><td>{contestData.leaderboard[2]?.earnings || "$0"}</td></tr>
+                                <tr><td>🥇 1st</td><td>{contestData.leaderboard[0]?.earnings || "30"}</td></tr>
+                                <tr><td>🥈 2nd</td><td>{contestData.leaderboard[1]?.earnings || "20"}</td></tr>
+                                <tr><td>🥉 3rd</td><td>{contestData.leaderboard[2]?.earnings || "10"}</td></tr>
                             </tbody>
                         </table>
                     </div>
