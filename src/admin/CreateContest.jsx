@@ -72,10 +72,17 @@ const CreateContest = () => {
     }
 
     const newContest = {
-      creator_id: 1,
+      creator_id: 1, // Replace with logged-in admin's ID
       theme_id: selectedTheme,
       entry_fee: parseInt(entryFee),
+      total_entries: parseInt(maxEntries),
       prize_pool: parseFloat(prizePool),
+      winnings: {
+        first: parseFloat(prizes[0]) || 0,
+        second: parseFloat(prizes[1]) || 0,
+        third: parseFloat(prizes[2]) || 0,
+      },
+      contest_live_date: submissionStart,
       submission_deadline: submissionEnd,
       voting_live_date: votingStart,
       voting_deadline: votingEnd,
