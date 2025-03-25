@@ -1,8 +1,8 @@
 .jackpot-card {
+    max-width: 520px !important; /* <-- Force max width */
     margin-top: 1em;
     margin-bottom: 2.8em;
     width: 100%; /* Keeps the card a defined width */
-    max-width: 450px;
     border-radius: 0px;
     overflow: hidden;
     background: var(--light);
