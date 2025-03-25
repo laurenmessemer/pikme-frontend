@@ -1,0 +1,62 @@
+/* JoinInvite.css */
+
+.join-invite-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Jost', sans-serif;
+  }
+  
+  .join-header {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #222;
+  }
+  
+  .uploaded-image-container {
+    margin: 1.5rem 0;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .uploaded-image {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    object-fit: cover;
+  }
+  
+  .error {
+    color: red;
+    font-weight: 500;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  /* Responsive Layout */
+  @media (min-width: 768px) {
+    .join-invite-container {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+  
+    .join-header {
+      width: 100%;
+      text-align: left;
+    }
+  
+    .uploaded-image-container {
+      margin: 0;
+    }
+  }
+  

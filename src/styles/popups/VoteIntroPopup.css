@@ -1,0 +1,99 @@
+
+/* ✅ VoteIntroPopup.css */
+.vote-intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .vote-intro-card {
+    margin-top: 1em;
+    margin-bottom: 2.8em;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 0px;
+    overflow: hidden;
+    background: var(--light);
+    border: 3px solid var(--dark);
+    box-shadow: 6px 6px 0px #464242;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 0;
+    transition: transform 0.2s ease-in-out;
+    min-height: 24em;
+    transform: scale(1.2);
+  }
+  
+  .vote-intro-image-container {
+    position: relative;
+    width: 100%;
+    height: 15em;
+    min-height: 12em;
+  }
+  
+  .vote-intro-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .vote-intro-entry-badge {
+    position: absolute;
+    bottom: -194px;
+    left: -5%;
+    transform: translateX(-50%);
+    width: 100px;
+    z-index: 2;
+    transform: scale(0.6);
+  }
+  
+  .vote-intro-timer {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 5;
+  }
+  
+  .vote-intro-medals {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 3px;
+    z-index: 5;
+  }
+  
+  .vote-intro-medal {
+    width: 60px;
+    height: auto;
+  }
+  
+  .vote-intro-content {
+    position: relative;
+    background: var(--light);
+    padding: 5px 20px;
+    z-index: 3;
+  }
+  
+  .vote-intro-title {
+    margin-top: 1px;
+    margin-bottom: 7px;
+    text-align: left;
+    font-size: 2.3em;
+  }
+  
+  .vote-intro-description {
+    font-size: 14px;
+    margin: 5px 0 10px 0;
+    color: var(--subtle-text);
+    text-align: left;
+    margin-top: 5px;
+  }

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import "../../styles/dropdowns/Settings.css";
 
 const Settings = ({ isOpen, onClose, logout }) => {
@@ -26,10 +25,10 @@ const Settings = ({ isOpen, onClose, logout }) => {
     return (
         <div className="settings-dropdown" ref={dropdownRef}>
             <div className="dropdown-header">Account</div>
-            <ul>
+            {/* <ul>
                 <li><span className="status-dot"></span> Alerts</li>
                 <li><Link to="/settings">Settings & Privacy</Link></li>
-            </ul>
+            </ul> */}
             <hr />
             <li className="logout-btn" onClick={logout}>Sign Out</li>
         </div>

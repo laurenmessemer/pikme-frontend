@@ -78,14 +78,14 @@ const SubmissionCard = ({
             <p className="opponent-description">Choose Your Opponent.</p>
             <div className="submission-card-opponents">
                 <Opponent 
-                    opponentName="Challenge Friend" 
-                    isSelected={selectedOpponent === "Challenge Friend"}
-                    onClick={() => onOpponentSelect("Challenge Friend")} 
+                opponentName="Challenge Friend" 
+                isSelected={selectedOpponent === "invite_friend"}
+                onClick={() => onOpponentSelect("invite_friend")} 
                 />
                 <Opponent 
-                    opponentName="Pick For Me" 
-                    isSelected={selectedOpponent === "Pick For Me"} 
-                    onClick={() => onOpponentSelect("Pick For Me")} 
+                opponentName="Pick For Me" 
+                isSelected={selectedOpponent === "pick_random"} 
+                onClick={() => onOpponentSelect("pick_random")} 
                 />
             </div>
             

@@ -25,7 +25,7 @@ const MySubmissionCard = ({ image, username, theme, contestStatus, position, pay
           <h2 className="my-submission-card__theme-name">
             {/* ✅ Always show head-to-head icon */}
             <img src={flashIcon} alt="Flash icon" className="my-submission-card__icon" />
-            {theme} {/* ✅ Now rendering properly */}
+            {theme}
           </h2>
         </div>
         <div className="my-submission-card__user-info">
@@ -40,8 +40,8 @@ const MySubmissionCard = ({ image, username, theme, contestStatus, position, pay
 MySubmissionCard.propTypes = {
   image: PropTypes.string, // ✅ Expecting an S3 URL from the database
   username: PropTypes.string.isRequired,
-  theme: PropTypes.string.isRequired, // ✅ Fetches from Theme model
-  contestStatus: PropTypes.string.isRequired, // ✅ Fetches from Contest model
+  theme: PropTypes.string.isRequired,
+  contestStatus: PropTypes.string.isRequired, // ✅ Fetches from Contest table
   position: PropTypes.string,
   payout: PropTypes.string,
 };

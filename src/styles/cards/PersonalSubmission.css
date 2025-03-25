@@ -1,0 +1,299 @@
+/* ✅ PersonalSubmission.css (headstats duplicate using ps- prefix) */
+
+.ps-container {
+    background: var(--light);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    border: 3px solid var(--dark);
+    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+  }
+  
+  .ps-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .ps-theme-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: .25em;
+    align-self: flex-start; /* Ensures the title aligns to the left */
+    }
+  
+  .ps-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .ps-contest-name {
+    font-size: 1.60rem;
+    font-weight: 600;
+    margin: 1em 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  
+  .ps-content {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    align-items: flex-start;
+  }
+  
+  .ps-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .ps-my-submission {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--dark);
+    padding: 10px;
+    background: var(--light);
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .ps-my-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+  }
+  
+  .ps-my-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .ps-my-username {
+    font-weight: bold;
+    color: var(--primary);
+  }
+  
+  .ps-my-votes {
+    font-size: 0.9rem;
+    color: var(--dark);
+  }
+  
+  .ps-my-diff {
+    margin-left: auto;
+    padding: 8px 12px;
+    background: var(--cta);
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 80px;
+    border: 1px solid var(--dark);
+  }
+  
+  .ps-opponent-card {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: 2px solid var(--dark);
+    padding: 10px;
+    background: var(--light);
+    gap: 15px;
+  }
+  
+  .ps-opponent-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+  }
+  
+  .ps-opponent-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  
+  .ps-username {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .ps-votes {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+    margin-top: -18px;
+  }
+  
+  .ps-diff {
+    margin-left: auto;
+    padding: 8px 12px;
+    background: var(--accent);
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 80px;
+    border: 1px solid var(--dark);
+  }
+  
+  .ps-image-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .ps-image-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid var(--dark);
+    box-shadow: 4px 4px 0px #464242;
+  }
+  
+  .ps-main-image {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    object-fit: cover;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .ps-vote-badge {
+    position: absolute;
+    bottom: -17px;
+    background: #e5e5e5;
+    color: var(--dark);
+    border: 2px solid var(--dark);
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+  
+  .ps-image-card:hover {
+    transform: scale(1.08);
+  }
+  
+  .ps-status-box {
+    top: 10px;
+    left: 10px; /* Move to the left */
+    padding: 5px 10px;
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--black);
+    border: 1px solid var(--dark);
+    margin-top: 1em;
+    margin-bottom: 3em;
+    }
+  
+  /* ✅ Upcoming Status */
+  .ps-status-upcoming {
+    background-color: var(--light);
+    color: var(--black);
+    border-color: var(--dark);
+  }
+  
+  .ps-status-upcoming::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--upcoming);
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  
+  /* ✅ Live Status */
+  .ps-status-live {
+    background-color: var(--live);
+    color: var(--black);
+    border-color: var(--dark);
+  }
+  
+  .ps-status-live::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--light);
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  
+  /* ✅ Complete Status */
+  .ps-status-complete {
+    background-color: var(--light);
+    color: var(--black);
+    border-color: var(--dark);
+  }
+  
+  .ps-status-complete::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--complete);
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  
+  .ps-loading-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0px;
+    gap: 6px;
+    height: 13px;
+  }
+  
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #292929;
+    opacity: 0.3;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .dot1 {
+    animation-delay: 0s;
+  }
+  .dot2 {
+    animation-delay: 0.2s;
+  }
+  .dot3 {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes pulse {
+    0%, 80%, 100% {
+      transform: scale(0.8);
+      opacity: 0.3;
+    }
+    40% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+  
+
+  .ps-invite-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1em;
+    transform: scale(.8);
+  }

@@ -8,6 +8,7 @@
     width: 800px !important; /* Explicit width */
     max-width: 100% !important; /* Ensures responsiveness */
     margin: 0 auto;
+    margin-right: 10%;
 }
 
 /* ✅ Title Styling */

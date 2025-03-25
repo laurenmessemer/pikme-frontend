@@ -1,0 +1,162 @@
+/* 🌟 Full Page Container */
+.activity-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: var(--light);
+  padding: 40px 20px;
+}
+
+/* 🌟 Inner Wrapper for both columns */
+.activity-columns {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  max-width: 1100px; /* ensures the two columns are side-by-side and centered */
+  margin: 0 auto;    /* ✅ this centers the .activity-columns in the parent */
+}
+
+/* 🌟 Each individual column */
+.activity-column {
+  margin-top: 30px;
+  flex: 1 1 480px;
+  max-width: 500px;
+  background: white;
+  border: 2px solid var(--dark);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 2px 2px 0px var(--dark);
+}
+
+  /* 🌟 Section header */
+  .activity-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  
+  .activity-header img {
+    width: 28px;
+    height: 28px;
+    margin: 0; /* remove bottom spacing */
+  }
+  
+  .activity-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--dark);
+  }
+  /* 🌟 Subtext below the header */
+  .activity-subtext {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-bottom: 15px;
+    text-align: left; /* 🔥 Forces left alignment */
+  }
+  
+  /* 🌟 "Me" highlight row */
+  .activity-me-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 26px 16px;
+    border: 1px solid var(--dark);
+    margin-top: 10px;
+    margin-bottom: 16px;
+  }
+  
+.activity-value {
+  border: 1px solid var(--dark);
+  padding: 5px 25px;
+  border-radius: 12px;
+}
+  
+  /* 🌟 Divider line */
+  .activity-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--dark);
+    margin: 16px 0;
+  }
+  
+  /* 🌟 Leaderboard user row */
+  .activity-leaderboard-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 16px;
+    margin: 6px 0;
+    background: #f9f9f9;
+    border: 1px solid var(--dark);
+  }
+  .rank-badge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+  
+  .rank-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .rank-number {
+    background: #e0e0e0;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark);
+    border: 1px solid var(--dark);
+  }
+  
+  
+
+  .value-green {
+    background-color: var(--pressed-green);
+    color: var(--dark);
+  }
+  
+  .value-cta {
+    background-color: var(--cta);
+    color: var(--dark);
+  }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    flex: 1;
+  }
+  
+  .username-activity {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+  
+  .token-reward {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .token-emoji {
+    font-size: 1rem;
+  }
+  

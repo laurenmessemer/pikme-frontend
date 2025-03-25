@@ -19,7 +19,7 @@ const WalletLanding = () => {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`); // ✅ Send user_id
 
         setBalance(response.data.balance);
-        setPrizeHistory(generateFakePrizeHistory()); // ✅ Replace with fake history
+        setPrizeHistory(response.data.prizeHistory); // ✅ Already fetching real data
       } catch (error) {
         console.error("❌ Error fetching wallet data:", error);
       }
@@ -27,16 +27,6 @@ const WalletLanding = () => {
 
     fetchWalletData();
   }, [user]);
-
-// ✅ Function to generate fake prize history with specific dates
-const generateFakePrizeHistory = () => {
-  return [
-    { type: "Joining Bonus: +10 tokens", amount: 10, description: "Joining Bonus: +10 tokens", timestamp: "2025-01-01 12:00:00" },
-    { type: "Won 2 tokens from Contest!", amount: 2, description: "Won 2 tokens from voting!", timestamp: "2025-01-05 14:30:00" },
-    { type: "Won 2 tokens from Contest!", amount: 2, description: "Jackpot Bonus: Won 2 tokens!", timestamp: "2025-01-10 18:45:00" },
-    { type: "Spent 1 token on entry", amount: -1, description: "Spent 1 token on entry", timestamp: "2025-01-12 09:15:00" }
-  ];
-};
 
 
   return (

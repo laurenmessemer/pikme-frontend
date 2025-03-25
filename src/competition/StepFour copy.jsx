@@ -12,20 +12,22 @@ const StepFour = ({ inviteLink, matchType, joinedExistingMatch }) => {
   console.log("🎟️ StepFour Props:", { inviteLink, matchType, joinedExistingMatch });
   console.log("🌟 StepFour Received imageUrl:", imageUrl);
 
+  const generateInviteLink = () => {
+    return `https://pikme.com/headtoheadfriendinvite-${Math.floor(1000 + Math.random() * 9000)}`;
+  };
+
   if (!imageUrl) {
     console.error("❌ Missing imageUrl in StepFour - Likely an issue in StepThree");
     return <p className="error">Image is required to proceed.</p>;
   }
 
-  const fullInviteURL = inviteLink ? `https://pikme.com/join/${inviteLink}` : null;
-
   return (
     <div className="step-four-container flex">
       <Confirmation 
         newBalance={balance} 
-        inviteLink={matchType === "invite_friend" ? fullInviteURL : null} 
+        inviteLink={matchType === "invite_friend" ? inviteLink || generateInviteLink() : null} 
         matchType={matchType} 
-        joinedExistingMatch={joinedExistingMatch}
+        joinedExistingMatch={joinedExistingMatch} // ✅ Pass this down
       />
       <div className="uploaded-image-container">
         <img src={imageUrl} alt="Uploaded Preview" className="uploaded-image" />
@@ -33,7 +35,6 @@ const StepFour = ({ inviteLink, matchType, joinedExistingMatch }) => {
     </div>
   );
 };
-
 
 StepFour.propTypes = {
   inviteLink: PropTypes.string,

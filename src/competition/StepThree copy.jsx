@@ -8,9 +8,9 @@ import { useAuth } from "../context/UseAuth";
 import { WalletContext } from "../context/WalletContext";
 import "../styles/competition/StepThree.css";
 
-const StepThree = ({ nextStep, matchType }) => {
+const StepThree = ({ nextStep }) => {
   const { balance, setBalance, refreshBalance } = useContext(WalletContext);
-  const { contestId, imageUrl } = useCompetition();
+  const { contestId, imageUrl, matchType } = useCompetition();
   const { user } = useAuth();
   const userId = user?.id;
 
@@ -120,7 +120,6 @@ const StepThree = ({ nextStep, matchType }) => {
 
 StepThree.propTypes = {
   nextStep: PropTypes.func.isRequired,
-  matchType: PropTypes.string.isRequired,
 };
 
 export default StepThree;

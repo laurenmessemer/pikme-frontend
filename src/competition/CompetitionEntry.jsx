@@ -13,6 +13,8 @@ const CompetitionEntry = () => {
   const [inviteLink, setInviteLink] = useState(null);
 
   const nextStep = (data) => {
+    console.log("🔁 CompetitionEntry nextStep() called with:", data); // 🔍 Add this
+  
     if (step === 1 && data) {
       setContestId(data);
     } else if (step === 2 && data) {
@@ -26,6 +28,8 @@ const CompetitionEntry = () => {
     }
     setStep((prev) => prev + 1);
   };
+
+  console.log("🎯 Current matchType in CompetitionEntry:", matchType);
 
   return (
     <div className="competition-entry-container">

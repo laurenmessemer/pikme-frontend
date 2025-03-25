@@ -12,11 +12,15 @@ import Platform from "./admin/Platform";
 import Reports from "./admin/Reports";
 import UX from "./admin/UX";
 import Users from "./admin/Users";
+import JoinInvite from "./pages/JoinInvite";
 
 import Login from "./components/Auth/Login";
 import ResetPassword from "./components/Auth/ResetPassword";
 import ResetPasswordRequest from "./components/Auth/ResetPasswordRequest";
 import Signup from "./components/Auth/Signup";
+import Live from "./components/Cards/LiveJackpot";
+import MySubmissions from "./components/Cards/MySubmission";
+import Winners from "./components/Cards/Winners";
 import Footer from "./components/Navigation/Footer";
 import TabsLayout from "./components/Navigation/TabsLayout";
 import WalletLanding from "./components/Wallet/WalletLanding";
@@ -53,8 +57,13 @@ function App() {
                 {/* <Route path="compete/jackpot" element={<JackpotFlow />} />
                 <Route path="compete/h2h" element={<H2HFlow />} /> */}
                 <Route path="vote" element={<Vote />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
+                <Route path="leaderboard" element={<Leaderboard />}>
+                  <Route path="MySubmissions" element={<MySubmissions />} />
+                  <Route path="Live" element={<Live />} />
+                  <Route path="Winners" element={<Winners />} />
+                </Route>
                 <Route path="admin" element={<Admin />} />
+                <Route path="/join/:inviteLink" element={<JoinInvite />} />
               </Route>
 
               {/* ✅ Admin Console (Separate from Main App) */}

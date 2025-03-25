@@ -72,11 +72,11 @@ const LandingPage = () => {
       </div>
 
       {/* ✅ Winners Section */}
-      <div className="winners-section">
-        <h2 className="winners-title">WINNERS</h2>
-          <div className="winners-cards">
-            <Winners pastWinners={mockWinnersData}/>
-          </div>
+      <div className="landing-winners-section">
+        <h2 className="landing-winners-title">WINNERS</h2>
+        <div className="landing-winners-grid">
+          <Winners pastWinners={mockWinnersData} />
+        </div>
       </div>
     </div>
   );

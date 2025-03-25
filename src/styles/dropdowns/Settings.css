@@ -80,7 +80,7 @@
 .settings-dropdown hr {
     border: none;
     height: 1px;
-    background: #ccc;
+    /* background: #ccc; */
     margin: 5px 15px;
 }
 

@@ -2,6 +2,12 @@ import PropTypes from "prop-types";
 import "../../styles/wallet/TokenBalance.css";
 
 const TokenBalance = ({ balance, prizeHistory }) => {
+    // ✅ Format timestamp (e.g., "January 10, 2025")
+    const formatDate = (timestamp) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(timestamp).toLocaleDateString(undefined, options);
+    };
+
     return (
         <div className="token-balance-container">
             <div className="balance-header">
@@ -19,11 +25,11 @@ const TokenBalance = ({ balance, prizeHistory }) => {
                     {prizeHistory.map((entry, index) => (
                         <div key={index} className="prize-entry">
                             <div className="prize-left">
-                                <p className="prize-description">{entry.type} </p>
-                                <p className="prize-date">{"January 10th, 2025"}</p>
+                                <p className="prize-description">{entry.description}</p>
+                                <p className="prize-date">{formatDate(entry.timestamp)}</p>
                             </div>
                             <div className={`prize-right ${entry.amount > 0 ? "positive" : "negative"}`}>
-                                {entry.amount > 0 
+                                {entry.amount > 0
                                     ? `+ ${entry.amount} ${entry.currency === "USD" ? "$" : "🟠"}`
                                     : `- ${Math.abs(entry.amount)} 🟠`}
                             </div>
@@ -37,7 +43,7 @@ const TokenBalance = ({ balance, prizeHistory }) => {
                 </div>
             )}
 
-            <button className="compete-button">Compete and Earn</button>
+            {/* <button className="compete-button">Compete and Earn</button> */}
         </div>
     );
 };
@@ -47,10 +53,10 @@ TokenBalance.propTypes = {
     prizeHistory: PropTypes.arrayOf(
         PropTypes.shape({
             type: PropTypes.string.isRequired,
-            category: PropTypes.string.isRequired,
-            date: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            timestamp: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
-            currency: PropTypes.string, // USD or Tokens (🪙)
+            currency: PropTypes.string,
         })
     ).isRequired,
 };

@@ -1,165 +1,231 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie-player";
+import { useNavigate } from "react-router-dom";
 import voteAnimation from "../assets/lottie/video1_lottie.json";
-import EndVoting from "../components/Popups/EndVoting"; // ✅ Show when no more competitions exist
+import EndVoting from "../components/Popups/EndVoting";
 import RainingCards from "../components/Popups/RainingCards";
+import VoteIntroPopup from "../components/Popups/VoteIntroPopup";
 import "../styles/pages/Vote.css";
 
 const Vote = () => {
-    const [competitions, setCompetitions] = useState([]); // Store active competitions
-    const [currentCompetitionIndex, setCurrentCompetitionIndex] = useState(0);
-    const [selected, setSelected] = useState(null);
-    const [error, setError] = useState(null);
-    const [playAnimation, setPlayAnimation] = useState(false);
-    const [animationComplete, setAnimationComplete] = useState(false);
-    const [showEndVotingPopup, setShowEndVotingPopup] = useState(false);
+  const [popupQueue, setPopupQueue] = useState([]);
+  const [competitions, setCompetitions] = useState([]);
+  const [currentCompetitionIndex, setCurrentCompetitionIndex] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [error, setError] = useState(null);
+  const [playAnimation, setPlayAnimation] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const [showIntroPopup, setShowIntroPopup] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentContestId, setCurrentContestId] = useState(null);
+  const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
 
-    useEffect(() => {
-        fetchVotingEntries();
-    }, []);
+  const navigate = useNavigate();
 
-    const fetchVotingEntries = async () => {
-        try {
-            console.log("📡 Fetching competitions...");
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
-            
-            console.log("📡 API Request Sent:", `${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
-            console.log("✅ Full API Response:", response);
-            
-            if (response.data) {
-                console.log("✅ Response Data:", response.data);
-    
-                if (Array.isArray(response.data.competitions)) {
-                    console.log("✅ Competitions for voting:", response.data.competitions);
-                    
-                    if (response.data.competitions.length > 0) {
-                        setCompetitions(response.data.competitions);
-                        setCurrentCompetitionIndex(0); // Start with first competition
-                    } else {
-                        setShowEndVotingPopup(true); // No competitions left
-                    }
-                } else {
-                    console.error("❌ competitions is not an array:", response.data.competitions);
-                    setError("Unexpected response format.");
-                }
-            } else {
-                console.error("❌ Response data is undefined or null.");
-                setError("No data received from the server.");
-            }
-        } catch (error) {
-            console.error("❌ Error fetching competitions:", error);
-            console.error("🔍 Error Details:", {
-                message: error.message,
-                response: error.response ? {
-                    status: error.response.status,
-                    statusText: error.response.statusText,
-                    data: error.response.data
-                } : "No response received"
-            });
-            setError("Failed to load competitions.");
-        }
+  useEffect(() => {
+    const initialize = async () => {
+      const queue = await fetchIntroPopups();
+      if (queue.length > 0) {
+        const firstContestId = queue[0].contestId;
+        setCurrentContestId(firstContestId);
+        await fetchVotingEntries(firstContestId);
+      }
     };
-    
+    initialize();
+  }, []);
 
-    // ✅ Handle voting
-    const handleVote = async (selectedImage) => {
-        if (!competitions[currentCompetitionIndex]) return;
-    
-        const competitionId = competitions[currentCompetitionIndex].id;
-        console.log("📤 Sending vote for:", { competitionId, selectedImage });
-    
-        try {
-            // ✅ Send vote request to backend
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, { 
-                competitionId, 
-                selectedImage 
-            });
-    
-            console.log("✅ Vote response:", response.data);
-    
-            setSelected(selectedImage);
-            setPlayAnimation(true);
-    
-            setTimeout(() => {
-                setAnimationComplete(true);
-            }, 2000);
-        } catch (error) {
-            console.error("❌ Error casting vote:", error);
-            setError("Vote submission failed.");
-        }
-    };
-    
+  const fetchIntroPopups = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/live`);
+      const contests = response.data;
+      if (!Array.isArray(contests)) return [];
 
-    useEffect(() => {
-        if (animationComplete) {
-            setSelected(null);
-            setPlayAnimation(false);
-            setAnimationComplete(false);
+      const voteResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
+      const allCompetitions = voteResponse.data.competitions || [];
 
-            if (currentCompetitionIndex < competitions.length - 1) {
-                setCurrentCompetitionIndex(currentCompetitionIndex + 1); // Move to next competition
-            } else {
-                setShowEndVotingPopup(true); // No more competitions
-            }
-        }
-    }, [animationComplete]);
+      const validContests = contests.filter((contest) =>
+        allCompetitions.some((comp) => Number(comp.contestId) === Number(contest.id))
+      );
 
-    if (showEndVotingPopup) return <EndVoting />; // ✅ Show when no more competitions exist
+      const queue = validContests.map((contest) => ({
+        contestId: contest.id,
+        themePhoto: contest.Theme?.cover_image_url || "",
+        themeName: contest.Theme?.name || "Theme",
+        themeDescription: contest.Theme?.description || "No description available",
+        entryFee: Number(contest.entry_fee),
+        prizePool: Number(contest.prize_pool) || 0,
+      }));
 
-    const currentCompetition = competitions[currentCompetitionIndex];
+      setPopupQueue(queue);
+      return queue;
+    } catch (err) {
+      console.error("❌ Error fetching intro popups or competitions:", err);
+      return [];
+    }
+  };
 
-    return (
-        <>
-            <RainingCards trigger={true} />
+  const fetchVotingEntries = async (contestId) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
+      const comps = response.data.competitions || [];
 
-            <div className="vote-container">
-                {error && <p className="error">{error}</p>}
+      console.log("📥 Raw competitions:", comps);
+      const filtered = comps.filter(
+        (comp) =>
+          Number(comp.contestId) === Number(contestId) &&
+          !votedCompetitionIds.includes(comp.id)
+      );
 
-                <Lottie
-                    key={playAnimation ? "play" : "stop"}
-                    animationData={voteAnimation}
-                    play={playAnimation}
-                    onComplete={() => setAnimationComplete(true)}
-                    className="vote-animation"
-                />
+      console.log("✅ Filtered competitions for contestId", contestId, ":", filtered);
 
-                {currentCompetition ? (
-                    <div className="vote-content">
-                        {/* ✅ Left Image */}
-                        <div className="vote-box slide-in-left">
-                            <img
-                                src={currentCompetition.user1_image}
-                                alt="Entry 1"
-                                className={`vote-submission ${
-                                    selected === currentCompetition.user1_image ? "selected" : selected !== null ? "not-selected" : ""
-                                }`}
-                                onClick={() => handleVote(currentCompetition.user1_image)}
-                            />
-                            {!selected && <div className="vote-label">Vote</div>}
-                            {selected === currentCompetition.user1_image && <div className="vote-checkmark">✔</div>}
-                        </div>
+      if (filtered.length === 0) {
+        console.warn(`⚠️ No competitions found for contestId ${contestId}, skipping...`);
+        handleNextContest(); // ✅ updated line
+        return;
+      }
 
-                        {/* ✅ Right Image */}
-                        <div className="vote-box slide-in-right">
-                            <img
-                                src={currentCompetition.user2_image}
-                                alt="Entry 2"
-                                className={`vote-submission ${
-                                    selected === currentCompetition.user2_image ? "selected" : selected !== null ? "not-selected" : ""
-                                }`}
-                                onClick={() => handleVote(currentCompetition.user2_image)}
-                            />
-                            {!selected && <div className="vote-label">Vote</div>}
-                            {selected === currentCompetition.user2_image && <div className="vote-checkmark">✔</div>}
-                        </div>
-                    </div>
-                ) : (
-                    <p className="loading-message">Loading...</p>
-                )}
+      setCompetitions(filtered);
+      setCurrentCompetitionIndex(0);
+    } catch (err) {
+      console.error("❌ Error fetching voting competitions:", err);
+      setError("Failed to load voting entries.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNextContest = () => {
+    const nextQueue = popupQueue.slice(1);
+    const nextContest = nextQueue[0];
+
+    setPopupQueue(nextQueue);
+    setVotedCompetitionIds([]);
+    setShowIntroPopup(!!nextContest);
+
+    if (nextContest) {
+      setCurrentContestId(nextContest.contestId);
+      fetchVotingEntries(nextContest.contestId);
+    } else {
+      setCompetitions([]); // 🧹 just in case
+    }
+  };
+
+  const closeIntroPopup = () => {
+    setShowIntroPopup(false);
+    fetchVotingEntries(currentContestId);
+  };
+
+  const handleVote = async (selectedImage) => {
+    const current = competitions[currentCompetitionIndex];
+    if (!current) return;
+
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, {
+        competitionId: current.id,
+        selectedImage,
+      });
+
+      setVotedCompetitionIds((prev) => [...prev, current.id]);
+      setSelected(selectedImage);
+      setPlayAnimation(true);
+      setTimeout(() => setAnimationComplete(true), 2000);
+    } catch (err) {
+      console.error("❌ Error submitting vote:", err);
+      setError("Vote failed. Try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (animationComplete) {
+      setSelected(null);
+      setPlayAnimation(false);
+      setAnimationComplete(false);
+
+      const nextIndex = currentCompetitionIndex + 1;
+      if (nextIndex < competitions.length) {
+        setCurrentCompetitionIndex(nextIndex);
+      } else {
+        handleNextContest(); // ✅ updated logic
+      }
+    }
+  }, [animationComplete]);
+
+  const showEndScreen =
+    competitions.length === 0 && popupQueue.length === 0 && !showIntroPopup && !playAnimation;
+
+  const current = competitions[currentCompetitionIndex];
+  const currentPopup = popupQueue[0];
+
+  console.log("📊 showIntroPopup:", showIntroPopup);
+  console.log("📊 currentContestId:", currentContestId);
+  console.log("📊 competitions:", competitions);
+  console.log("📊 votedCompetitionIds:", votedCompetitionIds);
+
+  return (
+    <>
+      <RainingCards trigger={true} />
+
+      {showIntroPopup && currentPopup && (
+        <VoteIntroPopup
+          contestId={currentPopup.contestId}
+          themePhoto={currentPopup.themePhoto}
+          themeName={currentPopup.themeName}
+          themeDescription={currentPopup.themeDescription}
+          entryFee={currentPopup.entryFee}
+          prizePool={currentPopup.prizePool}
+          onStartVoting={closeIntroPopup}
+          onClose={closeIntroPopup}
+        />
+      )}
+
+      {showEndScreen && <EndVoting onClose={() => navigate("/")} />}
+
+      <div className="vote-container">
+        {error && <p className="error">{error}</p>}
+        {loading && <p className="loading-message">Loading contests...</p>}
+
+        <Lottie
+          key={playAnimation ? "play" : "stop"}
+          animationData={voteAnimation}
+          play={playAnimation}
+          onComplete={() => setAnimationComplete(true)}
+          className="vote-animation"
+        />
+
+        {current && !showIntroPopup && !playAnimation && (
+          <div className="vote-content">
+            <div className="vote-box slide-in-left">
+              <img
+                src={current.user1_image}
+                alt="Entry 1"
+                className={`vote-submission ${
+                  selected === current.user1_image ? "selected" : selected ? "not-selected" : ""
+                }`}
+                onClick={() => handleVote(current.user1_image)}
+              />
+              {!selected && <div className="vote-label">Vote</div>}
+              {selected === current.user1_image && <div className="vote-checkmark">✔</div>}
             </div>
-        </>
-    );
+
+            <div className="vote-box slide-in-right">
+              <img
+                src={current.user2_image}
+                alt="Entry 2"
+                className={`vote-submission ${
+                  selected === current.user2_image ? "selected" : selected ? "not-selected" : ""
+                }`}
+                onClick={() => handleVote(current.user2_image)}
+              />
+              {!selected && <div className="vote-label">Vote</div>}
+              {selected === current.user2_image && <div className="vote-checkmark">✔</div>}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Vote;

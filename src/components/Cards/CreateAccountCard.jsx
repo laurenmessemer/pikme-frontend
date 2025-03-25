@@ -3,13 +3,15 @@ import { useState } from "react";
 import { FaApple, FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa6";
 import "../../styles/cards/CreateAccountCard.css";
 
-const CreateAccountCard = ({ onSubmit }) => {
+const CreateAccountCard = ({ onSubmit, referralCode }) => {
   const [formValues, setFormValues] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
+    referralCode: referralCode || "", 
   });
+  
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -21,11 +23,18 @@ const CreateAccountCard = ({ onSubmit }) => {
     const { id, value } = e.target;
     setFormValues((prev) => ({ ...prev, [id]: value }));
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await onSubmit(formValues.username, formValues.email, formValues.password);
+    await onSubmit(
+      formValues.username,
+      formValues.email,
+      formValues.password,
+      formValues.referralCode
+    );
   };
+  
 
   return (
     <div className="signup-container">
@@ -94,6 +103,21 @@ const CreateAccountCard = ({ onSubmit }) => {
           </button>
         </div>
 
+        {/* Referral Code */}
+        <label className="form-label" htmlFor="referralCode">
+          REFERRAL CODE <span className="optional">(optional)</span>
+        </label>
+        <input
+          id="referralCode"
+          className="form-input"
+          type="text"
+          placeholder="Enter code (if you have one)"
+          value={formValues.referralCode}
+          onChange={handleInputChange}
+          style={{ width: "230px" }}
+        />
+
+
         {/* Submit Button */}
         <button className="signup-button" type="submit">
           CREATE ACCOUNT
@@ -137,6 +161,7 @@ const CreateAccountCard = ({ onSubmit }) => {
 
 CreateAccountCard.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  referralCode: PropTypes.string,
 };
 
 export default CreateAccountCard;
