@@ -2,7 +2,7 @@
     margin-top: 1em;
     margin-bottom: 2.8em;
     width: 100%; /* Keeps the card a defined width */
-    max-width: 800px;
+    max-width: 450px;
     border-radius: 0px;
     overflow: hidden;
     background: var(--light);
