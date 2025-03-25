@@ -1,8 +1,5 @@
 import PropTypes from "prop-types";
-import entryBadge from "../../assets/badges/entrybadges.svg"; // ✅ Import Entry Badge
-import bronzeMedal from "../../assets/medals/bronzeprize.svg";
-import goldMedal from "../../assets/medals/goldprize.svg";
-import silverMedal from "../../assets/medals/silverprize.svg";
+import entryBadge from "../../assets/badges/entrybadges.svg"; // ✅ Entry Badge
 import "../../styles/cards/JackpotCard.css";
 import Submit from "../Buttons/Submit";
 import SubmissionTimer from "../Timers/SubmissionTimer";
@@ -24,16 +21,28 @@ const JackpotCard = ({
       <div className="jackpot-card__image-container">
         <img src={themePhoto} alt={themeName} className="jackpot-card__image" />
 
-        {/* ✅ Entry Badge - Positioned Over Image but Cut at White Space */}
+        {/* ✅ Entry Badge */}
         <div className="jackpot-card__entry-badge">
           <img src={entryBadge} alt="Entry Badge" />
         </div>
 
-        {/* ✅ Medals in Top Right */}
+        {/* ✅ Medal Icons - Using External URLs */}
         <div className="jackpot-card__medals">
-          <img src={goldMedal} alt="Gold Medal" className="jackpot-medal gold" />
-          <img src={silverMedal} alt="Silver Medal" className="jackpot-medal silver" />
-          <img src={bronzeMedal} alt="Bronze Medal" className="jackpot-medal bronze" />
+          <img
+            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstplace.svg"
+            alt="Gold Medal"
+            className="jackpot-medal gold"
+          />
+          <img
+            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondplace.svg"
+            alt="Silver Medal"
+            className="jackpot-medal silver"
+          />
+          <img
+            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdplace.svg"
+            alt="Bronze Medal"
+            className="jackpot-medal bronze"
+          />
         </div>
       </div>
 
