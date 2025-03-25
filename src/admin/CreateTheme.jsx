@@ -68,7 +68,7 @@ const CreateTheme = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post("${import.meta.env.VITE_API_URL}/api/themes/create", {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/themes/create`, {
         themeName,
         description,
         specialRules,
