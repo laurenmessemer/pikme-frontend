@@ -72,7 +72,7 @@ const CreateContest = () => {
     }
 
     const newContest = {
-      creator_id: 1, // Replace with logged-in admin's ID
+      creator_id: 1,
       theme_id: selectedTheme,
       entry_fee: parseInt(entryFee),
       total_entries: parseInt(maxEntries),
@@ -82,11 +82,13 @@ const CreateContest = () => {
         second: parseFloat(prizes[1]) || 0,
         third: parseFloat(prizes[2]) || 0,
       },
-      contest_live_date: submissionStart,
+      contest_live_date: submissionStart, // ✅ Add this line
+      status: "Live",                     // ✅ Add this line
       submission_deadline: submissionEnd,
       voting_live_date: votingStart,
       voting_deadline: votingEnd,
     };
+    
 
     try {
       const response = await fetch(API_URL, {
