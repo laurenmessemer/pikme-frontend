@@ -3,14 +3,62 @@
     width: 95%;
     max-width: 99em;
     height: 80vh;
-    /* background: linear-gradient(135deg, #6c6c6c, #3d3d3d); */
-    /* border-radius: 12px; */
-    /* box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); */
     margin: 20px auto;
     overflow: hidden;
     position: relative;
 }
 
+
+.vote-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  aspect-ratio: 1.25 / 1; /* Keeps consistent shape */
+  max-width: 100%;
+  min-width: 220px; /* adjust as needed */
+  scale: .8
+}
+  
+  /* Only apply hover scaling if not selected or not-selected */
+  .vote-wrapper:not(.selected):not(.not-selected):hover {
+    transform: scale(1.1);
+  }
+  
+  /* Persist selected scale regardless of hover */
+  .vote-wrapper.selected {
+    transform: scale(1.3);
+    filter: drop-shadow(0px 0px 10px var(--cta));
+  }
+  
+  .vote-wrapper.not-selected {
+    transform: scale(0.95);
+    opacity: 0.4;
+  }
+  
+  .vote-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* allows clicks to pass through to wrapper */
+  }
+  
+.vote-label,
+.vote-counter,
+.vote-checkmark-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+  
 /* ✅ Container for Vote Entry */
 .vote-entry {
     position: relative;
@@ -23,38 +71,19 @@
 
 /* ✅ Vote Label (Yellow Button) */
 .vote-label {
-    position: absolute;
     bottom: -21px;
-    background-color: #FDD663; /* Yellow background */
+    background-color: #FDD663;
     color: black;
     font-weight: bold;
     font-size: 14px;
     padding: 6px 12px;
     border: 3px solid var(--dark);
     width: 40%;
-    text-align: center;
     transition: transform 0.2s ease-in-out;
-}
+  }
 
-/* ✅ Scale both Image & Label on Hover */
-.vote-entry:hover {
-    transform: scale(1.1);
-}
-
-/* ✅ Scale the Label with the Image */
-.vote-entry:hover .vote-label {
-    transform: scale(1.1);
-}
-
-.vote-entry.selected .vote-label {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
-.vote-counter {
-    position: absolute;
-    top: -35px;
+  .vote-counter {
+    top: -25px;
     background: white;
     color: black;
     font-weight: bold;
@@ -62,44 +91,82 @@
     padding: 5px 12px;
     border: 3px solid #FDD663;
     border-radius: 12px;
-    text-align: center;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
-    z-index: 10; /* ✅ Ensures the counter is above the image */
-}
+    z-index: 10;
+  }
 
 /* Hide counter until entry is selected */
 .vote-entry:not(.selected) .vote-counter {
     opacity: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
-.vote-checkmark {
+.vote-checkmark-wrapper {
     position: absolute;
-    bottom: 0px;
+    bottom: -15px; /* or tweak as needed to nudge it off the image */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 34px;
+  }
+  
+  .vote-checkmark-back {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 100%;
+    height: 100%;
     background: var(--dark);
-    color: var(--light);
-    font-weight: bold;
-    font-size: 16px;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-align: center;
-    width: 30px;
-    height: 30px;
+    border: 1px solid var(--light);
+    z-index: 0;
+  }
+  
+  .vote-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark);
+    border: 1px solid var(--light);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    z-index: 1;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
-    z-index: 10; /* ✅ Ensures the checkmark is above the image */
-}
-
+  }
+  
+  .checkmark-icon {
+    width: 6px;
+    height: 14px;
+    border: solid var(--cta);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    display: inline-block;
+    margin-top: -4px;
+  }
+  
+  
+  
 /* Hide checkmark until entry is selected */
 .vote-entry:not(.selected) .vote-checkmark {
     opacity: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
+
+.vote-animation-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+
 .vote-animation {
     display: flex;
     flex-direction: column;
@@ -136,18 +203,18 @@
 
 /* Vote Content Layout */
 .vote-content {
+    position: relative; /* needed for absolute child positioning */
     display: flex;
-    justify-content: center;  /* Centers horizontally */
-    align-items: center;  /* Centers vertically */
-    gap: 25%; /* Space between images */
+    justify-content: center;
+    align-items: center;
+    gap: 25%;
     width: 90%;
     max-width: 75em;
-    position: absolute; /* Keeps it centered */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Moves it to the middle */
-}
-
+    transform: translate(-50%, -50%);
+  }
+  
 
 
 /* Vote Box */
@@ -163,20 +230,19 @@
 
 /* Submission Images */
 .vote-submission {
-    width: 90%;
+    width: 100%;
     max-width: 24em;
     aspect-ratio: 1.25 / 1;
     object-fit: cover;
     border: 4px solid var(--dark);
-    transition: border 0.3s ease-in-out, transform 0.2s ease-in-out;
+    transition: border 0.3s ease-in-out;
     cursor: pointer;
-}
+  }
 
-/* Hover Effects */
-.vote-submission:hover {
+  .vote-submission.selected {
     border-color: var(--cta);
-    transform: scale(1.1);
-}
+  }
+  
 
 /* Placeholder for missing submissions */
 .vote-placeholder {
@@ -192,40 +258,13 @@
     justify-content: center;
 }
 
-/* Selected image effect */
+/* Selected image effect
 .vote-submission.selected {
-    transform: scale(1.1);
+    transform: scale(1.3);
     filter: drop-shadow(0px 0px 10px var(--cta));
     border-color: var(--cta);
     transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Non-selected images fade out */
-
-/* Quick confetti effect */ */
-.vote-submission::after {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--cta);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0);
-    animation: pop-effect 0.4s ease-out forwards;
-}
-
-/* Confetti Animation */
-@keyframes pop-effect {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(3);
-    }
-}
+} */
 
 /* Flag Icon (Top Right Corner) */
 .flag-icon-container {
@@ -242,11 +281,6 @@
     font-size: 30px;
     color: var(--light);
     transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.flag-icon:hover {
-    transform: scale(1.1);
-    opacity: 0.8;
 }
 
 /* Tooltip */
@@ -267,37 +301,6 @@
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.flag-icon-container:hover .flag-tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Fade-out Animation */
-.fade-out .vote-box {
-    animation: fadeOut .3s ease-out forwards;
-}
-
-/* Adjusts opacity, prevents layout shifts */
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-        height: auto;
-    }
-    50% {
-        opacity: 0;
-        height: auto; /* Keeps the space occupied */
-    }
-    100% {
-        opacity: 0;
-        height: 0;
-        overflow: hidden; /* Ensures it disappears smoothly */
-        visibility: hidden;
-    }
-}
-
-
-
-/* Slide-in Animations */
 .slide-in-left {
     animation: slideInLeft 0.5s ease-out forwards;
 }
@@ -327,3 +330,25 @@
         opacity: 1;
     }
 }
+
+
+.vote-plus-one {
+    position: absolute;
+    top: 30%;
+    font-size: 24px;
+    font-weight: bold;
+    color: lime;
+    animation: floatUpFade 1s ease-out forwards;
+    z-index: 20;
+  }
+  
+  @keyframes floatUpFade {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  }
