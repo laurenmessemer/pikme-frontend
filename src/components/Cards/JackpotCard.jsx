@@ -39,7 +39,7 @@ const JackpotCard = ({
             className="jackpot-medal silver"
           />
           <img
-            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdtokenprize.svg"
+            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg"
             alt="Bronze Medal"
             className="jackpot-medal bronze"
           />
