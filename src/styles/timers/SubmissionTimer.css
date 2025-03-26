@@ -12,12 +12,27 @@
     gap: 8px;
     width: fit-content;
     margin: 0;
-}
-
-.timer-icon {
-    font-size: 20px;
-}
-
-.timer-text {
+  }
+  
+  .timer-text {
+    display: flex;
+    align-items: center;
     font-family: "Azeret Mono", monospace;
-}
+    gap: 8px;
+  }
+  
+  .timer-icon {
+    font-size: 20px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+  }
+  
+  .yellow-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--cta);
+    display: inline-block;
+  }
+  

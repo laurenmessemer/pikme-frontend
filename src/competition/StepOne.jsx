@@ -15,15 +15,21 @@ const StepOne = ({ nextStep }) => {
     const fetchLiveContests = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/live-upcoming`);
-        setContests(response.data);
+        const sorted = response.data.sort((a, b) => {
+          if (a.status === "Live" && b.status !== "Live") return -1;
+          if (a.status !== "Live" && b.status === "Live") return 1;
+          return new Date(a.contest_live_date) - new Date(b.contest_live_date); // secondary sort
+        });
+        setContests(sorted);
       } catch (err) {
         setError("Error fetching contests.");
         console.error("❌ Error fetching contests:", err);
       }
     };
-
+  
     fetchLiveContests();
   }, []);
+  
 
   return (
     <div className="step-one-container">
