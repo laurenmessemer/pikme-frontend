@@ -64,59 +64,59 @@
 /* ✅ Winners Section */
 /* ✅ Winners Section - Fully Responsive & Contained */
 /* ✅ Winners Section */
+/* Landing Page Specific Winners Section */
 .landing-winners-section {
-    background-color: var(--landing-blue);
-    padding: 30px;
-    border: 2px solid var(--dark);
-    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
-    margin-top: 0px;
-    text-align: left;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
-    overflow: hidden;
+  background-color: var(--landing-blue);
+  padding: 30px 0px 30px 30px;
+  border: 2px solid var(--dark);
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+  margin-top: 0px;
+  text-align: left;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.landing-winners-title {
+  font-family: 'Azeret Mono', monospace;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dark);
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+/* Horizontal Slider Styles for Landing Page Winners */
+.landing-winners-grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.landing-winners-grid::-webkit-scrollbar {
+  display: none; /* Optional: Hide scrollbar */
+}
+
+.landing-winner-card-wrapper {
+  flex: 0 0 auto;
+  width: 280px; /* Adjust to desired card width */
+  scroll-snap-align: start;
+}
+
+/* Optional: Responsive adjustments if needed */
+@media (max-width: 1100px) {
+  .landing-winner-card-wrapper {
+    width: 240px;
   }
-  
-  /* ✅ Title */
-  .landing-winners-title {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--dark);
-    margin-bottom: 25px;
-    text-align: left;
+}
+
+@media (max-width: 600px) {
+  .landing-winner-card-wrapper {
+    width: 200px;
   }
-  
-  /* ✅ Card Container (90% width inside section) */
-  .landing-winners-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start;
-    width: 100%; /* ✅ The magic line */
-    margin: 0 auto; /* ✅ Center the grid inside */
-  }
-  
-  /* ✅ Individual Card Wrapper */
-  .landing-winners-grid > * {
-    flex: 1 1 calc(33.333% - 15px);
-    max-width: calc(33.333% - 15px);
-    box-sizing: border-box;
-  }
-  
-  /* 🔁 Responsive Breakpoints */
-  @media (max-width: 1100px) {
-    .landing-winners-grid > * {
-      flex: 1 1 calc(50% - 15px);
-      max-width: calc(50% - 15px);
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .landing-winners-grid > * {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-  }
-  
+}

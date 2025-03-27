@@ -30,12 +30,12 @@
   font-family: 'Azeret Mono', monospace;
   font-size: 16px;
   font-weight: 600;
-  background-color: #F3E5AB;
-  border: 2px solid var(--dark);
-  color: var(--dark);
+  background-color: transparent;
+  /* border: 2px solid var(--dark); */
+  /* color: var(--dark); */
   text-decoration: none;
   position: relative;
-  border-bottom: none; 
+  border: none; 
   transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -43,7 +43,7 @@
 .tab-link.active,
 .tab-link:hover {
   background-color: var(--primary-brand);
-  color: var(--dark);
+  /* color: var(--dark); */
 }
 
 .pikme-logo-solo {

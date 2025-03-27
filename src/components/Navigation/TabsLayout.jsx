@@ -1,31 +1,49 @@
 import { Outlet, useLocation } from "react-router-dom";
 import "../../styles/nav/TabsLayout.css";
+import AccessMenu from "./AccessMenu"; // ✅ Import
 import Footer from "./Footer";
-import Tabs from "./Tabs";
+import Tabs from "./TabBackground";
 
 function TabsLayout() {
-  const location = useLocation(); // Get the current path
+  const location = useLocation();
 
-  // Define a mapping of paths to background colors
+  // Map paths to z-indices
+  const zIndices = {
+    "/": 100,
+    "/vote": 200,
+    "/compete": 300,
+    "/leaderboard": 400,
+  };
+
   const tabBackgrounds = {
     "/": "var(--light)",
-    "/compete": "var(--compete-background)",
     "/vote": "var(--vote-background)",
+    "/compete": "var(--compete-background)",
     "/leaderboard": "var(--leaderboard-background)",
   };
 
-  // Get the background color based on the current path, defaulting to primary-brand
-  const backgroundColor = tabBackgrounds[location.pathname] || "var(--primary-brand)";
+  const backgroundColor = tabBackgrounds[location.pathname] || "transparent";
+  const contentZ = zIndices[location.pathname] || 100;
 
   return (
     <div className="tabs-layout">
-      <Tabs /> {/* Persistent navbar at the top */}
-      <div className="tab-content" style={{ backgroundColor }}>
-        <Outlet /> {/* Dynamically renders the selected page */}
+      <Tabs />
+      
+      {/* ✅ Global Access Menu */}
+      <div className="access-menu-wrapper">
+        <AccessMenu />
       </div>
-      <Footer /> {/* Footer stays at the bottom */}
+
+      <div className="tab-content" style={{ backgroundColor, zIndex: contentZ }}>
+        <Outlet />
+      </div>
+
+      <Footer />
     </div>
   );
 }
 
 export default TabsLayout;
+
+
+

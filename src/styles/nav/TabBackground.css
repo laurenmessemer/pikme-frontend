@@ -1,14 +1,13 @@
 /* Scalable Container */
 .scalable-container1 {
     display: flex;
-    justify-content: center;
+    justify-content: top;
     align-items: center;
     width: 100vw;
     height: auto;
-    top: 1.3em;
+    top: 2.4em;
     transform-origin: top left;
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
+    /* z-index: 1000; */
     transform: scale(1.9); /* Set a fixed scale */
     position: relative;
 }
@@ -35,38 +34,38 @@
 /* Clickable tab buttons */
 .tab-buttons1 {
     position: absolute;
-    top: 10px; /* Adjusts alignment with assets */
-    left: 6px;
+    top: 0;
+    left: .6%;
     display: flex;
+    justify-content: flex-start; /* ⬅️ NO automatic spacing */
+    align-items: flex-start;
+    padding: 0;
     width: 100%;
-    gap: 5px;
-    padding: 5px;
-    z-index: 300002; /* Ensure it's above images */
-    pointer-events: auto; /* Allow clicking */
-}
-
-/* Fix button interactions */
-.tab-button1 {
-    width: 6vw;
-    max-width: 130px;
+    z-index: 300002;
+    pointer-events: auto;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    gap: 0%; /* ⬅️ Tight controlled gap */
+  }
+  
+  .tab-button1 {
+    flex: 0 0 7.3%;
+    max-width: 7.3%;
+    margin: 0;
     aspect-ratio: 4 / 1;
-    /* border: 2px solid #00aaff; */
+    border-radius: 999px;
     color: rgba(255, 255, 255, 0);
     border: none;
+    /* background-color: rgba(255, 255, 1, 0.9); */
     background-color: transparent;
-    font-size: 1vw;
-    font-weight: bold;
-    text-transform: uppercase;
+    font-size: 1em;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    z-index: 300003;
-    position: relative; /* Ensures it appears over images */
-    pointer-events: auto; /* Allow clicking */
-}
-
-.tab-button1:hover {
-    color: rgba(255, 255, 255, 0);
-}
+    z-index: 999;
+    pointer-events: auto;
+    padding: 0;
+  }
+  
+  
 
 /* Background container */
 .tab-background-container1 {
@@ -75,7 +74,6 @@
     height: auto;
     display: flex;
     justify-content: left;
-    z-index: 20002;
 }
 
 /* Background images */
@@ -85,9 +83,48 @@
     max-width: 1100px;
     height: auto;
     object-fit: contain;
-    top: 15px;
+    top: 0px;
     left: 0;
-    transition: transform 0.3s ease-in-out;
     cursor: pointer;
     pointer-events: auto;
+    z-index: 10;
 }
+
+
+/* Individual image styles */
+.tab-img-home-tab {
+    opacity: 1;
+}
+
+.tab-img-vote-tab {
+    opacity: 1;
+}
+
+.tab-img-compete-tab {
+    opacity: 1;
+    /* left: -2px; */
+}
+
+.tab-img-lead-tab {
+    opacity: 1;
+    /* left: -3px; */
+}
+
+
+@media (max-width: 1025px) {
+    .tab-button1 {
+        flex: 0 0 7.9%; /* ⬅️ Fixed width per button */
+        max-width: 7.9%; /* ⬅️ Keeps them in line */
+        aspect-ratio: 4 / 1;
+    }
+  }
+  
+
+@media (max-width: 768px) {
+    .tab-button1 {
+        flex: 0 0 7.9%; /* ⬅️ Fixed width per button */
+        max-width: 7.9%; /* ⬅️ Keeps them in line */
+        aspect-ratio: 3.5 / 1;
+    }
+  }
+  

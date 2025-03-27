@@ -20,9 +20,7 @@ const Vote = () => {
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
   const [playLottie, setPlayLottie] = useState(true); 
-  const [pendingVoteImage, setPendingVoteImage] = useState(null);
-
-
+  const [setPendingVoteImage] = useState(null);
 
 
   const navigate = useNavigate();

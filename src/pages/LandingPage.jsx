@@ -1,57 +1,35 @@
-import Lottie from "lottie-react"; // Import Lottie for animations
-import animationData from "../assets/lottie/video2.json"; // Import Lottie animation file
-import Image1 from "../assets/placeholders/nyc.jpg"; // ✅ Import placeholder image
-import Image2 from "../assets/placeholders/parrot.jpg"; // ✅ Import placeholder image
-import Image3 from "../assets/placeholders/snack.jpg"; // ✅ Import placeholder image
-import Image4 from "../assets/placeholders/tiger.jpg"; // ✅ Import placeholder image
-import Winners from "../components/Cards/Winners"; // Import Winners Component
-import "../styles/pages/LandingPage.css"; // Import styles for Landing Page
-
-// ✅ Mock Winners Data
-const mockWinnersData = [
-    { 
-        id: 1, 
-        username: "CuriousCat", 
-        image: Image1, 
-        theme: "Late Nights", 
-        payout: 2500, 
-        entries: 623, 
-        startDate: "2024-01-01", 
-        endDate: "2024-01-07" 
-    },
-    { 
-        id: 2, 
-        username: "GoldenShot", 
-        image: Image2, 
-        theme: "Wildlife", 
-        payout: 3000, 
-        entries: 858, 
-        startDate: "2024-02-10", 
-        endDate: "2024-02-17" 
-    },
-    { 
-        id: 3, 
-        username: "NightSkyMaster", 
-        image: Image3, 
-        theme: "Snack Time", 
-        payout: 2000, 
-        entries: 682, 
-        startDate: "2024-03-15", 
-        endDate: "2024-03-22" 
-    },
-    { 
-      id: 3, 
-      username: "gawef", 
-      image: Image4, 
-      theme: "In The Wild", 
-      payout: 2000, 
-      entries: 300, 
-      startDate: "2024-03-15", 
-      endDate: "2024-03-22" 
-  }
-];
+import axios from "axios";
+import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
+import animationData from "../assets/lottie/video2.json";
+import WinnerCard from "../components/Cards/WinnerCard";
+import "../styles/pages/LandingPage.css";
 
 const LandingPage = () => {
+  const [winners, setWinners] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWinners = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/winners`);
+        if (response.data.success) {
+          setWinners(response.data.winners);
+        } else {
+          throw new Error("Failed to fetch winners.");
+        }
+      } catch (error) {
+        console.error("❌ Error fetching winners:", error);
+        setError("Failed to load winners.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWinners();
+  }, []);
+
   return (
     <div className="landing-container">
       {/* ✅ Hero Section */}
@@ -65,7 +43,7 @@ const LandingPage = () => {
           </p>
         </div>
 
-        {/* ✅ Lottie Animation Replacing CTA Box */}
+        {/* ✅ Lottie Animation */}
         <div className="lottie-container">
           <Lottie animationData={animationData} className="lottie-animation" />
         </div>
@@ -74,9 +52,26 @@ const LandingPage = () => {
       {/* ✅ Winners Section */}
       <div className="landing-winners-section">
         <h2 className="landing-winners-title">WINNERS</h2>
-        <div className="landing-winners-grid">
-          <Winners pastWinners={mockWinnersData} />
-        </div>
+
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : winners.length === 0 ? (
+          <div className="no-submissions">
+            <div className="dashed-box">
+              <p>No winners yet!</p>
+            </div>
+          </div>
+        ) : (
+          <div className="landing-winners-grid">
+            {winners.map((winner) => (
+              <div className="landing-winner-card-wrapper" key={winner.startDate + winner.username}>
+                <WinnerCard {...winner} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
