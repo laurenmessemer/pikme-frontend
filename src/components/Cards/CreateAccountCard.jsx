@@ -51,7 +51,6 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
           value={formValues.username}
           onChange={handleInputChange}
           required
-          style={{ width: '230px' }}
         />
 
         {/* Email */}
@@ -64,7 +63,6 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
           value={formValues.email}
           onChange={handleInputChange}
           required
-          style={{ width: '230px' }}
         />
 
         {/* Password */}
@@ -78,7 +76,6 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
             value={formValues.password}
             onChange={handleInputChange}
             required
-            style={{ width: '230px' }}
           />
           <button type="button" className="eye-icon" onClick={togglePasswordVisibility}>
             {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -96,7 +93,6 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
             value={formValues.confirmPassword}
             onChange={handleInputChange}
             required
-            style={{ width: '230px' }}
           />
           <button type="button" className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -114,7 +110,6 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
           placeholder="Enter code (if you have one)"
           value={formValues.referralCode}
           onChange={handleInputChange}
-          style={{ width: "230px" }}
         />
 
 

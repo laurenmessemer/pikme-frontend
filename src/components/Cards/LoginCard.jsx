@@ -32,7 +32,6 @@ const LoginCard = ({ onSubmit, error }) => {
           value={formValues.email}
           onChange={handleInputChange}
           required
-          style={{ width: '230px' }}
         />
 
         <label className="form-label" htmlFor="password">PASSWORD</label>
@@ -44,7 +43,6 @@ const LoginCard = ({ onSubmit, error }) => {
           value={formValues.password}
           onChange={handleInputChange}
           required
-          style={{ width: '230px' }}
           
         />
 
