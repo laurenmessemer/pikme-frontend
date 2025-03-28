@@ -2,7 +2,6 @@
     width: 400px;
     padding: 20px;
     border: 3px solid #3c3c3c;
-    border-radius: 12px;
     background: white;
     text-align: center;
     box-shadow: 4px 4px 0px #3c3c3c;
@@ -23,11 +22,12 @@
     display: flex;
     align-items: center;
     border: 2px solid #3c3c3c;
-    border-radius: 8px;
     overflow: hidden;
     background: #f9f9f9;
     max-width: 100%;
     margin-bottom: 1.5em;
+    border: 2px solid var(--dark);
+    box-shadow: 2px 2px 0px #464242; 
 }
 
 .referral-link {

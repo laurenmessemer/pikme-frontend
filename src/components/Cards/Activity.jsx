@@ -7,6 +7,8 @@ import "../../styles/cards/Activity.css";
 import Dropdown from "../Dropdowns/Dropdown";
 import ThemeTimer from "../Timers/ThemeTimer";
 
+const tokenImg = "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg";
+
 const Activity = () => {
   const { user: authUser } = useAuth();
   const [voters, setVoters] = useState([]);
@@ -45,10 +47,19 @@ const Activity = () => {
     }
   }, [authUser?.id]);
 
+  const renderToken = () => (
+    <img
+      src={tokenImg}
+      alt="Token"
+      className="inline-token"
+      style={{ height: "1em", verticalAlign: "middle", marginLeft: "4px" }}
+    />
+  );
+
   const getTokenReward = (i) => {
-    if (i === 0) return "14x 🟠";
-    if (i === 1) return "8x 🟠";
-    if (i === 2) return "4x 🟠";
+    if (i === 0) return <>14x {renderToken()}</>;
+    if (i === 1) return <>8x {renderToken()}</>;
+    if (i === 2) return <>4x {renderToken()}</>;
     return null;
   };
 
@@ -126,7 +137,7 @@ const Activity = () => {
               {i === 2 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdplace.svg" alt="3rd" className="rank-icon" />}
             </div>
             <div className="user-info">
-              <div className="username">{user.username}</div>
+              <div className="username-activity">{user.username}</div>
               {i < 3 && <div className="token-reward">{getTokenReward(i)}</div>}
             </div>
             <div className={`activity-value ${i < 3 ? "value-green" : ""}`}>

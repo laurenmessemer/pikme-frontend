@@ -125,7 +125,7 @@
   
 
   .value-green {
-    background-color: var(--pressed-green);
+    background-color: var(--compete-background);
     color: var(--dark);
   }
   

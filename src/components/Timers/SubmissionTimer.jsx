@@ -15,9 +15,6 @@ const SubmissionTimer = ({ contestId }) => {
     const fetchContestDetails = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
-        console.log("💬 Full contest response:", response.data);
-
-        // 👇 Fallback in case your API response is { contest: { ... } }
         const contest = response.data?.contest || response.data;
 
         const {
@@ -26,8 +23,6 @@ const SubmissionTimer = ({ contestId }) => {
           entry_fee,
           status
         } = contest;
-
-        console.log("📦 Parsed contest fields:", { submission_deadline, contest_live_date, entry_fee, status });
 
         setEntryFee(entry_fee);
 
@@ -85,7 +80,13 @@ const SubmissionTimer = ({ contestId }) => {
           </span>
         ) : (
           <span className="timer-text">
-            <FaRegClock className="timer-icon" /> {timeRemaining} | Entry = {entryFee} x 🟠
+            <FaRegClock className="timer-icon" /> {timeRemaining} | Entry = {entryFee} x{" "}
+            <img
+              src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+              alt="Token"
+              className="token-icon"
+              style={{ height: "1em", verticalAlign: "middle" }}
+            />
           </span>
         )
       ) : (

@@ -4,6 +4,7 @@ import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import voteAnimation from "../assets/lottie/video1_lottie.json";
 import EndVoting from "../components/Popups/EndVoting";
+import HowToVote from "../components/Popups/HowToVote";
 import RainingCards from "../components/Popups/RainingCards";
 import VoteIntroPopup from "../components/Popups/VoteIntroPopup";
 import "../styles/pages/Vote.css";
@@ -16,12 +17,12 @@ const Vote = () => {
   const [error, setError] = useState(null);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [showIntroPopup, setShowIntroPopup] = useState(true);
+  const [showHowToVotePopup, setShowHowToVotePopup] = useState(true);
   const [loading, setLoading] = useState(true);
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
   const [playLottie, setPlayLottie] = useState(true); 
   const [setPendingVoteImage] = useState(null);
-
 
   const navigate = useNavigate();
 
@@ -31,11 +32,13 @@ const Vote = () => {
       if (queue.length > 0) {
         const firstContestId = queue[0].contestId;
         setCurrentContestId(firstContestId);
-        await fetchVotingEntries(firstContestId);
+        if (!showHowToVotePopup) {
+          await fetchVotingEntries(firstContestId);
+        }
       }
     };
     initialize();
-  }, []);
+  }, [showHowToVotePopup]);
 
   const fetchIntroPopups = async () => {
     try {
@@ -69,7 +72,7 @@ const Vote = () => {
 
   const fetchVotingEntries = async (contestId) => {
     setLoading(true);
-    setPlayLottie(true); // Start Lottie when new entries come in
+    setPlayLottie(true);
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
       const comps = response.data.competitions || [];
@@ -119,33 +122,32 @@ const Vote = () => {
   const handleVote = async (selectedImage) => {
     const current = competitions[currentCompetitionIndex];
     if (!current) return;
-  
+
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, {
         competitionId: current.id,
         selectedImage,
       });
-  
+
       setSelected(selectedImage);
-      setPendingVoteImage(selectedImage); // Set this to delay the count
-  
-      // Delay actual increment
+      setPendingVoteImage(selectedImage);
+
       setTimeout(() => {
         if (selectedImage === current.user1_image) {
           current.votes_user1 += 1;
         } else if (selectedImage === current.user2_image) {
           current.votes_user2 += 1;
         }
-  
+
         setCompetitions((prev) => {
           const updated = [...prev];
           updated[currentCompetitionIndex] = { ...current };
           return updated;
         });
-  
-        setPendingVoteImage(null); // Clear once increment is done
+
+        setPendingVoteImage(null);
       }, 600);
-  
+
       setVotedCompetitionIds((prev) => [...prev, current.id]);
       setTimeout(() => setAnimationComplete(true), 1500);
     } catch (err) {
@@ -153,15 +155,12 @@ const Vote = () => {
       setError("Vote failed. Try again.");
     }
   };
-  
-  
-  
-  
+
   useEffect(() => {
     if (animationComplete) {
       setSelected(null);
       setAnimationComplete(false);
-      setPlayLottie(true); // Restart Lottie for next round
+      setPlayLottie(true);
 
       const nextIndex = currentCompetitionIndex + 1;
       if (nextIndex < competitions.length) {
@@ -182,7 +181,11 @@ const Vote = () => {
     <>
       <RainingCards trigger={true} />
 
-      {showIntroPopup && currentPopup && (
+      {showHowToVotePopup && (
+        <HowToVote onClose={() => setShowHowToVotePopup(false)} />
+      )}
+
+      {!showHowToVotePopup && showIntroPopup && currentPopup && (
         <VoteIntroPopup
           contestId={currentPopup.contestId}
           themePhoto={currentPopup.themePhoto}
@@ -229,14 +232,12 @@ const Vote = () => {
                     }`}
                     onClick={() => handleVote(image)}
                   >
-                  <img
-                    src={image}
-                    alt={`Entry ${index + 1}`}
-                    className={`vote-submission ${isSelected ? "selected" : otherSelected ? "not-selected" : ""}`}
-                  />
+                    <img
+                      src={image}
+                      alt={`Entry ${index + 1}`}
+                      className={`vote-submission ${isSelected ? "selected" : otherSelected ? "not-selected" : ""}`}
+                    />
 
-              
-                    {/* Everything below is now grouped inside vote-wrapper */}
                     <div className="vote-overlay">
                       {!selected && <div className="vote-label">Vote</div>}
                       {isSelected && <div className="vote-plus-one">+1</div>}
@@ -244,8 +245,7 @@ const Vote = () => {
                         <div className="vote-counter">
                           {userKey === "user1_image"
                             ? current.votes_user1
-                            : current.votes_user2}{" "}
-                          votes
+                            : current.votes_user2} votes
                         </div>
                       )}
                       {isSelected && (
@@ -269,4 +269,3 @@ const Vote = () => {
 };
 
 export default Vote;
-

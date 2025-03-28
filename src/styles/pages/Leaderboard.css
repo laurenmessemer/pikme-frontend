@@ -1,10 +1,9 @@
 /* Leaderboard Container */
 .leaderboard-container {
-    width: 90%;
-    max-width: 80em;
     padding: 2em;
     text-align: center;
     color: var(--light);
+    width: 90%;
 }
 
 /* Leaderboard Toggle Buttons */

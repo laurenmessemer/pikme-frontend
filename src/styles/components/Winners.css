@@ -1,32 +1,94 @@
-.winners-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.my-submissions-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
-.winners-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cards per row by default */
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
+.my-submissions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) { /* Medium screens */
-    .winners-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-    }
+@media (max-width: 1024px) {
+  .my-submissions-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-@media (max-width: 768px) { /* Tablet size */
-    .winners-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-    }
+@media (max-width: 768px) {
+  .my-submissions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 480px) { /* Mobile */
-    .winners-grid {
-        grid-template-columns: 1fr; /* 1 card per row */
-    }
+@media (max-width: 480px) {
+  .my-submissions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.winner-card {
+  border: 2px solid #333;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.date-box {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #222;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.winner-box {
+  background: #ffeb3b;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 4px 8px;
+  color: #222;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+}
+
+.theme-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.payout {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.entries .icon {
+  width: 20px;
+  height: 20px;
 }

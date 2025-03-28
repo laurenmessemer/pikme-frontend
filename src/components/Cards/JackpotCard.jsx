@@ -2,12 +2,11 @@ import PropTypes from "prop-types";
 import entryBadge from "../../assets/badges/entrybadges.svg"; // ✅ Entry Badge
 import "../../styles/cards/JackpotCard.css";
 import Submit from "../Buttons/Submit";
-import SubmissionTimer from "../Timers/SubmissionTimer";
+import JackpotTimer from "../Timers/JackpotTimer"; // ✅ Swapped in
 
 const JackpotCard = ({
   contestId,
   themePhoto,
-  entryFee,
   themeName,
   themeDescription,
   onSubmit,
@@ -15,7 +14,7 @@ const JackpotCard = ({
   return (
     <div className="jackpot-card bg-light">
       <div className="jackpot-card__timer">
-        <SubmissionTimer contestId={contestId} entryFee={entryFee} />
+        <JackpotTimer contestId={contestId} /> {/* ✅ Swapped */}
       </div>
 
       <div className="jackpot-card__image-container">

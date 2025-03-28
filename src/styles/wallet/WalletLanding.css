@@ -1,6 +1,5 @@
 /* ✅ Wallet Landing Page Styling */
 .wallet-landing {
-  text-align: center;
   padding: 20px;
 }
 
@@ -43,4 +42,11 @@
 
 .wallet-action-button:hover {
   background-color: var(--primary-dark);
+}
+
+.prize-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: left;
 }

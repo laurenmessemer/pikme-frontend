@@ -65,3 +65,74 @@
     padding: 0px 20px;
     margin-bottom: 10px;
 }
+
+/* 🎯 Specific styling for HowToVote popup */
+.how-to-play-popup {
+    width: 450px; /* or whatever width you want */
+    max-width: 90vw;
+  }
+
+  /* Custom background for voting popup */
+  .how-to-vote-popup {
+    background: var(--vote-background);
+    width: 490px;
+    max-width: 90vw;
+    height: 660px; /* ✅ Set fixed height instead of min-height */
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ✅ Keeps content spaced evenly */
+  }
+  
+  
+
+  .popup-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: -4px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  .narrow-message {
+    padding: 10px 25px;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .step-one-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* horizontally center */
+    justify-content: center; /* vertically center */
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+
+  .step-two-wrapper {
+    padding: 0 10px;
+  }
+  
+
+  .winner-popup-container {
+    width: 90vw;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    border: 3px solid #FF70B3;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    display: flex;
+    align-items: center;
+    border-radius: 0px;
+    justify-content: center;
+  }
+  
+  .winner-popup-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
