@@ -48,17 +48,17 @@ const HowToVote = ({ onClose }) => {
                 />
                 What to look for:
               </h2>
-              <p className="popup-message narrow-message" style={{ marginBottom: "10px" }}>
+              <p className="popup-message narrow-message">
                 Vote for the photo you believe best fits the contest — based on your personal judgment.
               </p>
-              <div className="popup-message narrow-message" style={{ paddingTop: 0, paddingBottom: 5 }}>
+              <div className="popup-message narrow-message" style={{ paddingTop: 0, paddingBottom: 0 }}>
                 <p><strong>▪ Creativity</strong> – Original thinking or unique perspective?</p>
                 <p><strong>▪ Emotional impact</strong> – Does it make you feel something or tell a story?</p>
                 <p><strong>▪ Execution</strong> – Well-composed, focused, technically strong?</p>
                 <p><strong>▪ Relevance</strong> – Fits the theme or spirit of the contest?</p>
                 <p><strong>▪ Novelty</strong> – Have you seen something like this before?</p>
               </div>
-              <p className="popup-message narrow-message" style={{ paddingTop: "5px" }}>
+              <p className="popup-message narrow-message">
                 Vote for the photo you believe best fits the contest — based on <em>your</em> personal judgment.
               </p>
             </div>

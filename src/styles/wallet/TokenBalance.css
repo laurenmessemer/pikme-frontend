@@ -1,4 +1,4 @@
-/* ✅ Styles for the main container */
+/* ✅ Container */
 .token-balance-container {
     display: flex;
     flex-direction: column;
@@ -8,25 +8,18 @@
     margin-left: 20px;
 }
 
-/* ✅ Balance Section */
+/* ✅ Balance Header */
 .balance-header {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.token-amount {
-    font-size: 1.5em;
-    font-weight: bold;
     display: flex;
-    margin-left: 10px;
+    flex-direction: column;
     align-items: center;
-}
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  
 
-.token-icon {
-    font-size: 1.2em;
-}
-
-/* ✅ Prize History Title */
+/* ✅ History Title */
 .prize-history-title {
     font-size: 1.2em;
     font-weight: bold;
@@ -34,54 +27,62 @@
     width: 100%;
 }
 
-/* ✅ Prize History List */
+/* ✅ History Box */
 .prize-history-list {
     width: 100%;
     border: 2px solid black;
-    padding-left: 10px;
-    padding-right: 10px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px #464242; 
 }
 
-/* ✅ Prize Entry - Flexbox for Alignment */
+/* ✅ Entry Row */
 .prize-entry {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
+    padding: 10px; /* new */
 }
 
 .prize-entry:last-child {
     border-bottom: none;
 }
 
-/* ✅ Left Side: Description & Date */
+/* ✅ Left Side */
 .prize-left {
     display: flex;
     flex-direction: column;
+    max-width: 70%;
 }
 
 .prize-description {
     font-weight: bold;
     font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 5px;;
+    margin-top: 0;
+    margin-bottom: 0px;
+    word-break: break-word;
+    line-height: 1.2;
 }
 
 .prize-date {
+    margin-top: 5px;
     font-size: 12px;
     color: gray;
-    margin-bottom: 10px;
-    margin-top: 0px;
+    margin-bottom: 0;
     text-align: left;
 }
 
-/* ✅ Right Side: Prize Amount */
+/* ✅ Right Side */
 .prize-right {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
     font-size: 14px;
     font-weight: bold;
+    gap: 4px; /* spacing between +, number, and icon */
 }
 
-/* ✅ Positive (Green) and Negative (Red) */
+/* ✅ Color */
 .positive {
     color: green;
 }
@@ -90,29 +91,23 @@
     color: red;
 }
 
-/* ✅ Empty State */
-.empty-prize-history {
-    text-align: center;
-    margin-top: 10px;
-}
+/* ✅ Token Icon */
+.token-icon {
+    height: 1em;
+    width: 1em;
+    object-fit: contain;
+    vertical-align: middle;
+  }
+  
 
-.prize-icon {
-    font-size: 24px;
-}
-
-/* ✅ Button */
-.compete-button {
-    margin-top: 15px;
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: bold;
-    border: 2px solid black;
-    background: white;
-    cursor: pointer;
-    border-radius: 6px;
-}
-
-.compete-button:hover {
-    background: black;
-    color: white;
-}
+.prize-amount-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .currency-symbol {
+    font-size: 0.9em;
+    margin-left: 2px;
+  }
+  

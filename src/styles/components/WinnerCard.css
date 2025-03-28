@@ -152,3 +152,18 @@
     border: none;
   }
   
+
+  /* Top 3 Winner Styling */
+.top-three-card {
+  font-family: 'Azeret Mono', monospace;
+  font-weight: bold;
+}
+
+.top-three-card .winner-box,
+.top-three-card .payout,
+.top-three-card .entries,
+.top-three-card .winners-place-wrapper,
+.top-three-card .vote-counter {
+  font-family: 'Azeret Mono', monospace;
+  font-weight: bold;
+}

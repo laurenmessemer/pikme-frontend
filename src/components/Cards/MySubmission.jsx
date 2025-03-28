@@ -12,18 +12,24 @@ const MySubmissions = ({ userId }) => {
 
   useEffect(() => {
     const fetchSubmissions = async () => {
+      if (!userId) {
+        console.warn("⚠️ Missing userId");
+        return;
+      }
+
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/leaderboard/mysubmissions?userId=${userId}`
         );
 
         if (response.data.success) {
-          console.log("📦 Submissions from API:", response.data.submissions); // ✅ ADD THIS
+          console.log("📦 Submissions from API:", response.data.submissions);
           setSubmissions(response.data.submissions);
+        } else {
+          console.error("❌ Failed to fetch submissions");
         }
-        
       } catch (error) {
-        console.error("Error fetching submissions:", error);
+        console.error("❌ Error fetching submissions:", error);
       } finally {
         setLoading(false);
       }
@@ -34,25 +40,25 @@ const MySubmissions = ({ userId }) => {
 
   const handleSubmissionClick = (submission) => {
     if (!submission || !submission.image) {
-      console.error("❌ Error: Submission data is incomplete!", submission);
+      console.error("❌ Submission data is incomplete!", submission);
       return;
     }
-  
+
     const contestData = {
       theme: submission.theme || "Unknown Theme",
       contestStatus: submission.contestStatus || "Upcoming",
       matchType: submission.matchType || "pick_random",
+      inviteLink: submission.inviteLink || null,
       userEntry: {
         imageUrl: submission.image || "https://via.placeholder.com/150",
         votes: submission.votes || 0,
         username: submission.username || "Me",
       },
-      opponentEntry: submission.opponentEntry || null,
     };
-  
+
     setSelectedSubmission({
       contestData,
-      competitionId: submission.id, // ✅ Pass the competitionId separately
+      competitionId: submission.id,
     });
   };
 
@@ -64,13 +70,12 @@ const MySubmissions = ({ userId }) => {
     return (
       <PersonalSubmission
         contestData={selectedSubmission.contestData}
-        competitionId={selectedSubmission.competitionId} // ✅ FIXED
+        competitionId={selectedSubmission.competitionId}
         userId={userId}
         onClose={closePersonalSubmission}
       />
     );
   }
-  
 
   return (
     <div className="my-submissions-container">

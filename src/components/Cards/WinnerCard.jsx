@@ -13,19 +13,29 @@ const placeIcons = {
   3: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg",
 };
 
+const placeRewards = {
+  1: "30 Tokens",
+  2: "20 Tokens",
+  3: "10 Tokens",
+};
+
+const placeVotes = {
+  1: 89,
+  2: 63,
+  3: 47,
+};
+
 const WinnerCard = ({
   startDate,
   endDate,
   image,
   username,
   theme,
-  payout,
-  entries,
   isThemeCard = false,
   place,
 }) => {
   return (
-    <div className="winner-card">
+    <div className={`winner-card ${!isThemeCard ? "top-three-card" : ""}`}>
       <div className="card-image">
         <img
           src={image}
@@ -56,7 +66,9 @@ const WinnerCard = ({
                   className="winners-place-icon"
                 />
               )}
-              <span className="payout">${parseFloat(payout).toFixed(2)} won</span>
+              <span className="payout">
+                {placeRewards[place] || "—"}
+              </span>
             </div>
           )}
         </div>
@@ -71,7 +83,7 @@ const WinnerCard = ({
             alt="entry icon"
             className={`icon ${isThemeCard ? "flash-icon" : ""}`}
           />
-          {!isThemeCard && <span>{entries}</span>}
+          {!isThemeCard && <span>{placeVotes[place] || 0}</span>}
         </div>
       </div>
     </div>

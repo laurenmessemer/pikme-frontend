@@ -72,19 +72,18 @@
     max-width: 90vw;
   }
 
-  /* Custom background for voting popup */
+
+/* Custom background for voting popup */
   .how-to-vote-popup {
     background: var(--vote-background);
-    width: 490px;
-    max-width: 90vw;
-    height: 660px; /* ✅ Set fixed height instead of min-height */
-    padding-bottom: 20px;
+    width: 520px;
+    max-width: 92vw;
+    height: 550px; /* ✅ Set fixed height instead of min-height */
+    padding-bottom: 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* ✅ Keeps content spaced evenly */
   }
-  
-  
 
   .popup-icon {
     width: 30px;
@@ -95,7 +94,7 @@
   }
   
   .narrow-message {
-    padding: 10px 25px;
+    padding: 5px 25px;
     line-height: 1.5;
     text-align: left;
   }
@@ -107,7 +106,7 @@
     align-items: center;     /* horizontally center */
     justify-content: center; /* vertically center */
     text-align: center;
-    padding: 0 20px;
+    padding: 0 18px;
   }
   
 
@@ -115,6 +114,7 @@
     padding: 0 10px;
   }
   
+  /*  Custom styling for the winner popup */
 
   .winner-popup-container {
     width: 90vw;

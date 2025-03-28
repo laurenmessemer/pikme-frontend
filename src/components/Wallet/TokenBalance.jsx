@@ -40,16 +40,22 @@ const TokenBalance = ({ balance, prizeHistory }) => {
               </div>
               <div className={`prize-right ${entry.amount > 0 ? "positive" : "negative"}`}>
                 {entry.amount > 0 ? (
-                  <>
-                    + {entry.amount}{" "}
-                    {entry.currency === "USD" ? "$" : renderTokenIcon()}
-                  </>
+                  <span className="prize-amount-wrapper">
+                    +{entry.amount}
+                    {entry.currency === "USD" ? (
+                      <span className="currency-symbol">$</span>
+                    ) : (
+                      renderTokenIcon()
+                    )}
+                  </span>
                 ) : (
-                  <>
-                    - {Math.abs(entry.amount)} {renderTokenIcon()}
-                  </>
+                  <span className="prize-amount-wrapper">
+                    -{Math.abs(entry.amount)}
+                    {renderTokenIcon()}
+                  </span>
                 )}
               </div>
+
             </div>
           ))}
         </div>
