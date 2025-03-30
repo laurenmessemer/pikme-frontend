@@ -17,7 +17,7 @@ const StepFour = ({ inviteLink, matchType, joinedExistingMatch }) => {
     return <p className="error">Image is required to proceed.</p>;
   }
 
-  const fullInviteURL = inviteLink ? `https://pikme.com/join/${inviteLink}` : null;
+  const fullInviteURL = inviteLink ? `https://www.pikme.com/join/${inviteLink}` : null;
 
   return (
     <div className="step-four-container flex">
