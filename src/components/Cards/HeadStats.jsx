@@ -87,7 +87,7 @@ const HeadStats = () => {
           Ranking the margins of victory for all 1v1 matchups this week.
         </p>
         <p className="contest-details">
-          {contestData.leaderboard.length} Matchups | Entry: 1 x
+          {contestData.leaderboard.length} Matchups | Entry: 1x
           <img
             src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
             alt="Token"
@@ -104,32 +104,73 @@ const HeadStats = () => {
       <div className="headstats-content">
         <div className="leaderboard-column">
           <div className="payout-dropdown-container">
-            <Dropdown title="Payout Details">
-              <div className="payout-table-container">
-                <table className="payout-table">
-                  <thead>
-                    <tr>
-                      <th>Placement</th>
-                      <th>Payout</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>🥇 1st</td>
-                      <td>{contestData.leaderboard[0]?.earnings || "—"}</td>
-                    </tr>
-                    <tr>
-                      <td>🥈 2nd</td>
-                      <td>{contestData.leaderboard[1]?.earnings || "—"}</td>
-                    </tr>
-                    <tr>
-                      <td>🥉 3rd</td>
-                      <td>{contestData.leaderboard[2]?.earnings || "—"}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </Dropdown>
+      
+      <Dropdown title="Payout Details">
+        <div className="payout-box">
+          <div className="payout-header">
+            <span>Placement</span>
+            <span>Payout</span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstpayout.svg"
+                alt="1st place"
+                className="payout-icon"
+              />
+              1st
+            </span>
+            <span className="payout-right">
+              30x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondpayout.svg"
+                alt="2nd place"
+                className="payout-icon"
+              />
+              2nd
+            </span>
+            <span className="payout-right">
+              20x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdpayout.svg"
+                alt="3rd place"
+                className="payout-icon"
+              />
+              3rd
+            </span>
+            <span className="payout-right">
+              10x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
+        </div>
+      </Dropdown>
+
           </div>
 
           {/* 🔻 USER SUBMISSION (or prompt to log in) */}

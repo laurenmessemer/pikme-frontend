@@ -11,7 +11,6 @@ const VoteIntroPopup = ({
   themeDescription,
   entryFee,
   onStartVoting,
-  onClose,
 }) => {
   return (
     <div className="vote-intro-overlay">
@@ -20,7 +19,7 @@ const VoteIntroPopup = ({
           <SubmissionTimer contestId={contestId} entryFee={entryFee} />
         </div>
 
-        <XButton onClick={onClose} className="popup-close" />
+        <XButton onClick={onStartVoting} className="popup-close" />
 
         <div className="vote-intro-image-container">
           <img src={themePhoto} alt={themeName} className="vote-intro-image" />

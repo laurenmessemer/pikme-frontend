@@ -48,33 +48,73 @@ const SubmissionCard = ({
           <li>No watermarks or text overlays</li>
         </ul>
       </Dropdown>
-
+      
       <Dropdown title="Payout Details">
-        <div className="payout-table-container">
-          <table className="payout-table">
-            <thead>
-              <tr>
-                <th>Placement</th>
-                <th>Payout</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>🥇 1st</td>
-                <td>$2500</td>
-              </tr>
-              <tr>
-                <td>🥈 2nd</td>
-                <td>$1000</td>
-              </tr>
-              <tr>
-                <td>🥉 3rd</td>
-                <td>$500</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="payout-box">
+          <div className="payout-header">
+            <span>Placement</span>
+            <span>Payout</span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstpayout.svg"
+                alt="1st place"
+                className="payout-icon"
+              />
+              1st
+            </span>
+            <span className="payout-right">
+              30x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondpayout.svg"
+                alt="2nd place"
+                className="payout-icon"
+              />
+              2nd
+            </span>
+            <span className="payout-right">
+              20x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
+
+          <div className="payout-row">
+            <span className="payout-left">
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdpayout.svg"
+                alt="3rd place"
+                className="payout-icon"
+              />
+              3rd
+            </span>
+            <span className="payout-right">
+              10x
+              <img
+                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                alt="Token icon"
+                className="token-icon"
+              />
+            </span>
+          </div>
         </div>
       </Dropdown>
+
 
       {/* Opponent Selection */}
       <p className="opponent-description">Choose Your Opponent</p>

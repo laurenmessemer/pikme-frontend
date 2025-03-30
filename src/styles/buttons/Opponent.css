@@ -8,11 +8,17 @@
     width: 100%;
     text-align: center;
     border-radius: 8px;
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    transition: box-shadow 0.3s ease, transform 0.2s ease, filter 0.3s ease;
 }
 
 .opponent-button:hover,
 .opponent-button:focus {
     box-shadow: 4px 4px 0px var(--dark);
+    transform: translateY(-2px);
+}
+
+.opponent-button.selected {
+    filter: saturate(1.6) brightness(1.05);
+    box-shadow: 5px 5px 0px var(--dark);
     transform: translateY(-2px);
 }

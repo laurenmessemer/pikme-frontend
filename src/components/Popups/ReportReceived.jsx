@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"; // ✅ Import PropTypes
 import "../../styles/popups/ReportImagePopup.css";
 import XButton from "../Buttons/XButton";
 
@@ -25,6 +26,10 @@ const ReportReceived = ({ onClose }) => {
       </div>
     </div>
   );
+};
+
+ReportReceived.propTypes = {
+  onClose: PropTypes.func.isRequired, // ✅ Add PropTypes validation
 };
 
 export default ReportReceived;

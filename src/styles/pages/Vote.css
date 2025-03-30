@@ -225,14 +225,14 @@
     align-items: center;
     justify-content: center;
     flex: 1; /* Ensures equal space for both images */
-    max-width: 22em;
+    max-width: 32em;
 }
 
 
 /* Submission Images */
 .vote-submission {
     width: 100%;
-    max-width: 24em;
+    max-width: 32em;
     aspect-ratio: 1.25 / 1;
     object-fit: cover;
     border: 4px solid var(--dark);

@@ -46,7 +46,7 @@ const Leaderboard = () => {
                     ) : (
                         <div className="no-submissions-container">
                         <div className="no-submissions-box">
-                            <p className="login-message">Login to see your submissions.</p>
+                            <p className="login-message">Join a Game!</p>
                         </div>
                         </div>
                     )

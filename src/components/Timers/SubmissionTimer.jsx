@@ -80,7 +80,7 @@ const SubmissionTimer = ({ contestId }) => {
           </span>
         ) : (
           <span className="timer-text">
-            <FaRegClock className="timer-icon" /> {timeRemaining} | Entry = {entryFee} x{" "}
+            <FaRegClock className="timer-icon" /> {timeRemaining} | Entry = {entryFee}x{""}
             <img
               src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
               alt="Token"
