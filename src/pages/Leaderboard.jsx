@@ -40,14 +40,17 @@ const Leaderboard = () => {
             <div className="leaderboard-content">
                 {selectedTab === "live" && <JackpotLive />}
                 {selectedTab === "winners" && <WinnerSubmissions />}
-                {selectedTab === "mysubmissions" && userId ? (
-                    <MySubmissions userId={userId} />
-                ) : (
-                    <div className="no-submissions-container">
+                {selectedTab === "mysubmissions" ? (
+                    userId ? (
+                        <MySubmissions userId={userId} />
+                    ) : (
+                        <div className="no-submissions-container">
                         <div className="no-submissions-box">
+                            <p className="login-message">Login to see your submissions.</p>
                         </div>
-                    </div>
-                )}
+                        </div>
+                    )
+                ) : null}
             </div>
         </div>
     );

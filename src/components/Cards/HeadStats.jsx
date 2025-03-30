@@ -57,15 +57,18 @@ const HeadStats = () => {
   if (loading) return <p>Loading live contest...</p>;
   if (error) return <p className="error-message">{error}</p>;
   if (!contestData) return <p>No active contests right now.</p>;
-  if (!authUser) return <p>Loading user data...</p>;
 
-  const userSubmission = contestData.leaderboard.find(user => String(user.id) === String(authUser.id));
-  const formatMargin = (margin) => (margin > 0 ? `+${margin}` : margin < 0 ? `${margin}` : `±0`);
+  const userSubmission = authUser
+    ? contestData.leaderboard.find((user) => String(user.id) === String(authUser.id))
+    : null;
+
+  const formatMargin = (margin) =>
+    margin > 0 ? `+${margin}` : margin < 0 ? `${margin}` : `±0`;
 
   const prizeIconUrls = [
     "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firsttokenprize.svg",
     "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondtokenprize.svg",
-    "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg"
+    "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg",
   ];
 
   return (
@@ -80,51 +83,84 @@ const HeadStats = () => {
           <JackpotTimer contestId={20} />
         </div>
 
-        <p className="prize-pool">Ranking the margins of victory for all 1v1 matchups this week.</p>
+        <p className="prize-pool">
+          Ranking the margins of victory for all 1v1 matchups this week.
+        </p>
         <p className="contest-details">
           {contestData.leaderboard.length} Matchups | Entry: 1 x
           <img
             src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
             alt="Token"
-            style={{ width: "18px", height: "18px", verticalAlign: "middle", marginLeft: "4px" }}
+            style={{
+              width: "18px",
+              height: "18px",
+              verticalAlign: "middle",
+              marginLeft: "4px",
+            }}
           />
         </p>
       </div>
 
       <div className="headstats-content">
         <div className="leaderboard-column">
-
-          {/* 🔻 DROPDOWN ABOVE USER SUBMISSION */}
           <div className="payout-dropdown-container">
             <Dropdown title="Payout Details">
               <div className="payout-table-container">
                 <table className="payout-table">
                   <thead>
-                    <tr><th>Placement</th><th>Payout</th></tr>
+                    <tr>
+                      <th>Placement</th>
+                      <th>Payout</th>
+                    </tr>
                   </thead>
                   <tbody>
-                    <tr><td>🥇 1st</td><td>{contestData.leaderboard[0]?.earnings || "—"}</td></tr>
-                    <tr><td>🥈 2nd</td><td>{contestData.leaderboard[1]?.earnings || "—"}</td></tr>
-                    <tr><td>🥉 3rd</td><td>{contestData.leaderboard[2]?.earnings || "—"}</td></tr>
+                    <tr>
+                      <td>🥇 1st</td>
+                      <td>{contestData.leaderboard[0]?.earnings || "—"}</td>
+                    </tr>
+                    <tr>
+                      <td>🥈 2nd</td>
+                      <td>{contestData.leaderboard[1]?.earnings || "—"}</td>
+                    </tr>
+                    <tr>
+                      <td>🥉 3rd</td>
+                      <td>{contestData.leaderboard[2]?.earnings || "—"}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
             </Dropdown>
           </div>
 
-          {/* 🔻 USER SUBMISSION */}
+          {/* 🔻 USER SUBMISSION (or prompt to log in) */}
           <div className="headstats-my-submission">
-            {userSubmission ? (
-              <>
-                <img src={userSubmission.imageUrl} alt="My Submission" className="headstats-my-submission-image" />
-                <div className="headstats-my-submission-info">
-                  <p className="headstats-my-submission-username">Me</p>
+            {authUser ? (
+              userSubmission ? (
+                <>
+                  <img
+                    src={userSubmission.imageUrl}
+                    alt="My Submission"
+                    className="headstats-my-submission-image"
+                  />
+                  <div className="headstats-my-submission-info">
+                    <p className="headstats-my-submission-username">Me</p>
+                  </div>
+                  <div className="headstats-my-submission-earnings">
+                    {formatMargin(userSubmission.margin)}
+                  </div>
+                </>
+              ) : (
+                <div className="headstats-my-submission-placeholder">
+                  <p className="headstats-my-submission-invite">
+                    You haven’t entered yet!
+                  </p>
                 </div>
-                <div className="headstats-my-submission-earnings">{formatMargin(userSubmission.margin)}</div>
-              </>
+              )
             ) : (
               <div className="headstats-my-submission-placeholder">
-                <p className="headstats-my-submission-invite">You haven’t entered yet!</p>
+                <p className="headstats-my-submission-invite">
+                  Login to see your submission.
+                </p>
               </div>
             )}
           </div>
@@ -133,7 +169,7 @@ const HeadStats = () => {
 
           {contestData.leaderboard.map((user, i) => {
             const isTop3 = i < 3;
-            const isMe = String(user.id) === String(authUser.id);
+            const isMe = authUser && String(user.id) === String(authUser.id);
             let backgroundColor = "var(--disabled-light)";
             if (isMe) backgroundColor = "var(--cta)";
             else if (isTop3) backgroundColor = "var(--compete-background)";
@@ -144,7 +180,11 @@ const HeadStats = () => {
                   <div className="rank-badge-wrapper-headstats">
                     <img
                       src={`https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/${
-                        i === 0 ? "firstplace" : i === 1 ? "secondplace" : "thirdplace"
+                        i === 0
+                          ? "firstplace"
+                          : i === 1
+                          ? "secondplace"
+                          : "thirdplace"
                       }.svg`}
                       alt={`${i + 1} place`}
                       className="rank-icon-headstats"
@@ -152,7 +192,11 @@ const HeadStats = () => {
                   </div>
                 )}
                 <div className="leaderboard-content-headstats">
-                  <img src={user.imageUrl} alt={user.username} className="submission-image" />
+                  <img
+                    src={user.imageUrl}
+                    alt={user.username}
+                    className="submission-image"
+                  />
                   <div className="user-info">
                     <p className="username">{user.username}</p>
                     {user.earnings !== "0" && (
@@ -161,14 +205,22 @@ const HeadStats = () => {
                           <img
                             src={prizeIconUrls[i]}
                             alt={`${i + 1} prize icon`}
-                            style={{ width: "18px", height: "18px", verticalAlign: "middle", marginRight: "6px" }}
+                            style={{
+                              width: "18px",
+                              height: "18px",
+                              verticalAlign: "middle",
+                              marginRight: "6px",
+                            }}
                           />
                         )}
                         {user.earnings} Tokens
                       </p>
                     )}
                   </div>
-                  <div className="earnings-container other-earnings" style={{ backgroundColor }}>
+                  <div
+                    className="earnings-container other-earnings"
+                    style={{ backgroundColor }}
+                  >
                     {formatMargin(user.margin)}
                   </div>
                 </div>
@@ -185,7 +237,8 @@ const HeadStats = () => {
             onMouseLeave={() => setIsPaused(false)}
           >
             {contestData.leaderboard.map((user, index) => {
-              const isMe = String(user.id) === String(authUser.id);
+              const isMe =
+                authUser && String(user.id) === String(authUser.id);
               const isTop3 = index < 3;
 
               let backgroundColor = "var(--disabled-light)";
@@ -194,7 +247,11 @@ const HeadStats = () => {
 
               return (
                 <div key={index} className="image-card">
-                  <img src={user.imageUrl} alt={`Entry by ${user.username}`} className="contest-image" />
+                  <img
+                    src={user.imageUrl}
+                    alt={`Entry by ${user.username}`}
+                    className="contest-image"
+                  />
                   <div className="image-votes" style={{ backgroundColor }}>
                     {formatMargin(user.margin)}
                   </div>

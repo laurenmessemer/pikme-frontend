@@ -8,6 +8,32 @@ import Dropdown from "../Dropdowns/Dropdown";
 import ThemeTimer from "../Timers/ThemeTimer";
 
 const tokenImg = "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg";
+const MIN_REQUIRED_COUNT = 2;
+
+// 🎭 Fake fallback entries
+const fallbackVoters = [
+  { username: "LunaWrites", count: 6 },
+  { username: "Ash_17", count: 5 },
+  { username: "marblemesa", count: 5 },
+  { username: "Cambria.Skye", count: 4 },
+  { username: "solsticePath", count: 4 },
+  { username: "EchoHollow", count: 3 },
+  { username: "grace.note", count: 3 },
+  { username: "avellino_rise", count: 2 },
+  { username: "quietpine", count: 2 },
+];
+
+const fallbackReferrers = [
+  { username: "NightFox_22", count: 6 },
+  { username: "violetVerse", count: 5 },
+  { username: "aloe.vibes", count: 5 },
+  { username: "JunoTheMoon", count: 4 },
+  { username: "mossytrail", count: 4 },
+  { username: "PixelRider", count: 3 },
+  { username: "FinchWanderer", count: 3 },
+  { username: "neonleaf", count: 2 },
+  { username: "harborlight", count: 2 },
+];
 
 const Activity = () => {
   const { user: authUser } = useAuth();
@@ -22,8 +48,9 @@ const Activity = () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/activity/votes`, {
           params: { userId: authUser?.id },
         });
-        setVoters(res.data.topVoters);
-        setMyVotes(res.data.me.count);
+        console.log("📊 Top Voters Response:", res.data);
+        setVoters(res.data.topVoters || []);
+        setMyVotes(res.data.me?.count ?? 0);
       } catch (err) {
         console.error("❌ Error fetching top voters:", err);
       }
@@ -34,18 +61,27 @@ const Activity = () => {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/activity/referrals`, {
           params: { userId: authUser?.id },
         });
-        setReferrers(res.data.topReferrers);
-        setMyReferrals(res.data.me.count);
+        console.log("📈 Top Referrers Response:", res.data);
+        setReferrers(res.data.topReferrers || []);
+        setMyReferrals(res.data.me?.count ?? 0);
       } catch (err) {
         console.error("❌ Error fetching top referrers:", err);
       }
     };
 
-    if (authUser?.id) {
-      fetchTopVoters();
-      fetchTopReferrers();
-    }
+    fetchTopVoters();
+    fetchTopReferrers();
   }, [authUser?.id]);
+
+  const mergedVoters = [
+    ...voters.filter((v) => v.count >= MIN_REQUIRED_COUNT),
+    ...fallbackVoters,
+  ].slice(0, 9);
+
+  const mergedReferrers = [
+    ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
+    ...fallbackReferrers,
+  ].slice(0, 9);
 
   const renderToken = () => (
     <img
@@ -88,8 +124,8 @@ const Activity = () => {
         </div>
         <div className="activity-divider"></div>
 
-        {voters.slice(0, 5).map((user, i) => (
-          <div key={i} className="activity-leaderboard-card">
+        {mergedVoters.map((user, i) => (
+          <div key={user.username + i} className="activity-leaderboard-card">
             <div className="rank-badge-wrapper">
               {i === 0 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstplace.svg" alt="1st" className="rank-icon" />}
               {i === 1 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondplace.svg" alt="2nd" className="rank-icon" />}
@@ -129,8 +165,8 @@ const Activity = () => {
         </div>
         <div className="activity-divider"></div>
 
-        {referrers.slice(0, 5).map((user, i) => (
-          <div key={i} className="activity-leaderboard-card">
+        {mergedReferrers.map((user, i) => (
+          <div key={user.username + i} className="activity-leaderboard-card">
             <div className="rank-badge-wrapper">
               {i === 0 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstplace.svg" alt="1st" className="rank-icon" />}
               {i === 1 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondplace.svg" alt="2nd" className="rank-icon" />}

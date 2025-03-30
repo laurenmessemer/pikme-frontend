@@ -1,3 +1,4 @@
+
 .my-submissions-container {
     width: 100%;
     display: flex;
@@ -10,6 +11,15 @@
     gap: 20px;
     width: 100%;
     max-width: 1200px;
+}
+
+.login-message {
+  width: 18%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='4' stroke-dasharray='10%2c15' stroke-dashoffset='31' stroke-linecap='square'/%3e%3c/svg%3e");
 }
 
 .no-submissions {
@@ -50,3 +60,31 @@
         grid-template-columns: 1fr; /* 1 card per row */
     }
 }
+
+.my-submissions-empty-state {
+    text-align: center;
+    padding: 40px 0;
+  }
+  
+  .my-submissions-empty-text {
+    font-family: monospace;
+    font-size: 16px;
+    margin-bottom: 24px;
+    color: #333;
+  }
+  
+  .dashed-box {
+    display: inline-block;
+    border: 3px dashed #333;
+    padding: 40px;
+    width: 200px;
+    height: 200px;
+    vertical-align: middle;
+    font-family: monospace;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
