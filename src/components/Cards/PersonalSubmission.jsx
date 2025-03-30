@@ -76,7 +76,7 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
           <RogueButton
               text="View Friend Link"
               onClick={() => {
-                navigator.clipboard.writeText(`https://pikme.com/join/${resolvedInviteLink}`);
+                navigator.clipboard.writeText(`https://www.pikme.com/join/${resolvedInviteLink}`);
                 alert("✅ Invite link copied to clipboard!");
               }}
             >
