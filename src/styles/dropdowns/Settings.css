@@ -91,3 +91,18 @@
     padding: 12px 15px;
     cursor: pointer;
 }
+
+/* Remove hyperlink look from links inside settings dropdown */
+.settings-dropdown a {
+    all: unset; /* resets all default link styling */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--dark);
+  }
+  
+  /* Optional hover effect to match the <li> hover */
+  .settings-dropdown a:hover {
+    background-color: #f5f5f5;
+  }
+  
