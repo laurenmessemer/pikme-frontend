@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StepThreeInvite from "../competition/StepThreeInvite";
-import Confirmation from "../components/Cards/Confirmation";
 
 const StepThreeInviteWrapper = () => {
   const { inviteCode } = useParams();
+  const navigate = useNavigate();
 
   const [competition, setCompetition] = useState(null);
   const [error, setError] = useState("");
-  const [confirmationData, setConfirmationData] = useState(null);
 
   useEffect(() => {
     console.log("🟢 StepThreeInviteWrapper mounted with inviteCode:", inviteCode);
@@ -34,24 +33,18 @@ const StepThreeInviteWrapper = () => {
   if (error) return <p className="error-message">❌ {error}</p>;
   if (!competition) return <p className="loading-message">🔄 Loading match...</p>;
 
-  if (confirmationData) {
-    return (
-      <Confirmation
-        newBalance={confirmationData.newBalance}
-        inviteLink={inviteCode}
-        matchType="invite_friend"
-        joinedExistingMatch={true}
-      />
-    );
-  }
-
   return (
     <StepThreeInvite
       contestId={competition.contest_id}
       inviteLink={inviteCode}
       entryFee={1}
-      nextStep={({ newBalance }) => {
-        setConfirmationData({ newBalance });
+      nextStep={({ newBalance, imageUrl }) => {
+        navigate(`/join/upload/${inviteCode}/done`, {
+          state: {
+            newBalance,
+            imageUrl
+          }
+        });
       }}
     />
   );
