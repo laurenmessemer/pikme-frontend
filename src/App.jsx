@@ -12,6 +12,7 @@ import Platform from "./admin/Platform";
 import Reports from "./admin/Reports";
 import UX from "./admin/UX";
 import Users from "./admin/Users";
+import StepFourInviteWrapper from "./competition/StepFourInviteWrapper";
 import StepThreeInviteWrapper from "./competition/StepThreeInviteWrapper";
 import StepTwoInviteWrapper from "./competition/StepTwoInviteWrapper";
 import Join from "./components/Sections/Join";
@@ -99,12 +100,11 @@ function App() {
               {/* ✅ Join Entry Flow */}
               <Route path="/join" element={<UtilityTemplate><Join /></UtilityTemplate>} />
 
-              {/* ✅ Upload Flow inside TabsLayout */}
               <Route path="/join/upload/:inviteCode" element={<TabsLayout />}>
                 <Route index element={<StepTwoInviteWrapper />} />
                 <Route path="confirm" element={<StepThreeInviteWrapper />} />
+                <Route path="done" element={<StepFourInviteWrapper />} /> {/* ✅ NEW */}
               </Route>
-
               {/* ✅ Wallet Page */}
               <Route path="/wallet" element={<UtilityTemplate><WalletLanding /></UtilityTemplate>} />
             </Routes>

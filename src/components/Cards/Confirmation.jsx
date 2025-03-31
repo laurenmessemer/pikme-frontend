@@ -9,7 +9,7 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
 
-  const inviteCode = inviteLink?.split("/").pop(); // Extract just the code
+  const inviteCode = inviteLink?.split("/").pop();
 
   const handleCopy = () => {
     if (inviteCode) {
@@ -22,6 +22,7 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
   return (
     <div className="confirmation-container">
       <h1 className="confirmation-title">You’re in!</h1>
+
       <p className="confirmation-balance">
         New Token Balance: <strong>{newBalance}</strong>
         <img
@@ -31,7 +32,14 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
         />
       </p>
 
-      {matchType === "invite_friend" && inviteCode ? (
+      {matchType === "invite_friend" && joinedExistingMatch ? (
+        <>
+          <p className="waiting-text">You’ve been matched with your friend! 🎉</p>
+          <p className="confirmation-subtext">
+            View your entry or jump in to vote now.
+          </p>
+        </>
+      ) : matchType === "invite_friend" && inviteCode ? (
         <>
           <div className="confirmation-link-container">
             <input
@@ -86,8 +94,6 @@ Confirmation.propTypes = {
 };
 
 export default Confirmation;
-
-
 
 // import PropTypes from "prop-types";
 // import { useState } from "react";
