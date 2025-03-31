@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "../../styles/cards/ResetPasswordCard.css";
-import Access from "../Buttons/Access";
+import Submit from "../Buttons/Submit";
 
 const ResetPasswordCard = ({ onSubmit, step, email }) => {
   const [formValues, setFormValues] = useState({
@@ -35,8 +35,7 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
             value={formValues.email}
             onChange={handleInputChange}
           />
-          <Access text="CONTINUE" variant="cta" type="submit" />
-          <p className="cancel-text">CANCEL</p>
+          <Submit text="CONTINUE" variant="cta" type="submit" />
         </form>
       )}
 
@@ -57,8 +56,7 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
             onChange={handleInputChange}
           />
           <p className="resend-code">Resend Code</p>
-          <Access text="CONTINUE" variant="cta" type="submit" />
-          <p className="cancel-text">CANCEL</p>
+          <Submit text="CONTINUE" variant="cta" type="submit" />
         </form>
       )}
 
@@ -83,7 +81,7 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
             value={formValues.confirmPassword}
             onChange={handleInputChange}
           />
-          <Access text="SAVE & CONTINUE" variant="cta" type="submit" />
+          <Submit text="SAVE & CONTINUE" variant="cta" type="submit" />
           <div className="keep-signed-in">
             <label>
               <input type="checkbox" /> Keep me signed in.

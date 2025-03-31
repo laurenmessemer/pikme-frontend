@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { FaApple, FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa6";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import "../../styles/cards/CreateAccountCard.css";
 
 const CreateAccountCard = ({ onSubmit, referralCode }) => {
@@ -107,7 +107,7 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
           id="referralCode"
           className="form-input"
           type="text"
-          placeholder="Enter code (if you have one)"
+          placeholder="PIK000000 (Optional)"
           value={formValues.referralCode}
           onChange={handleInputChange}
         />
@@ -127,16 +127,16 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
         {/* Divider */}
         <div className="divider">
           <span className="line"></span>
-          <span className="divider-text">OR CONTINUE WITH</span>
-          <span className="line"></span>
+          {/* <span className="divider-text">OR CONTINUE WITH</span> */}
+          {/* <span className="line"></span> */}
         </div>
 
         {/* Social Signup */}
-        <div className="social-signup">
+        {/* <div className="social-signup">
           <FaGoogle className="social-icon" />
           <FaApple className="social-icon" />
           <FaFacebook className="social-icon" />
-        </div>
+        </div> */}
 
         {/* Terms and Privacy */}
         <p className="terms-text">

@@ -31,7 +31,7 @@
   background-color: #fff;
   width: 100vw; /* Ensures full width */
   height: calc(100vh - 8em); /* ✅ Subtracts header height to lock content */
-  padding: 20px;
+  /* padding: 20px; */
   box-sizing: border-box;
   border-left: none;
   border-right: none;

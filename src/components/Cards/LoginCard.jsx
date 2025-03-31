@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { FaApple, FaFacebook, FaGoogle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import "../../styles/buttons/CustomCheck.css";
 import "../../styles/cards/LoginCard.css";
@@ -57,15 +56,15 @@ const LoginCard = ({ onSubmit, error }) => {
 
         <div className="divider">
           <span className="line"></span>
-          <span className="divider-text">OR CONTINUE WITH</span>
-          <span className="line"></span>
+          {/* <span className="divider-text">OR CONTINUE WITH</span> */}
+          {/* <span className="line"></span> */}
         </div>
 
-        <div className="social-login">
+        {/* <div className="social-login">
           <div className="social-icon"><FaGoogle /></div>
           <div className="social-icon"><FaApple /></div>
           <div className="social-icon"><FaFacebook /></div>
-        </div>
+        </div> */}
 
         <p className="footer-text">
           Don’t have an account? <Link to="/signup">Create an account</Link>

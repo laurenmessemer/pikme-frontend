@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom"; // ✅ Add useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/dropdowns/Settings.css";
 
 const Settings = ({ isOpen, onClose, logout }) => {
   const dropdownRef = useRef(null);
-  const navigate = useNavigate(); // ✅ Needed to navigate programmatically
+  const navigate = useNavigate();
 
   // ✅ Close dropdown when clicking outside
   useEffect(() => {
@@ -30,13 +30,15 @@ const Settings = ({ isOpen, onClose, logout }) => {
 
       <ul>
         <li><span className="status-dot"></span> Alerts</li>
+
+        {/* ✅ UPDATED: Now routes to new MenuSettings */}
         <li>
           <Link to="/settings" onClick={onClose}>
             Settings & Privacy
           </Link>
         </li>
 
-        {/* ✅ NEW: Join a Contest Option */}
+        {/* ✅ Join a Contest Option */}
         <li
           className="dropdown-item"
           onClick={() => {
@@ -55,7 +57,6 @@ const Settings = ({ isOpen, onClose, logout }) => {
   );
 };
 
-// ✅ Prop Validation
 Settings.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

@@ -19,7 +19,7 @@
     transition: background 0.3s ease-in-out, transform 0.1s ease-in-out;
     background: var(--light);
     color: var(--dark);
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
     display: inline-block; /* Ensures proper spacing */
     min-width: 150px; /* Prevents buttons from shrinking */
     text-align: center;
@@ -27,10 +27,12 @@
 
 .toggle-button:hover {
     background: var(--accent);
+    box-shadow: 1px 1px 0px rgb(36, 36, 36);
 }
 
 .toggle-button.active {
-    background: var(--accent);
+    background: var(--disabled);
+    box-shadow: 1px 1px 0px rgb(36, 36, 36);
     color: var(--dark);
     transform: scale(1.05);
 }

@@ -15,6 +15,7 @@ import Users from "./admin/Users";
 import StepThreeInviteWrapper from "./competition/StepThreeInviteWrapper";
 import StepTwoInviteWrapper from "./competition/StepTwoInviteWrapper";
 import Join from "./components/Sections/Join";
+import MenuSettings from "./components/Sections/MenuSettings";
 
 import Login from "./components/Auth/Login";
 import ResetPassword from "./components/Auth/ResetPassword";
@@ -93,6 +94,7 @@ function App() {
               <Route path="/faq" element={<UtilityTemplate><FAQ /></UtilityTemplate>} />
               <Route path="/terms" element={<UtilityTemplate><Terms /></UtilityTemplate>} />
               <Route path="/privacy" element={<UtilityTemplate><Privacy /></UtilityTemplate>} />
+              <Route path="/settings" element={<MenuSettings />} />
 
               {/* ✅ Join Entry Flow */}
               <Route path="/join" element={<UtilityTemplate><Join /></UtilityTemplate>} />
