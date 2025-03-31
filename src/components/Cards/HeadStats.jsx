@@ -20,46 +20,10 @@ const HeadStats = () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
         if (response.data.success) {
-          const entries = response.data.contest.leaderboard;
-
-          // Group by user id and aggregate
-          const grouped = Object.values(
-            entries.reduce((acc, entry) => {
-              if (!acc[entry.id]) {
-                acc[entry.id] = {
-                  id: entry.id,
-                  username: entry.username,
-                  earnings: "0",
-                  totalMargin: 0,
-                  images: [],
-                };
-              }
-
-              acc[entry.id].totalMargin += entry.margin;
-              acc[entry.id].images.push({
-                imageUrl: entry.imageUrl,
-                margin: entry.margin,
-              });
-
-              return acc;
-            }, {})
-          );
-
-          // Sort by margin
-          grouped.sort((a, b) => b.totalMargin - a.totalMargin);
-
-          // Add earnings safely
-          const winnings = response.data.contest.winnings || {};
-
-          if (grouped[0]) grouped[0].earnings = winnings.first || "0";
-          if (grouped[1]) grouped[1].earnings = winnings.second || "0";
-          if (grouped[2]) grouped[2].earnings = winnings.third || "0";
-
-          setGroupedUsers(grouped);
-          setContestData({
-            ...response.data.contest,
-            leaderboard: grouped,
-          });
+          console.log("📥 API Response:", response.data);
+          
+          setGroupedUsers(response.data.contest.leaderboard);
+          setContestData(response.data.contest);
         } else {
           throw new Error("Failed to fetch live contests.");
         }
@@ -70,6 +34,7 @@ const HeadStats = () => {
         setLoading(false);
       }
     };
+    
 
     fetchLiveContest();
   }, []);
