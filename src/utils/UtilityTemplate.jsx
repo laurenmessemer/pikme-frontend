@@ -17,6 +17,7 @@ const UtilityTemplate = ({ children }) => {
     "/privacy": "Privacy Policy",
     "/wallet": "Wallet",
     "/settings": "Settings",
+    "/join": "Join a Contest",
   };
 
   // ✅ Determine what to show in the header (Title or PikMe Logo)

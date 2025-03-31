@@ -33,11 +33,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 1px 12px;
-    font-size: 0.7rem;
+    font-size: 0.75rem !important;
     cursor: pointer;
     /* background-color: #f5f5f5; */
     transition: background-color 0.3s ease;
     font-weight: bold;
+    height: 12px;
 }
 
 

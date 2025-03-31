@@ -5,8 +5,6 @@
     padding: 40px 80px; /* Increased width */
     box-shadow: 6px 6px 0px var(--dark);
     text-align: center;
-    width: 800px !important; /* Explicit width */
-    max-width: 100% !important; /* Ensures responsiveness */
     margin: 0 auto;
     margin-right: 10%;
 }

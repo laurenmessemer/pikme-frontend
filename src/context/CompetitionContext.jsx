@@ -14,40 +14,50 @@ export const CompetitionProvider = ({ children }) => {
   const [contestId, setContestId] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  const [matchType, setMatchType] = useState("pick_random"); // ✅ Track match type
+  const [matchType, setMatchType] = useState("pick_random");
   const [entryData, setEntryData] = useState(null);
-  const [pendingEntryId, setPendingEntryId] = useState(null); // ✅ Track pending entry ID
+  const [pendingEntryId, setPendingEntryId] = useState(null);
 
   // ✅ Restore from localStorage (if available)
   useEffect(() => {
     const storedImage = localStorage.getItem("uploadedImage");
-    if (storedImage && !imageUrl) setImageUrl(storedImage); // ✅ Ensure image persists
+    if (storedImage && !imageUrl) setImageUrl(storedImage);
   }, [imageUrl]);
 
   // ✅ Reset context when leaving competition flow
   useEffect(() => {
-    const competitionPages = ["/step-one", "/step-two", "/step-three", "/step-four"];
+    const competitionPages = [
+      "/step-one",
+      "/step-two",
+      "/step-three",
+      "/step-four",
+      "/join/upload", // base path for invites
+    ];
 
-    if (!competitionPages.includes(location.pathname)) {
+    const isInCompetitionFlow = competitionPages.some((path) =>
+      location.pathname.startsWith(path)
+    );
+
+    if (!isInCompetitionFlow) {
       console.log("🔄 Resetting Competition Context - User left competition flow");
       setContestId(null);
       setImageUrl("");
       setImageFile(null);
       setEntryData(null);
-      setMatchType("pick_random"); // ✅ Reset match type
+      setMatchType("pick_random");
       setPendingEntryId(null);
       localStorage.removeItem("uploadedImage");
     }
   }, [location.pathname]);
 
   return (
-    <CompetitionContext.Provider value={{ 
-      contestId, setContestId, 
-      imageUrl, setImageUrl, 
-      imageFile, setImageFile, 
-      matchType, setMatchType, 
+    <CompetitionContext.Provider value={{
+      contestId, setContestId,
+      imageUrl, setImageUrl,
+      imageFile, setImageFile,
+      matchType, setMatchType,
       entryData, setEntryData,
-      pendingEntryId, setPendingEntryId, // ✅ Store pending entry ID
+      pendingEntryId, setPendingEntryId,
     }}>
       {children}
     </CompetitionContext.Provider>

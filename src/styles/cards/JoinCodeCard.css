@@ -1,0 +1,47 @@
+.join-code-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5em;
+    padding: 20px;
+  }
+  
+  .join-code-card {
+    background: white;
+    border: 5px solid #2d2d2d;
+    box-shadow: 8px 8px 0 #2d2d2d;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .join-title {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #2d2d2d;
+    font-weight: 700;
+  }
+  
+  .join-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .join-input {
+    font-size: 1.1rem;
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
+    border: 2px solid #444;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .join-submit {
+    width: 100%;
+    max-width: 300px;
+  }
+  

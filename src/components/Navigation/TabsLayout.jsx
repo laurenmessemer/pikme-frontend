@@ -13,6 +13,7 @@ function TabsLayout() {
     "/vote": 200,
     "/compete": 300,
     "/leaderboard": 400,
+    "/join/upload": 300,
   };
 
   const tabBackgrounds = {
@@ -20,11 +21,19 @@ function TabsLayout() {
     "/vote": "var(--vote-background)",
     "/compete": "var(--compete-background)",
     "/leaderboard": "var(--leaderboard-background)",
+    "/join/upload": "var(--compete-background)", 
   };
 
-  const backgroundColor = tabBackgrounds[location.pathname] || "transparent";
-  const contentZ = zIndices[location.pathname] || 100;
-
+  const getBasePath = (path) => {
+    const parts = path.split("/");
+    return `/${parts[1] || ""}/${parts[2] || ""}`.replace(/\/$/, ""); // normalize to 2-level
+  };
+  
+  const basePath = getBasePath(location.pathname);
+  
+  const backgroundColor = tabBackgrounds[basePath] || "transparent";
+  const contentZ = zIndices[basePath] || 100;
+  
   return (
     <div className="tabs-layout">
       <Tabs />

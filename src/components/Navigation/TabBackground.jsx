@@ -2,12 +2,21 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/nav/TabBackground.css";
 
+const getBasePath = (path) => {
+  const parts = path.split("/");
+  return `/${parts[1] || ""}/${parts[2] || ""}`.replace(/\/$/, "");
+};
+
+
 const imageFiles = [
   { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm2.svg", id: "home-tab", route: "/" },
   { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm3.svg", id: "vote-tab", route: "/vote" },
   { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm4.svg", id: "compete-tab", route: "/compete" },
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" }
+  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" },
+  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm4.svg", id: "compete-tab", route: "/join/upload" }
 ];
+
+
 
 const TabBackground = () => {
   const [topIndex, setTopIndex] = useState(imageFiles.length);
@@ -17,7 +26,9 @@ const TabBackground = () => {
 
   // When the route changes, bring the matching image to the front
   useEffect(() => {
-    const match = imageFiles.find((tab) => tab.route === location.pathname);
+    const basePath = getBasePath(location.pathname);
+    const match = imageFiles.find((tab) => tab.route === basePath);
+
     if (match) {
       const image = document.getElementById(match.id);
       if (image) {
