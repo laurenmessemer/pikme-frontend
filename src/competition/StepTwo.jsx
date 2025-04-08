@@ -42,17 +42,32 @@ const StepTwo = ({ nextStep }) => {
   }, [contestId]);
 
   const handleUpload = async (file) => {
-    if (!file) return;
-    
+    if (!file) {
+      console.warn("⚠️ No file provided for upload.");
+      return;
+    }
+  
+    if (!userId) {
+      console.error("❌ Cannot upload image — user ID is missing.");
+      return;
+    }
+  
     setImageFile(file);
-    
+  
     try {
+      console.log("📤 Requesting pre-signed URL with:", {
+        user_id: userId,
+        contest_id: contestId,
+        match_type: selectedOpponent,
+        fileType: file.type,
+      });
+  
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`, {
         params: { 
           user_id: userId,
           contest_id: contestId,
           match_type: selectedOpponent,
-          fileType: file.type
+          fileType: file.type,
         },
       });
   
@@ -74,11 +89,11 @@ const StepTwo = ({ nextStep }) => {
       });
   
       console.log("✅ Backend response:", updateResponse.data);
-  
     } catch (error) {
-      console.error("❌ Upload failed:", error);
+      console.error("❌ Upload failed:", error?.response?.data || error.message);
     }
   };
+  
 
   const handleSubmit = () => {
     if (!imageFile) {
