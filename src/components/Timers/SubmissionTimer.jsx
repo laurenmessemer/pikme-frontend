@@ -5,7 +5,7 @@ import { FaRegClock } from "react-icons/fa";
 import "../../styles/timers/SubmissionTimer.css";
 
 const SubmissionTimer = ({ contestId }) => {
-  const [timeRemaining, setTimeRemaining] = useState(null);
+  const [timeRemaining, setTimeRemaining] = useState({});
   const [entryFee, setEntryFee] = useState(null);
   const [isUpcoming, setIsUpcoming] = useState(false);
 
@@ -35,7 +35,7 @@ const SubmissionTimer = ({ contestId }) => {
         }
 
         if (!deadline) {
-          setTimeRemaining("Expired");
+          setTimeRemaining({ expired: true });
           return;
         }
 
@@ -43,7 +43,7 @@ const SubmissionTimer = ({ contestId }) => {
         interval = setInterval(() => updateTimer(deadline), 1000);
       } catch (error) {
         console.error(`❌ Error fetching contest details for contest ${contestId}:`, error);
-        setTimeRemaining("Error");
+        setTimeRemaining({ error: true });
       }
     };
 
@@ -56,31 +56,37 @@ const SubmissionTimer = ({ contestId }) => {
     const diff = endTime - now;
 
     if (diff <= 0) {
-      setTimeRemaining("Expired");
+      setTimeRemaining({ expired: true });
       return;
     }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-    const padded = (val) => val.toString().padStart(2, "0");
-
-    setTimeRemaining(`${padded(days)}D ${padded(hours)}H ${padded(minutes)}M ${padded(seconds)}S`);
+    setTimeRemaining({
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+      expired: false,
+    });
   };
+
+  const formatTime = (val) => String(val).padStart(2, "0");
 
   return (
     <div className="submission-timer">
-      {timeRemaining === "Expired" ? (
+      {timeRemaining?.expired ? (
         <span className="timer-text">Submission Closed</span>
-      ) : timeRemaining && entryFee !== null ? (
+      ) : timeRemaining?.seconds !== undefined && entryFee !== null ? (
         isUpcoming ? (
           <span className="timer-text">
-            <span className="yellow-status-dot" /> Upcoming | <FaRegClock className="timer-icon" /> {timeRemaining}
+            <span className="yellow-status-dot" /> Upcoming |{" "}
+            <FaRegClock className="timer-icon" />{" "}
+            {`${formatTime(timeRemaining.days)}:${formatTime(timeRemaining.hours)}:${formatTime(timeRemaining.minutes)}:${formatTime(timeRemaining.seconds)}`}
           </span>
         ) : (
           <span className="timer-text">
-            <FaRegClock className="timer-icon" /> {timeRemaining} | Entry = {entryFee}x{""}
+            <FaRegClock className="timer-icon" />{" "}
+            {`${formatTime(timeRemaining.days)}:${formatTime(timeRemaining.hours)}:${formatTime(timeRemaining.minutes)}:${formatTime(timeRemaining.seconds)}`}{" "}
+            | Entry = {entryFee}x{" "}
             <img
               src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
               alt="Token"

@@ -16,7 +16,13 @@ const Footer = () => {
         </nav>
       </div>
       <div className="footer-right">
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">x</a>
+        <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/x.webp"
+            alt="X (formerly Twitter)"
+            style={{ width: "15px", height: "15px", marginBottom: "1px" }}
+          />
+        </a>
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
         <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
       </div>

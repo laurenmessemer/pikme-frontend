@@ -3,7 +3,7 @@ import { FaRegClock } from "react-icons/fa";
 import "../../styles/timers/SubmissionTimer.css"; // ✅ Reuse same styles
 
 const ThemeTimer = () => {
-  const [timeRemaining, setTimeRemaining] = useState("");
+  const [timeRemaining, setTimeRemaining] = useState({});
 
   useEffect(() => {
     const getNextSundayNoonEST = () => {
@@ -25,16 +25,17 @@ const ThemeTimer = () => {
       const diff = target - now;
 
       if (diff <= 0) {
-        setTimeRemaining("00D 00H 00M 00S");
+        setTimeRemaining({ expired: true });
         return;
       }
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      setTimeRemaining(`${days}D ${hours}H ${minutes}M ${seconds}S`);
+      setTimeRemaining({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+        expired: false,
+      });
     };
 
     updateCountdown();
@@ -42,10 +43,16 @@ const ThemeTimer = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const format = (val) => String(val).padStart(2, "0");
+
   return (
     <div className="submission-timer">
       <FaRegClock className="timer-icon" />
-      <span className="timer-text">{timeRemaining || "Loading..."}</span>
+      <span className="timer-text">
+        {timeRemaining?.expired ? "00:00:00:00" : timeRemaining?.seconds !== undefined ? (
+          `${format(timeRemaining.days)}:${format(timeRemaining.hours)}:${format(timeRemaining.minutes)}:${format(timeRemaining.seconds)}`
+        ) : "Loading..."}
+      </span>
     </div>
   );
 };

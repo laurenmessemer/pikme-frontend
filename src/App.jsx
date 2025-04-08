@@ -17,6 +17,7 @@ import StepThreeInviteWrapper from "./competition/StepThreeInviteWrapper";
 import StepTwoInviteWrapper from "./competition/StepTwoInviteWrapper";
 import Join from "./components/Sections/Join";
 import MenuSettings from "./components/Sections/MenuSettings";
+import TestBackground from "./pages/MobileTest";
 
 import Login from "./components/Auth/Login";
 import ResetPassword from "./components/Auth/ResetPassword";
@@ -43,6 +44,7 @@ import UtilityTemplate from "./utils/UtilityTemplate";
 
 // ✅ Footer Pages
 import About from "./components/Sections/About";
+import Alerts from "./components/Sections/Alerts";
 import FAQ from "./components/Sections/Faq";
 import Privacy from "./components/Sections/Privacy";
 import Terms from "./components/Sections/Terms";
@@ -66,6 +68,8 @@ function App() {
                 </Route>
                 <Route path="admin" element={<Admin />} />
               </Route>
+
+              <Route path="/test-bg" element={<TestBackground />} />
 
               {/* ✅ Admin Console (Separate from Main App) */}
               <Route path="/admin-login" element={<AdminLogin />} />
@@ -96,6 +100,8 @@ function App() {
               <Route path="/terms" element={<UtilityTemplate><Terms /></UtilityTemplate>} />
               <Route path="/privacy" element={<UtilityTemplate><Privacy /></UtilityTemplate>} />
               <Route path="/settings" element={<MenuSettings />} />
+              <Route path="/alerts" element={<UtilityTemplate><Alerts /></UtilityTemplate>} />
+
 
               {/* ✅ Join Entry Flow */}
               <Route path="/join" element={<UtilityTemplate><Join /></UtilityTemplate>} />

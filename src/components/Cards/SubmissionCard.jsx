@@ -1,8 +1,5 @@
 import PropTypes from "prop-types";
 import flashIcon from "../../assets/icons/flash.svg";
-import bronzeMedal from "../../assets/medals/bronzeprize.svg";
-import goldMedal from "../../assets/medals/goldprize.svg";
-import silverMedal from "../../assets/medals/silverprize.svg";
 import "../../styles/cards/SubmissionCard.css";
 import Opponent from "../Buttons/Opponent";
 import Submit from "../Buttons/Submit";
@@ -32,10 +29,23 @@ const SubmissionCard = ({
 
       {/* Medals */}
       <div className="submission-card__medals">
-        <img src={goldMedal} alt="Gold Medal" className="submission-medal gold" />
-        <img src={silverMedal} alt="Silver Medal" className="submission-medal silver" />
-        <img src={bronzeMedal} alt="Bronze Medal" className="submission-medal bronze" />
+        <img
+          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firsttokenprize.svg"
+          alt="Gold Medal"
+          className="submission-medal gold"
+        />
+        <img
+          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondtokenprize.svg"
+          alt="Silver Medal"
+          className="submission-medal silver"
+        />
+        <img
+          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg"
+          alt="Bronze Medal"
+          className="submission-medal bronze"
+        />
       </div>
+
 
       {/* Description */}
       <p className="contest-description">{contestDescription}</p>
