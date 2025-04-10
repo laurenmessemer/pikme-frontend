@@ -88,12 +88,11 @@
     cursor: pointer;
     pointer-events: auto;
     z-index: 10;
-    transition: opacity 0.3s ease-in;
 }
-
+/* 
 .tab-background-image1.loaded {
     opacity: 1;
-  }
+  } */
 
 
 /* Individual image styles */
