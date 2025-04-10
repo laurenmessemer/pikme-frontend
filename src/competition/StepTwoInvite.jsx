@@ -8,6 +8,12 @@ import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
 import "../styles/competition/StepTwo.css";
 
+const preloadImage = (url) => {
+  const img = new Image();
+  img.src = url;
+};
+
+
 const StepTwoInvite = ({ nextStep }) => {
   const {
     contestId,
@@ -73,6 +79,7 @@ const StepTwoInvite = ({ nextStep }) => {
       const imageUrl = uploadURL.split("?")[0];
       setImageUrl(imageUrl);
       setFileKey(fileKey);
+      preloadImage(imageUrl);
 
       await axios.post(`${import.meta.env.VITE_API_URL}/api/competition-entry/update-image`, {
         pendingEntryId,
