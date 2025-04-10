@@ -54,7 +54,7 @@ const TabBackground = () => {
   const handleTabClick = (index) => {
     const route = imageFiles[index].route;
     navigate(route);
-    // ⛔ Don't bring image to front yet — wait for useEffect to do it after routing
+    //  Don't bring image to front yet — wait for useEffect to do it after routing
   };
 
   return (
