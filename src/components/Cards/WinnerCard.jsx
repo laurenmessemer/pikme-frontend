@@ -41,6 +41,9 @@ const WinnerCard = ({
           src={image}
           alt={`${isThemeCard ? theme : username}'s entry`}
           className="winner-image"
+          loading="eager"
+          decoding="async"
+          onLoad={(e) => e.currentTarget.classList.add("loaded")}
         />
         {isThemeCard && (
           <div className="date-box">
@@ -64,6 +67,8 @@ const WinnerCard = ({
                   src={placeIcons[place]}
                   alt={`${place} place`}
                   className="winners-place-icon"
+                  loading="eager"
+                  decoding="async"
                 />
               )}
               <span className="payout">
@@ -74,15 +79,17 @@ const WinnerCard = ({
         </div>
 
         <div className={`entries ${isThemeCard ? "icon-only no-border" : ""}`}>
-          <img
-            src={
-              isThemeCard
-                ? "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg"
-                : "https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
-            }
-            alt="entry icon"
-            className={`icon ${isThemeCard ? "flash-icon" : ""}`}
-          />
+        <img
+          src={
+            isThemeCard
+              ? "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg"
+              : "https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
+          }
+          alt="entry icon"
+          className={`icon ${isThemeCard ? "flash-icon" : ""}`}
+          loading="eager"
+          decoding="async"
+        />
           {!isThemeCard && <span>{placeVotes[place] || 0}</span>}
         </div>
       </div>

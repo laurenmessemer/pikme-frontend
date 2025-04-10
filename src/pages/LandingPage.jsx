@@ -5,6 +5,8 @@ import animationData from "../assets/lottie/video2.json";
 import WinnerCard from "../components/Cards/WinnerCard";
 import "../styles/pages/LandingPage.css";
 
+
+
 const LandingPage = () => {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,6 +68,14 @@ const LandingPage = () => {
           });
 
           setCards(flatCardList);
+          const allImageUrls = flatCardList
+            .map((card) => card.image)
+            .filter(Boolean);
+
+          allImageUrls.forEach((url) => {
+            const img = new Image();
+            img.src = url;
+          });
         } else {
           throw new Error("Failed to fetch winners.");
         }
