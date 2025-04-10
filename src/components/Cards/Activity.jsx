@@ -10,29 +10,30 @@ import ThemeTimer from "../Timers/ThemeTimer";
 const tokenImg = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 const MIN_REQUIRED_COUNT = 2;
 
+
 // 🎭 Fake fallback entries
 const fallbackVoters = [
-  { username: "LunaWrites", count: 6 },
-  { username: "Ash_17", count: 5 },
-  { username: "marblemesa", count: 5 },
-  { username: "Cambria.Skye", count: 4 },
-  { username: "solsticePath", count: 4 },
-  { username: "EchoHollow", count: 3 },
-  { username: "grace.note", count: 3 },
-  { username: "avellino_rise", count: 2 },
+  { username: "LunaWrites", count: 2 },
+  { username: "Ash_17", count: 2 },
+  { username: "marblemesa", count: 1 },
+  { username: "Cambria.Skye", count: 2 },
+  { username: "solsticePath", count: 2 },
+  { username: "EchoHollow", count: 1 },
+  { username: "grace.note", count: 1 },
+  { username: "avellino_rise", count: 1 },
   { username: "quietpine", count: 2 },
 ];
 
 const fallbackReferrers = [
-  { username: "NightFox_22", count: 6 },
-  { username: "violetVerse", count: 5 },
-  { username: "aloe.vibes", count: 5 },
-  { username: "JunoTheMoon", count: 4 },
-  { username: "mossytrail", count: 4 },
-  { username: "PixelRider", count: 3 },
-  { username: "FinchWanderer", count: 3 },
-  { username: "neonleaf", count: 2 },
-  { username: "harborlight", count: 2 },
+  { username: "NightFox_22", count: 1 },
+  { username: "violetVerse", count: 1 },
+  { username: "aloe.vibes", count: 1 },
+  { username: "JunoTheMoon", count: 1 },
+  { username: "mossytrail", count: 1 },
+  { username: "PixelRider", count: 1 },
+  { username: "FinchWanderer", count: 1 },
+  { username: "neonleaf", count: 1 },
+  { username: "harborlight", count: 1 },
 ];
 
 const Activity = () => {
