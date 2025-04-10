@@ -82,7 +82,10 @@ const TabBackground = () => {
                 alt={`Tab Background ${index + 1}`}
                 className={`tab-background-image1 tab-img-${tab.id}`}
                 style={{ zIndex: tab.id === activeTabId ? topIndex : index }}
+                loading="eager"
+                decoding="async"
                 onClick={() => handleTabClick(index)}
+                onLoad={(e) => e.target.classList.add("loaded")}
               />
             ))}
           </div>
