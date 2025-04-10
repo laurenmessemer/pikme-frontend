@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/nav/TabBackground.css";
 
+
 const getBasePath = (path) => {
   const parts = path.split("/");
   return `/${parts[1] || ""}/${parts[2] || ""}`.replace(/\/$/, "");
@@ -16,6 +17,12 @@ const imageFiles = [
   { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "compete-tab", route: "/join/upload" }
 ];
 
+const preloadImages = (images) => {
+  images.forEach((img) => {
+    const image = new Image();
+    image.src = img.src;
+  });
+};
 
 
 const TabBackground = () => {
@@ -26,8 +33,12 @@ const TabBackground = () => {
 
   // When the route changes, bring the matching image to the front
   useEffect(() => {
+
+    preloadImages(imageFiles);  //pre-load images
+
     const basePath = getBasePath(location.pathname);
     const match = imageFiles.find((tab) => tab.route === basePath);
+    
 
     if (match) {
       const image = document.getElementById(match.id);
