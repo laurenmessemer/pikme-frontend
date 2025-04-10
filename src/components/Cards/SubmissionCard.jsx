@@ -30,17 +30,17 @@ const SubmissionCard = ({
       {/* Medals */}
       <div className="submission-card__medals">
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firsttokenprize.svg"
+          src="https://d38a0fe14bafg9.cloudfront.net/icons/firsttokenprize.svg"
           alt="Gold Medal"
           className="submission-medal gold"
         />
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondtokenprize.svg"
+          src="https://d38a0fe14bafg9.cloudfront.net/icons/secondtokenprize.svg"
           alt="Silver Medal"
           className="submission-medal silver"
         />
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg"
+          src="https://d38a0fe14bafg9.cloudfront.net/icons/bronzetokenprize.svg"
           alt="Bronze Medal"
           className="submission-medal bronze"
         />
@@ -70,7 +70,7 @@ const SubmissionCard = ({
           <div className="payout-row">
             <span className="payout-left">
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstpayout.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/firstpayout.svg"
                 alt="1st place"
                 className="payout-icon"
               />
@@ -79,7 +79,7 @@ const SubmissionCard = ({
             <span className="payout-right">
               30x
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"
                 className="token-icon"
               />
@@ -89,7 +89,7 @@ const SubmissionCard = ({
           <div className="payout-row">
             <span className="payout-left">
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondpayout.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/secondpayout.svg"
                 alt="2nd place"
                 className="payout-icon"
               />
@@ -98,7 +98,7 @@ const SubmissionCard = ({
             <span className="payout-right">
               20x
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"
                 className="token-icon"
               />
@@ -108,7 +108,7 @@ const SubmissionCard = ({
           <div className="payout-row">
             <span className="payout-left">
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdpayout.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdpayout.svg"
                 alt="3rd place"
                 className="payout-icon"
               />
@@ -117,7 +117,7 @@ const SubmissionCard = ({
             <span className="payout-right">
               10x
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"
                 className="token-icon"
               />
@@ -252,7 +252,7 @@ export default SubmissionCard;
 //           <div className="payout-row">
 //             <span className="payout-left">
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstpayout.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/firstpayout.svg"
 //                 alt="1st place"
 //                 className="payout-icon"
 //               />
@@ -261,7 +261,7 @@ export default SubmissionCard;
 //             <span className="payout-right">
 //               30x
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
 //                 alt="Token icon"
 //                 className="token-icon"
 //               />
@@ -271,7 +271,7 @@ export default SubmissionCard;
 //           <div className="payout-row">
 //             <span className="payout-left">
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondpayout.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/secondpayout.svg"
 //                 alt="2nd place"
 //                 className="payout-icon"
 //               />
@@ -280,7 +280,7 @@ export default SubmissionCard;
 //             <span className="payout-right">
 //               20x
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
 //                 alt="Token icon"
 //                 className="token-icon"
 //               />
@@ -290,7 +290,7 @@ export default SubmissionCard;
 //           <div className="payout-row">
 //             <span className="payout-left">
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdpayout.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdpayout.svg"
 //                 alt="3rd place"
 //                 className="payout-icon"
 //               />
@@ -299,7 +299,7 @@ export default SubmissionCard;
 //             <span className="payout-right">
 //               10x
 //               <img
-//                 src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+//                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
 //                 alt="Token icon"
 //                 className="token-icon"
 //               />

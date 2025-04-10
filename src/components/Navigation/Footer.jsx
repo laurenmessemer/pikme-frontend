@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="footer-right">
         <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
           <img
-            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/x.webp"
+            src="https://d38a0fe14bafg9.cloudfront.net/icons/x.webp"
             alt="X (formerly Twitter)"
             style={{ width: "15px", height: "15px", marginBottom: "1px" }}
           />

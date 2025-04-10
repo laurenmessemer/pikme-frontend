@@ -8,9 +8,9 @@ const formatDate = (dateString) => {
 };
 
 const placeIcons = {
-  1: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firsttokenprize.svg",
-  2: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondtokenprize.svg",
-  3: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg",
+  1: "https://d38a0fe14bafg9.cloudfront.net/icons/firsttokenprize.svg",
+  2: "https://d38a0fe14bafg9.cloudfront.net/icons/secondtokenprize.svg",
+  3: "https://d38a0fe14bafg9.cloudfront.net/icons/bronzetokenprize.svg",
 };
 
 const placeRewards = {
@@ -77,8 +77,8 @@ const WinnerCard = ({
           <img
             src={
               isThemeCard
-                ? "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/flash.svg"
-                : "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pointer.svg"
+                ? "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg"
+                : "https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
             }
             alt="entry icon"
             className={`icon ${isThemeCard ? "flash-icon" : ""}`}

@@ -5,7 +5,7 @@ const BackgroundLottie = () => {
   const [animationData, setAnimationData] = useState(null);
 
   useEffect(() => {
-    fetch("https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/Game4.json")
+    fetch("https://d38a0fe14bafg9.cloudfront.net/icons/Game4.json")
       .then((res) => res.json())
       .then(setAnimationData)
       .catch(console.error);

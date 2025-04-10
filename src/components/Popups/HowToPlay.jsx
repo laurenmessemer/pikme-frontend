@@ -15,17 +15,17 @@ const HowToPlay = ({ onClose }) => {
         <h2 className="popup-title">How to Win</h2>
 
         <p className="popup-message">
-          <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/flash.svg" alt="Flash" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
+          <img src="https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg" alt="Flash" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
           Your entry will face off in a match-up against another photo. Get more votes to win tokens!
         </p>
 
         <p className="popup-message">
-          <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg" alt="Token" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
+          <img src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg" alt="Token" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
           You can enter as many photos as you want.
         </p>
 
         <p className="popup-message">
-          <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/trophy.svg" alt="Trophy" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
+          <img src="https://d38a0fe14bafg9.cloudfront.net/icons/trophy.svg" alt="Trophy" style={{ width: "20px", verticalAlign: "middle", marginRight: "6px" }} />
           Win the Jackpot prize if you have the largest vote difference across your photos each week!
         </p>
 

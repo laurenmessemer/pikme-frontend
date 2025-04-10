@@ -26,7 +26,7 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
       <p className="confirmation-balance">
         New Token Balance: <strong>{newBalance}</strong>
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+          src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
           alt="Token"
           className="token-icon"
         />
@@ -120,7 +120,7 @@ export default Confirmation;
 //       <p className="confirmation-balance">
 //         New Token Balance: <strong>{newBalance}x</strong>
 //         <img
-//           src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+//           src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
 //           alt="Token"
 //           className="token-icon"
 //         />

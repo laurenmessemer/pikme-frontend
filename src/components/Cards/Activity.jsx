@@ -7,7 +7,7 @@ import "../../styles/cards/Activity.css";
 import Dropdown from "../Dropdowns/Dropdown";
 import ThemeTimer from "../Timers/ThemeTimer";
 
-const tokenImg = "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg";
+const tokenImg = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 const MIN_REQUIRED_COUNT = 2;
 
 // 🎭 Fake fallback entries
@@ -127,9 +127,9 @@ const Activity = () => {
         {mergedVoters.map((user, i) => (
           <div key={user.username + i} className="activity-leaderboard-card">
             <div className="rank-badge-wrapper">
-              {i === 0 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstplace.svg" alt="1st" className="rank-icon" />}
-              {i === 1 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondplace.svg" alt="2nd" className="rank-icon" />}
-              {i === 2 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdplace.svg" alt="3rd" className="rank-icon" />}
+              {i === 0 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/firstplace.svg" alt="1st" className="rank-icon" />}
+              {i === 1 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/secondplace.svg" alt="2nd" className="rank-icon" />}
+              {i === 2 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdplace.svg" alt="3rd" className="rank-icon" />}
             </div>
             <div className="user-info">
               <div className="username-activity">{user.username}</div>
@@ -168,9 +168,9 @@ const Activity = () => {
         {mergedReferrers.map((user, i) => (
           <div key={user.username + i} className="activity-leaderboard-card">
             <div className="rank-badge-wrapper">
-              {i === 0 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firstplace.svg" alt="1st" className="rank-icon" />}
-              {i === 1 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondplace.svg" alt="2nd" className="rank-icon" />}
-              {i === 2 && <img src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/thirdplace.svg" alt="3rd" className="rank-icon" />}
+              {i === 0 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/firstplace.svg" alt="1st" className="rank-icon" />}
+              {i === 1 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/secondplace.svg" alt="2nd" className="rank-icon" />}
+              {i === 2 && <img src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdplace.svg" alt="3rd" className="rank-icon" />}
             </div>
             <div className="user-info">
               <div className="username-activity">{user.username}</div>

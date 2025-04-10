@@ -28,17 +28,17 @@ const JackpotCard = ({
         {/* ✅ Medal Icons - Using External URLs */}
         <div className="jackpot-card__medals">
           <img
-            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/firsttokenprize.svg"
+            src="https://d38a0fe14bafg9.cloudfront.net/icons/firsttokenprize.svg"
             alt="Gold Medal"
             className="jackpot-medal gold"
           />
           <img
-            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/secondtokenprize.svg"
+            src="https://d38a0fe14bafg9.cloudfront.net/icons/secondtokenprize.svg"
             alt="Silver Medal"
             className="jackpot-medal silver"
           />
           <img
-            src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bronzetokenprize.svg"
+            src="https://d38a0fe14bafg9.cloudfront.net/icons/bronzetokenprize.svg"
             alt="Bronze Medal"
             className="jackpot-medal bronze"
           />

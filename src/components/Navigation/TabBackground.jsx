@@ -9,11 +9,11 @@ const getBasePath = (path) => {
 
 
 const imageFiles = [
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm2.svg", id: "home-tab", route: "/" },
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm3.svg", id: "vote-tab", route: "/vote" },
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm4.svg", id: "compete-tab", route: "/compete" },
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" },
-  { src: "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pm4.svg", id: "compete-tab", route: "/join/upload" }
+  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm2.svg", id: "home-tab", route: "/" },
+  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm3.svg", id: "vote-tab", route: "/vote" },
+  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "compete-tab", route: "/compete" },
+  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" },
+  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "compete-tab", route: "/join/upload" }
 ];
 
 

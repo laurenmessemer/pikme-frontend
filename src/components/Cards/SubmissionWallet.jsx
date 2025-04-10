@@ -5,7 +5,7 @@ import Submit from "../Buttons/Submit";
 import SubmissionTimer from "../Timers/SubmissionTimer";
 
 // ✅ Add token icon URL
-const tokenIcon = "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg";
+const tokenIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 
 const SubmissionWallet = ({
   contestTitle,

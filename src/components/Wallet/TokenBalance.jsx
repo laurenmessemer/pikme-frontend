@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "../../styles/wallet/TokenBalance.css";
 
-const tokenImg = "https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg";
+const tokenImg = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 
 const TokenBalance = ({ balance, prizeHistory }) => {
   const formatDate = (timestamp) => {

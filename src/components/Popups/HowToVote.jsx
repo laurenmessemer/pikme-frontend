@@ -29,7 +29,7 @@ const HowToVote = ({ onClose }) => {
           {step === 1 ? (
             <div className="step-one-wrapper">
               <img
-                src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pointer.svg"
+                src="https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
                 alt="Pointer Icon"
                 style={{ width: "36px", marginBottom: "16px" }}
               />
@@ -42,7 +42,7 @@ const HowToVote = ({ onClose }) => {
             <div className="step-two-wrapper">
               <h2 className="popup-title">
                 <img
-                  src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pointer.svg"
+                  src="https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
                   alt="Pointer Icon"
                   className="popup-icon"
                 />
