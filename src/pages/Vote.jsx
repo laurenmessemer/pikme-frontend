@@ -11,6 +11,15 @@ import ReportReceived from "../components/Popups/ReportReceived";
 import VoteIntroPopup from "../components/Popups/VoteIntroPopup";
 import "../styles/pages/Vote.css";
 
+
+const preloadImages = (urls) => {
+  urls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+  });
+};
+
+
 const Vote = () => {
   const [popupQueue, setPopupQueue] = useState([]);
   const [competitions, setCompetitions] = useState([]);
@@ -104,6 +113,10 @@ const Vote = () => {
 
       setCompetitions(filtered);
       setCurrentCompetitionIndex(0);
+
+      const allImages = filtered.flatMap((comp) => [comp.user1_image, comp.user2_image]);
+      preloadImages(allImages);
+
     } catch (err) {
       console.error("❌ Error fetching voting competitions:", err);
       setError("Failed to load voting entries.");

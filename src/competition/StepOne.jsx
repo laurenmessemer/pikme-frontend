@@ -6,6 +6,14 @@ import JackpotCard from "../components/Cards/JackpotCard";
 import { useCompetition } from "../context/CompetitionContext";
 import "../styles/competition/StepOne.css";
 
+const preloadImages = (urls) => {
+  urls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+  });
+};
+
+
 const StepOne = ({ nextStep }) => {
   const [contests, setContests] = useState([]);
   const [error, setError] = useState(null);
@@ -21,6 +29,13 @@ const StepOne = ({ nextStep }) => {
           return new Date(a.contest_live_date) - new Date(b.contest_live_date); // secondary sort
         });
         setContests(sorted);
+
+        const coverImageUrls = sorted
+          .map((contest) => contest.Theme?.cover_image_url)
+          .filter(Boolean); // removes undefined/null
+
+        preloadImages(coverImageUrls);
+
       } catch (err) {
         setError("Error fetching contests.");
         console.error("❌ Error fetching contests:", err);
