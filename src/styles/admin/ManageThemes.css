@@ -79,3 +79,34 @@
     color: black;
   }
   
+
+  .cover-image-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cover-thumbnail {
+    width: 80px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .replace-image-button {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #eee;
+    border: 1px solid #ccc;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  .replace-image-button:hover {
+    background-color: #ddd;
+  }
+  

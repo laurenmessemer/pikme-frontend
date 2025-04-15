@@ -51,12 +51,16 @@ const AdminNav = () => {
         <NavLink to="/admin-console/themes/create" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Add New Theme
         </NavLink>
-        <NavLink to="/admin-console/contests" className={({ isActive }) => (isActive ? "active-link" : "")}>
+        <NavLink to="/admin-console/contests" end className={({ isActive }) => (isActive ? "active-link" : "")}>
           Manage Contests
         </NavLink>
         <NavLink to="/admin-console/contests/create" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Create Contest
         </NavLink>
+        <NavLink to="/admin-console/competitions" className={({ isActive }) => (isActive ? "active-link" : "")}>
+          Manage Competitions
+        </NavLink>
+        
         {/* <NavLink to="/admin-console/list-contests" className={({ isActive }) => (isActive ? "active-link" : "")}>
           List All Contests
         </NavLink>
@@ -79,12 +83,12 @@ const AdminNav = () => {
         <NavLink to="/admin-console/metrics/engagement" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Engagement & Retention
         </NavLink>
-        <NavLink to="/admin-console/metrics/ux" className={({ isActive }) => (isActive ? "active-link" : "")}>
+        {/* <NavLink to="/admin-console/metrics/ux" className={({ isActive }) => (isActive ? "active-link" : "")}>
           UX
-        </NavLink>
-        <NavLink to="/admin-console/metrics/financial" className={({ isActive }) => (isActive ? "active-link" : "")}>
+        </NavLink> */}
+        {/* <NavLink to="/admin-console/metrics/financial" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Financial
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/admin-console/metrics/platform" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Platform
         </NavLink>

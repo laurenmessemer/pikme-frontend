@@ -25,18 +25,23 @@ const UX = () => {
         <div className="ux-metrics">
           <div className="metric">
             <h3>Avg. Session Duration</h3>
+            <p>{uxMetrics.avgSessionDuration}</p>
           </div>
           <div className="metric">
             <h3>Bounce Rate</h3>
+            <p>{uxMetrics.bounceRate}</p>
           </div>
           <div className="metric">
             <h3>Page Load Time</h3>
+            <p>{uxMetrics.pageLoadTime}</p>
           </div>
           <div className="metric">
             <h3>Click-Through Rate</h3>
+            <p>{uxMetrics.clickThroughRate}</p>
           </div>
           <div className="metric heatmap">
             <h3>Heatmap Analysis</h3>
+            <p>{uxMetrics.heatmap}</p>
           </div>
         </div>
       )}

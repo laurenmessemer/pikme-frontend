@@ -1,0 +1,35 @@
+.engagement-container {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .interval-toggle {
+    margin-bottom: 1rem;
+  }
+  
+  .interval-toggle button {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    cursor: pointer;
+  }
+  
+  .interval-toggle button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .metric-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .metric-table th,
+  .metric-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  

@@ -155,6 +155,7 @@ const Vote = () => {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, {
         competitionId: current.id,
         selectedImage,
+        voterId: currentUserId,
       });
 
       setSelected(selectedImage);

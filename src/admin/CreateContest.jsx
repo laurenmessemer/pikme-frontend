@@ -7,7 +7,6 @@ const CreateContest = () => {
   const [themes, setThemes] = useState([]); // Available themes
   const [selectedTheme, setSelectedTheme] = useState("");
   const [entryFee, setEntryFee] = useState("");
-  const [maxEntries, setMaxEntries] = useState("");
   const [prizePool, setPrizePool] = useState("");
   const [prizes, setPrizes] = useState(["", "", ""]);
   const [submissionStart, setSubmissionStart] = useState("");
@@ -66,7 +65,7 @@ const CreateContest = () => {
 
   const handleCreateContest = async () => {
     // ✅ Validate input
-    if (!selectedTheme || !entryFee || !maxEntries || !prizePool || !submissionStart || !submissionEnd || !votingStart || !votingEnd) {
+    if (!selectedTheme || !entryFee || !prizePool || !submissionStart || !submissionEnd || !votingStart || !votingEnd) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -75,7 +74,6 @@ const CreateContest = () => {
       creator_id: 1,
       theme_id: selectedTheme,
       entry_fee: parseInt(entryFee),
-      total_entries: parseInt(maxEntries),
       prize_pool: parseFloat(prizePool),
       winnings: {
         first: parseFloat(prizes[0]) || 0,
@@ -127,8 +125,6 @@ const CreateContest = () => {
       </div>
 
       <div className="form-group">
-        <label>Maximum Submissions:</label>
-        <input type="number" value={maxEntries} onChange={(e) => setMaxEntries(e.target.value)} />
         <label>Entry Fee:</label>
         <input type="number" value={entryFee} onChange={(e) => setEntryFee(e.target.value)} />
       </div>

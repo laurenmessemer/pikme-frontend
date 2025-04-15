@@ -88,7 +88,7 @@ const SubmissionTimer = ({ contestId }) => {
             {`${formatTime(timeRemaining.days)}:${formatTime(timeRemaining.hours)}:${formatTime(timeRemaining.minutes)}:${formatTime(timeRemaining.seconds)}`}{" "}
             | Entry = {entryFee}x{" "}
             <img
-              src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/token.svg"
+              src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
               alt="Token"
               className="token-icon"
               style={{ height: "1em", verticalAlign: "middle" }}

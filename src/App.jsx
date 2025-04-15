@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AdminConsole from "./admin/AdminConsole";
 import AdminLogin from "./admin/AdminLogin";
+import ManageCompetitions from "./admin/Competitions";
 import CreateContest from "./admin/CreateContest";
 import CreateTheme from "./admin/CreateTheme";
 import Engagement from "./admin/Engagement";
@@ -79,6 +80,7 @@ function App() {
                 <Route path="themes/create" element={<CreateTheme />} />
                 <Route path="contests" element={<ManageContests />} />
                 <Route path="contests/create" element={<CreateContest />} />
+                <Route path="competitions" element={<ManageCompetitions />} />
                 <Route path="list-contests" element={<ListAllContests />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="users" element={<Users />} />

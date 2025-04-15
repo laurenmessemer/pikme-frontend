@@ -12,7 +12,7 @@ const MySubmissionCard = ({
   isLoggedIn,
 }) => {
   const imageUrl =
-    image || "https://photo-contest-storage.s3.us-east-2.amazonaws.com/uploads/default.jpg";
+    image || "https://d38a0fe14bafg9.cloudfront.net/uploads/default.jpg";
 
   const statusClass = contestStatus ? `status-${contestStatus.toLowerCase()}` : "status-unknown";
 
@@ -78,7 +78,7 @@ export default MySubmissionCard;
 // import flashIcon from "../../assets/icons/flash.svg";
 
 // const MySubmissionCard = ({ image, username, theme, contestStatus, position, payout, isLoggedIn }) => {
-//   const imageUrl = image || "https://photo-contest-storage.s3.us-east-2.amazonaws.com/uploads/default.jpg";
+//   const imageUrl = image || "https://d38a0fe14bafg9.cloudfront.net/uploads/default.jpg";
 
 //   return (
 //     <div className="my-submission-card">

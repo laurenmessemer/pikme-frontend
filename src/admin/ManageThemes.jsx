@@ -7,15 +7,13 @@ const ManageThemes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingTheme, setEditingTheme] = useState(null);
+  const [originalThemeData, setOriginalThemeData] = useState(null);
   const [themeData, setThemeData] = useState({
     name: "",
     description: "",
-    specialRules: "",
-    coverImageUrl: "", // Store existing cover image URL
-    entries: [],
+    coverImageUrl: "",
   });
-  const [newCoverImage, setNewCoverImage] = useState(null);
-  const [newEntryImages, setNewEntryImages] = useState([]); // Store new entry images
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchThemes();
@@ -36,107 +34,128 @@ const ManageThemes = () => {
 
   const handleEditClick = (theme) => {
     setEditingTheme(theme.id);
+    setOriginalThemeData({ ...theme });
     setThemeData({
       name: theme.name,
       description: theme.description,
-      specialRules: theme.special_rules,
       coverImageUrl: theme.cover_image_url || "",
-      entries: theme.ThemeEntries || [],
     });
-    setNewCoverImage(null);
-    setNewEntryImages([]);
+  };
+
+  const handleCancel = () => {
+    if (originalThemeData) {
+      setThemeData({
+        name: originalThemeData.name,
+        description: originalThemeData.description,
+        coverImageUrl: originalThemeData.cover_image_url || "",
+      });
+    }
+    setEditingTheme(null);
+    setError(null);
   };
 
   const handleInputChange = (e) => {
     setThemeData({ ...themeData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Upload New Cover Image
-  const handleCoverImageUpload = async (e) => {
-    const file = e.target.files[0];
+  const handleCoverImageUpload = async (event) => {
+    const file = event.target.files[0];
     if (!file) return;
 
-    console.log("📤 Uploading new cover image:", file.name);
+    setIsUploading(true);
+    setError("");
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes/get-upload-url`, {
-        params: { fileType: file.type },
-      });
+      const formData = new FormData();
+      formData.append("coverImage", file);
 
-      const { uploadURL, fileKey, bucketName, region } = response.data;
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
-      await axios.put(uploadURL, file, {
-        headers: { "Content-Type": file.type },
-      });
+      const { imageUrl } = response.data;
 
-      const imageUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileKey}`;
-      console.log("✅ Cover Image uploaded successfully:", imageUrl);
+      setThemeData((prev) => ({
+        ...prev,
+        coverImageUrl: imageUrl,
+      }));
 
-      setNewCoverImage(imageUrl);
+      console.log("✅ Direct upload successful:", imageUrl);
     } catch (error) {
-      console.error("❌ Upload failed:", error);
-      setError("Failed to upload cover image.");
+      console.error("❌ Direct upload failed:", error);
+      setError("Upload failed. Please try again.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
-  // ✅ Remove Cover Image
-  const handleRemoveCoverImage = () => {
-    setNewCoverImage(null);
-    setThemeData({ ...themeData, coverImageUrl: "" });
-  };
-
-  // ✅ Upload Additional Entry Images
-  const handleEntryImagesUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 0) {
-      setNewEntryImages((prevImages) => [...prevImages, ...files]);
-    }
-  };
-
-  // ✅ Remove a selected new entry before saving
-  const handleRemoveEntry = (index) => {
-    setNewEntryImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
-  // ✅ Save All Changes (Theme + Image Updates)
   const handleSaveChanges = async () => {
     if (!editingTheme) {
-      console.error("❌ No theme is being edited.");
-      setError("No theme selected for updating.");
+      setError("No theme selected.");
       return;
     }
 
-    const updatedThemeData = {
-      name: themeData.name,
-      description: themeData.description,
-      specialRules: themeData.specialRules,
-      coverImageUrl: newCoverImage || themeData.coverImageUrl || "",
-    };
-
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}`, updatedThemeData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}`, {
+        name: themeData.name,
+        description: themeData.description,
+        coverImageUrl: themeData.coverImageUrl,
+      });
 
-      console.log("✅ Theme updated successfully.");
-
-      // ✅ Upload new entry images if any exist
-      if (newEntryImages.length > 0) {
-        const formData = new FormData();
-        newEntryImages.forEach((image) => {
-          formData.append("entries", image);
-        });
-
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}/entries`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-
-        console.log("✅ New entry images uploaded successfully.");
-      }
-
+      console.log("✅ Theme updated.");
       setEditingTheme(null);
+      setOriginalThemeData(null);
       fetchThemes();
     } catch (error) {
-      console.error("❌ Error updating theme:", error);
-      setError("Failed to update theme.");
+      console.error("❌ Update failed:", error);
+      setError("Update failed. Try again.");
+    }
+  };
+
+  const handleDeleteTheme = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this theme? This cannot be undone.");
+
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/themes/${id}`);
+      setThemes((prev) => prev.filter((theme) => theme.id !== id));
+      console.log("✅ Theme deleted successfully");
+    } catch (error) {
+      console.error("❌ Failed to delete theme:", error);
+      setError("Failed to delete theme. Please try again.");
+    }
+  };
+
+  const testUpload = async (file) => {
+    console.log("🧪 Starting test upload...");
+    setIsUploading(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("coverImage", file);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const { imageUrl } = response.data;
+      console.log("🧪 Uploaded image URL:", imageUrl);
+      alert(`✅ Uploaded to: ${imageUrl}`);
+    } catch (error) {
+      console.error("❌ Test upload failed:", error);
+      alert("❌ Test upload failed");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -146,8 +165,22 @@ const ManageThemes = () => {
         <h2>Manage Themes</h2>
       </div>
 
+      <div className="test-upload">
+        <label htmlFor="test-upload-input">🧪 Test Upload to S3:</label>
+        <input
+          id="test-upload-input"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) testUpload(file);
+          }}
+          disabled={isUploading}
+        />
+      </div>
+
       {loading ? (
-        <p>Loading themes...</p>
+        <p>Loading...</p>
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (
@@ -157,9 +190,7 @@ const ManageThemes = () => {
               <th>ID</th>
               <th>Theme</th>
               <th>Description</th>
-              <th>Special Rules</th>
-              <th>Cover Image</th>
-              <th>Entries</th>
+              <th>Cover</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -170,53 +201,40 @@ const ManageThemes = () => {
                   <>
                     <td>{theme.id}</td>
                     <td>
-                      <input type="text" name="name" value={themeData.name} onChange={handleInputChange} />
+                      <input
+                        type="text"
+                        name="name"
+                        value={themeData.name}
+                        onChange={handleInputChange}
+                      />
                     </td>
                     <td>
-                      <textarea name="description" value={themeData.description} onChange={handleInputChange} />
+                      <textarea
+                        name="description"
+                        value={themeData.description}
+                        onChange={handleInputChange}
+                      />
                     </td>
                     <td>
-                      <textarea name="specialRules" value={themeData.specialRules} onChange={handleInputChange} />
-                    </td>
-                    <td>
-                      {newCoverImage || themeData.coverImageUrl ? (
-                        <div>
-                          <img src={newCoverImage || themeData.coverImageUrl} alt="Cover" width="50" />
-                          <button onClick={handleRemoveCoverImage}>❌ Remove</button>
-                        </div>
-                      ) : (
-                        <p>No Image</p>
+                      {themeData.coverImageUrl && (
+                        <img
+                          src={themeData.coverImageUrl}
+                          alt="Cover"
+                          className="cover-thumbnail"
+                        />
                       )}
-                      <input type="file" accept="image/*" onChange={handleCoverImageUpload} />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleCoverImageUpload}
+                        disabled={isUploading}
+                      />
                     </td>
                     <td>
-                      {/* ✅ Existing Entries */}
-                      {themeData.entries.length > 0 ? (
-                        themeData.entries.map((entry) => (
-                          <img key={entry.id} src={entry.image_url} alt="Entry" width="50" />
-                        ))
-                      ) : (
-                        <p>No Entries</p>
-                      )}
-
-                      {/* ✅ New Entry Images Preview */}
-                      <div className="entry-upload-section">
-                        {newEntryImages.length > 0 && (
-                          <div className="entry-preview-container">
-                            {newEntryImages.map((image, index) => (
-                              <div key={index} className="entry-container">
-                                <img src={URL.createObjectURL(image)} alt="New Entry" width="50" />
-                                <button onClick={() => handleRemoveEntry(index)}>❌ Remove</button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <input type="file" accept="image/*" multiple onChange={handleEntryImagesUpload} />
-                      </div>
-                    </td>
-                    <td>
-                      <button onClick={handleSaveChanges}>✅ Save</button>
-                      <button onClick={() => setEditingTheme(null)}>❌ Cancel</button>
+                      <button onClick={handleSaveChanges} disabled={isUploading}>
+                        {isUploading ? "Saving..." : "✅ Save"}
+                      </button>
+                      <button onClick={handleCancel}>❌ Cancel</button>
                     </td>
                   </>
                 ) : (
@@ -224,12 +242,19 @@ const ManageThemes = () => {
                     <td>{theme.id}</td>
                     <td>{theme.name}</td>
                     <td>{theme.description}</td>
-                    <td>{theme.special_rules}</td>
                     <td>
-                      {theme.cover_image_url && <img src={theme.cover_image_url} alt="Cover" width="50" />}
+                      {theme.cover_image_url && (
+                        <img src={theme.cover_image_url} alt="Cover" width="50" />
+                      )}
                     </td>
                     <td>
-                      <button onClick={() => handleEditClick(theme)}>✏️ Edit</button>
+                      <button onClick={() => handleEditClick(theme)}>Edit</button>
+                      <button
+                        onClick={() => handleDeleteTheme(theme.id)}
+                        className="delete-btn"
+                      >
+                      Delete
+                      </button>
                     </td>
                   </>
                 )}
