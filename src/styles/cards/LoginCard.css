@@ -184,3 +184,14 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+/* Resend verification text link */
+.resend-link {
+    margin-top: 6px;
+    color: #9f1d1d; /* Darker red */
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  

@@ -1,4 +1,3 @@
-// Signup.jsx
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -10,38 +9,50 @@ const Signup = () => {
   const location = useLocation();
   const [error, setError] = useState("");
   const [referralCode, setReferralCode] = useState("");
-  const [redirectTo, setRedirectTo] = useState("/"); // ✅ Default to homepage
+  const [redirectTo, setRedirectTo] = useState("/");
+  const [lastEmail, setLastEmail] = useState("");
 
-  // ✅ Extract referral and redirect code from URL on load
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const code = params.get("ref");
     const redirect = params.get("redirect");
 
     if (code) setReferralCode(code);
-    if (redirect) setRedirectTo(redirect); // ✅ This only activates for join-invite links
+    if (redirect) setRedirectTo(redirect);
   }, [location]);
 
   const handleSignup = async (username, email, password, inputReferralCode) => {
     try {
       setError("");
+      setLastEmail(email); // Store email for potential resend
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         username,
         email,
         password,
-        referralCode: inputReferralCode || referralCode, // ✅ Use provided or auto-referral
+        referralCode: inputReferralCode || referralCode,
       });
 
       console.log("✅ Signup success:", response.data);
-
-      // ✅ Redirect to invite flow (if provided), or home
       navigate(redirectTo);
       window.location.reload();
-
     } catch (error) {
       console.error("❌ Signup failed:", error.response?.data?.message || "Unknown error");
       setError(error.response?.data?.message || "Signup failed. Please try again.");
+    }
+  };
+
+  const handleResendEmail = async () => {
+    if (!lastEmail) return;
+
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/resend-verification`, {
+        email: lastEmail,
+      });
+      alert("✅ Verification email resent! Please check your inbox.");
+    } catch (err) {
+      console.error("❌ Failed to resend email:", err);
+      alert("Could not resend verification email. Try again later.");
     }
   };
 
@@ -51,6 +62,7 @@ const Signup = () => {
         onSubmit={handleSignup}
         referralCode={referralCode}
         error={error}
+        onResendVerification={handleResendEmail}
       />
     </UtilityTemplate>
   );

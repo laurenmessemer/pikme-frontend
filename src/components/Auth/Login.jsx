@@ -8,11 +8,14 @@ import LoginCard from "../Cards/LoginCard";
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+
   const [error, setError] = useState("");
+  const [emailForResend, setEmailForResend] = useState("");
 
   const handleLogin = async (email, password) => {
     try {
-      setError(""); // Clear previous error
+      setError("");
+      setEmailForResend(email); // Store for resend button
 
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         email,
@@ -42,9 +45,29 @@ const Login = () => {
     }
   };
 
+  const handleResendVerification = async (email) => {
+    if (!email) return;
+
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/resend-verification`, {
+        email,
+      });
+
+      alert("✅ Verification email resent. Please check your inbox.");
+    } catch (err) {
+      console.error("❌ Resend failed:", err);
+      alert("Unable to resend verification email. Please try again later.");
+    }
+  };
+
   return (
     <UtilityTemplate>
-      <LoginCard onSubmit={handleLogin} error={error} />
+      <LoginCard
+        onSubmit={handleLogin}
+        error={error}
+        emailForResend={emailForResend}
+        onResendVerification={handleResendVerification}
+      />
     </UtilityTemplate>
   );
 };
