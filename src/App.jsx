@@ -36,6 +36,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { CompetitionProvider } from "./context/CompetitionContext";
 import { WalletProvider } from "./context/WalletContext";
 
+import VerifyEmail from "./components/Auth/VerifyEmail";
+
 import Admin from "./pages/Admin";
 import Compete from "./pages/Compete";
 import LandingPage from "./pages/LandingPage";
@@ -71,6 +73,7 @@ function App() {
               </Route>
 
               <Route path="/test-bg" element={<TestBackground />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
 
               {/* ✅ Admin Console (Separate from Main App) */}
               <Route path="/admin-login" element={<AdminLogin />} />
