@@ -28,9 +28,9 @@ const VerifyEmail = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "4rem" }}>
-      {status === "verifying" && <p>🔐 Verifying your email...</p>}
-      {status === "success" && <p>✅ Email verified! Redirecting to login...</p>}
-      {status === "error" && <p>❌ Invalid or expired token.</p>}
+      {status === "verifying" && <p>Verifying your email...</p>}
+      {status === "success" && <p> Email verified! Redirecting to login...</p>}
+      {status === "error" && <p>Invalid or expired token.</p>}
     </div>
   );
 };
