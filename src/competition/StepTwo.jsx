@@ -81,7 +81,10 @@ const StepTwo = ({ nextStep }) => {
       console.log("✅ Pre-signed URL received:", uploadURL);
   
       await axios.put(uploadURL, file, {
-        headers: { "Content-Type": file.type },
+        headers: {
+          "Content-Type": file.type,
+          "Cache-Control": "public, max-age=31536000, immutable", // ✅ Add this!
+        },
       });
   
       const imageUrl = uploadURL.split("?")[0];
