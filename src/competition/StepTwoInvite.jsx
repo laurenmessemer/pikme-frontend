@@ -8,6 +8,7 @@ import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
 import "../styles/competition/StepTwo.css";
 
+
 const preloadImage = (url) => {
   const img = new Image();
   img.src = url;
