@@ -30,11 +30,11 @@ const AdminNav = () => {
     }
   }, [navigate]);
 
-  const handleLogout = () => {
-    console.log("🚪 Logging out...");
-    localStorage.removeItem("authToken");
-    navigate("/admin-login");
-  };
+  // const handleLogout = () => {
+  //   console.log("🚪 Logging out...");
+  //   localStorage.removeItem("authToken");
+  //   navigate("/admin-login");
+  // };
 
   if (!isAdmin) {
     return null; // Prevents rendering if not authorized
@@ -42,7 +42,6 @@ const AdminNav = () => {
 
   return (
     <div className="admin-sidebar">
-      <h2 className="admin-title">PikMe Admin Console</h2>
       <nav>
         <h3>Contests</h3>
         <NavLink to="/admin-console/themes" end className={({ isActive }) => (isActive ? "active-link" : "")}>
@@ -94,9 +93,9 @@ const AdminNav = () => {
         </NavLink>
       </nav>
 
-      <button className="logout-button" onClick={handleLogout}>
+      {/* <button className="logout-button" onClick={handleLogout}>
         Log Out
-      </button>
+      </button> */}
     </div>
   );
 };

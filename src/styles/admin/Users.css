@@ -1,9 +1,10 @@
 /* ✅ General Page Styling */
+.users-container{
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
 .manage-users-container {
     width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
     background: #ffffff;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);

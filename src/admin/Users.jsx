@@ -111,7 +111,7 @@ const Users = () => {
   };
 
   return (
-    <div>
+    <div className="users-container">
       <h2>Users List</h2>
       <input
         className="search-bar"

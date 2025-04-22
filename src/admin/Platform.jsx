@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/admin/Platform.css"; // Import your CSS file
 
 const Platform = () => {
   const [platformStats, setPlatformStats] = useState(null);

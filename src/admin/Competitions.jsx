@@ -118,7 +118,7 @@ const Competitions = () => {
       : competitions.filter((c) => c.contest_id === parseInt(selectedContestId));
 
   return (
-    <div className="manage-competitions-container">
+    <div className="manage-competitions-content">
       <h2>Manage Competitions</h2>
 
       <div className="filter-controls">
