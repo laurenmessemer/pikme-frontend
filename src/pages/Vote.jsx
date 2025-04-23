@@ -3,13 +3,16 @@ import { useEffect, useState } from "react";
 import { FiFlag, FiInfo } from "react-icons/fi";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import voteAnimation from "../assets/lottie/video1_lottie.json";
 import EndVoting from "../components/Popups/EndVoting";
 import HowToVote from "../components/Popups/HowToVote";
 import ReportImagePopup from "../components/Popups/ReportImage";
 import ReportReceived from "../components/Popups/ReportReceived";
 import VoteIntroPopup from "../components/Popups/VoteIntroPopup";
+import { useAuth } from "../context/UseAuth"; // if not already imported
 import "../styles/pages/Vote.css";
+
 
 
 const preloadImages = (urls) => {
@@ -33,6 +36,8 @@ const Vote = () => {
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
   const [playLottie, setPlayLottie] = useState(true);
+  const [anonVoteCount, setAnonVoteCount] = useState(0);
+
 
   const [reportMode, setReportMode] = useState(false);
   const [reportSelectedImage, setReportSelectedImage] = useState(null);
@@ -40,7 +45,15 @@ const Vote = () => {
   const [showReportReceived, setShowReportReceived] = useState(false);
 
   const navigate = useNavigate();
-  const currentUserId = 1;
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
+  const currentUserId = isLoggedIn ? user.id : `anon-${localStorage.getItem("anon_id") || uuidv4()}`;
+
+  useEffect(() => {
+    if (!isLoggedIn && !localStorage.getItem("anon_id")) {
+      localStorage.setItem("anon_id", uuidv4());
+    }
+  }, [isLoggedIn]);
 
   const resetReportFlow = () => {
     setReportMode(false);
@@ -150,38 +163,50 @@ const Vote = () => {
   const handleVote = async (selectedImage) => {
     const current = competitions[currentCompetitionIndex];
     if (!current) return;
-
+  
+    // ❌ Block anonymous users after 3 votes
+    if (!isLoggedIn && anonVoteCount >= 3) {
+      setError("You've reached your free vote limit. Log in to keep voting.");
+      return;
+    }
+  
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, {
         competitionId: current.id,
         selectedImage,
         voterId: currentUserId,
       });
-
+  
       setSelected(selectedImage);
-
+  
       setTimeout(() => {
         if (selectedImage === current.user1_image) {
           current.votes_user1 += 1;
         } else if (selectedImage === current.user2_image) {
           current.votes_user2 += 1;
         }
-
+  
         setCompetitions((prev) => {
           const updated = [...prev];
           updated[currentCompetitionIndex] = { ...current };
           return updated;
         });
       }, 600);
-
+  
       setVotedCompetitionIds((prev) => [...prev, current.id]);
       setTimeout(() => setAnimationComplete(true), 1500);
+  
+      // ✅ Count anonymous vote
+      if (!isLoggedIn) {
+        setAnonVoteCount((prev) => prev + 1);
+      }
+  
     } catch (err) {
       console.error("❌ Error submitting vote:", err);
       setError("Vote failed. Try again.");
     }
   };
-
+  
   useEffect(() => {
     if (animationComplete) {
       setSelected(null);
