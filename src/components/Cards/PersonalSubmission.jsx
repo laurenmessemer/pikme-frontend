@@ -11,9 +11,9 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
   const [resolvedInviteLink, setResolvedInviteLink] = useState(contestData.inviteLink || null);
 
   // Debug contestData props
-  console.log("📦 contestData prop:", contestData);
-  console.log("👤 userId:", userId);
-  console.log("🏆 competitionId:", competitionId);
+  // console.log("📦 contestData prop:", contestData);
+  // console.log("👤 userId:", userId);
+  // console.log("🏆 competitionId:", competitionId);
 
   useEffect(() => {
     const fetchOpponent = async () => {
@@ -65,7 +65,7 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
     if (opponentEntry) return null;
 
     if (resolvedMatchType === "invite_friend") {
-      console.log("🕒 Waiting for friend to join...");
+      console.log("Waiting for friend to join...");
       return (
         <div className="ps-upcoming-box">
           <p>Waiting for your friend… 1/2</p>
@@ -81,12 +81,12 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
               }}
             >
             </RogueButton>
-            <RogueButton
+            {/* <RogueButton
               text="Find New Opponent"
               variant="outline"
               onClick={() => alert("🔁 Feature coming soon: Switch to random opponent.")}
             >
-            </RogueButton>
+            </RogueButton> */}
           </div>
         </div>
       );
