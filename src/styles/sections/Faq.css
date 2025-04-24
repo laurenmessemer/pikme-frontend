@@ -1,7 +1,6 @@
 .faq-container {
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
   }
   
   .faq-title {
@@ -59,3 +58,15 @@
     border-top: 1px solid #ccc;
   }
   
+  /* Optional: media query for extra small screens */
+@media (max-width: 375px) {
+  .faq-question {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .faq-answer {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+}

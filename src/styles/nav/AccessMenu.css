@@ -94,3 +94,29 @@
   font-size: 14px;
 }
 
+@media (max-width: 768px) {
+  .access-container {
+    position: fixed;
+    top: -15px;
+    right: -40px;
+    display: flex;
+    flex-direction: row; /* Make it a row layout */
+    align-items: center; /* Keep WalletBadge and AccessMenu aligned */
+    gap: 10px; /* Space between WalletBadge and AccessMenu */
+    transform: scale(.60);
+  }
+  
+  /* ✅ Ensure AccessMenu stays flush with the viewport */
+  .access-menu {
+    background-color: var(--light);
+    border: 2px solid var(--dark);
+    border-top: transparent;
+    padding: 7px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Fix it to the top */
+  }
+  
+}

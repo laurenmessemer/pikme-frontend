@@ -92,3 +92,69 @@
   width: 20px;
   height: 20px;
 }
+
+@media (max-width: 768px) {
+  .my-submissions-container {
+    padding: 10px;
+  }
+
+  .card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .theme-name {
+    font-size: 14px;
+  }
+
+  .payout {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .my-submissions-container {
+    padding: 10px 5px;
+  }
+
+  .my-submissions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .winner-card {
+    border-radius: 8px;
+  }
+
+  .card-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 4px;
+  }
+
+  .date-box {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .winner-box {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+
+  .theme-name {
+    font-size: 15px;
+  }
+
+  .payout {
+    font-size: 13px;
+  }
+
+  .entries .icon {
+    width: 16px;
+    height: 16px;
+  }
+}

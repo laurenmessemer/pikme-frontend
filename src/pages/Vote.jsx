@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiFlag, FiInfo } from "react-icons/fi";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
@@ -7,13 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 import voteAnimation from "../assets/lottie/video1_lottie.json";
 import EndVoting from "../components/Popups/EndVoting";
 import HowToVote from "../components/Popups/HowToVote";
+import LoginToVotePopup from "../components/Popups/LoginToVotePopup";
 import ReportImagePopup from "../components/Popups/ReportImage";
 import ReportReceived from "../components/Popups/ReportReceived";
 import VoteIntroPopup from "../components/Popups/VoteIntroPopup";
-import { useAuth } from "../context/UseAuth"; // if not already imported
+import { useAuth } from "../context/UseAuth";
 import "../styles/pages/Vote.css";
-
-
 
 const preloadImages = (urls) => {
   urls.forEach((url) => {
@@ -21,7 +20,6 @@ const preloadImages = (urls) => {
     img.src = url;
   });
 };
-
 
 const Vote = () => {
   const [popupQueue, setPopupQueue] = useState([]);
@@ -35,9 +33,8 @@ const Vote = () => {
   const [loading, setLoading] = useState(true);
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
-  const [playLottie, setPlayLottie] = useState(true);
+  const [playLottie, setPlayLottie] = useState(false); // 👈 Start false
   const [anonVoteCount, setAnonVoteCount] = useState(0);
-
 
   const [reportMode, setReportMode] = useState(false);
   const [reportSelectedImage, setReportSelectedImage] = useState(null);
@@ -47,7 +44,15 @@ const Vote = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const isLoggedIn = !!user;
-  const currentUserId = isLoggedIn ? user.id : `anon-${localStorage.getItem("anon_id") || uuidv4()}`;
+  const currentUserId = isLoggedIn ? user.id : 99999;
+
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const hasFetchedInitialCompetition = useRef(false);
+
+  const [hasSeenHowToVote, setHasSeenHowToVote] = useState(() => {
+    // Only track "has seen" for logged-in users
+    return isLoggedIn && localStorage.getItem("hasSeenHowToVote") === "true";
+  });
 
   useEffect(() => {
     if (!isLoggedIn && !localStorage.getItem("anon_id")) {
@@ -68,7 +73,9 @@ const Vote = () => {
       if (queue.length > 0) {
         const firstContestId = queue[0].contestId;
         setCurrentContestId(firstContestId);
-        if (!showHowToVotePopup) {
+
+        if (!hasFetchedInitialCompetition.current) {
+          hasFetchedInitialCompetition.current = true;
           await fetchVotingEntries(firstContestId);
         }
       }
@@ -108,7 +115,6 @@ const Vote = () => {
 
   const fetchVotingEntries = async (contestId) => {
     setLoading(true);
-    setPlayLottie(true);
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/vote/get-entries`);
       const comps = response.data.competitions || [];
@@ -129,7 +135,6 @@ const Vote = () => {
 
       const allImages = filtered.flatMap((comp) => [comp.user1_image, comp.user2_image]);
       preloadImages(allImages);
-
     } catch (err) {
       console.error("❌ Error fetching voting competitions:", err);
       setError("Failed to load voting entries.");
@@ -156,62 +161,82 @@ const Vote = () => {
 
   const closeIntroPopup = () => {
     setShowIntroPopup(false);
-    setShowHowToVotePopup(true); 
-    fetchVotingEntries(currentContestId);
+  
+    // ✅ For logged-in users: show HowToVote once
+    if (isLoggedIn && !hasSeenHowToVote) {
+      setShowHowToVotePopup(true);
+      localStorage.setItem("hasSeenHowToVote", "true");
+      setHasSeenHowToVote(true);
+    }
+  
+    // ✅ For non-logged-in users: show HowToVote every time
+    if (!isLoggedIn) {
+      setShowHowToVotePopup(true);
+    }
+  
+    // ✅ Fetch competitions if needed
+    if (!hasFetchedInitialCompetition.current && currentContestId) {
+      hasFetchedInitialCompetition.current = true;
+      fetchVotingEntries(currentContestId);
+    }
+  
+    // ✅ If HowToVote isn't being shown, start animation immediately
+    if ((isLoggedIn && hasSeenHowToVote)) {
+      setPlayLottie(true);
+    }
   };
+  
+  
 
   const handleVote = async (selectedImage) => {
     const current = competitions[currentCompetitionIndex];
     if (!current) return;
-  
-    // ❌ Block anonymous users after 3 votes
+
     if (!isLoggedIn && anonVoteCount >= 3) {
-      setError("You've reached your free vote limit. Log in to keep voting.");
+      setShowLoginPrompt(true);
       return;
     }
-  
+
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/api/vote/vote`, {
         competitionId: current.id,
         selectedImage,
         voterId: currentUserId,
       });
-  
+
       setSelected(selectedImage);
-  
+
       setTimeout(() => {
         if (selectedImage === current.user1_image) {
           current.votes_user1 += 1;
         } else if (selectedImage === current.user2_image) {
           current.votes_user2 += 1;
         }
-  
+
         setCompetitions((prev) => {
           const updated = [...prev];
           updated[currentCompetitionIndex] = { ...current };
           return updated;
         });
       }, 600);
-  
+
       setVotedCompetitionIds((prev) => [...prev, current.id]);
       setTimeout(() => setAnimationComplete(true), 1500);
-  
-      // ✅ Count anonymous vote
+
       if (!isLoggedIn) {
         setAnonVoteCount((prev) => prev + 1);
       }
-  
     } catch (err) {
       console.error("❌ Error submitting vote:", err);
       setError("Vote failed. Try again.");
     }
   };
-  
+
   useEffect(() => {
     if (animationComplete) {
       setSelected(null);
       setAnimationComplete(false);
-      setPlayLottie(true);
+      setPlayLottie(true); // ✅ reset to play animation again
 
       const nextIndex = currentCompetitionIndex + 1;
       if (nextIndex < competitions.length) {
@@ -234,27 +259,30 @@ const Vote = () => {
       )}
 
       {showHowToVotePopup && (
-        <HowToVote onClose={() => setShowHowToVotePopup(false)} />
+        <HowToVote
+          onClose={() => {
+            setShowHowToVotePopup(false);
+            setPlayLottie(true); // ✅ Start animation now
+          }}
+        />
       )}
 
+      {showLoginPrompt && (
+        <LoginToVotePopup onClose={() => setShowLoginPrompt(false)} />
+      )}
 
       {showEndScreen && <EndVoting onClose={() => navigate("/")} />}
 
       {reportMode && (
         <div className="report-overlay">
           <div className="vote-report-controls">
-            <button
-              onClick={() => resetReportFlow()}
-              className="vote-report-btn vote-report-cancel"
-            >
+            <button onClick={resetReportFlow} className="vote-report-btn vote-report-cancel">
               CANCEL
             </button>
             <button
               className="vote-report-btn vote-report-confirm"
               disabled={!reportSelectedImage}
-              onClick={() => {
-                setShowReportPopup(true); // Don't turn off reportMode here!
-              }}
+              onClick={() => setShowReportPopup(true)}
             >
               CONFIRM
             </button>
@@ -271,7 +299,6 @@ const Vote = () => {
           }}
           onSubmit={async ({ imageUrl, categories, description }) => {
             const competition = competitions[currentCompetitionIndex];
-          
             try {
               await axios.post(`${import.meta.env.VITE_API_URL}/api/reports/submit`, {
                 reporterId: currentUserId,
@@ -280,24 +307,16 @@ const Vote = () => {
                 categories,
                 description,
               });
-          
               setShowReportPopup(false);
               setShowReportReceived(true);
             } catch (err) {
               console.error("❌ Error submitting report:", err);
             }
           }}
-          
         />
       )}
 
-      {showReportReceived && (
-        <ReportReceived
-          onClose={() => {
-            resetReportFlow();
-          }}
-        />
-      )}
+      {showReportReceived && <ReportReceived onClose={resetReportFlow} />}
 
       <div className="vote-container">
         <div className="vote-actions">
@@ -345,10 +364,7 @@ const Vote = () => {
                 reportSelectedImage === image;
 
               return (
-                <div
-                  key={image}
-                  className={`vote-box ${index === 0 ? "slide-in-left" : "slide-in-right"}`}
-                >
+                <div key={image} className={`vote-box ${index === 0 ? "slide-in-left" : "slide-in-right"}`}>
                   <div
                     className={`vote-wrapper ${isSelected ? "selected" : ""}`}
                     onClick={() =>
@@ -367,10 +383,7 @@ const Vote = () => {
                       {isSelected && <div className="vote-plus-one">+1</div>}
                       {selected && (
                         <div className="vote-counter">
-                          {key === "user1_image"
-                            ? current.votes_user1
-                            : current.votes_user2}{" "}
-                          votes
+                          {key === "user1_image" ? current.votes_user1 : current.votes_user2} votes
                         </div>
                       )}
                     </div>
