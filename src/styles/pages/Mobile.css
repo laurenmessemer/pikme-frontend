@@ -23,16 +23,17 @@
     justify-content: center; /* ✅ CENTER vertically */
     height: 100%; /* ✅ Fill available space */
     max-width: 100%;
+    margin-right: 90px;
   }
   
   .mobile-logo {
-    width: 200px;
+    width: 180px;
     max-width: 70%;
     margin-bottom: 20px;
   }
   
   .mobile-cubes {
-    width: 200px;
+    width: 180px;
     max-width: 60%;
     margin-bottom: 30px;
   }
