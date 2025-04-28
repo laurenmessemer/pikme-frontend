@@ -23,7 +23,7 @@
     justify-content: center; /* ✅ CENTER vertically */
     height: 100%; /* ✅ Fill available space */
     max-width: 100%;
-    margin-right: 20px;
+    margin-right: 30px;
   }
   
   .mobile-logo,
