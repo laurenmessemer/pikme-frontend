@@ -17,7 +17,7 @@ const Mobile = () => {
           className="mobile-logo"
         />
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/cubes.svg"
+          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/cubes.png"
           alt="Cute Cubes"
           className="mobile-cubes"
         />
