@@ -12,7 +12,7 @@ const Mobile = () => {
     >
       <div className="mobile-container">
         <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pikme_svg.svg"
+          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pmlogo.png"
           alt="PikMe Logo"
           className="mobile-logo"
         />
