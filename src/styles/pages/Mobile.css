@@ -22,17 +22,17 @@
     align-items: center;
     justify-content: center; /* ✅ CENTER vertically */
     height: 100%; /* ✅ Fill available space */
-    max-width: 90%;
+    max-width: 100%;
   }
   
   .mobile-logo {
-    width: 180px;
+    width: 200px;
     max-width: 70%;
     margin-bottom: 20px;
   }
   
   .mobile-cubes {
-    width: 160px;
+    width: 200px;
     max-width: 60%;
     margin-bottom: 30px;
   }
@@ -68,11 +68,11 @@
     }
   
     .mobile-logo {
-      width: 160px;
+      width: 200px;
     }
   
     .mobile-cubes {
-      width: 140px;
+      width: 200px;
     }
   }
   
@@ -80,7 +80,7 @@
   @media (max-width: 400px) {
     .mobile-title {
       font-size: 1.4rem;
-      font-family: 'Azeret Mono', monospace;
+      font-family: Azeret Mono, monospace;
     }
   
     .mobile-description {
@@ -88,11 +88,11 @@
     }
   
     .mobile-logo {
-      width: 140px;
+      width: 200px;
     }
   
     .mobile-cubes {
-      width: 120px;
+      width: 200px;
     }
   }
   

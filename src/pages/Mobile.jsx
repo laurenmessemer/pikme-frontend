@@ -30,6 +30,7 @@ const Mobile = () => {
           <p className="mobile-description">
             PikMe is best experienced on a desktop browser.
             <br />
+            <br />
             Please visit us on your computer for the full experience.
           </p>
         </div>
