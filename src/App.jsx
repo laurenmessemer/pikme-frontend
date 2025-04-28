@@ -52,12 +52,16 @@ import FAQ from "./components/Sections/Faq";
 import Privacy from "./components/Sections/Privacy";
 import Terms from "./components/Sections/Terms";
 
+// ✅ Mobile
+import Mobile from "./pages/Mobile";
+
 function App() {
   return (
     <Router>
       <AuthProvider>
         <WalletProvider>
           <CompetitionProvider>
+            <Mobile />
             <Routes>
               {/* ✅ Main App with Tabs */}
               <Route path="/" element={<TabsLayout />}>
