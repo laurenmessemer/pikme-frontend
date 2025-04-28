@@ -20,6 +20,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* ✅ CENTER vertically */
+    height: 100%; /* ✅ Fill available space */
     max-width: 90%;
   }
   
@@ -40,6 +42,7 @@
     font-weight: 700;
     color: #333;
     margin-bottom: 15px;
+    font-family: Azeret Mono, monospace;
   }
   
   .mobile-description {
@@ -53,7 +56,7 @@
   /* ✅ Better control at very small screen sizes */
   @media (max-width: 768px) {
     .mobile-overlay {
-      display: flex; /* stays flex to keep things centered */
+      display: flex;
     }
   
     .mobile-title {
@@ -73,10 +76,11 @@
     }
   }
   
-  /* ✅ Extra fine-tuning for tiny phones (like iPhone SE) */
+  /* ✅ Extra fine-tuning for tiny phones */
   @media (max-width: 400px) {
     .mobile-title {
       font-size: 1.4rem;
+      font-family: 'Azeret Mono', monospace;
     }
   
     .mobile-description {
