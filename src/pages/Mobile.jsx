@@ -25,7 +25,7 @@ const Mobile = () => {
           <h1 className="mobile-title">
             CHECK US OUT
             <br />
-            ON MOBILE!
+            ON DESKTOP!
           </h1>
           <p className="mobile-description">
             PikMe is best experienced on a desktop browser.
