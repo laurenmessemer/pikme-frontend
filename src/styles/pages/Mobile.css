@@ -26,9 +26,15 @@
     margin-right: 30px;
   }
   
+.mobile-logo {
+    width: 210px;
+}
+
+.mobile-cubes {
+    width: 180px;
+}
   .mobile-logo,
   .mobile-cubes {
-    width: 180px;
     max-width: 70%;
     margin-bottom: 20px;
     image-rendering: auto;
