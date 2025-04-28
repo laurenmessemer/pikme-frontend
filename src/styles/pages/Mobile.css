@@ -23,19 +23,17 @@
     justify-content: center; /* ✅ CENTER vertically */
     height: 100%; /* ✅ Fill available space */
     max-width: 100%;
-    margin-right: 90px;
+    margin-right: 20px;
   }
   
-  .mobile-logo {
+  .mobile-logo,
+  .mobile-cubes {
     width: 180px;
     max-width: 70%;
     margin-bottom: 20px;
-  }
-  
-  .mobile-cubes {
-    width: 180px;
-    max-width: 60%;
-    margin-bottom: 30px;
+    image-rendering: auto;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
   }
   
   .mobile-title {
@@ -54,46 +52,6 @@
     padding: 0 10px;
   }
   
-  /* ✅ Better control at very small screen sizes */
-  @media (max-width: 768px) {
-    .mobile-overlay {
-      display: flex;
-    }
-  
-    .mobile-title {
-      font-size: 1.6rem;
-    }
-  
-    .mobile-description {
-      font-size: 0.95rem;
-    }
-  
-    .mobile-logo {
-      width: 200px;
-    }
-  
-    .mobile-cubes {
-      width: 200px;
-    }
-  }
-  
-  /* ✅ Extra fine-tuning for tiny phones */
-  @media (max-width: 400px) {
-    .mobile-title {
-      font-size: 1.4rem;
-      font-family: Azeret Mono, monospace;
-    }
-  
-    .mobile-description {
-      font-size: 0.9rem;
-    }
-  
-    .mobile-logo {
-      width: 200px;
-    }
-  
-    .mobile-cubes {
-      width: 200px;
-    }
-  }
+
+
   
