@@ -160,3 +160,101 @@
     font-size: 1rem;
   }
   
+
+  /* 📱 Mobile Responsive Styles for Activity */
+@media (max-width: 768px) {
+  .activity-container {
+    padding: 20px 10px;
+  }
+
+  .activity-columns {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 500px; /* tighter container for mobile */
+    margin: 0 auto;
+  }
+
+  .activity-column {
+    flex: none;
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+  }
+
+  .activity-header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .activity-header img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .activity-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .activity-subtext {
+    /* text-align: center; */
+    font-size: 0.85rem;
+  }
+
+  /* .activity-me-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 20px;
+  } */
+
+  .activity-value {
+    margin-top: 8px;
+  }
+
+  .activity-divider {
+    margin: 12px 0;
+  }
+
+  /* .activity-leaderboard-card {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    text-align: center;
+  } */
+
+  .rank-badge-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .rank-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .username-activity {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .token-reward {
+    font-size: 0.8rem;
+  }
+
+  .user-info {
+    align-items: center;
+    text-align: center;
+  }
+
+  .activity-value {
+    padding: 5px 20px;
+    font-size: 0.9rem;
+  }
+
+  .payout-table {
+    font-size: 0.85rem;
+  }
+}

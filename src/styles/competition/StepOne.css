@@ -53,3 +53,33 @@ margin-top: 40px;
     margin-right: auto;
     margin-bottom: 40px;
 }
+
+/* Mobile Responsive: Stack cards vertically */
+@media (max-width: 768px) {
+    .step-one-cards-container {
+      flex-direction: column; /* Stack vertically */
+      align-items: center; /* Center the cards horizontally */
+    }
+  
+    .jackpot-card {
+      flex: 1 1 100%; /* Take full width */
+      max-width: 90%; /* Keep a bit of margin on the sides */
+      transform: scale(0.85); /* Slightly smaller for mobile */
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    /* ✅ Description Text */
+    .step-one-description {
+        color: var(--dark);
+        font-size: 13px;
+        font-weight: 500;
+        text-align: center;
+        margin-top: 10px;
+        max-width: 450px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+  }
+  

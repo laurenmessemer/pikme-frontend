@@ -8,7 +8,6 @@
     position: relative;
 }
 
-
 .vote-wrapper {
   position: relative;
   display: flex;
@@ -167,7 +166,7 @@
     z-index: -1;
     pointer-events: none;
   }
-
+/* 
 .vote-animation {
     display: flex;
     flex-direction: column;
@@ -179,6 +178,27 @@
     display: block;
     transform: scale(2.5);
     z-index: 1;
+}
+ */
+
+ .lottie-desktop .vote-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 110%;
+  max-width: 580px;
+  margin: 200px auto;
+  transform: scale(2.5);
+  z-index: 1;
+}
+
+.lottie-mobile .vote-animation {
+  width: 100%;
+  max-width: 100%;
+  margin: 100px auto;
+  transform: scale(1.4);
+  z-index: 1;
 }
 
 
@@ -481,4 +501,78 @@
   color: #444444;
   cursor: not-allowed;
   box-shadow: 2px 2px 0px var(--dark);
+}
+
+.lottie-desktop {
+  display: block;
+}
+.lottie-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .lottie-desktop {
+    display: none;
+  }
+  .lottie-mobile {
+    display: block;
+  }
+
+  .vote-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    transform: scale(.84);
+  }
+
+  .vote-box {
+    max-width: 90%;
+    width: 100%;
+  }
+
+  .vote-submission {
+    max-width: 100%;
+  }
+}
+
+/* Hidden by default */
+.mobile-full-overlay {
+  display: none;
+}
+
+/* Mobile-only overlay behavior */
+@media (max-width: 768px) {
+  .mobile-full-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Same look as popup */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .vote-container,
+  .vote-actions,
+  .vote-content {
+    position: relative;
+    z-index: 10;
+    top: -22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .vote-actions {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    z-index: 1002;
+  }
 }

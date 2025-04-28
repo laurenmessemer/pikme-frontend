@@ -4,7 +4,6 @@ import { FiFlag, FiInfo } from "react-icons/fi";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import voteAnimation from "../assets/lottie/video1_lottie.json";
 import EndVoting from "../components/Popups/EndVoting";
 import HowToVote from "../components/Popups/HowToVote";
 import LoginToVotePopup from "../components/Popups/LoginToVotePopup";
@@ -252,6 +251,32 @@ const Vote = () => {
   const showEndScreen =
     competitions.length === 0 && popupQueue.length === 0 && !showIntroPopup;
 
+  const [desktopLottie, setDesktopLottie] = useState(null);
+  // const [mobileLottie, setMobileLottie] = useState(null);
+    
+
+  useEffect(() => {
+    const fetchLotties = async () => {
+      try {
+        const [desktopRes] = await Promise.all([
+          fetch("https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/video1_lottie.json"),
+          fetch("https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/Mob_ver.json")
+        ]);
+  
+        const desktopJSON = await desktopRes.json();
+        // const mobileJSON = await mobileRes.json();
+  
+        setDesktopLottie(desktopJSON);
+        // setMobileLottie(mobileJSON);
+      } catch (err) {
+        console.error("❌ Error loading Lottie JSONs:", err);
+      }
+    };
+  
+    fetchLotties();
+  }, []);
+  
+  
   return (
     <>
       {!showHowToVotePopup && showIntroPopup && currentPopup && (
@@ -319,6 +344,7 @@ const Vote = () => {
       {showReportReceived && <ReportReceived onClose={resetReportFlow} />}
 
       <div className="vote-container">
+      <div className="mobile-full-overlay" />
         <div className="vote-actions">
           <div className="vote-icon" onClick={() => setShowHowToVotePopup(true)} title="How to Vote">
             <FiInfo size={26} color="white" />
@@ -343,16 +369,32 @@ const Vote = () => {
             reportMode || showReportPopup || showReportReceived ? "report-mode-background" : ""
           }`}
         >
+
           {!reportMode && !showReportPopup && !showReportReceived && (
-            <Lottie
-              animationData={voteAnimation}
-              play={playLottie}
-              loop={false}
-              onComplete={() => setPlayLottie(false)}
-              className="vote-animation"
-            />
+            <>
+              <div className="lottie-desktop">
+                <Lottie
+                  animationData={desktopLottie}
+                  play={playLottie}
+                  loop={false}
+                  onComplete={() => setPlayLottie(false)}
+                  className="vote-animation"
+                />
+              </div>
+              <div className="lottie-mobile">
+                {/* <Lottie
+                  animationData={mobileLottie}
+                  play={playLottie}
+                  loop={false}
+                  onComplete={() => setPlayLottie(false)}
+                  className="vote-animation"
+                /> */}
+              </div>
+            </>
           )}
         </div>
+
+        
 
         {current && (!showIntroPopup || reportMode || showReportPopup || showReportReceived) && (
           <div className={`vote-content ${selected ? "vote-fade-out" : ""}`}>

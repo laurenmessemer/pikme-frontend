@@ -97,3 +97,10 @@
     text-align: left;
     margin-top: 5px;
   }
+
+  @media (max-width: 768px) {
+   .vote-intro-card {
+    transform: scale(.80);
+   }
+    
+  }

@@ -2,7 +2,8 @@
 .upload-container,
 .uploaded-image-container {
     position: relative; /* ✅ Allows X button to stay inside */
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     min-width: 300px; /* ✅ Ensures full width */
     height: 300px;
     background: #b0b0b0;
@@ -12,7 +13,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-left: 10%;
+    margin-left: 0;
     overflow: hidden; /* ✅ Prevents any overflow issues */
     flex-shrink: 0; /* ✅ Prevents container from shrinking */
 }
@@ -37,12 +38,3 @@
 
 
 
-/* ✅ Keeps Proportions Correct on Small Screens */
-@media (max-width: 700px) {
-    .upload-container, 
-    .uploaded-image-container {
-        max-width: 250px;
-        width: 250px;
-        height: 250px;
-    }
-}

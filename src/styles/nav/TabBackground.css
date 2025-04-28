@@ -7,7 +7,6 @@
     height: auto;
     top: 2.4em;
     transform-origin: top left;
-    /* z-index: 1000; */
     transform: scale(1.9); /* Set a fixed scale */
     position: relative;
 }
@@ -41,7 +40,7 @@
     align-items: flex-start;
     padding: 0;
     width: 100%;
-    z-index: 300002;
+    z-index: 12;
     pointer-events: auto;
     flex-wrap: nowrap;
     box-sizing: border-box;
@@ -60,7 +59,7 @@
     background-color: transparent;
     font-size: 1em;
     cursor: pointer;
-    z-index: 999;
+    z-index: 11;
     pointer-events: auto;
     padding: 0;
   }

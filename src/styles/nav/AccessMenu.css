@@ -7,7 +7,7 @@
   flex-direction: row; /* Make it a row layout */
   align-items: center; /* Keep WalletBadge and AccessMenu aligned */
   gap: 10px; /* Space between WalletBadge and AccessMenu */
-  z-index: 9999999;
+  z-index: 11;
 }
 
 /* ✅ Ensure AccessMenu stays flush with the viewport */
@@ -89,6 +89,15 @@
   display: inline-block;
 }
 
+.access-menu-wrapper {
+  position: absolute;
+  top: 1.5%;
+  right: 1.5%;
+  z-index: 12;
+  pointer-events: auto;
+}
+
+
 /* ✅ Arrow for Dropdown */
 .dropdown-arrow {
   font-size: 14px;
@@ -117,6 +126,10 @@
     flex-direction: column;
     align-items: center;
     position: relative; /* Fix it to the top */
+  }
+
+  .access-menu-wrapper {
+    z-index: 10;
   }
   
 }

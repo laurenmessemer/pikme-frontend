@@ -368,3 +368,139 @@
     border-collapse: collapse;
   }
   
+  /* 📱 Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .headstats-container {
+    padding: 10px;
+  }
+
+  .headstats-header {
+    align-items: center;
+    text-align: center;
+  }
+
+  .theme-title {
+    justify-content: center;
+    margin-top: 0.5em;
+  }
+
+  .piggybank-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .contest-name {
+    font-size: 1.4rem;
+  }
+
+  .submission-timer,
+  .contest-details,
+  .prize-pool,
+  .payout-details {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .headstats-content {
+    flex-direction: column;
+    gap: 20px;
+    height: auto; /* let it grow naturally on mobile */
+    margin-top: 20px;
+  }
+
+  .leaderboard-column,
+  .image-column {
+    flex: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .payout-dropdown-container {
+    margin-bottom: 10px;
+  }
+
+  .headstats-my-submission {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .headstats-my-submission-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .headstats-my-submission-earnings {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .user-submission-divider {
+    margin: 10px 0;
+  }
+
+  .leaderboard-card {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+
+  /* .leaderboard-content-headstats {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  } */
+
+  .submission-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .username {
+    font-size: .7rem;
+  }
+
+  .user-votes {
+    font-size: 0.55rem;
+    margin-top: 0;
+  }
+
+  .earnings-container {
+    margin-left: 0;
+    margin-top: 8px;
+    transform: scale(.7);
+  }
+
+  .image-column {
+    display: none;
+  }
+
+  .image-scroll-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    overflow-y: visible;
+  }
+
+  .image-card {
+    width: 45%;
+    max-width: none;
+  }
+
+  .contest-image {
+    width: 100%;
+    max-width: none;
+  }
+
+  .image-votes {
+    bottom: -10px;
+    font-size: 0.85rem;
+    padding: 4px 10px;
+  }
+
+  .payout-table {
+    font-size: 0.85rem;
+  }
+}
