@@ -70,21 +70,7 @@
   
   @media (max-width: 768px) {
     .footer {
-      flex-direction: column; /* Stack items vertically on smaller screens */
-      align-items: center; /* Center items */
-      height: auto; /* Allow height to adjust based on content */
-      padding: 10px 0; /* Adjust padding for mobile */
-    }
-  
-    .footer-left,
-    .footer-right {
-      width: 100%; /* Full width for mobile */
-      justify-content: center; /* Center items */
-    }
-  
-    .footer-nav {
-      flex-direction: column; /* Stack navigation links vertically */
-      gap: 10px; /* Adjust gap for mobile */
+      display: none;
     }
     
   }
