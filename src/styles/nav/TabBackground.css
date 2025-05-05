@@ -45,6 +45,7 @@
     flex-wrap: nowrap;
     box-sizing: border-box;
     gap: 0%; /* ⬅️ Tight controlled gap */
+    /* border: red 1px solid; */
   }
   
   .tab-button1 {
@@ -62,6 +63,7 @@
     z-index: 11;
     pointer-events: auto;
     padding: 0;
+    /* border: blue 2px solid; */
   }
   
   
@@ -87,6 +89,7 @@
     cursor: pointer;
     pointer-events: auto;
     z-index: 10;
+    
 }
 /* 
 .tab-background-image1.loaded {

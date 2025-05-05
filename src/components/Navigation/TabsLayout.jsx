@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import "../../styles/nav/TabsLayout.css";
+import Footer from "../Navigation/Footer"; // ✅ Import Footer
 import AccessMenu from "./AccessMenu"; // ✅ Import
-import Footer from "./Footer";
 import Tabs from "./TabBackground";
 
 function TabsLayout() {
@@ -47,7 +47,13 @@ function TabsLayout() {
         <Outlet />
       </div>
 
-      <Footer />
+      <div
+        className="footer-hover-wrapper"
+        style={{ "--footer-bg": backgroundColor }}
+      >
+        <div className="footer-hover-zone"></div>
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -16,15 +16,15 @@ const Footer = () => {
         </nav>
       </div>
       <div className="footer-right">
-        <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
+        {/* <a href="https://x.com/" target="_blank" rel="noopener noreferrer">
           <img
             src="https://d38a0fe14bafg9.cloudfront.net/icons/x.webp"
             alt="X (formerly Twitter)"
             style={{ width: "15px", height: "15px", marginBottom: "1px" }}
           />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
+        </a> */}
+        <a href="https://www.instagram.com/pikmeofficial/" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+        <a href="https://www.tiktok.com/@playpikme?lang=en" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
       </div>
     </footer>
   );

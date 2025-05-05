@@ -163,3 +163,33 @@
     /* max-width: 220px; */
   }
 }
+.auto-scroll-container {
+  position: relative;
+  overflow-x: auto;
+  width: 100%;
+  scroll-behavior: smooth;
+}
+
+.auto-scroll-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: scroll-loop 60s linear infinite;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* ✅ Pause the animation on hover */
+.auto-scroll-container:hover .auto-scroll-track {
+  animation-play-state: paused;
+}
+
+/* ✅ Infinite scrolling animation */
+@keyframes scroll-loop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

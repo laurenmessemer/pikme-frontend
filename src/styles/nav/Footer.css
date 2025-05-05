@@ -1,18 +1,53 @@
+.footer-hover-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none; /* Prevent accidental capture */
+  z-index: 9999999999;
+  background-color: transparent;
+}
+
+.footer-hover-zone {
+  height: 50px;
+  width: 100%;
+  pointer-events: auto;
+  background-color: transparent; /* Change to your desired color */
+  transition: background-color .3s ease-in-out;
+}
+
+.footer-hover-wrapper:hover .footer-hover-zone {
+  background-color: var(--footer-bg);
+}
+
+
 .footer {
-    position: fixed; /* Ensures it stays at the bottom */
+    position: fixed;
+    width: 100%;
     bottom: 0;
     left: 0;
-    width: 100%;
-    height: 40px; /* Adjust height as needed */
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center; /* Aligns all items in the middle */
     padding: 0px 10px;
     color: var(--dark); /* Uses global text color */
     font-family: 'Azeret Mono', monospace;
-    z-index: 1000;
+    z-index: 9999000;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    pointer-events: none; /* Don't block interaction until visible */
+    background-color: transparent;
+    box-shadow: 0 -8px 12px -8px rgba(0, 0, 0, 0.1); /* 💡 subtle fade-in from top */
   }
-  
+
+/* ✅ Use a parent hover selector */
+.footer-hover-wrapper:hover .footer {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
   /* Left section: Logo + Navigation */
   .footer-left {
     display: flex;
@@ -56,18 +91,8 @@
   .footer-right a:hover {
     color: var(--primary-brand);
   }
-  
-  /* Ensures content pushes footer to the bottom when needed */
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  #root {
-    flex: 1; /* Ensures main content takes up full space */
-  }
-  
+
+
   @media (max-width: 768px) {
     .footer {
       display: none;
