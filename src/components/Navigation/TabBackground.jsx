@@ -15,7 +15,7 @@ const imageFiles = [
   { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm3.svg", id: "vote-tab", route: "/vote" },
   { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "compete-tab", route: "/compete" },
   { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" },
-  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "upload-tab", route: "/join/upload" }
+  // { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "upload-tab", route: "/join/upload" }
 ];
 
 // ✅ Preload all tab images
