@@ -54,9 +54,13 @@ import Terms from "./components/Sections/Terms";
 // ✅ Mobile + Footer
 import Mobile from "./pages/Mobile";
 
+// ✅ GeoBlocker
+import GeoBlocker from "./components/GeoBlocker";
+
 function App() {
   return (
     <Router>
+      <GeoBlocker />
       <AuthProvider>
         <WalletProvider>
           <CompetitionProvider>
