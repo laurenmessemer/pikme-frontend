@@ -1,25 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import GeoPopup from "../components/Popups/GeoPopup";
 
 const GeoBlocker = () => {
+  const [isBlocked, setIsBlocked] = useState(false);
+
   useEffect(() => {
     fetch("https://ipapi.co/json/")
       .then(res => res.json())
       .then(data => {
         const { country, region_code } = data;
 
-        const blockedStates = ["AZ", "CT", "DE", "LA", "MD", "MT", "SC", "SD", "TN"];
+        // New blocked list (2-letter codes)
+        const blockedRegions = ["AR", "CT", "DE", "LA", "MD", "MI", "MT", "SC", "SD", "DC"];
 
-        // Handle international users
         if (country !== "US") {
           console.warn("User is international – BLOCKED");
-          alert("Sorry, PikMe competitions are currently open to U.S. residents only.");
+          setIsBlocked(true);
           return;
         }
 
-        // Handle blocked states
-        if (blockedStates.includes(region_code)) {
+        if (blockedRegions.includes(region_code)) {
           console.warn(`User is in ${region_code} – BLOCKED`);
-          alert(`Unfortunately, users from ${region_code} are not eligible to enter competitions.`);
+          setIsBlocked(true);
         } else {
           console.log(`User is in ${region_code} – ALLOWED`);
         }
@@ -28,6 +30,8 @@ const GeoBlocker = () => {
         console.error("Geolocation lookup failed:", err);
       });
   }, []);
+
+  if (isBlocked) return <GeoPopup onClose={() => setIsBlocked(false)} />;
 
   return null;
 };
