@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import themePlaceholder from "../assets/placeholders/snack.jpg";
 import JackpotCard from "../components/Cards/JackpotCard";
-import GeoPopup from "../components/Popups/GeoPopup"; // ✅ import GeoPopup
+import GeoPopup from "../components/Popups/GeoPopup"; // ✅ Geo restriction popup
 import LoginToCompetePopup from "../components/Popups/LoginToCompete";
 import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
@@ -20,7 +20,7 @@ const StepOne = ({ nextStep }) => {
   const [contests, setContests] = useState([]);
   const [error, setError] = useState(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [showGeoBlock, setShowGeoBlock] = useState(false); // ✅ state for GeoPopup
+  const [showGeoBlock, setShowGeoBlock] = useState(false);
   const { setContestId } = useCompetition();
   const { user } = useAuth();
   const isLoggedIn = !!user;
@@ -58,25 +58,33 @@ const StepOne = ({ nextStep }) => {
       const data = await res.json();
       const { country, region_code } = data;
 
+      console.log("🌎 User Location:", { country, region_code });
+
       const blockedRegions = ["AR", "CT", "DE", "LA", "MD", "MI", "MT", "SC", "SD", "DC"];
 
-      if (country !== "US" || blockedRegions.includes(region_code)) {
-        console.warn(`Blocked region: ${region_code || country}`);
+      if (country !== "US") {
+        console.warn(`🚫 Blocked: user is international (${country})`);
         setShowGeoBlock(true);
         return;
       }
 
-      // If allowed, proceed
+      if (blockedRegions.includes(region_code)) {
+        console.warn(`🚫 Blocked: user is in a restricted U.S. state (${region_code})`);
+        setShowGeoBlock(true);
+        return;
+      }
+
+      console.log(`✅ Allowed: user is in ${region_code}, proceeding to competition`);
       setContestId(contestId);
       nextStep(contestId);
     } catch (err) {
-      console.error("Geolocation check failed:", err);
-      // Optional: allow fallback behavior or show error
+      console.error("⚠️ Geolocation check failed:", err);
     }
   };
 
   return (
     <div className="step-one-container">
+      {/* ✅ Header */}
       <div className="step-one-header">
         <button className="step-one-button">HEAD-TO-HEAD</button>
         <p className="step-one-description">
@@ -85,8 +93,10 @@ const StepOne = ({ nextStep }) => {
         </p>
       </div>
 
+      {/* ✅ Error */}
       {error && <p className="error-message">{error}</p>}
 
+      {/* ✅ Contest Cards */}
       {contests.length === 0 ? (
         <p className="no-contests-message">No active contests.</p>
       ) : (
@@ -100,13 +110,14 @@ const StepOne = ({ nextStep }) => {
               prizePool={Number(contest.prize_pool)}
               themeName={contest.Theme?.name || "Theme"}
               themeDescription={contest.Theme?.description || "No description available"}
-              onSubmit={() => handleSubmit(contest.id)} // ✅ use updated handler
+              onSubmit={() => handleSubmit(contest.id)}
               className="jackpot-card"
             />
           ))}
         </div>
       )}
 
+      {/* ✅ Popups */}
       {showLoginPrompt && (
         <LoginToCompetePopup onClose={() => setShowLoginPrompt(false)} />
       )}
