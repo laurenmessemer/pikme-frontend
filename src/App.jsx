@@ -55,12 +55,12 @@ import Terms from "./components/Sections/Terms";
 import Mobile from "./pages/Mobile";
 
 // ✅ GeoBlocker
-import GeoBlocker from "./components/GeoBlocker";
+// import GeoBlocker from "./components/GeoBlocker";
 
 function App() {
   return (
     <Router>
-      <GeoBlocker />
+      {/* <GeoBlocker /> */}
       <AuthProvider>
         <WalletProvider>
           <CompetitionProvider>
@@ -74,7 +74,7 @@ function App() {
                     path="/"
                     element={
                       <>
-                        <TabsLayout />                   
+                        <TabsLayout />
                       </>
                     }
                   >
