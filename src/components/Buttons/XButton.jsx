@@ -1,16 +1,18 @@
 import PropTypes from "prop-types";
-import "../../styles/buttons/XButton.css"; // ✅ Corrected path
 
-const XButton = ({ onClick }) => {
-    return (
-        <button className="x-button" onClick={onClick}>
-            ✖
-        </button>
-    );
+const XButton = ({ onClick, newUi = false }) => {
+  return (
+    <button
+      className={`x-button ${newUi ? "new-position" : ""}`}
+      onClick={onClick}
+    >
+      ✖
+    </button>
+  );
 };
 
 XButton.propTypes = {
-    onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default XButton;

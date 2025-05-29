@@ -7,27 +7,31 @@
     border: 4px solid var(--dark);
     position: relative;
   } */
-  
-  .winner-card {
-    display: flex;
-    width: 100%;
-    max-width: 15em;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-    flex-direction: column;
-    border: 3px solid var(--dark);
-  }
 
-  .winner-card:active {
-    transform: scale(0.98);
-    transition: transform 0.1s ease;
-  }
+.winner-card {
+  display: flex;
+  width: 100%;
+  max-width: 15em;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+  border: 3px solid var(--dark);
+  cursor: pointer;
+}
+.winner-card.full-width {
+  max-width: 100%;
+}
 
-  /* Image Container */
-  /* .card-image {
+.winner-card:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Image Container */
+/* .card-image {
     position: relative;
     width: 100%;
     height: 80%;
@@ -37,103 +41,103 @@
     justify-content: center;
   }
    */
-  .card-image {
-    position: relative;
-    overflow: hidden;
-    align-items: flex-end;
-    justify-content: center;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    max-height: 80%;
-  }
+.card-image {
+  position: relative;
+  overflow: hidden;
+  align-items: flex-end;
+  justify-content: center;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  max-height: 80%;
+}
 
-  /* Winner Label */
-  .winner-box {
-    position: absolute;
-    top: 69%;
-    left: 1em;
-    background: var(--cta);
-    color: var(--dark);
-    padding: .3em .6em;
-    font-size: 0.6rem;
-    font-weight: bold;
-    border: 1px solid var(--dark);
-    z-index: 1;
-  }
-  
-  /* Winner Image */
-  .winner-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* Date Box */
-  .date-box {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background: var(--dark);
-    border: 1px solid var(--light);
-    color: white;
-    padding: 3px 6px;
-    font-size: 0.6rem;
-  }
-  
-  /* Card Footer Section */
-  .card-content {
-    width: 100%;
-    height: 20%;
-    background-color: white;
-    padding: 5px 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 4px solid var(--dark);
-    position: relative;
-    z-index: 0;
-  }
-  
-  .theme-name,
-  .payout {
-    flex: 1;
-    text-align: left;
-  }
-  
-  .theme-name {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 0;
-    text-align: left;
-  }
-  
-  .payout {
-    font-size: 0.8rem;
-    color: #333;
-    margin: 3px 0;
-    text-align: left;
-    padding-top: 5px;
-  }
-  
-  /* Entries Badge */
-  .entries {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 2.5em;
-    height: 2.5em;
-    border-radius: 50%;
-    border: 1px solid var(--dark);
-    background: transparent;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: var(--dark);
-    padding: 7px;
-    margin-right: 1.4em;
-  }
-  
+/* Winner Label */
+.winner-box {
+  position: absolute;
+  top: 69%;
+  left: 1em;
+  background: var(--cta);
+  color: var(--dark);
+  padding: 0.3em 0.6em;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border: 1px solid var(--dark);
+  z-index: 1;
+}
+
+/* Winner Image */
+.winner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Date Box */
+.date-box {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: var(--dark);
+  border: 1px solid var(--light);
+  color: white;
+  padding: 3px 6px;
+  font-size: 0.6rem;
+}
+
+/* Card Footer Section */
+.card-content {
+  width: 100%;
+  height: 20%;
+  background-color: white;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 4px solid var(--dark);
+  position: relative;
+  z-index: 0;
+}
+
+.theme-name,
+.payout {
+  flex: 1;
+  text-align: left;
+}
+
+.theme-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+.payout {
+  font-size: 0.8rem;
+  color: #333;
+  margin: 3px 0;
+  text-align: left;
+  padding-top: 5px;
+}
+
+/* Entries Badge */
+.entries {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  border: 1px solid var(--dark);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--dark);
+  padding: 7px;
+  margin-right: 1.4em;
+}
+
 /* .icon {
     width: 3em;
     height: 3em;
@@ -141,49 +145,48 @@
     margin: 0;
   } */
 
-  .entries .icon {
-    margin: 0;
-    width: 1.5em;
-    height: 1.5em;
-    object-fit: contain;
-  }
-  
-  /* Remove border for Theme cards */
-  .entries.no-border {
-    border: none;
-    padding: 7px 0;
-  }
-  
-  /* Remove number from Theme cards */
-  .entries.icon-only span {
-    display: none;
-  }
-  
-  .winners-place-icon {
-    width: 1.8em;
-    height: 1.8em;
-    object-fit: contain;
-    margin-right: 0.5em;
-  }
+.entries .icon {
+  margin: 0;
+  width: 1.5em;
+  height: 1.5em;
+  object-fit: contain;
+}
 
-  .winners-place-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.4em;
-    margin-top: 5px;
-  }
-  
-  /* Flash icon inside a theme card */
+/* Remove border for Theme cards */
+.entries.no-border {
+  border: none;
+  padding: 7px 0;
+}
+
+/* Remove number from Theme cards */
+.entries.icon-only span {
+  display: none;
+}
+
+.winners-place-icon {
+  width: 1.8em;
+  height: 1.8em;
+  object-fit: contain;
+  margin-right: 0.5em;
+}
+
+.winners-place-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-top: 5px;
+}
+
+/* Flash icon inside a theme card */
 .entries.icon-only .flash-icon {
-    width: 3em;
-    height: 3em;
-    border: none;
-  }
-  
+  width: 3em;
+  height: 3em;
+  border: none;
+}
 
-  /* Top 3 Winner Styling */
+/* Top 3 Winner Styling */
 .top-three-card {
-  font-family: 'Azeret Mono', monospace;
+  font-family: "Azeret Mono", monospace;
   font-weight: bold;
 }
 
@@ -192,7 +195,7 @@
 .top-three-card .entries,
 .top-three-card .winners-place-wrapper,
 .top-three-card .vote-counter {
-  font-family: 'Azeret Mono', monospace;
+  font-family: "Azeret Mono", monospace;
   font-weight: bold;
 }
 
@@ -206,7 +209,7 @@
 
 @media (max-width: 768px) {
   .winner-box {
-    transform: scale(.80);
+    transform: scale(0.8);
   }
 
   .theme-name,
@@ -217,6 +220,6 @@
   .theme-name,
   .vote-counter,
   .winners-place-wrapper {
-    transform: scale(.90);
+    transform: scale(0.9);
   }
 }

@@ -29,6 +29,7 @@ import MySubmissions from "./components/Cards/MySubmission";
 import Winners from "./components/Cards/Winners";
 import TabsLayout from "./components/Navigation/TabsLayout";
 import WalletLanding from "./components/Wallet/WalletLanding";
+import PublicRoute from "./components/Routes/PublicRoute";
 
 // ✅ Import Context Providers
 import { AuthProvider } from "./context/AuthContext";
@@ -42,6 +43,7 @@ import Compete from "./pages/Compete";
 import LandingPage from "./pages/LandingPage";
 import Leaderboard from "./pages/Leaderboard";
 import Vote from "./pages/Vote";
+import NotFound from "./pages/NotFound";
 import UtilityTemplate from "./utils/UtilityTemplate";
 
 // ✅ Footer Pages
@@ -55,12 +57,15 @@ import Terms from "./components/Sections/Terms";
 import Mobile from "./pages/Mobile";
 
 // ✅ GeoBlocker
-// import GeoBlocker from "./components/GeoBlocker";
+import GeoBlocker from "./components/GeoBlocker";
+
+// ** Third Party Import
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Router>
-      {/* <GeoBlocker /> */}
+      <GeoBlocker />
       <AuthProvider>
         <WalletProvider>
           <CompetitionProvider>
@@ -100,7 +105,10 @@ function App() {
                     <Route path="themes/create" element={<CreateTheme />} />
                     <Route path="contests" element={<ManageContests />} />
                     <Route path="contests/create" element={<CreateContest />} />
-                    <Route path="competitions" element={<ManageCompetitions />} />
+                    <Route
+                      path="competitions"
+                      element={<ManageCompetitions />}
+                    />
                     <Route path="list-contests" element={<ListAllContests />} />
                     <Route path="reports" element={<Reports />} />
                     <Route path="users" element={<Users />} />
@@ -111,33 +119,120 @@ function App() {
                   </Route>
 
                   {/* ✅ Auth */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/reset-password-request" element={<ResetPasswordRequest />} />
-                  <Route path="/reset-password/:token" element={<ResetPassword />} />
+                  <Route
+                    path="/login"
+                    element={
+                      <PublicRoute>
+                        <Login />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/signup"
+                    element={
+                      <PublicRoute>
+                        <Signup />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/reset-password-request"
+                    element={<ResetPasswordRequest />}
+                  />
+                  <Route
+                    path="/reset-password/:token"
+                    element={<ResetPassword />}
+                  />
 
                   {/* ✅ Footer Pages */}
-                  <Route path="/about" element={<UtilityTemplate><About /></UtilityTemplate>} />
-                  <Route path="/faq" element={<UtilityTemplate><FAQ /></UtilityTemplate>} />
-                  <Route path="/terms" element={<UtilityTemplate><Terms /></UtilityTemplate>} />
-                  <Route path="/privacy" element={<UtilityTemplate><Privacy /></UtilityTemplate>} />
+                  <Route
+                    path="/about"
+                    element={
+                      <UtilityTemplate>
+                        <About />
+                      </UtilityTemplate>
+                    }
+                  />
+                  <Route
+                    path="/faq"
+                    element={
+                      <UtilityTemplate>
+                        <FAQ />
+                      </UtilityTemplate>
+                    }
+                  />
+                  <Route
+                    path="/terms"
+                    element={
+                      <UtilityTemplate>
+                        <Terms />
+                      </UtilityTemplate>
+                    }
+                  />
+                  <Route
+                    path="/privacy"
+                    element={
+                      <UtilityTemplate>
+                        <Privacy />
+                      </UtilityTemplate>
+                    }
+                  />
                   <Route path="/settings" element={<MenuSettings />} />
-                  <Route path="/alerts" element={<UtilityTemplate><Alerts /></UtilityTemplate>} />
+                  <Route
+                    path="/alerts"
+                    element={
+                      <UtilityTemplate>
+                        <Alerts />
+                      </UtilityTemplate>
+                    }
+                  />
 
                   {/* ✅ Join Entry Flow */}
-                  <Route path="/join" element={<UtilityTemplate><Join /></UtilityTemplate>} />
+                  <Route
+                    path="/join"
+                    element={
+                      <UtilityTemplate>
+                        <Join />
+                      </UtilityTemplate>
+                    }
+                  />
 
-                  <Route path="/join/upload/:inviteCode" element={<TabsLayout />}>
+                  <Route
+                    path="/join/upload/:inviteCode"
+                    element={<TabsLayout />}
+                  >
                     <Route index element={<StepTwoInviteWrapper />} />
-                    <Route path="confirm" element={<StepThreeInviteWrapper />} />
+                    <Route
+                      path="confirm"
+                      element={<StepThreeInviteWrapper />}
+                    />
                     <Route path="done" element={<StepFourInviteWrapper />} />
                   </Route>
 
                   {/* ✅ Wallet Page */}
-                  <Route path="/wallet" element={<UtilityTemplate><WalletLanding /></UtilityTemplate>} />
+                  <Route
+                    path="/wallet"
+                    element={
+                      <UtilityTemplate>
+                        <WalletLanding />
+                      </UtilityTemplate>
+                    }
+                  />
+
+                  {/* ✅ 404 Not Found Page - Catch all unmatched routes */}
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
             </div>
+            <Toaster
+              position={"top-center"}
+              toastOptions={{ className: "react-hot-toast" }}
+              containerClassName="toast-new-container"
+              containerStyle={{
+                zIndex: "999999999999",
+              }}
+              reverseOrder={false}
+            />
           </CompetitionProvider>
         </WalletProvider>
       </AuthProvider>
@@ -146,8 +241,6 @@ function App() {
 }
 
 export default App;
-
-
 
 // import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // import AdminConsole from "./admin/AdminConsole";
@@ -286,4 +379,3 @@ export default App;
 // }
 
 // export default App;
-

@@ -1,0 +1,275 @@
+/*
+ * File: competition.scss
+ * Author: HARSH CHAUHAN
+ * Created Date: May 19th, 2025
+ * Description: This file handles competition sections styles.
+ */
+
+// Variables
+$primary-color: #007bff;
+$primary-dark: #0056b3;
+$dark-color: var(--dark);
+$light-gray: #f9f9f9;
+$border-color: #ddd;
+$mobile-breakpoint: 768px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 6px 6px 0px $dark-color;
+}
+
+@mixin mobile {
+  @media (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+// Base button styles
+%button-base {
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+// Competition Entry Container
+.competition-entry-container {
+  @include flex-center;
+  flex-direction: row;
+  max-width: 1000px;
+  margin: auto;
+  text-align: center;
+  gap: 2rem;
+}
+
+// Step Container
+.step-container {
+  padding: 20px;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  background: $light-gray;
+  margin: 20px 0;
+}
+
+// Buttons
+.primary-button {
+  @extend %button-base;
+  background: $primary-color;
+  color: white;
+
+  &:hover {
+    background: $primary-dark;
+  }
+}
+
+.secondary-button {
+  @extend %button-base;
+  background: #ccc;
+  color: black;
+
+  &:hover {
+    background: #bbb;
+  }
+}
+
+// Step One Styles
+.step-one {
+  &-container {
+    width: 100%;
+    max-width: 4000px;
+    margin-top: 40px;
+  }
+
+  &-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+    margin-top: 0px;
+  }
+
+  &-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &-button {
+    background: #e6e6e6;
+    border: 2px solid $dark-color;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    display: block;
+    margin: 0 auto 30px;
+  }
+
+  &-description {
+    color: $dark-color;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    margin: 10px auto 40px;
+    max-width: 700px;
+  }
+}
+
+// Jackpot Card
+.jackpot-card {
+  flex: 1 1 calc(50% - 20px);
+  max-width: 800px;
+}
+
+// Step Two Styles
+.step-two-container {
+  @include flex-center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1rem;
+  margin-top: 80px;
+}
+
+// Step Three Styles
+.step-three-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2em;
+  gap: 2em;
+  margin-top: 80px;
+  flex-wrap: wrap;
+}
+
+.submission-wallet-container {
+  flex: 1;
+  max-width: 400px;
+  min-width: 300px;
+}
+
+// Step Four Styles
+.step-four-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 80px;
+
+  .confirmation-container {
+    flex: 1;
+    width: 100%;
+  }
+}
+
+// Uploaded Image Container
+.uploaded-image-container {
+  flex: 1;
+  @include flex-center;
+  max-width: 300px;
+  height: 300px;
+  background: #b0b0b0;
+  border: 3px solid $dark-color;
+  @include card-shadow;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Confirm Button
+.confirm-button {
+  width: 100%;
+  margin-top: 1em;
+  padding: 10px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: var(--primary-dark);
+  }
+}
+
+// Mobile Responsive Styles
+@include mobile {
+  .step-one {
+    &-cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &-description {
+      font-size: 13px;
+      max-width: 450px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .jackpot-card {
+    flex: 1 1 100%;
+    max-width: 90%;
+    transform: scale(0.85);
+    margin: 0;
+  }
+
+  .step-two-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .step-three-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15rem;
+  }
+
+  .step-four-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .submission-wallet-container {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  .submission-card {
+    margin-right: 0;
+    min-width: auto;
+    width: 100%;
+    height: auto;
+    transform: scale(0.7);
+    top: -150px;
+  }
+
+  .upload-container,
+  .uploaded-image-container {
+    margin-left: 0;
+    top: -240px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    transform: scale(0.9);
+  }
+
+  .uploaded-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 80vw;
+  }
+}

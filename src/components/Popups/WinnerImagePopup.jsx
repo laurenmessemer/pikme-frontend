@@ -1,11 +1,25 @@
 import PropTypes from "prop-types";
 import "../../styles/popups/popups.css";
+import LazyImage from "../Common/LazyImage";
 
 const WinnerImagePopup = ({ imageUrl, onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
-      <div className="winner-popup-container" onClick={(e) => e.stopPropagation()}>
-        <img src={imageUrl} alt="Winning Submission" className="winner-popup-image" />
+      <div
+        className="winner-popup-container"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <LazyImage
+          src={imageUrl}
+          alt="Winning Submission"
+          className="winner-popup-image"
+        />
+        {/* <img
+          src={imageUrl}
+          alt="Winning Submission"
+          className="winner-popup-image"
+          onError={onImageError}
+        /> */}
       </div>
     </div>
   );

@@ -1,0 +1,194 @@
+/*
+ * File: common.scss
+ * Author: HARSH CHAUHAN
+ * Created Date: May 22th, 2025
+ * Description: This file handles common styles.
+ */
+
+// Variables
+$dark: var(--dark);
+$light: var(--light);
+$accent: var(--accent);
+$disabled: var(--disabled);
+$cta: var(--cta);
+$cta-pressed: var(--cta-pressed);
+$cta-pressed-2: var(--cta-pressed-2);
+
+.common-form {
+  font-family: "Azeret Mono", monospace;
+  &.change-password-form {
+    max-width: 350px;
+  }
+  &.flex-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    .field-box {
+      .form-label {
+        font-weight: 500;
+      }
+    }
+  }
+  &.mt1 {
+    margin-top: 1rem;
+  }
+  .field-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    .input-box {
+      position: relative;
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--dark);
+      text-align: left;
+      margin: 0px;
+      padding: 0px;
+      .star-required {
+        color: var(--complete);
+      }
+    }
+
+    .form-input {
+      padding: 10px 38px 10px 10px;
+      border: 2px #000 solid;
+      font-size: 10px;
+      background-color: #fff;
+      box-shadow: 2px 2px 0px #000;
+      border-radius: 2px;
+      box-sizing: border-box;
+      font-family: "Azeret Mono", monospace;
+      &.error-input {
+        border: 2px var(--complete) solid;
+        box-shadow: 2px 2px 0px var(--complete);
+      }
+      &.password-input {
+        padding: 10px 50px 10px 10px;
+      }
+      &:is(:-webkit-autofill, :autofill) {
+        font-family: "Azeret Mono", monospace;
+        border: 2px #000 solid;
+        background-color: #fff !important;
+        -webkit-box-shadow: 2px 2px 0px #000, 0 0 0 30px white inset !important;
+        box-shadow: 2px 2px 0px #000, 0 0 0 30px white inset !important;
+        -webkit-text-fill-color: #000 !important;
+        font-size: 10px;
+      }
+    }
+
+    /* ✅ Eye Icon for Password Toggle */
+    .eye-icon {
+      right: 2px;
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    /* ✅ Custom Green Checkmark */
+    .green-custom-checkmark {
+      width: 14px;
+      height: 14px;
+      background-color: #00aa6c;
+      border: 1px solid #000;
+      border-radius: 0;
+      box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+      position: absolute;
+      right: 10px;
+      top: 47%;
+      transform: translateY(-47%);
+      &.password-checkmark {
+        right: 35px;
+      }
+    }
+
+    .green-custom-checkmark::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 3px;
+      height: 7px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  .custom-error-message {
+    color: var(--complete);
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.4;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    .icon-error {
+      min-width: 14px;
+      display: flex;
+      align-items: center;
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+/* ✅ Invite Link Box */
+.custom-link-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--dark);
+  box-shadow: 2px 2px 0px #464242;
+  width: 100%;
+  max-width: 350px;
+  background: white;
+  overflow: hidden;
+  .custom-confirmation-link {
+    border: none;
+    font-size: 0.7em;
+    padding: 12px;
+    outline: none;
+    flex-grow: 1;
+    background: transparent;
+    font-family: "Azeret Mono", monospace;
+  }
+  &.only-btn {
+    width: auto;
+    .copy-button {
+      border: 0;
+    }
+  }
+
+  /* ✅ Copy Button */
+  .copy-button {
+    background: #fdd663;
+    padding: 10px 15px;
+    cursor: pointer;
+    outline: none;
+    border-left: 2px solid var(--dark);
+    transition: background 0.2s ease-in-out;
+    &:hover {
+      background: #e6c157;
+    }
+    /* ✅ Copy Icon */
+    .copy-icon {
+      font-size: 1.2em;
+      color: var(--dark);
+    }
+  }
+}
+.loading-message.custom {
+  color: var(--dark);
+  text-align: center;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

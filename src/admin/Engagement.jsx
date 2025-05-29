@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../styles/admin/Engagement.css";
+import { useAuth } from "../context/UseAuth";
 
 const intervals = [
   "all_time",
@@ -23,6 +24,7 @@ const Engagement = () => {
   const [weeklyVoterBreakdown, setWeeklyVoterBreakdown] = useState([]); // ✅ New
   const [selectedInterval, setSelectedInterval] = useState("all_time");
   const currentUserId = 1;
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchAllMetrics = async () => {
@@ -36,17 +38,101 @@ const Engagement = () => {
           ratioRes,
           retentionRes,
           globalRetentionRes,
-          newVsRepeatRes
+          newVsRepeatRes,
         ] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/${currentUserId}`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/average`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/voting-user-percentage`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/current-competing-users`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/voting-and-competing-stats`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/voter-to-competitor-ratio`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/retention`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/global-retention`),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/metrics/votes/new-vs-repeat`) // ✅ New
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/${currentUserId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${import.meta.env.VITE_API_URL}/api/metrics/votes/average`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/voting-user-percentage`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/current-competing-users`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/voting-and-competing-stats`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/voter-to-competitor-ratio`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${import.meta.env.VITE_API_URL}/api/metrics/votes/retention`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/metrics/votes/global-retention`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ),
+          axios.get(
+            `${import.meta.env.VITE_API_URL}/api/metrics/votes/new-vs-repeat`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true",
+              },
+            }
+          ), // ✅ New
         ]);
 
         setVoteMetrics(userRes.data);
@@ -117,7 +203,13 @@ const Engagement = () => {
                   <td>{averageMetrics[selectedInterval]?.totalVotes}</td>
                   <td>{averageMetrics[selectedInterval]?.uniqueVoters}</td>
                   <td>{averageMetrics[selectedInterval]?.avgVotesPerUser}</td>
-                  <td>{votingPercentageMetrics[selectedInterval]?.votingUserPercentage}%</td>
+                  <td>
+                    {
+                      votingPercentageMetrics[selectedInterval]
+                        ?.votingUserPercentage
+                    }
+                    %
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -142,7 +234,9 @@ const Engagement = () => {
                 </tr>
               </tbody>
             </table>
-            <p className="stat-note">*Contests must be Live or Upcoming to be counted.</p>
+            <p className="stat-note">
+              *Contests must be Live or Upcoming to be counted.
+            </p>
           </div>
 
           {/* Dual Engagement */}
@@ -246,7 +340,9 @@ const Engagement = () => {
               </tbody>
             </table>
             <p className="stat-note">
-              *A new user is defined as someone who signed up within the last N days (1, 7, 30). They are considered retained if they voted or competed today.
+              *A new user is defined as someone who signed up within the last N
+              days (1, 7, 30). They are considered retained if they voted or
+              competed today.
             </p>
           </div>
 
@@ -284,7 +380,8 @@ const Engagement = () => {
               </tbody>
             </table>
             <p className="stat-note">
-              *Shows what % of all users (not just new signups) were active within 1, 7, and 30 days.
+              *Shows what % of all users (not just new signups) were active
+              within 1, 7, and 30 days.
             </p>
           </div>
 
@@ -310,7 +407,8 @@ const Engagement = () => {
               </tbody>
             </table>
             <p className="stat-note">
-              *New = voting for the first time that week. Repeat = had voted in a prior week.
+              *New = voting for the first time that week. Repeat = had voted in
+              a prior week.
             </p>
           </div>
         </>

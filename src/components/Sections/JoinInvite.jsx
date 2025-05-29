@@ -4,11 +4,10 @@ import StepThreeInvite from "../../competition/StepThreeInvite";
 import StepTwoInvite from "../../competition/StepTwoInvite"; // 👈 new!
 import { useCompetition } from "../../context/CompetitionContext";
 import { useAuth } from "../../context/UseAuth";
-import "../../styles/sections/JoinInvite.css";
 
 const JoinInvite = () => {
   const { inviteLink } = useParams();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { setContestId } = useCompetition();
 
   const [loading, setLoading] = useState(true);
@@ -21,7 +20,15 @@ const JoinInvite = () => {
     const fetchCompetition = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/competition-entry/invite/${inviteLink}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/competition-entry/invite/${inviteLink}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
         );
         const data = await res.json();
 
@@ -51,7 +58,10 @@ const JoinInvite = () => {
 
   if (loading) return <p className="loading-message">🔄 Checking invite...</p>;
   if (error) return <p className="error-message">❌ {error}</p>;
-  if (!user) return <p className="error-message">🔒 Please log in to join the contest.</p>;
+  if (!user)
+    return (
+      <p className="error-message">🔒 Please log in to join the contest.</p>
+    );
 
   return (
     <div className="join-invite-container">

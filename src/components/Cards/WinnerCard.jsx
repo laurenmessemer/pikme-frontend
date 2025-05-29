@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "../../styles/components/WinnerCard.css";
+import LazyImage from "../Common/LazyImage";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -34,6 +35,7 @@ const WinnerCard = ({
   isThemeCard = false,
   isLandingWinnersOption = false,
   place,
+  isNewCardUI = false,
 }) => {
   const showDateBox = isThemeCard || isLandingWinnersOption;
   const isStandardCard = !isThemeCard || isLandingWinnersOption;
@@ -42,17 +44,26 @@ const WinnerCard = ({
     <div
       className={`winner-card ${isStandardCard ? "top-three-card" : ""} ${
         isLandingWinnersOption ? "landing-winners-option" : ""
-      }`}
+      } ${isNewCardUI ? "full-width" : ""}`}
     >
       <div className="card-image">
-        <img
+        <LazyImage
+          src={image}
+          alt={`${isStandardCard ? username : theme}'s entry`}
+          className="winner-image"
+          critical={true}
+          fetchPriority="high"
+          onLoad={(e) => e.currentTarget.classList.add("loaded")}
+        />
+        {/* <img
           src={image}
           alt={`${isStandardCard ? username : theme}'s entry`}
           className="winner-image"
           loading="eager"
           decoding="async"
           onLoad={(e) => e.currentTarget.classList.add("loaded")}
-        />
+          onError={onImageError}
+        /> */}
         {showDateBox && (
           <div className="date-box">
             {formatDate(startDate)} - {formatDate(endDate)}
@@ -60,21 +71,17 @@ const WinnerCard = ({
         )}
       </div>
 
-      {isStandardCard && (
-        <div className="winner-box">Winner: {username}</div>
-      )}
+      {isStandardCard && <div className="winner-box">Winner: {username}</div>}
 
       <div className="card-content">
         <div>
           {isStandardCard ? (
             <div className="winners-place-wrapper">
               {placeIcons[place] && (
-                <img
+                <LazyImage
                   src={placeIcons[place]}
                   alt={`${place} place`}
                   className="winners-place-icon"
-                  loading="eager"
-                  decoding="async"
                 />
               )}
               <span className="payout">{placeRewards[place] || "—"}</span>
@@ -85,12 +92,10 @@ const WinnerCard = ({
         </div>
 
         <div className="entries">
-          <img
+          <LazyImage
             src="https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg"
             alt="entry icon"
             className="icon"
-            loading="eager"
-            decoding="async"
           />
           {isStandardCard && <span>{placeVotes[place] || 0}</span>}
         </div>
@@ -111,7 +116,6 @@ WinnerCard.propTypes = {
 };
 
 export default WinnerCard;
-
 
 // import PropTypes from "prop-types";
 // import "../../styles/components/WinnerCard.css";

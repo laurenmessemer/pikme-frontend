@@ -1,166 +1,176 @@
 /* ✅ Overlay to darken background */
 .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
 /* ✅ Popup container */
 .popup-container {
-    background: #A0FFD0; /* Light green background */
-    border-radius: 10px;
-    width: 320px;
-    text-align: center;
-    position: relative;
-    border: 2px solid var(--dark);
-    box-shadow: 3px 3px 0px #464242; /* Shadow for the card */
+  background: #a0ffd0; /* Light green background */
+  border-radius: 10px;
+  width: 320px;
+  text-align: center;
+  position: relative;
+  border: 2px solid var(--dark);
+  box-shadow: 3px 3px 0px #464242; /* Shadow for the card */
 }
 
 /* ✅ White Header Section */
 .popup-header {
-    background: white; /* ✅ White background */
-    height: 40px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: 2px solid var(--dark);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  background: white; /* ✅ White background */
+  height: 40px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 2px solid var(--dark);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* ✅ Close button */
 .popup-close {
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: black;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: black;
 }
 
 /* ✅ Title styling */
 .popup-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #222;
-    margin-top: 30px; /* ✅ Adjusted to match spacing */
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+  margin-top: 30px; /* ✅ Adjusted to match spacing */
+}
+.popup-title.new-title {
+  margin: 15px 0 0 0; /* ✅ Adjusted to match spacing */
 }
 
 /* ✅ Message styling */
 .popup-message {
-    font-size: 14px;
-    color: #333;
-    margin: 10px 10px;
-    padding: 10px;
+  font-size: 14px;
+  color: #333;
+  margin: 10px 10px;
+  padding: 10px;
+}
+.popup-message.new-message {
+  margin: 0;
+  padding: 10px 20px;
+}
+/* ✅ content styling */
+.popup-content {
+  padding: 10px 20px;
+}
+.popup-content.reinvite-content {
+  padding: 20px;
 }
 
 /* ✅ Button container */
 .popup-button {
-    padding: 0px 20px;
-    margin-bottom: 10px;
+  padding: 0px 20px;
+  margin-bottom: 10px;
 }
 
 /* 🎯 Specific styling for HowToVote popup */
 .how-to-play-popup {
-    width: 450px; /* or whatever width you want */
-    max-width: 90vw;
-  }
-
+  width: 450px; /* or whatever width you want */
+  max-width: 90vw;
+}
 
 /* Custom background for voting popup */
+.how-to-vote-popup {
+  background: var(--vote-background);
+  width: 520px;
+  max-width: 92vw;
+  /* height: 550px;  */
+  padding-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* ✅ Keeps content spaced evenly */
+}
+
+.popup-icon {
+  width: 30px;
+  height: 30px;
+  margin-bottom: -4px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.narrow-message {
+  padding: 5px 25px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.step-one-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* horizontally center */
+  justify-content: center; /* vertically center */
+  text-align: center;
+  padding: 0 18px;
+}
+
+.step-two-wrapper {
+  padding: 0 10px;
+}
+
+/*  Custom styling for the winner popup */
+
+.winner-popup-container {
+  width: 90vw;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  border: 3px solid #ff70b3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  align-items: center;
+  border-radius: 0px;
+  justify-content: center;
+}
+
+.winner-popup-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .popup-container {
+    transform: scale(0.9); /* Adjusted scale for smaller screens */
+  }
+
   .how-to-vote-popup {
-    background: var(--vote-background);
-    width: 520px;
+    width: 90vw; /* Adjusted for smaller screens */
+    height: auto; /* Allow height to adjust */
+    padding-bottom: 0px;
     max-width: 92vw;
-    height: 550px; /* ✅ Set fixed height instead of min-height */
     padding-bottom: 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* ✅ Keeps content spaced evenly */
   }
 
-  .popup-icon {
-    width: 30px;
-    height: 30px;
-    margin-bottom: -4px;
-    margin-right: 10px;
-    vertical-align: middle;
-  }
-  
-  .narrow-message {
-    padding: 5px 25px;
-    line-height: 1.5;
-    text-align: left;
-  }
-
   .step-one-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;     /* horizontally center */
+    align-items: center; /* horizontally center */
     justify-content: center; /* vertically center */
     text-align: center;
-    padding: 0 18px;
+    padding: 32px 18px 0px;
   }
-  
-
-  .step-two-wrapper {
-    padding: 0 10px;
-  }
-  
-  /*  Custom styling for the winner popup */
-
-  .winner-popup-container {
-    width: 90vw;
-    max-width: 400px;
-    aspect-ratio: 1 / 1;
-    border: 3px solid #FF70B3;
-    border-radius: 10px;
-    overflow: hidden;
-    background: white;
-    display: flex;
-    align-items: center;
-    border-radius: 0px;
-    justify-content: center;
-  }
-  
-  .winner-popup-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  @media (max-width: 768px) {
-    .popup-container {
-        transform: scale(0.9); /* Adjusted scale for smaller screens */
-    }
-
-    .how-to-vote-popup {
-      width: 90vw; /* Adjusted for smaller screens */
-      height: auto; /* Allow height to adjust */
-      padding-bottom: 0px;
-      max-width: 92vw;
-      padding-bottom: 0px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; /* ✅ Keeps content spaced evenly */
-      
-    }
-
-    .step-one-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;     /* horizontally center */
-      justify-content: center; /* vertically center */
-      text-align: center;
-      padding: 32px 18px 0px;
-    }
-  }
-    
+}

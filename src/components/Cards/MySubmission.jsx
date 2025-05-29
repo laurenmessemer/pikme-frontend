@@ -6,13 +6,22 @@ import "../../styles/components/MySubmission.css";
 import MySubmissionCard from "./MySubmissionCard";
 import PersonalSubmission from "./PersonalSubmission";
 
-const MySubmissions = ({ userId }) => {
-  const { user } = useAuth(); // ✅ get auth user
+const MySubmissions = ({
+  userId,
+  selectedSubmission: propSelectedSubmission,
+  setSelectedSubmission: propSetSelectedSubmission,
+}) => {
+  const { user, token } = useAuth(); // ✅ get auth user
   const isLoggedIn = !!user;
 
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSubmission, setSelectedSubmission] = useState(null);
+
+  // Fallback to local state if no props provided
+  const [localSelectedSubmission, setLocalSelectedSubmission] = useState(null);
+  const selectedSubmission = propSelectedSubmission ?? localSelectedSubmission;
+  const setSelectedSubmission =
+    propSetSelectedSubmission ?? setLocalSelectedSubmission;
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -23,7 +32,15 @@ const MySubmissions = ({ userId }) => {
 
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/leaderboard/mysubmissions?userId=${userId}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/leaderboard/mysubmissions?userId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
         );
 
         if (response.data.success) {
@@ -99,7 +116,7 @@ const MySubmissions = ({ userId }) => {
           </div>
         </div>
       ) : (
-        <div className="my-submissions-grid">
+        <div className="my-submissions-grid with-more-gap">
           {submissions.map((submission) => (
             <div
               key={submission.id}
@@ -108,7 +125,11 @@ const MySubmissions = ({ userId }) => {
               role="button"
               tabIndex={0}
             >
-              <MySubmissionCard {...submission} isLoggedIn={isLoggedIn} />
+              <MySubmissionCard
+                {...submission}
+                isLoggedIn={isLoggedIn}
+                isNewCardUi={true}
+              />
             </div>
           ))}
         </div>
@@ -122,7 +143,6 @@ MySubmissions.propTypes = {
 };
 
 export default MySubmissions;
-
 
 // import axios from "axios";
 // import PropTypes from "prop-types";

@@ -6,25 +6,20 @@ import UploadImage from "../components/Cards/UploadImage";
 import { useCompetition } from "../context/CompetitionContext"; // 👈 added
 import { useAuth } from "../context/UseAuth";
 import { WalletContext } from "../context/WalletContext";
-import "../styles/competition/StepThree.css";
 
 const StepThreeInvite = ({ contestId, inviteLink, entryFee, nextStep }) => {
   const { balance, setBalance, refreshBalance } = useContext(WalletContext);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const userId = user?.id;
 
-  const {
-    imageUrl,
-    setImageUrl,
-    setImageFile,
-  } = useCompetition(); // 👈 use context
+  const { imageUrl, setImageUrl, setImageFile } = useCompetition(); // 👈 use context
 
-  const [uploading, setUploading] = useState(false);
+  const [isImageLoading, setImageLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
 
   const handleImageUpload = async (file) => {
-    setUploading(true);
+    setImageLoading(true);
     setError(null);
 
     try {
@@ -38,24 +33,35 @@ const StepThreeInvite = ({ contestId, inviteLink, entryFee, nextStep }) => {
             match_type: "invite_friend",
             fileType,
           },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         }
       );
 
       const { uploadURL, fileKey } = res.data;
 
       await axios.put(uploadURL, file, {
-        headers: { "Content-Type": fileType },
+        headers: {
+          "Content-Type": fileType,
+          "Cache-Control": "public, max-age=31536000, immutable",
+          "ngrok-skip-browser-warning": "true",
+        },
       });
 
-      const publicUrl = `https://${import.meta.env.VITE_S3_BUCKET}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${fileKey}`;
+      const publicUrl = `https://${import.meta.env.VITE_S3_BUCKET}.s3.${
+        import.meta.env.VITE_AWS_REGION
+      }.amazonaws.com/${fileKey}`;
 
       setImageFile(file);
       setImageUrl(publicUrl);
     } catch (err) {
+      setImageLoading(false);
       console.error("❌ Image Upload Failed:", err);
       setError("Image upload failed. Please try again.");
     } finally {
-      setUploading(false);
+      setImageLoading(false);
     }
   };
 
@@ -77,7 +83,13 @@ const StepThreeInvite = ({ contestId, inviteLink, entryFee, nextStep }) => {
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/competition-entry/accept-invite`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
       );
 
       if (response.data.new_balance !== undefined) {
@@ -92,7 +104,6 @@ const StepThreeInvite = ({ contestId, inviteLink, entryFee, nextStep }) => {
         competition: response.data.competition,
         newBalance: response.data.new_balance,
       });
-
     } catch (err) {
       console.error("❌ Failed to join invite:", err);
       setError(err.response?.data?.message || "Unable to join contest.");
@@ -116,10 +127,17 @@ const StepThreeInvite = ({ contestId, inviteLink, entryFee, nextStep }) => {
 
       {imageUrl ? (
         <div className="uploaded-image-container">
-          <img src={imageUrl} alt="Uploaded Preview" className="uploaded-image" />
+          <img
+            src={imageUrl}
+            alt="Uploaded Preview"
+            className="uploaded-image"
+          />
         </div>
       ) : (
-        <UploadImage onUpload={handleImageUpload} disabled={uploading} />
+        <UploadImage
+          onUpload={handleImageUpload}
+          isImageLoading={isImageLoading}
+        />
       )}
 
       {error && <p className="error-message">❌ {error}</p>}

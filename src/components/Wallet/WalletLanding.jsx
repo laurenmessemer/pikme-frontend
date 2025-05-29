@@ -4,19 +4,28 @@ import AuthContext from "../../context/AuthContext"; // ✅ Import AuthContext
 import "../../styles/wallet/WalletLanding.css";
 import Referral from "../Wallet/Referral";
 import TokenBalance from "../Wallet/TokenBalance";
+import { SiteUrl } from "../../constant/appConstants";
 
 const WalletLanding = () => {
-  const { user } = useContext(AuthContext); // ✅ Get `user`
+  const { user, token } = useContext(AuthContext); // ✅ Get `user`
   const [balance, setBalance] = useState(0);
   const [prizeHistory, setPrizeHistory] = useState([]);
-  const inviteLink = "https://pikme.com/InviteCode"; // ✅ Static Invite Link
+  const inviteLink = `${SiteUrl}/InviteCode`; // ✅ Static Invite Link
 
   useEffect(() => {
     const fetchWalletData = async () => {
       if (!user) return; // ✅ Ensure user exists
 
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`); // ✅ Send user_id
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        ); // ✅ Send user_id
 
         setBalance(response.data.balance);
         setPrizeHistory(response.data.prizeHistory); // ✅ Already fetching real data
@@ -27,7 +36,6 @@ const WalletLanding = () => {
 
     fetchWalletData();
   }, [user]);
-
 
   return (
     <div className="wallet-landing">

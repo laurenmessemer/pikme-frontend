@@ -1,12 +1,13 @@
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import themePlaceholder from "../assets/placeholders/snack.jpg";
+import themePlaceholder from "../assets/placeholders/snack.webp";
 import JackpotCard from "../components/Cards/JackpotCard";
 import { useCompetition } from "../context/CompetitionContext";
-import "../styles/competition/StepOne.css";
+import { useAuth } from "../context/UseAuth";
 
 const StepOne = ({ nextStep }) => {
+  const { token } = useAuth();
   const [contests, setContests] = useState([]);
   const [error, setError] = useState(null);
   const { setContestId } = useCompetition();
@@ -14,7 +15,15 @@ const StepOne = ({ nextStep }) => {
   useEffect(() => {
     const fetchLiveContests = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/live`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/contests/live`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setContests(response.data);
       } catch (err) {
         setError("Error fetching contests.");
@@ -32,7 +41,8 @@ const StepOne = ({ nextStep }) => {
         <button className="step-one-button">HEAD-TO-HEAD</button>
         <p className="step-one-description">
           In Head-to-Head, your photo faces off against a single competitor.
-          Enter as many times as you want and win by the largest margins to claim the prize!
+          Enter as many times as you want and win by the largest margins to
+          claim the prize!
         </p>
       </div>
 
@@ -53,7 +63,9 @@ const StepOne = ({ nextStep }) => {
               entryFee={Number(contest.entry_fee)}
               prizePool={Number(contest.prize_pool)}
               themeName={contest.Theme?.name || "Theme"}
-              themeDescription={contest.Theme?.description || "No description available"}
+              themeDescription={
+                contest.Theme?.description || "No description available"
+              }
               onSubmit={() => {
                 setContestId(contest.id);
                 nextStep(contest.id);

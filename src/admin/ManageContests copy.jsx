@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageContests.css";
+import { useAuth } from "../context/UseAuth";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 
 const ManageContests = () => {
+  const { token } = useAuth();
   const [contests, setContests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +13,12 @@ const ManageContests = () => {
   useEffect(() => {
     const fetchContests = async (retryCount = 2) => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        });
 
         if (!response.ok) {
           const text = await response.text();
@@ -48,8 +55,7 @@ const ManageContests = () => {
     <div className="manage-contests-container">
       <div className="header">
         <h2>Manage Contests</h2>
-        <div className="header-buttons">
-        </div>
+        <div className="header-buttons"></div>
       </div>
 
       {loading ? (
@@ -82,7 +88,11 @@ const ManageContests = () => {
               <tr key={contest.id}>
                 <td>{contest.id}</td>
                 <td>
-                  <span className={`status ${contest.status?.toLowerCase() || "unknown"}`}>
+                  <span
+                    className={`status ${
+                      contest.status?.toLowerCase() || "unknown"
+                    }`}
+                  >
                     {contest.status || "Unknown"}
                   </span>
                 </td>
@@ -93,10 +103,26 @@ const ManageContests = () => {
                 <td>${contest.winnings?.first ?? "N/A"}</td>
                 <td>${contest.winnings?.second ?? "N/A"}</td>
                 <td>${contest.winnings?.third ?? "N/A"}</td>
-                <td>{contest.contest_live_date ? new Date(contest.contest_live_date).toLocaleDateString() : "TBD"}</td>
-                <td>{contest.submission_deadline ? new Date(contest.submission_deadline).toLocaleDateString() : "TBD"}</td>
-                <td>{contest.voting_live_date ? new Date(contest.voting_live_date).toLocaleDateString() : "TBD"}</td>
-                <td>{contest.voting_deadline ? new Date(contest.voting_deadline).toLocaleDateString() : "TBD"}</td>
+                <td>
+                  {contest.contest_live_date
+                    ? new Date(contest.contest_live_date).toLocaleDateString()
+                    : "TBD"}
+                </td>
+                <td>
+                  {contest.submission_deadline
+                    ? new Date(contest.submission_deadline).toLocaleDateString()
+                    : "TBD"}
+                </td>
+                <td>
+                  {contest.voting_live_date
+                    ? new Date(contest.voting_live_date).toLocaleDateString()
+                    : "TBD"}
+                </td>
+                <td>
+                  {contest.voting_deadline
+                    ? new Date(contest.voting_deadline).toLocaleDateString()
+                    : "TBD"}
+                </td>
               </tr>
             ))}
           </tbody>

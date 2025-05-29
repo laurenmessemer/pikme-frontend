@@ -1,11 +1,11 @@
 .vote-container {
-    color: transparent;
-    width: 95%;
-    max-width: 99em;
-    height: 80vh;
-    margin: 20px auto;
-    overflow: hidden;
-    position: relative;
+  color: transparent;
+  width: 95%;
+  max-width: 99em;
+  height: 80vh;
+  margin: 20px auto;
+  overflow: hidden;
+  position: relative;
 }
 
 .vote-wrapper {
@@ -20,34 +20,34 @@
   aspect-ratio: 1.25 / 1; /* Keeps consistent shape */
   max-width: 100%;
   min-width: 220px; /* adjust as needed */
-  scale: .8
+  scale: 0.8;
 }
-  
-  /* Only apply hover scaling if not selected or not-selected */
-  .vote-wrapper:not(.selected):not(.not-selected):hover {
-    transform: scale(1.1);
-  }
-  
-  /* Persist selected scale regardless of hover */
-  .vote-wrapper.selected {
-    transform: scale(1.3);
-    filter: drop-shadow(0px 0px 10px var(--cta));
-  }
-  
-  .vote-wrapper.not-selected {
-    transform: scale(0.95);
-    opacity: 0.4;
-  }
-  
-  .vote-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* allows clicks to pass through to wrapper */
-  }
-  
+
+/* Only apply hover scaling if not selected or not-selected */
+.vote-wrapper:not(.selected):not(.not-selected):hover {
+  transform: scale(1.1);
+}
+
+/* Persist selected scale regardless of hover */
+.vote-wrapper.selected {
+  transform: scale(1.3);
+  filter: drop-shadow(0px 0px 10px var(--cta));
+}
+
+.vote-wrapper.not-selected {
+  transform: scale(0.95);
+  opacity: 0.4;
+}
+
+.vote-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* allows clicks to pass through to wrapper */
+}
+
 .vote-label,
 .vote-counter,
 .vote-plus-one,
@@ -58,115 +58,111 @@
   text-align: center;
 }
 
-  
 /* ✅ Container for Vote Entry */
 .vote-entry {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.2s ease-in-out;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
 }
-
 
 /* ✅ Vote Label (Yellow Button) */
 .vote-label {
-    bottom: -21px;
-    background-color: #FDD663;
-    color: black;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 6px 12px;
-    border: 3px solid var(--dark);
-    width: 40%;
-    transition: transform 0.2s ease-in-out;
-  }
+  bottom: -21px;
+  background-color: #fdd663;
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 3px solid var(--dark);
+  width: 40%;
+  transition: transform 0.2s ease-in-out;
+}
 
-  .vote-counter {
-    top: -25px;
-    background: white;
-    color: black;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 5px 12px;
-    border: 3px solid #FDD663;
-    border-radius: 12px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-    z-index: 10;
-  }
+.vote-counter {
+  top: -25px;
+  background: white;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 12px;
+  border: 3px solid #fdd663;
+  border-radius: 12px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 10;
+}
 
 /* Hide counter until entry is selected */
 .vote-entry:not(.selected) .vote-counter {
-    opacity: 0;
-    /* visibility: hidden; */
+  opacity: 0;
+  /* visibility: hidden; */
 }
 
 .vote-checkmark-wrapper {
-    position: absolute;
-    bottom: -15px; /* or tweak as needed to nudge it off the image */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 34px;
-    height: 34px;
-  }
-  
-  .vote-checkmark-back {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 100%;
-    height: 100%;
-    background: var(--dark);
-    border: 1px solid var(--light);
-    z-index: 0;
-  }
-  
-  .vote-checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--dark);
-    border: 1px solid var(--light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out;
-  }
-  
-  .checkmark-icon {
-    width: 6px;
-    height: 14px;
-    border: solid var(--cta);
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-    display: inline-block;
-    margin-top: -4px;
-  }
-  
-  
-  
+  position: absolute;
+  bottom: -15px; /* or tweak as needed to nudge it off the image */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 34px;
+}
+
+.vote-checkmark-back {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 100%;
+  height: 100%;
+  background: var(--dark);
+  border: 1px solid var(--light);
+  z-index: 0;
+}
+
+.vote-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--dark);
+  border: 1px solid var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.checkmark-icon {
+  width: 6px;
+  height: 14px;
+  border: solid var(--cta);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  display: inline-block;
+  margin-top: -4px;
+}
+
 /* Hide checkmark until entry is selected */
 .vote-entry:not(.selected) .vote-checkmark {
-    opacity: 0;
-    /* visibility: hidden; */
+  opacity: 0;
+  /* visibility: hidden; */
 }
 
 .vote-animation-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-  }
-/* 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+/*
 .vote-animation {
     display: flex;
     flex-direction: column;
@@ -181,7 +177,7 @@
 }
  */
 
- .lottie-desktop .vote-animation {
+.lottie-desktop .vote-animation {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -201,250 +197,245 @@
   z-index: 1;
 }
 
-
 /* Vote Header */
 .vote-header {
-    color: var(--light);
-    text-align: center;
-    margin-top: 3em;
-    position: relative;
-    z-index: 6;
+  color: var(--light);
+  text-align: center;
+  margin-top: 3em;
+  position: relative;
+  z-index: 6;
 }
 
 /* Background Image */
 .vote-background {
-    width: 97%;
-    max-width: 80em;
-    position: absolute;
-    top: 52%;
-    transform: translateY(-50%);
-    opacity: 1;
-    z-index: 0;
+  width: 97%;
+  max-width: 80em;
+  position: absolute;
+  top: 52%;
+  transform: translateY(-50%);
+  opacity: 1;
+  z-index: 0;
 }
 
 /* Vote Content Layout */
 .vote-content {
-    position: relative; /* needed for absolute child positioning */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25%;
-    width: 90%;
-    max-width: 75em;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000; /* 🆙 this ensures it sits above the overlay */
-  }
-
+  position: relative; /* needed for absolute child positioning */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25%;
+  width: 90%;
+  max-width: 75em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* 🆙 this ensures it sits above the overlay */
+}
 
 /* Vote Box */
 .vote-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1; /* Ensures equal space for both images */
-    max-width: 32em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1; /* Ensures equal space for both images */
+  max-width: 32em;
 }
-
 
 /* Submission Images */
 .vote-submission {
-    width: 100%;
-    max-width: 32em;
-    aspect-ratio: 1.25 / 1;
-    object-fit: cover;
-    border: 4px solid var(--dark);
-    transition: border 0.3s ease-in-out;
-    cursor: pointer;
-  }
+  width: 100%;
+  max-width: 32em;
+  aspect-ratio: 1.25 / 1;
+  object-fit: cover;
+  border: 4px solid var(--dark);
+  transition: border 0.3s ease-in-out;
+  cursor: pointer;
+}
 
-  .vote-submission.selected {
-    border-color: var(--cta);
-  }
-  
+.vote-submission.selected {
+  border-color: var(--cta);
+}
+
 /* Placeholder for missing submissions */
 .vote-placeholder {
-    color: var(--light);
-    font-size: 1rem;
-    text-align: center;
-    border: 2px dashed var(--dark);
-    padding: 10px;
-    width: 18em;
-    height: 18em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  color: var(--light);
+  font-size: 1rem;
+  text-align: center;
+  border: 2px dashed var(--dark);
+  padding: 10px;
+  width: 18em;
+  height: 18em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slide-in-left {
-    animation: slideInLeft 0.5s ease-out forwards;
+  animation: slideInLeft 0.5s ease-out forwards;
 }
 
 @keyframes slideInLeft {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .slide-in-right {
-    animation: slideInRight 0.5s ease-out forwards;
+  animation: slideInRight 0.5s ease-out forwards;
 }
 
 @keyframes slideInRight {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .vote-plus-one {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--light);
-    animation: floatUpFade 1s ease-out forwards;
-    z-index: 20;
-    pointer-events: none;
-    white-space: nowrap;
-    margin-right: 10px;
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--light);
+  animation: floatUpFade 1s ease-out forwards;
+  z-index: 20;
+  pointer-events: none;
+  white-space: nowrap;
+  margin-right: 10px;
+}
 
-  @keyframes floatUpFade {
-    0% {
-      opacity: 1;
-      transform: translateY(-50%, -50%);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -80%);
-    }
+@keyframes floatUpFade {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%, -50%);
   }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -80%);
+  }
+}
 
-  .vote-counter.animate {
-    animation: popVote 0.4s ease-in-out;
-  }
-  
-  @keyframes popVote {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.25);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
+.vote-counter.animate {
+  animation: popVote 0.4s ease-in-out;
+}
 
-  .vote-actions {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 16px;
-    z-index: 20;
+@keyframes popVote {
+  0% {
+    transform: scale(1);
   }
-  
-  .vote-icon {
-    cursor: pointer;
-    transition: transform 0.2s ease;
+  50% {
+    transform: scale(1.25);
   }
-  
-  .vote-icon:hover {
-    transform: scale(1.2);
+  100% {
+    transform: scale(1);
   }
-  
+}
 
-  .report-flag-global {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: transform 0.2s ease;
-  }
-  
-  .report-flag-global:hover {
-    transform: scale(1.1);
-  }
-  
-  .report-overlay {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 80px;
-    transition: background 0.3s ease;
-  }
-  
-  .report-buttons {
-    display: flex;
-    gap: 2rem;
-  }
-  
-  .report-cancel,
-  .report-confirm {
-    font-size: 1rem;
-    padding: 12px 24px;
-    font-weight: 600;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .report-cancel {
-    background: #ddd;
-    color: black;
-  }
-  
-  .report-cancel:hover {
-    background: #bbb;
-  }
-  
-  .report-confirm {
-    background: var(--cta);
-    color: black;
-  }
-  
-  .report-confirm:disabled {
-    background: #999;
-    cursor: not-allowed;
-  }
-  
-  .vote-submission.report-selected {
-    border: 4px solid red !important;
-  }
-  
-  .report-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    backdrop-filter: blur(4px);
-    z-index: -1;
-    pointer-events: none; /* 🚫 don't block clicks */
-  }
-  
-  /* Swap background to report.svg during report mode */
+.vote-actions {
+  position: absolute;
+  top: 35px;
+  right: 40px;
+  display: flex;
+  gap: 16px;
+  z-index: 20;
+}
+
+.vote-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.vote-icon:hover {
+  transform: scale(1.2);
+}
+
+.report-flag-global {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+
+.report-flag-global:hover {
+  transform: scale(1.1);
+}
+
+.report-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 80px;
+  transition: background 0.3s ease;
+}
+
+.report-buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+.report-cancel,
+.report-confirm {
+  font-size: 1rem;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.report-cancel {
+  background: #ddd;
+  color: black;
+}
+
+.report-cancel:hover {
+  background: #bbb;
+}
+
+.report-confirm {
+  background: var(--cta);
+  color: black;
+}
+
+.report-confirm:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.vote-submission.report-selected {
+  border: 4px solid red !important;
+}
+
+.report-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(4px);
+  z-index: -1;
+  pointer-events: none; /* 🚫 don't block clicks */
+}
+
+/* Swap background to report.svg during report mode */
 .vote-animation-container.report-mode-background {
   background-image: url("https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/report.svg");
   background-repeat: no-repeat;
@@ -510,6 +501,63 @@
   display: none;
 }
 
+/* No Competitions Message */
+.no-competitions-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.no-competitions-box {
+  background-color: white;
+  border: 3px solid var(--dark);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.no-competitions-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark);
+  margin: 0 0 1rem 0;
+}
+
+.no-competitions-message {
+  font-size: 1rem;
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+}
+
+.no-competitions-button {
+  background-color: var(--cta);
+  color: var(--dark);
+  border: 2px solid var(--dark);
+  box-shadow: 3px 3px 0 var(--dark);
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
 @media (max-width: 768px) {
   .lottie-desktop {
     display: none;
@@ -527,7 +575,7 @@
     width: 100%;
     max-width: 100%;
     padding: 1rem;
-    transform: scale(.84);
+    transform: scale(0.84);
   }
 
   .vote-box {
@@ -537,6 +585,24 @@
 
   .vote-submission {
     max-width: 100%;
+  }
+
+  .no-competitions-box {
+    max-width: 85%;
+    padding: 1.5rem;
+  }
+
+  .no-competitions-title {
+    font-size: 1.3rem;
+  }
+
+  .no-competitions-message {
+    font-size: 0.9rem;
+  }
+
+  .no-competitions-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
   }
 }
 

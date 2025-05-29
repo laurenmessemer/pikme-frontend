@@ -25,8 +25,10 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
     <div className="reset-container">
       {step === 1 && (
         <form className="reset-form" onSubmit={handleSubmit}>
-          <h1 className="reset-title">Reset Your Password</h1>
-          <label className="form-label" htmlFor="email">EMAIL ADDRESS</label>
+          <h1 className="reset-title with-space">Reset Your Password</h1>
+          <label className="form-label" htmlFor="email">
+            EMAIL ADDRESS
+          </label>
           <input
             id="email"
             className="form-input"
@@ -43,10 +45,13 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
         <form className="reset-form" onSubmit={handleSubmit}>
           <h1 className="reset-title">Reset Your Password</h1>
           <p className="info-text">
-            We sent a code to <strong>{email}</strong><br />
+            We sent a code to <strong>{email}</strong>
+            <br />
             It may take a few minutes to get it.
           </p>
-          <label className="form-label" htmlFor="verificationCode">VERIFICATION CODE</label>
+          <label className="form-label" htmlFor="verificationCode">
+            VERIFICATION CODE
+          </label>
           <input
             id="verificationCode"
             className="form-input"
@@ -56,14 +61,21 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
             onChange={handleInputChange}
           />
           <p className="resend-code">Resend Code</p>
-          <Submit text="CONTINUE" variant="cta" type="submit" />
+          <Submit
+            text="CONTINUE"
+            variant="cta"
+            type="submit"
+            className="no-spacing"
+          />
         </form>
       )}
 
       {step === 3 && (
         <form className="reset-form" onSubmit={handleSubmit}>
-          <h1 className="reset-title">Enter a New Password</h1>
-          <label className="form-label" htmlFor="password">NEW PASSWORD</label>
+          <h1 className="reset-title with-space">Enter a New Password</h1>
+          <label className="form-label" htmlFor="password">
+            NEW PASSWORD
+          </label>
           <input
             id="password"
             className="form-input"
@@ -72,7 +84,9 @@ const ResetPasswordCard = ({ onSubmit, step, email }) => {
             value={formValues.password}
             onChange={handleInputChange}
           />
-          <label className="form-label" htmlFor="confirmPassword">CONFIRM NEW PASSWORD</label>
+          <label className="form-label" htmlFor="confirmPassword">
+            CONFIRM NEW PASSWORD
+          </label>
           <input
             id="confirmPassword"
             className="form-input"

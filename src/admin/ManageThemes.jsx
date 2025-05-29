@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageThemes.css";
+import { useAuth } from "../context/UseAuth";
+import ToastUtils from "../utils/ToastUtils";
 
 const ManageThemes = () => {
+  const { token } = useAuth();
   const [themes, setThemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +25,15 @@ const ManageThemes = () => {
   const fetchThemes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/themes`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
       setThemes(response.data);
     } catch (error) {
       console.error("❌ Error fetching themes:", error);
@@ -73,7 +84,11 @@ const ManageThemes = () => {
         `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -100,11 +115,20 @@ const ManageThemes = () => {
     }
 
     try {
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}`, {
-        name: themeData.name,
-        description: themeData.description,
-        coverImageUrl: themeData.coverImageUrl,
-      });
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/themes/${editingTheme}`,
+        {
+          name: themeData.name,
+          description: themeData.description,
+          coverImageUrl: themeData.coverImageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
 
       console.log("✅ Theme updated.");
       setEditingTheme(null);
@@ -117,12 +141,19 @@ const ManageThemes = () => {
   };
 
   const handleDeleteTheme = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this theme? This cannot be undone.");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this theme? This cannot be undone."
+    );
 
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/themes/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/themes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       setThemes((prev) => prev.filter((theme) => theme.id !== id));
       console.log("✅ Theme deleted successfully");
     } catch (error) {
@@ -144,16 +175,22 @@ const ManageThemes = () => {
         `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         }
       );
 
       const { imageUrl } = response.data;
       console.log("🧪 Uploaded image URL:", imageUrl);
-      alert(`✅ Uploaded to: ${imageUrl}`);
+      // alert(`✅ Uploaded to: ${imageUrl}`);
+      ToastUtils.error(`Uploaded to: ${imageUrl}`);
     } catch (error) {
       console.error("❌ Test upload failed:", error);
-      alert("❌ Test upload failed");
+      // alert("❌ Test upload failed");
+      ToastUtils.error("Test upload failed");
     } finally {
       setIsUploading(false);
     }
@@ -231,7 +268,10 @@ const ManageThemes = () => {
                       />
                     </td>
                     <td>
-                      <button onClick={handleSaveChanges} disabled={isUploading}>
+                      <button
+                        onClick={handleSaveChanges}
+                        disabled={isUploading}
+                      >
                         {isUploading ? "Saving..." : "✅ Save"}
                       </button>
                       <button onClick={handleCancel}>❌ Cancel</button>
@@ -244,16 +284,22 @@ const ManageThemes = () => {
                     <td>{theme.description}</td>
                     <td>
                       {theme.cover_image_url && (
-                        <img src={theme.cover_image_url} alt="Cover" width="50" />
+                        <img
+                          src={theme.cover_image_url}
+                          alt="Cover"
+                          width="50"
+                        />
                       )}
                     </td>
                     <td>
-                      <button onClick={() => handleEditClick(theme)}>Edit</button>
+                      <button onClick={() => handleEditClick(theme)}>
+                        Edit
+                      </button>
                       <button
                         onClick={() => handleDeleteTheme(theme.id)}
                         className="delete-btn"
                       >
-                      Delete
+                        Delete
                       </button>
                     </td>
                   </>

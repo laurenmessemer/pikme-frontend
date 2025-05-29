@@ -5,13 +5,16 @@ import XButton from "../components/Buttons/XButton";
 import SubmissionCard from "../components/Cards/SubmissionCard";
 import UploadImage from "../components/Cards/UploadImage";
 import { useCompetition } from "../context/CompetitionContext";
-import "../styles/competition/StepTwo.css";
+import { useAuth } from "../../context/UseAuth";
+import ToastUtils from "../../utils/ToastUtils";
 
-const StepTwo = ({ nextStep }) => { // ❌ Removed userId
+const StepTwo = ({ nextStep }) => {
+  // ❌ Removed userId
   const { contestId, imageUrl, setImageUrl } = useCompetition();
   const [contest, setContest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     if (!contestId) {
@@ -22,7 +25,15 @@ const StepTwo = ({ nextStep }) => { // ❌ Removed userId
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/contests/${contestId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setContest(response.data);
       } catch (err) {
         console.error("❌ Error fetching contest details:", err);
@@ -64,15 +75,15 @@ const StepTwo = ({ nextStep }) => { // ❌ Removed userId
   // Handle submission (moves to StepThree)
   const handleSubmit = () => {
     if (!imageUrl) {
-      alert("Please upload an image before proceeding.");
+      // alert("Please upload an image before proceeding.");
+      ToastUtils.warning("Please upload an image before proceeding.");
       return;
     }
-  
+
     console.log("✅ Moving to StepThree with:", { imageUrl });
-  
+
     nextStep({ imageUrl }); // ✅ Pass imageUrl to StepThree
   };
-  
 
   if (loading) return <p>Loading contest details...</p>;
   if (error) return <p className="error">{error}</p>;
@@ -82,7 +93,9 @@ const StepTwo = ({ nextStep }) => { // ❌ Removed userId
       <SubmissionCard
         contestId={contest?.id}
         contestTitle={contest?.Theme?.name || "Contest Title"}
-        contestDescription={contest?.Theme?.description || "No description available"}
+        contestDescription={
+          contest?.Theme?.description || "No description available"
+        }
         entryFee={contest?.entry_fee || 0}
         onSubmit={handleSubmit}
       />
@@ -90,7 +103,11 @@ const StepTwo = ({ nextStep }) => { // ❌ Removed userId
       {imageUrl ? (
         <div className="uploaded-image-container">
           <XButton onClick={handleRemoveImage} />
-          <img src={imageUrl} alt="Uploaded Preview" className="uploaded-image" />
+          <img
+            src={imageUrl}
+            alt="Uploaded Preview"
+            className="uploaded-image"
+          />
         </div>
       ) : (
         <UploadImage onUpload={handleUpload} />

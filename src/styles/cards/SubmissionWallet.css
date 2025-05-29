@@ -4,103 +4,110 @@
   width: 100%;
   overflow: hidden;
 }
+.submission-wallet-container.with-scroll {
+  overflow-y: auto;
+}
 
 .submission-wallet {
-    background: var(--light);
-    border: 3px solid var(--dark);
-    padding: 10px 15px 15px; /* Reduced padding at the top */
-    box-shadow: 6px 6px 0px var(--dark);
-    display: flex;
-    flex-direction: column;
-    flex: 2;
-    padding-top: 0; /* Removed padding at the top */
-    max-width: 600px;
-    min-width: 400px;
-    min-height: 425px;
-    height: auto;
-    margin: 0;
-    aspect-ratio: 1/1;
+  background: var(--light);
+  border: 3px solid var(--dark);
+  padding: 10px 15px 15px; /* Reduced padding at the top */
+  box-shadow: 6px 6px 0px var(--dark);
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  padding-top: 0; /* Removed padding at the top */
+  max-width: 600px;
+  min-width: 400px;
+  min-height: 425px;
+  height: auto;
+  margin: 0;
+  aspect-ratio: 1/1;
 }
 
 .submission-wallet-header {
-    display: flex;
-    align-items: center;
-    gap: 6px; /* Reduced gap */
-    padding: 0; /* Removed unnecessary padding */
-    margin-bottom: 5px; /* Ensure it's closer to the next section */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reduced gap */
+  padding: 0; /* Removed unnecessary padding */
+  margin-bottom: 5px; /* Ensure it's closer to the next section */
 }
-
 .submission-wallet-timer {
-    margin: 0 !important; /* Removes all excess space above/below */
-    padding: 0 !important;
+  margin: 0 !important; /* Removes all excess space above/below */
+  padding: 0 !important;
 }
 
 .submission-wallet-container {
-    padding: 2px 15px;
-    border: 1px solid var(--dark);
-    max-width: 100%; /* ✅ Prevents overflow beyond parent */
-    overflow: hidden;
+  padding: 2px 15px;
+  border: 1px solid var(--dark);
+  max-width: 100%; /* ✅ Prevents overflow beyond parent */
+  overflow: hidden;
 }
 
-.wallet-section, .submission-section, .total-charge {
-    margin-bottom: 15px;
+.wallet-section,
+.submission-section,
+.total-charge {
+  margin-bottom: 15px;
 }
 
-.wallet-section h3, .submission-section h3, .total-charge h3 {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 5px;
+.wallet-section h3,
+.submission-section h3,
+.total-charge h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .wallet-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1em;
-    flex-wrap: wrap;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-    max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1em;
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .wallet-heading {
-    text-align: left;
-    font-weight: 900;
+  text-align: left;
+  font-weight: 900;
+}
+.wallet-heading h3 {
+  margin-top: 0;
 }
 
 .wallet-heading-1 {
-    text-align: left;
-    font-weight: 900;
-    font-size: 1.3em;
+  text-align: left;
+  font-weight: 900;
+  font-size: 1.3em;
 }
 
 .wallet-label {
-    text-align: left;
-    flex: 1;
+  text-align: left;
+  flex: 1;
 }
 
 .wallet-value {
-    text-align: right;
-    font-weight: bold;
-    flex: 1;
+  text-align: right;
+  font-weight: bold;
+  flex: 1;
 }
 
 .wallet-divider {
-    border: none;
-    height: 1px;
-    background: var(--dark);
-    margin: 10px 0;
-    ;
+  border: none;
+  height: 1px;
+  background: var(--dark);
+  margin: 10px 0;
 }
 
 .submission-wallet-confirm {
-    margin-top: 10px;
-    text-align: center;
+  margin-top: 10px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
-    .submission-wallet {
-        transform: scale(0.80);
-    }
-    
+  .submission-wallet {
+    transform: scale(0.8);
+  }
 }

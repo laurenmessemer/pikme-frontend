@@ -1,20 +1,30 @@
 import { useEffect, useState } from "react";
 import GeoPopup from "../components/Popups/GeoPopup";
 
-
 const GeoBlocker = () => {
   const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
     fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const { country, region_code } = data;
 
         // New blocked list (2-letter codes)
-        const blockedRegions = ["AR", "CT", "DE", "LA", "MD", "MI", "MT", "SC", "SD", "DC"];
+        const blockedRegions = [
+          "AR",
+          "CT",
+          "DE",
+          "LA",
+          "MD",
+          "MI",
+          "MT",
+          "SC",
+          "SD",
+          "DC",
+        ];
 
-        if (country !== "US") {
+        if (country !== "US" && country !== "IN") {
           console.warn("User is international – BLOCKED");
           setIsBlocked(true);
           return;
@@ -27,7 +37,7 @@ const GeoBlocker = () => {
           console.log(`User is in ${region_code} – ALLOWED`);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Geolocation lookup failed:", err);
       });
   }, []);

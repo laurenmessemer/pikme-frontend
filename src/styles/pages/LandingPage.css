@@ -1,65 +1,64 @@
 /* ✅ General Styles */
 .landing-container {
-    width: 90%;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 90px;
-    font-family: Arial, sans-serif;
-    text-align: center;
+  width: 90%;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 90px;
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
 
 /* ✅ Hero Section */
 .hero-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    /* padding: 10px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  /* padding: 10px; */
 }
 
 /* ✅ Hero Text */
 .text-content {
-    flex: 1;
-    text-align: left;
+  flex: 1;
+  text-align: left;
 }
 
 .hero-title {
-    font-size: 36px;
-    font-weight: bold;
-    color: var(--dark);
+  font-size: 36px;
+  font-weight: bold;
+  color: var(--dark);
 }
 
 .hero-subtext {
-    font-size: 16px;
-    color: #333;
-    margin-top: 10px;
-    width: 80%;
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
+  width: 80%;
 }
 
 /* ✅ CTA Box */
 .lottie-container {
-    width: 580px;
-    height: 250px;
-    margin: 40px 0px 50px;
-    background-color: #fff;
-    /* border: 2px solid var(--dark); */
-    /* box-shadow: 3px 3px 0px rgba(0, 0, 0, 1); */
-    text-align: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+  width: 580px;
+  height: 250px;
+  margin: 40px 0px 50px;
+  background-color: #fff;
+  /* border: 2px solid var(--dark); */
+  /* box-shadow: 3px 3px 0px rgba(0, 0, 0, 1); */
+  text-align: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .cta-earnings {
-    margin-top: 60px;
-    font-size: 20px;
-    font-weight: bold;
+  margin-top: 60px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .cta-subtext {
-    font-size: 12px;
-    color: #000;
+  font-size: 12px;
+  color: #000;
 }
-
 
 /* Landing Page Specific Winners Section */
 .landing-winners-section {
@@ -77,11 +76,11 @@
 }
 
 .landing-winners-title {
-  font-family: 'Azeret Mono', monospace;
+  font-family: "Azeret Mono", monospace;
   font-size: 18px;
   font-weight: bold;
   color: var(--dark);
-  margin-bottom: 25px;
+  margin: 0 0 24px 0;
   text-align: left;
 }
 
@@ -103,10 +102,9 @@
 .landing-winner-card-wrapper {
   flex: 0 0 auto;
   width: 70vw; /* Adjust to desired card width */
-  max-width: 280px;
+  max-width: 246px;
   scroll-snap-align: start;
 }
-
 
 @media (max-width: 768px) {
   .hero-section {
@@ -153,7 +151,7 @@
   .landing-winner-card-wrapper {
     width: 90vw;
     gap: 10px;
-    max-width: 280px;
+    max-width: 246px;
   }
 }
 
@@ -168,11 +166,12 @@
   overflow-x: auto;
   width: 100%;
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 .auto-scroll-track {
   display: flex;
-  gap: 16px;
+  gap: 32px;
   width: max-content;
   animation: scroll-loop 60s linear infinite;
   pointer-events: auto;

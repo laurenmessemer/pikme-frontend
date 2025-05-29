@@ -1,0 +1,144 @@
+.admin-main-container {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  .admin-login-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--form-blue);
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Title and Description */
+  .admin-login-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--dark);
+    margin: 0 0 20px 0;
+    font-family: "Familjen Grotesk", sans-serif;
+  }
+
+  /* Form Styles */
+  .admin-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .field-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+
+    .input-box {
+      position: relative;
+    }
+
+    .form-label {
+      font-size: 10px;
+      font-weight: bold;
+      color: #000;
+      text-align: left;
+      margin: 0px;
+      padding: 0px;
+
+      .star-required {
+        color: var(--error);
+      }
+    }
+
+    .form-input {
+      padding: 10px 38px 10px 10px;
+      border: 2px #000 solid;
+      font-size: 10px;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      box-shadow: 2px 2px 0px #000;
+      border-radius: 2px;
+      box-sizing: border-box;
+      width: 100%;
+
+      &.error-input {
+        border: 2px var(--error) solid;
+        box-shadow: 2px 2px 0px var(--error);
+      }
+    }
+
+    /* Custom Green Checkmark */
+    .green-custom-checkmark {
+      width: 14px;
+      height: 14px;
+      background-color: #00aa6c;
+      border: 1px solid #000;
+      border-radius: 0;
+      box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+      position: absolute;
+      right: 10px;
+      top: 47%;
+      transform: translateY(-47%);
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 1px;
+        width: 3px;
+        height: 7px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  .error-message {
+    color: var(--error);
+    font-size: 12px;
+    text-align: center;
+    margin: 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  /* Login Button */
+  .login-button {
+    padding: 0 8px;
+    min-height: 38px;
+    background-color: #cfcfcf;
+    border: 2px solid #000;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+    transition: transform 0.2s;
+    width: 100%;
+
+    &:hover:not(:disabled) {
+      background-color: #bfbfbf;
+      transform: translateY(1px);
+      box-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+}

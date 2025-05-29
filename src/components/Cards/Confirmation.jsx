@@ -4,12 +4,19 @@ import { FaCopy } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../styles/cards/Confirmation.css";
 import RogueButton from "../Buttons/RogueButton";
+import { onImageError } from "../../utils/RouterUtils";
 
-const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }) => {
+const Confirmation = ({
+  newBalance,
+  inviteLink,
+  matchType,
+  joinedExistingMatch,
+  isFullLink = false,
+}) => {
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
 
-  const inviteCode = inviteLink?.split("/").pop();
+  const inviteCode = isFullLink ? inviteLink : inviteLink?.split("/").pop();
 
   const handleCopy = () => {
     if (inviteCode) {
@@ -29,12 +36,15 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
           src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
           alt="Token"
           className="token-icon"
+          onError={onImageError}
         />
       </p>
 
       {matchType === "invite_friend" && joinedExistingMatch ? (
         <>
-          <p className="waiting-text">You’ve been matched with your friend! 🎉</p>
+          <p className="waiting-text">
+            You’ve been matched with your friend! 🎉
+          </p>
           <p className="confirmation-subtext">
             View your entry or jump in to vote now.
           </p>
@@ -53,17 +63,32 @@ const Confirmation = ({ newBalance, inviteLink, matchType, joinedExistingMatch }
             </button>
           </div>
           <p className="confirmation-text">
-            Copy the link to invite a friend to your head-to-head match. You can change your opponent in ‘My Submissions’ under the Leaderboard tab.
+            {/* Copy the link to invite a friend to your head-to-head match. You can
+            change your opponent in ‘My Submissions’ under the Leaderboard tab. */}
+            Your friend has been invited via email. For quick sharing, just copy
+            and send them this link.
+            <br />
+            <br />
+            If your friend hasn’t joined yet and you’ve had a change of heart,
+            head to My Submissions under the Leaderboard to choose a new
+            opponent.
           </p>
-          {copied && <p className="copy-message">Code copied!</p>}
+          {copied && (
+            <p className="copy-message">
+              {isFullLink ? "Link copied!" : "Code copied!"}
+            </p>
+          )}
         </>
       ) : matchType === "pick_random" ? (
         <>
           <p className="waiting-text">
-            {joinedExistingMatch ? "Matched! 2/2" : "Waiting for your opponent... ⏳ 1/2"}
+            {joinedExistingMatch
+              ? "Matched! 2/2"
+              : "Waiting for your opponent... ⏳ 1/2"}
           </p>
           <p className="confirmation-subtext">
-            View your 1v1 opponent in ‘My Submissions’ under the Leaderboard tab.
+            View your 1v1 opponent in ‘My Submissions’ under the Leaderboard
+            tab.
           </p>
         </>
       ) : (
@@ -181,4 +206,3 @@ export default Confirmation;
 // };
 
 // export default Confirmation;
-

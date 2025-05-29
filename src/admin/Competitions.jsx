@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageCompetitions.css";
+import { useAuth } from "../context/UseAuth";
+import ToastUtils from "../utils/ToastUtils";
+import LazyImage from "../components/Common/LazyImage";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
-const WINNERS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions/determine-winners`;
+const WINNERS_API_URL = `${
+  import.meta.env.VITE_API_URL
+}/api/competitions/determine-winners`;
 
 const Competitions = () => {
+  const { token } = useAuth();
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +22,12 @@ const Competitions = () => {
   const fetchCompetitions = async () => {
     setLoading(true);
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`HTTP ${response.status}: ${errorText}`);
@@ -39,16 +50,24 @@ const Competitions = () => {
   const handleDetermineWinners = async () => {
     setDeterminingWinners(true);
     try {
-      const response = await fetch(WINNERS_API_URL, { method: "POST" });
+      const response = await fetch(WINNERS_API_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
-      alert("Winners successfully determined!");
+      // alert("Winners successfully determined!");
+      ToastUtils.success("Winners successfully determined!");
       await fetchCompetitions();
     } catch (error) {
       console.error("❌ Error determining winners:", error);
-      alert("Error determining winners. Check console for details.");
+      // alert("Error determining winners. Check console for details.");
+      ToastUtils.error("Error determining winners. Check console for details.");
     } finally {
       setDeterminingWinners(false);
     }
@@ -78,7 +97,11 @@ const Competitions = () => {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify(editedData),
       });
 
@@ -93,12 +116,18 @@ const Competitions = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this competition?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this competition?"
+    );
     if (!confirmed) return;
 
     try {
       const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
       });
 
       if (!response.ok) throw new Error("Failed to delete competition");
@@ -106,7 +135,8 @@ const Competitions = () => {
       await fetchCompetitions();
     } catch (err) {
       console.error("❌ Error deleting competition:", err);
-      alert("Error deleting competition. See console for details.");
+      // alert("Error deleting competition. See console for details.");
+      ToastUtils.error("Error deleting competition. See console for details.");
     }
   };
 
@@ -115,7 +145,9 @@ const Competitions = () => {
   const filteredCompetitions =
     selectedContestId === "all"
       ? competitions
-      : competitions.filter((c) => c.contest_id === parseInt(selectedContestId));
+      : competitions.filter(
+          (c) => c.contest_id === parseInt(selectedContestId)
+        );
 
   return (
     <div className="manage-competitions-content">
@@ -178,7 +210,7 @@ const Competitions = () => {
                 <td>{comp.Contest?.Theme?.name || "N/A"}</td>
                 <td>
                   {comp.Contest?.Theme?.cover_image_url ? (
-                    <img
+                    <LazyImage
                       src={comp.Contest.Theme.cover_image_url}
                       alt={comp.Contest.Theme.name}
                       style={{
@@ -189,6 +221,17 @@ const Competitions = () => {
                       }}
                     />
                   ) : (
+                    // <img
+                    //   src={comp.Contest.Theme.cover_image_url}
+                    //   alt={comp.Contest.Theme.name}
+                    //   style={{
+                    //     width: "60px",
+                    //     height: "40px",
+                    //     objectFit: "cover",
+                    //     borderRadius: "4px",
+                    //   }}
+                    //   onError={onImageError}
+                    // />
                     "N/A"
                   )}
                 </td>

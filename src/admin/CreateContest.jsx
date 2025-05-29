@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/CreateContest.css";
+import { useAuth } from "../context/UseAuth";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 
 const CreateContest = () => {
+  const { token, user } = useAuth();
+  console.log("user: ", user);
   const [themes, setThemes] = useState([]); // Available themes
   const [selectedTheme, setSelectedTheme] = useState("");
   const [entryFee, setEntryFee] = useState("");
@@ -18,12 +21,16 @@ const CreateContest = () => {
 
   useEffect(() => {
     // ✅ Fetch themes from API
-    fetch(`${import.meta.env.VITE_API_URL}/api/themes`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/themes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true",
+      },
+    })
       .then((res) => res.json())
       .then((data) => setThemes(data))
       .catch((err) => console.error("Error fetching themes:", err));
   }, []);
-  
 
   // ✅ Function to add days to a given date
   const addDays = (dateString, days) => {
@@ -65,13 +72,22 @@ const CreateContest = () => {
 
   const handleCreateContest = async () => {
     // ✅ Validate input
-    if (!selectedTheme || !entryFee || !prizePool || !submissionStart || !submissionEnd || !votingStart || !votingEnd) {
+    if (
+      !selectedTheme ||
+      !entryFee ||
+      !prizePool ||
+      !submissionStart ||
+      !submissionEnd ||
+      !votingStart ||
+      !votingEnd
+    ) {
       setError("Please fill in all required fields.");
       return;
     }
 
     const newContest = {
-      creator_id: 1,
+      // creator_id: 1,
+      creator_id: user?.id,
       theme_id: selectedTheme,
       entry_fee: parseInt(entryFee),
       prize_pool: parseFloat(prizePool),
@@ -81,17 +97,20 @@ const CreateContest = () => {
         third: parseFloat(prizes[2]) || 0,
       },
       contest_live_date: submissionStart, // ✅ Add this line
-      status: "Live",                     // ✅ Add this line
+      status: "Live", // ✅ Add this line
       submission_deadline: submissionEnd,
       voting_live_date: votingStart,
       voting_deadline: votingEnd,
     };
-    
 
     try {
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify(newContest),
       });
 
@@ -114,7 +133,10 @@ const CreateContest = () => {
 
       <div className="form-group">
         <label>Theme:</label>
-        <select value={selectedTheme} onChange={(e) => setSelectedTheme(e.target.value)}>
+        <select
+          value={selectedTheme}
+          onChange={(e) => setSelectedTheme(e.target.value)}
+        >
           <option value="">Select Theme</option>
           {themes.map((theme) => (
             <option key={theme.id} value={theme.id}>
@@ -126,7 +148,11 @@ const CreateContest = () => {
 
       <div className="form-group">
         <label>Entry Fee:</label>
-        <input type="number" value={entryFee} onChange={(e) => setEntryFee(e.target.value)} />
+        <input
+          type="number"
+          value={entryFee}
+          onChange={(e) => setEntryFee(e.target.value)}
+        />
       </div>
 
       <hr />
@@ -134,7 +160,11 @@ const CreateContest = () => {
       <div className="prizes-section">
         <h3>Prizes</h3>
         <label>Prize Pool:</label>
-        <input type="number" value={prizePool} onChange={(e) => setPrizePool(e.target.value)} />
+        <input
+          type="number"
+          value={prizePool}
+          onChange={(e) => setPrizePool(e.target.value)}
+        />
 
         {["1st Place", "2nd Place", "3rd Place"].map((label, index) => (
           <div key={index} className="prize-input">
@@ -156,16 +186,32 @@ const CreateContest = () => {
 
       <div className="form-group">
         <label>Submission Start:</label>
-        <input type="date" value={submissionStart} onChange={handleSubmissionStartChange} />
+        <input
+          type="date"
+          value={submissionStart}
+          onChange={handleSubmissionStartChange}
+        />
         <label>Voting Start:</label>
-        <input type="date" value={votingStart} onChange={handleVotingStartChange} />
+        <input
+          type="date"
+          value={votingStart}
+          onChange={handleVotingStartChange}
+        />
       </div>
 
       <div className="form-group">
         <label>Submission End:</label>
-        <input type="date" value={submissionEnd} onChange={handleSubmissionEndChange} />
+        <input
+          type="date"
+          value={submissionEnd}
+          onChange={handleSubmissionEndChange}
+        />
         <label>Voting End:</label>
-        <input type="date" value={votingEnd} onChange={(e) => setVotingEnd(e.target.value)} />
+        <input
+          type="date"
+          value={votingEnd}
+          onChange={(e) => setVotingEnd(e.target.value)}
+        />
       </div>
 
       <div className="form-actions">

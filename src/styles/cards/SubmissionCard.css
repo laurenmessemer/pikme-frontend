@@ -1,135 +1,156 @@
 /* ✅ Submission Card - Expands with Content */
 .submission-card {
-    background: var(--light);
-    border: 3px solid var(--dark);
-    padding: 34px 25px 25px 25px; /* Reduced padding at the top */
-    box-shadow: 6px 6px 0px var(--dark);
-    display: flex;
-    flex-direction: column;
-    flex: 2;
-    padding-top: 0; /* Removed padding at the top */
-    min-width: 400px;
-    max-width: 500px;
-    min-width: 500px;
-    height: auto;
-    margin-right: 0;
-    position: relative;
+  background: var(--light);
+  border: 3px solid var(--dark);
+  padding: 34px 25px 25px 25px; /* Reduced padding at the top */
+  box-shadow: 6px 6px 0px var(--dark);
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  padding-top: 0; /* Removed padding at the top */
+  min-width: 400px;
+  max-width: 500px;
+  min-width: 500px;
+  height: auto;
+  margin-right: 0;
+  position: relative;
 }
 
 /* Header Section */
 .submission-header {
-    display: flex;
-    align-items: center;
-    gap: 6px; /* Reduced gap */
-    margin-top: 10px;
-    margin-bottom: 5px; /* Ensure it's closer to the next section */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reduced gap */
+  margin-top: 10px;
+  margin-bottom: 5px; /* Ensure it's closer to the next section */
+}
+.submission-header .contest-title,
+.submission-wallet-header .contest-title {
+  margin: 15px 0;
+  line-height: 1.2;
 }
 
 /* Contest Description */
 .contest-description {
-    color: var(--dark);
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
-    margin-bottom: 10px;
-    text-align: left;
+  color: var(--dark);
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 /* Payout Container */
 /* ✅ Payout Table Container */
 .payout-table-container {
-    width: 100%;
-    overflow-x: auto; /* Ensures responsiveness */
-    margin: 10px;
+  width: 100%;
+  overflow-x: auto; /* Ensures responsiveness */
+  margin: 10px;
 }
 
 /* ✅ Payout Table Styling */
 .payout-table {
-    width: 95%;
-    /* border-collapse: collapse; */
-    text-align: left;
-    font-size: 11px;
+  width: 95%;
+  /* border-collapse: collapse; */
+  text-align: left;
+  font-size: 11px;
 }
 
 /* ✅ Table Header */
 .payout-table thead {
-    background-color: #a5f5c0; /* Light green */
-    font-weight: bold;
+  background-color: #a5f5c0; /* Light green */
+  font-weight: bold;
 }
 
-.payout-table th, 
+.payout-table th,
 .payout-table td {
-    border: 1px solid #464242; /* Border matches the card */
-    padding: 5px;
+  border: 1px solid #464242; /* Border matches the card */
+  padding: 5px;
 }
 
 /* ✅ Ensure Payout Column is Right-Aligned */
 .payout-table td:last-child {
-    text-align: left;
+  text-align: left;
 }
 
 /* ✅ Emoji Alignment */
 .payout-table td:first-child {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Space between emoji and text */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between emoji and text */
 }
 
-
 .opponent-description {
-    align-items: center;
-    display: flex;
-    margin-top: 25px;
+  align-items: center;
+  display: flex;
+  margin-top: 25px;
+}
+.popup-data .opponent-description {
+  margin-top: 0;
+  font-size: 11px;
+}
+.popup-data .submission-card-opponents {
+  margin: 0 auto;
+  max-width: 315px;
+  width: 100%;
 }
 
 /* Opponents */
 .submission-card-opponents {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 4px 0; /* Reduced space between this and other elements */
-    margin-left: 90px;
-    margin-right: 90px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0; /* Reduced space between this and other elements */
+  margin-left: 90px;
+  margin-right: 90px;
 }
 
 /* Timer Section */
 .timer-container {
-    margin: 0 !important; /* Removes all excess space above/below */
-    padding: 0 !important;
+  margin: 0 !important; /* Removes all excess space above/below */
+  padding: 0 !important;
 }
 
 /* Submit Button */
 .submission-card-submit {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+/* Submit Button */
+.submission-card-submit.with-spacing {
+  gap: 12px;
+}
+/* Submit Button */
+.submission-card-submit.with-spacing.mt-0 {
+  margin-top: 0;
 }
 
 /* ✅ Medal Container */
 .submission-card__medals {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    display: flex;
-    gap: 3px; /* Space between medals */
-    z-index: 5;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 3px; /* Space between medals */
+  z-index: 5;
 }
 
 /* ✅ Medal Styling */
 .submission-medal {
-    width: 60px; /* Adjust as needed */
-    height: auto;
+  width: 60px; /* Adjust as needed */
+  height: auto;
 }
 
 /* Individual Medal Positions */
 .submission-medal.gold {
-    order: 1; /* Ensures Gold appears first */
+  order: 1; /* Ensures Gold appears first */
 }
 
 .submission-medal.silver {
-    order: 2;
+  order: 2;
 }
 
 .submission-medal.bronze {
-    order: 3;
+  order: 3;
 }

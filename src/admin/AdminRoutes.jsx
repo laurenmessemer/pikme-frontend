@@ -50,7 +50,9 @@ const AdminRoutes = () => {
   return (
     <Routes>
       {/* ✅ Redirect unauthorized users */}
-      {!isAuthenticated && <Route path="*" element={<Navigate to="/admin-login" replace />} />}
+      {!isAuthenticated && (
+        <Route path="*" element={<Navigate to="/admin-login" replace />} />
+      )}
 
       <Route path="/admin-login" element={<AdminLogin />} />
 

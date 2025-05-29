@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/ManageContests.css";
+import { useAuth } from "../context/UseAuth";
+import LazyImage from "../components/Common/LazyImage";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
 
 const ManageContests = () => {
+  const { token } = useAuth();
   const [contests, setContests] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const [contestsLoading, setContestsLoading] = useState(true);
@@ -17,8 +20,18 @@ const ManageContests = () => {
       setContestsLoading(true);
       try {
         const [contestsRes, competitionsRes] = await Promise.all([
-          fetch(CONTESTS_API_URL),
-          fetch(COMPETITIONS_API_URL),
+          fetch(CONTESTS_API_URL, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }),
+          fetch(COMPETITIONS_API_URL, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }),
         ]);
 
         if (!contestsRes.ok || !competitionsRes.ok) {
@@ -80,16 +93,18 @@ const ManageContests = () => {
     try {
       const response = await fetch(`${CONTESTS_API_URL}/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify(editedData),
       });
 
       if (!response.ok) throw new Error("Failed to update contest");
 
       const updated = await response.json();
-      setContests((prev) =>
-        prev.map((c) => (c.id === id ? updated : c))
-      );
+      setContests((prev) => prev.map((c) => (c.id === id ? updated : c)));
       setEditingId(null);
     } catch (err) {
       console.error("❌ Error updating:", err);
@@ -97,12 +112,18 @@ const ManageContests = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirm = window.confirm("Are you sure you want to delete this contest?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this contest?"
+    );
     if (!confirm) return;
 
     try {
       const response = await fetch(`${CONTESTS_API_URL}/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
       });
 
       if (!response.ok) throw new Error("Failed to delete contest");
@@ -152,13 +173,20 @@ const ManageContests = () => {
                 <td>{contest.id}</td>
                 <td>
                   {editingId === contest.id ? (
-                    <select value={editedData.status} onChange={(e) => handleChange(e, "status")}>
+                    <select
+                      value={editedData.status}
+                      onChange={(e) => handleChange(e, "status")}
+                    >
                       <option value="Upcoming">Upcoming</option>
                       <option value="Live">Live</option>
                       <option value="Complete">Complete</option>
                     </select>
                   ) : (
-                    <span className={`status ${contest.status?.toLowerCase() || "unknown"}`}>
+                    <span
+                      className={`status ${
+                        contest.status?.toLowerCase() || "unknown"
+                      }`}
+                    >
                       {contest.status || "Unknown"}
                     </span>
                   )}
@@ -166,71 +194,150 @@ const ManageContests = () => {
                 <td>{contest.Theme?.name || "N/A"}</td>
                 <td>
                   {contest.Theme?.cover_image_url ? (
-                    <img
-                      src={contest.Theme.cover_image_url}
-                      alt={contest.Theme.name}
-                      style={{ width: "60px", height: "40px", objectFit: "cover", borderRadius: "4px" }}
-                    />
+                    <>
+                      <LazyImage
+                        src={contest.Theme.cover_image_url}
+                        alt={contest.Theme.name}
+                        style={{
+                          width: "60px",
+                          height: "40px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                      />
+                      {/* // <img
+                      //   src={contest.Theme.cover_image_url}
+                      //   alt={contest.Theme.name}
+                      //   style={{
+                      //     width: "60px",
+                      //     height: "40px",
+                      //     objectFit: "cover",
+                      //     borderRadius: "4px",
+                      //   }}
+                      //   onError={onImageError}
+                      // /> */}
+                    </>
                   ) : (
                     "N/A"
                   )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="number" value={editedData.entry_fee} onChange={(e) => handleChange(e, "entry_fee")} />
-                  ) : `${contest.entry_fee}`}
+                    <input
+                      type="number"
+                      value={editedData.entry_fee}
+                      onChange={(e) => handleChange(e, "entry_fee")}
+                    />
+                  ) : (
+                    `${contest.entry_fee}`
+                  )}
                 </td>
                 <td>{getTotalEntriesForContest(contest.id)}</td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="number" value={editedData.prize_pool} onChange={(e) => handleChange(e, "prize_pool")} />
-                  ) : `${contest.prize_pool}`}
+                    <input
+                      type="number"
+                      value={editedData.prize_pool}
+                      onChange={(e) => handleChange(e, "prize_pool")}
+                    />
+                  ) : (
+                    `${contest.prize_pool}`
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="number" value={editedData.winnings?.first} onChange={(e) => handleWinningsChange(e, "first")} />
-                  ) : `${contest.winnings?.first}`}
+                    <input
+                      type="number"
+                      value={editedData.winnings?.first}
+                      onChange={(e) => handleWinningsChange(e, "first")}
+                    />
+                  ) : (
+                    `${contest.winnings?.first}`
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="number" value={editedData.winnings?.second} onChange={(e) => handleWinningsChange(e, "second")} />
-                  ) : `${contest.winnings?.second}`}
+                    <input
+                      type="number"
+                      value={editedData.winnings?.second}
+                      onChange={(e) => handleWinningsChange(e, "second")}
+                    />
+                  ) : (
+                    `${contest.winnings?.second}`
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="number" value={editedData.winnings?.third} onChange={(e) => handleWinningsChange(e, "third")} />
-                  ) : `${contest.winnings?.third}`}
+                    <input
+                      type="number"
+                      value={editedData.winnings?.third}
+                      onChange={(e) => handleWinningsChange(e, "third")}
+                    />
+                  ) : (
+                    `${contest.winnings?.third}`
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="date" value={editedData.contest_live_date?.slice(0, 10)} onChange={(e) => handleChange(e, "contest_live_date")} />
-                  ) : new Date(contest.contest_live_date).toLocaleDateString()}
+                    <input
+                      type="date"
+                      value={editedData.contest_live_date?.slice(0, 10)}
+                      onChange={(e) => handleChange(e, "contest_live_date")}
+                    />
+                  ) : (
+                    new Date(contest.contest_live_date).toLocaleDateString()
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="date" value={editedData.submission_deadline?.slice(0, 10)} onChange={(e) => handleChange(e, "submission_deadline")} />
-                  ) : new Date(contest.submission_deadline).toLocaleDateString()}
+                    <input
+                      type="date"
+                      value={editedData.submission_deadline?.slice(0, 10)}
+                      onChange={(e) => handleChange(e, "submission_deadline")}
+                    />
+                  ) : (
+                    new Date(contest.submission_deadline).toLocaleDateString()
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="date" value={editedData.voting_live_date?.slice(0, 10)} onChange={(e) => handleChange(e, "voting_live_date")} />
-                  ) : new Date(contest.voting_live_date).toLocaleDateString()}
+                    <input
+                      type="date"
+                      value={editedData.voting_live_date?.slice(0, 10)}
+                      onChange={(e) => handleChange(e, "voting_live_date")}
+                    />
+                  ) : (
+                    new Date(contest.voting_live_date).toLocaleDateString()
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
-                    <input type="date" value={editedData.voting_deadline?.slice(0, 10)} onChange={(e) => handleChange(e, "voting_deadline")} />
-                  ) : new Date(contest.voting_deadline).toLocaleDateString()}
+                    <input
+                      type="date"
+                      value={editedData.voting_deadline?.slice(0, 10)}
+                      onChange={(e) => handleChange(e, "voting_deadline")}
+                    />
+                  ) : (
+                    new Date(contest.voting_deadline).toLocaleDateString()
+                  )}
                 </td>
                 <td>
                   {editingId === contest.id ? (
                     <>
-                      <button onClick={() => handleSave(contest.id)}>Save</button>
+                      <button onClick={() => handleSave(contest.id)}>
+                        Save
+                      </button>
                       <button onClick={handleCancel}>Cancel</button>
                     </>
                   ) : (
                     <>
                       <button onClick={() => handleEdit(contest)}>Edit</button>
-                      <button className="delete-button" onClick={() => handleDelete(contest.id)}>Delete</button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(contest.id)}
+                      >
+                        Delete
+                      </button>
                     </>
                   )}
                 </td>
@@ -244,7 +351,6 @@ const ManageContests = () => {
 };
 
 export default ManageContests;
-
 
 // import { useEffect, useState } from "react";
 // import "../styles/admin/ManageContests.css";
@@ -294,14 +400,11 @@ export default ManageContests;
 //     fetchContests();
 //   }, []);
 
-
-
 //   useEffect(() => {
 //     console.log("🔍 useEffect triggered, calling fetchCompetitions...");
 //   }, []);
 
 //   // ✅ Function to Manually Trigger Winner Determination
-
 
 //   return (
 //     <div className="manage-contests-container">

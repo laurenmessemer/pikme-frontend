@@ -1,15 +1,15 @@
 import { useState } from "react";
 import {
-    FaEnvelope,
-    FaFileAlt,
-    FaHeadset,
-    FaKey,
-    FaShieldAlt,
+  FaEnvelope,
+  FaFileAlt,
+  FaHeadset,
+  FaKey,
+  FaShieldAlt,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import "../../styles/sections/MenuSettings.css";
 import UtilityTemplate from "../../utils/UtilityTemplate";
 import ContactPopup from "../Popups/ContactPopup"; // ✅ Make sure this path is correct
+import ChangePassword from "./ChangePassword";
 
 const MenuSettings = () => {
   const [activeTab, setActiveTab] = useState("support");
@@ -66,6 +66,7 @@ const MenuSettings = () => {
           <div
             className="menu-settings-button"
             onClick={() => navigate("/reset-password-request")}
+            // onClick={() => setActiveTab("change_password")}
           >
             <div className="menu-settings-left">
               <FaKey className="menu-settings-icon" />
@@ -118,6 +119,12 @@ const MenuSettings = () => {
                   Learn more
                 </Link>
               </p>
+            </>
+          )}
+          {activeTab === "change_password" && (
+            <>
+              <h3 className="menu-settings-section-title">Change Password</h3>
+              <ChangePassword />
             </>
           )}
         </div>

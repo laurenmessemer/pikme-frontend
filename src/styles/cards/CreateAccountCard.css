@@ -1,190 +1,208 @@
 /* ✅ General Styles */
 .signup-container {
-    width: 100%;
-    max-width: 295px;
-    margin: 0 auto;
-    padding: 15px;
-    background-color: var(--form-blue); /* ✅ Uses your background color */
-    border: 2px solid #000;
-    box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
-    font-family: Arial, sans-serif;
-    text-align: center;
-    box-sizing: border-box;
-    overflow: hidden;
-    margin-top: 3.5em;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 15px;
+  background-color: var(--form-blue); /* ✅ Uses your background color */
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin-top: 3.5em;
 }
 
 /* ✅ Title */
 .signup-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 15px;
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--dark);
+  margin: 0 0 20px 0;
+  font-family: "Familjen Grotesk", sans-serif;
 }
-
+/* description */
+.signup-description {
+  font-size: 12px;
+  color: var(--dark);
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
 /* ✅ Form Styles */
 .signup-form {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+.signup-form .field-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
 }
 
 .form-label {
-    font-size: 10px;
-    font-weight: bold;
-    color: #000;
-    text-align: left;
-    display: block;
+  font-size: 10px;
+  font-weight: bold;
+  color: #000;
+  text-align: left;
+  display: block;
 }
 
 .required {
-    color: red;
+  color: red;
 }
 
 /* ✅ Input Fields */
 .form-input {
-    width: 100%;
-    padding: 8px;
-    border: 2px solid #000;
-    font-size: 10px;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
-    box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #000;
+  font-size: 10px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+  outline: none;
 }
 
 /* ✅ Password Wrapper */
 .password-wrapper {
-    position: relative;
+  position: relative;
 }
 
 /* ✅ Eye Icon for Password Toggle */
 .eye-icon {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    color: #000;
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ✅ Error Text */
 .error-text {
-    color: red;
-    font-size: 10px;
-    margin-top: 4px;
+  color: red;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 /* ✅ Signup Button */
 .signup-button {
-    padding: 8px;
-    background-color: #cfcfcf;
-    border: 2px solid #000;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
-    transition: transform 0.2s;
-    margin-top: 8px;
+  padding: 0 8px;
+  min-height: 38px;
+  background-color: #cfcfcf;
+  border: 2px solid #000;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  transition: transform 0.2s;
+  width: 100%;
 }
 
 .signup-button:hover {
-    transform: translateY(-1px);
+  transform: translateY(-1px);
 }
 
 /* ✅ Keep Me Signed In */
 .keep-signed-in {
-    display: flex;
-    align-items: center;
-    font-size: 10px;
-    color: #000;
-    text-align: left;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: #000;
+  text-align: left;
 }
 
 .checkbox-input {
-    margin-right: 6px;
+  margin-right: 6px;
 }
 
 /* ✅ Divider */
 .divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
 }
 
 .line {
-    flex: 1;
-    height: 1px;
-    background-color: #000;
+  flex: 1;
+  height: 1px;
+  background-color: #000;
 }
 
 .divider-text {
-    font-size: 10px;
-    font-weight: bold;
-    color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  color: #000;
 }
 
 /* ✅ Social Signup */
 .social-signup {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 /* ✅ Social Icons */
 .social-icon {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #000;
-    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    background-color: #fff;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background-color: #fff;
 }
 
 .social-icon:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* ✅ Adjust Icons Inside */
 .social-icon svg {
-    width: 18px;
-    height: 18px;
-    color: #000; /* Black icons */
+  width: 18px;
+  height: 18px;
+  color: #000; /* Black icons */
 }
 
 /* ✅ Terms and Privacy */
 .terms-text {
-    font-size: 10px;
-    color: #000;
-    text-align: center;
-    margin: 8px 0;
+  font-size: 10px;
+  color: #000;
+  text-align: center;
+  margin: 8px 0;
 }
 
 .terms-text a {
-    font-weight: bold;
-    text-decoration: underline;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 /* ✅ Footer Text */
 .footer-text {
-    font-size: 10px;
-    color: #000;
+  font-size: 10px;
+  color: #000;
 }
 
 .footer-text a {
-    color: #000;
-    font-weight: bold;
-    text-decoration: underline;
+  color: #000;
+  font-weight: bold;
+  text-decoration: underline;
 }

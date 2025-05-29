@@ -11,7 +11,10 @@ const Dropdown = ({ title, children }) => {
 
   return (
     <div className="dropdown">
-      <div className={`dropdown-header ${isOpen ? "open" : ""}`} onClick={toggleDropdown}>
+      <div
+        className={`dropdown-header ${isOpen ? "open" : ""}`}
+        onClick={toggleDropdown}
+      >
         {title}
         <span className="dropdown-icon">{isOpen ? "−" : "+"}</span>
       </div>

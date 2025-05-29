@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Confirmation from "../components/Cards/Confirmation";
 import { useCompetition } from "../context/CompetitionContext";
 import { WalletContext } from "../context/WalletContext";
-import "../styles/competition/StepFour.css";
+import { SiteUrl } from "../../constant/appConstants";
 
 const StepFour = () => {
   const { imageUrl } = useCompetition(); // ✅ Get imageUrl from CompetitionContext
@@ -11,7 +11,7 @@ const StepFour = () => {
   // ✅ Generate a unique invite link with random numbers
   const generateInviteLink = () => {
     const randomNum = Math.floor(1000 + Math.random() * 9000); // Random 4-digit number
-    return `https://pikme.com/headtoheadfriendinvite-${randomNum}`;
+    return `${SiteUrl}/headtoheadfriendinvite-${randomNum}`;
   };
 
   if (!imageUrl) {
@@ -22,8 +22,8 @@ const StepFour = () => {
   return (
     <div className="step-four-container flex">
       {/* ✅ Left Side: Confirmation Card */}
-      <Confirmation 
-        newBalance={balance} 
+      <Confirmation
+        newBalance={balance}
         inviteLink={generateInviteLink()} // ✅ Use dynamic invite link
       />
 

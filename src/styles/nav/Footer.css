@@ -1,101 +1,73 @@
-.footer-hover-wrapper {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+.footer {
   width: 100%;
-  pointer-events: none; /* Prevent accidental capture */
-  z-index: 9999999999;
+  min-height: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Aligns all items in the middle */
+  padding: 0px;
+  color: var(--dark); /* Uses global text color */
+  font-family: "Azeret Mono", monospace;
+  z-index: 99;
+  pointer-events: auto; /* Don't block interaction until visible */
   background-color: transparent;
 }
-
-.footer-hover-zone {
-  height: 50px;
-  width: 100%;
-  pointer-events: auto;
-  background-color: transparent; /* Change to your desired color */
-  transition: background-color .3s ease-in-out;
+.footer .footer-nav h6 {
+  margin: 0;
 }
 
-.footer-hover-wrapper:hover .footer-hover-zone {
-  background-color: var(--footer-bg);
+/* Left section: Logo + Navigation */
+.footer-left {
+  display: flex;
+  align-items: center; /* Ensures middle alignment */
+  padding-left: 35px;
 }
 
-
-.footer {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Aligns all items in the middle */
-    padding: 0px 10px;
-    color: var(--dark); /* Uses global text color */
-    font-family: 'Azeret Mono', monospace;
-    z-index: 9999000;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-in-out;
-    pointer-events: none; /* Don't block interaction until visible */
-    background-color: transparent;
-    box-shadow: 0 -8px 12px -8px rgba(0, 0, 0, 0.1); /* 💡 subtle fade-in from top */
-  }
-
-/* ✅ Use a parent hover selector */
-.footer-hover-wrapper:hover .footer {
-  transform: translateY(0);
-  pointer-events: auto;
+.footer-logo {
+  height: 24px; /* Adjust as necessary */
+  margin-right: 20px;
 }
 
+/* Footer navigation */
+.footer-nav {
+  display: flex;
+  gap: 20px;
+}
 
-  /* Left section: Logo + Navigation */
-  .footer-left {
-    display: flex;
-    align-items: center; /* Ensures middle alignment */
-  }
-  
-  .footer-logo {
-    height: 24px; /* Adjust as necessary */
-    margin-right: 20px;
-  }
-  
-  /* Footer navigation */
-  .footer-nav {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .footer-nav a {
-    text-decoration: none;
-    color: var(--dark);
-  }
-  
-  .footer-nav a:hover {
-    color: var(--primary-brand);
-  }
-  
-  /* Right section: Social icons */
-  .footer-right {
-    display: flex;
-    align-items: center; /* Ensures middle alignment */
-    gap: 15px;
-    padding-right: 35px;
-  }
-  
-  .footer-right a {
-    text-decoration: none;
-    font-size: 18px;
-    color: var(--dark);
-  }
-  
-  .footer-right a:hover {
-    color: var(--primary-brand);
-  }
+.footer-nav a {
+  text-decoration: none;
+  color: var(--dark);
+  font-size: 14px;
+}
 
+.footer-nav a h6 {
+  font-size: 14px;
+}
 
-  @media (max-width: 768px) {
-    .footer {
-      display: none;
-    }
-    
+.footer-nav a:hover {
+  color: var(--primary-brand);
+}
+
+/* Right section: Social icons */
+.footer-right {
+  display: flex;
+  align-items: center; /* Ensures middle alignment */
+  gap: 15px;
+  padding-right: 35px;
+}
+
+.footer-right a {
+  text-decoration: none;
+  font-size: 18px;
+  color: var(--dark);
+}
+
+.footer-right a:hover {
+  color: var(--primary-brand);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    display: none;
   }
+}

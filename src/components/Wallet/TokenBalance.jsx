@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "../../styles/wallet/TokenBalance.css";
+import LazyImage from "../Common/LazyImage";
 
 const tokenImg = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 
@@ -10,12 +11,19 @@ const TokenBalance = ({ balance, prizeHistory }) => {
   };
 
   const renderTokenIcon = () => (
-    <img
+    <LazyImage
       src={tokenImg}
       alt="Token"
       className="token-icon"
       style={{ height: "1em", verticalAlign: "middle" }}
     />
+    // <img
+    //   src={tokenImg}
+    //   alt="Token"
+    //   className="token-icon"
+    //   style={{ height: "1em", verticalAlign: "middle" }}
+    //   onError={onImageError}
+    // />
   );
 
   return (
@@ -38,7 +46,11 @@ const TokenBalance = ({ balance, prizeHistory }) => {
                 <p className="prize-description">{entry.description}</p>
                 <p className="prize-date">{formatDate(entry.timestamp)}</p>
               </div>
-              <div className={`prize-right ${entry.amount > 0 ? "positive" : "negative"}`}>
+              <div
+                className={`prize-right ${
+                  entry.amount > 0 ? "positive" : "negative"
+                }`}
+              >
                 {entry.amount > 0 ? (
                   <span className="prize-amount-wrapper">
                     +{entry.amount}
@@ -55,7 +67,6 @@ const TokenBalance = ({ balance, prizeHistory }) => {
                   </span>
                 )}
               </div>
-
             </div>
           ))}
         </div>

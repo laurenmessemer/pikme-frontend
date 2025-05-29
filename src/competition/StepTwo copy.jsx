@@ -5,16 +5,23 @@ import SubmissionCard from "../components/Cards/SubmissionCard";
 import UploadImage from "../components/Cards/UploadImage";
 import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
-import "../styles/competition/StepTwo.css";
+import ToastUtils from "../utils/ToastUtils";
 
 const StepTwo = ({ nextStep }) => {
-  const { contestId, imageUrl, setImageUrl, imageFile, setImageFile, setMatchType } = useCompetition();
+  const {
+    contestId,
+    imageUrl,
+    setImageUrl,
+    imageFile,
+    setImageFile,
+    setMatchType,
+  } = useCompetition();
   const [contest, setContest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedOpponent, setSelectedOpponent] = useState("pick_random");
   const [fileKey, setFileKey] = useState(null); // ✅ State to store file key
-  const { user } = useAuth(); // Get user details from context
+  const { user, token } = useAuth(); // Get user details from context
   const userId = user?.id; // Retrieve the user ID
 
   useEffect(() => {
@@ -26,7 +33,15 @@ const StepTwo = ({ nextStep }) => {
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/contests/${contestId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setContest(response.data);
       } catch (err) {
         console.error("❌ Error fetching contest details:", err);
@@ -42,56 +57,82 @@ const StepTwo = ({ nextStep }) => {
   // ✅ Handle image upload with pre-signed URL
   const handleUpload = async (file) => {
     if (!file) return;
-    
+
     setImageFile(file);
-    
+
     try {
       // ✅ Step 1: Request pre-signed URL from backend
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`, {
-        params: { 
-          user_id: userId,  // Replace with actual user ID from context
-          contest_id: contestId,
-          match_type: selectedOpponent,
-          fileType: file.type
-        },
-      });
-  
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+          params: {
+            user_id: userId, // Replace with actual user ID from context
+            contest_id: contestId,
+            match_type: selectedOpponent,
+            fileType: file.type,
+          },
+        }
+      );
+
       const { uploadURL, fileKey, pendingEntryId } = response.data;
       console.log("✅ Pre-signed URL received:", uploadURL);
-  
+
       // ✅ Step 2: Upload file to S3
       await axios.put(uploadURL, file, {
-        headers: { "Content-Type": file.type },
+        headers: {
+          "Content-Type": file.type,
+          "Cache-Control": "public, max-age=31536000, immutable",
+          "ngrok-skip-browser-warning": "true",
+        },
       });
-  
+
       // ✅ Step 3: Get the final image URL
       const imageUrl = uploadURL.split("?")[0]; // Remove query parameters
       setImageUrl(imageUrl);
       setFileKey(fileKey);
       setMatchType(selectedOpponent);
-      console.log("✅ Image uploaded successfully!", imageUrl, "File Key:", fileKey);
-  
+      console.log(
+        "✅ Image uploaded successfully!",
+        imageUrl,
+        "File Key:",
+        fileKey
+      );
+
       // ✅ Step 4: Send the final image URL to the backend
-      console.log("📡 Sending Image URL to Backend:", { pendingEntryId, imageUrl });
-  
-      const updateResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/competition-entry/update-image`, {
-        pendingEntryId,  // Pass the pending entry ID
+      console.log("📡 Sending Image URL to Backend:", {
+        pendingEntryId,
         imageUrl,
       });
-  
+
+      const updateResponse = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/competition-entry/update-image`,
+        {
+          pendingEntryId, // Pass the pending entry ID
+          imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
+
       console.log("✅ Backend response:", updateResponse.data);
-  
     } catch (error) {
       console.error("❌ Upload failed:", error);
     }
   };
-  
-  
 
   // ✅ Handle submission (moves to StepThree with image data)
   const handleSubmit = () => {
     if (!imageFile) {
-      alert("Please upload an image before proceeding.");
+      // alert("Please upload an image before proceeding.");
+      ToastUtils.warning("Please upload an image before proceeding.");
       return;
     }
     nextStep({ imageUrl, imageFile, matchType: selectedOpponent, fileKey });
@@ -105,7 +146,9 @@ const StepTwo = ({ nextStep }) => {
       <SubmissionCard
         contestId={contest?.id}
         contestTitle={contest?.Theme?.name || "Contest Title"}
-        contestDescription={contest?.Theme?.description || "No description available"}
+        contestDescription={
+          contest?.Theme?.description || "No description available"
+        }
         entryFee={contest?.entry_fee || 0}
         selectedOpponent={selectedOpponent}
         onOpponentSelect={setSelectedOpponent}
@@ -113,7 +156,11 @@ const StepTwo = ({ nextStep }) => {
       />
       {imageUrl ? (
         <div className="uploaded-image-container">
-          <img src={imageUrl} alt="Uploaded Preview" className="uploaded-image" />
+          <img
+            src={imageUrl}
+            alt="Uploaded Preview"
+            className="uploaded-image"
+          />
         </div>
       ) : (
         <UploadImage onUpload={handleUpload} />

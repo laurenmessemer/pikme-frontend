@@ -1,154 +1,307 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa6";
-import "../../styles/cards/CreateAccountCard.css";
+/*
+ * File: CreateAccountCard.jsx
+ * Author: HARSH CHAUHAN
+ * Created Date: May 19th, 2025
+ * Description: This component handles signup flow with hookform and yup schema validation.
+ */
 
-const CreateAccountCard = ({ onSubmit, referralCode }) => {
-  const [formValues, setFormValues] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    referralCode: referralCode || "", 
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "../../styles/cards/CreateAccountCard.css";
+import ErrorMessage from "../Common/ErrorMessage";
+import CustomSvgIcon from "../../constant/CustomSvgIcons";
+import { EMAIL_REGEX } from "../../constant/appConstants";
+
+// Validation schema
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .trim()
+    .trim()
+    .required("Username is required")
+    .min(3, "Username must be at least 3 characters"),
+  email: yup
+    .string()
+    .trim()
+    .matches(EMAIL_REGEX, "Please enter a valid email address")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .trim()
+    .required("Password is required")
+    .min(12, "Password must be at least 12 characters"),
+  confirmPassword: yup
+    .string()
+    .trim()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password")], "Passwords don't match."),
+  referralCode: yup.string().matches(/^\S*$/, "Whitespace is not allowed"),
+});
+
+const CreateAccountCard = ({
+  onSubmit,
+  referralCode,
+  isSignUpLoading = false,
+  usernameValue = "",
+  emailValue = "",
+  error,
+}) => {
+  // Initialize react-hook-form with validation
+  const { register, handleSubmit, formState, reset } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      username: usernameValue || "",
+      email: emailValue || "",
+      password: "",
+      confirmPassword: "",
+      referralCode: referralCode || "",
+    },
+    mode: "onChange", // Validate on change
+    criteriaMode: "all", // Show all validation errors
   });
-  
+
+  useEffect(() => {
+    if (usernameValue || emailValue || referralCode) {
+      reset({
+        username: usernameValue || "",
+        email: emailValue || "",
+        password: "",
+        confirmPassword: "",
+        referralCode: referralCode || "",
+      });
+    }
+  }, [usernameValue, emailValue, referralCode]);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [id]: value }));
+  const handleFormSubmit = async (data) => {
+    await onSubmit(data.username, data.email, data.password, data.referralCode);
   };
-  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await onSubmit(
-      formValues.username,
-      formValues.email,
-      formValues.password,
-      formValues.referralCode
-    );
-  };
-  
 
   return (
     <div className="signup-container">
       <h1 className="signup-title">Create account</h1>
-
-      <form className="signup-form" onSubmit={handleSubmit}>
+      <form
+        className="signup-form common-form"
+        onSubmit={handleSubmit(handleFormSubmit)}
+        autoComplete="off"
+      >
         {/* Username */}
-        <label className="form-label" htmlFor="username">USERNAME<span className="required">*</span></label>
-        <input
-          id="username"
-          className="form-input"
-          type="text"
-          placeholder="Username"
-          value={formValues.username}
-          onChange={handleInputChange}
-          required
-        />
+        <div className="field-box">
+          <label className="form-label" htmlFor="username">
+            USERNAME <span className="star-required">*</span>
+          </label>
+          <div className="input-box">
+            <input
+              id="username"
+              className={`form-input ${
+                formState.errors.username ? "error-input" : ""
+              }`}
+              type="text"
+              placeholder="Username"
+              disabled={isSignUpLoading}
+              {...register("username")}
+            />
+            {!formState.errors.username && formState.dirtyFields.username && (
+              <div className="green-custom-checkmark"></div>
+            )}
+          </div>
+          {formState.errors.username && (
+            <ErrorMessage message={formState.errors.username.message} />
+          )}
+        </div>
 
         {/* Email */}
-        <label className="form-label" htmlFor="email">EMAIL ADDRESS<span className="required">*</span></label>
-        <input
-          id="email"
-          className="form-input"
-          type="email"
-          placeholder="Valid email address"
-          value={formValues.email}
-          onChange={handleInputChange}
-          required
-        />
+        <div className="field-box">
+          <label className="form-label" htmlFor="email">
+            EMAIL ADDRESS <span className="star-required">*</span>
+          </label>
+          <div className="input-box">
+            <input
+              id="email"
+              className={`form-input ${
+                formState.errors.email ? "error-input" : ""
+              }`}
+              type="email"
+              placeholder="Valid email address"
+              disabled={isSignUpLoading}
+              {...register("email")}
+            />
+            {!formState.errors.email && formState.dirtyFields.email && (
+              <div className="green-custom-checkmark"></div>
+            )}
+          </div>
+          {formState.errors.email && (
+            <ErrorMessage message={formState.errors.email.message} />
+          )}
+        </div>
 
         {/* Password */}
-        <label className="form-label" htmlFor="password">CREATE PASSWORD<span className="required">*</span></label>
-        <div className="password-wrapper">
-          <input
-            id="password"
-            className="form-input"
-            type={showPassword ? "text" : "password"}
-            placeholder="Minimum 12 characters"
-            value={formValues.password}
-            onChange={handleInputChange}
-            required
-          />
-          <button type="button" className="eye-icon" onClick={togglePasswordVisibility}>
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
+        <div className="field-box">
+          <label className="form-label" htmlFor="password">
+            CREATE PASSWORD <span className="star-required">*</span>
+          </label>
+          <div className="password-wrapper">
+            <input
+              id="password"
+              className={`form-input password-input ${
+                formState.errors.password ? "error-input" : ""
+              }`}
+              type={showPassword ? "text" : "password"}
+              placeholder="Minimum 12 characters"
+              disabled={isSignUpLoading}
+              {...register("password")}
+            />
+            <button
+              type="button"
+              className={`eye-icon  ${
+                formState.errors.password ? "error-eye-icon" : ""
+              }`}
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <CustomSvgIcon icon="PasswordEyeOffIcon" />
+              ) : (
+                <CustomSvgIcon icon="PasswordEyeIcon" />
+              )}
+            </button>
+            {!formState.errors.password && formState.dirtyFields.password && (
+              <div
+                className={`green-custom-checkmark password-checkmark`}
+              ></div>
+            )}
+          </div>
+          {formState.errors.password && (
+            <ErrorMessage message={formState.errors.password.message} />
+          )}
         </div>
 
         {/* Confirm Password */}
-        <label className="form-label" htmlFor="confirmPassword">CONFIRM PASSWORD<span className="required">*</span></label>
-        <div className="password-wrapper">
-          <input
-            id="confirmPassword"
-            className="form-input"
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="Minimum 12 characters"
-            value={formValues.confirmPassword}
-            onChange={handleInputChange}
-            required
-          />
-          <button type="button" className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
-            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
+        <div className="field-box">
+          <label className="form-label" htmlFor="confirmPassword">
+            CONFIRM PASSWORD <span className="star-required">*</span>
+          </label>
+          <div className="password-wrapper">
+            <input
+              id="confirmPassword"
+              className={`form-input password-input ${
+                formState.errors.confirmPassword ? "error-input" : ""
+              }`}
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Minimum 12 characters"
+              disabled={isSignUpLoading}
+              {...register("confirmPassword")}
+            />
+            <button
+              type="button"
+              className={`eye-icon`}
+              onClick={toggleConfirmPasswordVisibility}
+            >
+              {showConfirmPassword ? (
+                <CustomSvgIcon icon="PasswordEyeOffIcon" />
+              ) : (
+                <CustomSvgIcon icon="PasswordEyeIcon" />
+              )}
+            </button>
+            {!formState.errors.confirmPassword &&
+              formState.dirtyFields.confirmPassword && (
+                <div
+                  className={`green-custom-checkmark password-checkmark`}
+                ></div>
+              )}
+          </div>
+          {formState.errors.confirmPassword && (
+            <ErrorMessage message={formState.errors.confirmPassword.message} />
+          )}
         </div>
 
         {/* Referral Code */}
-        <label className="form-label" htmlFor="referralCode">
-          REFERRAL CODE <span className="optional">(optional)</span>
-        </label>
-        <input
-          id="referralCode"
-          className="form-input"
-          type="text"
-          placeholder="PIK000000 (Optional)"
-          value={formValues.referralCode}
-          onChange={handleInputChange}
-        />
+        <div className="field-box">
+          <label className="form-label" htmlFor="referralCode">
+            REFERRAL CODE <span className="optional">(optional)</span>
+          </label>
+          <div className="input-box">
+            <input
+              id="referralCode"
+              className={`form-input ${
+                formState.errors.referralCode ? "error-input" : ""
+              }`}
+              type="text"
+              placeholder="PIK000000 (Optional)"
+              disabled={isSignUpLoading}
+              {...register("referralCode")}
+            />
+            {!formState.errors.referralCode &&
+              formState.dirtyFields.referralCode && (
+                <div className="green-custom-checkmark"></div>
+              )}
+          </div>
+          {formState.errors.referralCode && (
+            <ErrorMessage message={formState.errors.referralCode.message} />
+          )}
+        </div>
+        {/* ✅ Error with optional resend link */}
+        {error && (
+          <div className="error-message no-space">
+            <p>{error}</p>
+          </div>
+        )}
+        <div>
+          {/* Submit Button */}
+          <button
+            className="signup-button"
+            type="submit"
+            disabled={isSignUpLoading}
+          >
+            {isSignUpLoading ? (
+              <>
+                <span className="cu-loader"></span>
+              </>
+            ) : (
+              "CREATE ACCOUNT"
+            )}
+          </button>
 
-
-        {/* Submit Button */}
-        <button className="signup-button" type="submit">
-          CREATE ACCOUNT
-        </button>
-
-        {/* Keep Me Signed In */}
-        <div className="keep-signed-in">
-          <input type="checkbox" className="checkbox-input" id="keepSignedIn" />
+          {/* Keep Me Signed In */}
+          {/* <div className="keep-signed-in">
+                <input type="checkbox" className="checkbox-input" id="keepSignedIn" /> */}
           {/* <label htmlFor="keepSignedIn">Keep me signed in.</label> */}
+          {/* </div> */}
+
+          {/* Divider */}
+          <div className="divider">
+            <span className="line"></span>
+            {/* <span className="divider-text">OR CONTINUE WITH</span> */}
+            {/* <span className="line"></span> */}
+          </div>
+
+          {/* Social Signup */}
+          {/* <div className="social-signup">
+                  <FaGoogle className="social-icon" />
+                  <FaApple className="social-icon" />
+                  <FaFacebook className="social-icon" />
+            </div> */}
+          {/* Terms and Privacy */}
+          <p className="terms-text">
+            By continuing, you agree to our{" "}
+            <a href="/terms">Terms of Service</a>. Please review our{" "}
+            <a href="/privacy">Privacy Policy</a> to understand how we use your
+            personal information.
+          </p>
+
+          {/* Already have an account? */}
+          <p className="footer-text">
+            Already have an account? <a href="/login">Log in</a>
+          </p>
         </div>
-
-        {/* Divider */}
-        <div className="divider">
-          <span className="line"></span>
-          {/* <span className="divider-text">OR CONTINUE WITH</span> */}
-          {/* <span className="line"></span> */}
-        </div>
-
-        {/* Social Signup */}
-        {/* <div className="social-signup">
-          <FaGoogle className="social-icon" />
-          <FaApple className="social-icon" />
-          <FaFacebook className="social-icon" />
-        </div> */}
-
-        {/* Terms and Privacy */}
-        <p className="terms-text">
-          By continuing, you agree to our <a href="/terms">Terms of Service</a>. 
-          Please review our <a href="/privacy">Privacy Policy</a> to understand how 
-          we use your personal information.
-        </p>
-
-        {/* Already have an account? */}
-        <p className="footer-text">
-          Already have an account? <a href="/login">Log in</a>
-        </p>
       </form>
     </div>
   );
@@ -157,6 +310,9 @@ const CreateAccountCard = ({ onSubmit, referralCode }) => {
 CreateAccountCard.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   referralCode: PropTypes.string,
+  isSignUpLoading: PropTypes.bool,
+  usernameValue: PropTypes.string,
+  emailValue: PropTypes.string,
 };
 
 export default CreateAccountCard;

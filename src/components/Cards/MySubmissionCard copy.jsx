@@ -1,16 +1,26 @@
 import PropTypes from "prop-types";
-import Placeholder from "../../assets/images/placeholders/cat.jpg"; // ✅ Import placeholder image
+import Placeholder from "../../assets/images/placeholders/cat.webp"; // ✅ Import placeholder image
 import "../../styles/components/MySubmissionCard.css";
 
 // Importing the icons
-import flashIcon from "../../assets/icons/flash.svg";
-import piggybankIcon from "../../assets/icons/piggybank.svg";
+const piggybankIcon =
+  "https://d38a0fe14bafg9.cloudfront.net/icons/piggybank.svg";
+const flashIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg";
 
-const MySubmissionCard = ({ image, username, theme, status, position, payout, contestType }) => {
+const MySubmissionCard = ({
+  image,
+  username,
+  theme,
+  status,
+  position,
+  payout,
+  contestType,
+}) => {
   // ✅ Dynamically determine the correct image source
-  const imageUrl = image?.startsWith("data:image") || image?.startsWith("http") 
-    ? image // ✅ If Base64 or an external URL, use as is
-    : `${import.meta.env.VITE_API_URL}/uploads/${image}`; // ✅ Otherwise, assume it's a stored file
+  const imageUrl =
+    image?.startsWith("data:image") || image?.startsWith("http")
+      ? image // ✅ If Base64 or an external URL, use as is
+      : `${import.meta.env.VITE_API_URL}/uploads/${image}`; // ✅ Otherwise, assume it's a stored file
 
   // ✅ Determine status-based styling
   const getStatusClass = (status) => {
@@ -33,18 +43,34 @@ const MySubmissionCard = ({ image, username, theme, status, position, payout, co
           src={imageUrl}
           alt={`${username}'s submission`}
           className="my-submission-card__image"
-          onError={(e) => { e.target.src = {Placeholder}; }} // ✅ Fallback image if loading fails
+          onError={(e) => {
+            e.target.src = { Placeholder };
+          }} // ✅ Fallback image if loading fails
         />
       </div>
-      <div className={`my-submission-card__status-box ${getStatusClass(status)}`}>
+      <div
+        className={`my-submission-card__status-box ${getStatusClass(status)}`}
+      >
         <span className="my-submission-card__status-text">{status}</span>
       </div>
       <div className="my-submission-card__content">
         <div>
           <h2 className="my-submission-card__theme-name">
             {/* ✅ Dynamically show contest icons */}
-            {contestType === "jackpot" && <img src={piggybankIcon} alt="Piggybank icon" className="my-submission-card__icon" />}
-            {contestType === "head-to-head" && <img src={flashIcon} alt="Flash icon" className="my-submission-card__icon" />}
+            {contestType === "jackpot" && (
+              <img
+                src={piggybankIcon}
+                alt="Piggybank icon"
+                className="my-submission-card__icon"
+              />
+            )}
+            {contestType === "head-to-head" && (
+              <img
+                src={flashIcon}
+                alt="Flash icon"
+                className="my-submission-card__icon"
+              />
+            )}
             {theme}
           </h2>
         </div>

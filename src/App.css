@@ -20,7 +20,6 @@ body {
   text-align: center;
 } */
 
-
 .app-shell {
   display: flex;
   flex-direction: column;
@@ -34,7 +33,6 @@ body {
 main {
   flex: 1;
 }
-
 
 .logo {
   height: 6em;

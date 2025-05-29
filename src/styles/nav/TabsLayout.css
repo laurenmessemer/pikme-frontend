@@ -12,7 +12,6 @@
   scrollbar-color: transparent transparent;
 }
 
-
 .tab-content {
   flex: 1;
   flex-grow: 1;
@@ -21,10 +20,11 @@
   margin-top: 80px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: space-between;
   align-items: center;
   /* overflow-y: auto; */
   position: relative;
-  overflow-y: scroll;
+  /* overflow-y: auto; */
+  overflow-x: hidden;
 }
-

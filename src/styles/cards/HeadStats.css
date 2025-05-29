@@ -1,231 +1,231 @@
 .headstats-container {
-    background: var(--light);
-    display: flex;
-    flex-direction: column;
-    padding: 0px 20px 20px 20px;
-    margin: 0;
-    width: 100%;
+  background: var(--light);
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px 20px 20px;
+  margin: 0;
+  width: 100%;
 }
 
 /* Header Layout */
 .headstats-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align the entire header to the left */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align the entire header to the left */
 }
 
 /* Make Piggybank Icon & Contest Name Align Side by Side */
 .theme-title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    margin-top: .25em;
-    align-self: flex-start; /* Ensures the title aligns to the left */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0.25em;
+  align-self: flex-start; /* Ensures the title aligns to the left */
 }
 
 /* Piggybank Icon */
 .piggybank-icon {
-    width: 60px;
-    height: 60px;
+  width: 60px;
+  height: 60px;
 }
 
 /* Contest Name */
 .contest-name {
-    font-weight: bold;
-    margin: 0;
+  font-weight: bold;
+  margin: 0;
 }
 
 /* Timer, Entries, Prize Pool, Payout */
 .submission-timer {
-    transform: scale(.7);
-    text-align: left;
-    transform-origin: top left;
-    position: relative;
-    left: 0;
+  transform: scale(0.7);
+  text-align: left;
+  transform-origin: top left;
+  position: relative;
+  left: 0;
 }
 
 .submission-timer,
 .contest-details,
 .prize-pool,
 .payout-details {
-    font-size: 1rem;
-    font-weight: normal;
-    margin: .3em 0;
-    text-align: left;
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0.3em 0;
+  text-align: left;
 }
 
 /* ✅ Main Content */
 .headstats-content {
-    display: flex;
-    gap: 30px;
-    margin-top: 0px;
-    height: 650px; /* ✅ Set a fixed height for both columns */
-  }
-  
+  display: flex;
+  gap: 30px;
+  margin-top: 0px;
+  height: 650px; /* ✅ Set a fixed height for both columns */
+}
 
 /* ✅ Leaderboard Column */
 .leaderboard-column {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 16px 12px 16px 0px; /* ✨ Added padding */
-    box-sizing: border-box;
-    gap: 16px; /* Optional: adds space between children */
-  }
-  
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 16px 12px 16px 0px; /* ✨ Added padding */
+  box-sizing: border-box;
+  gap: 16px; /* Optional: adds space between children */
+}
 
-  
-  .leaderboard-column::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
+.leaderboard-column::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 /* ✅ "My Submission" is stacked in the leaderboard column */
 .headstats-leaderboard-container {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Provides spacing between "My Submission" and leaderboard */
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Provides spacing between "My Submission" and leaderboard */
 }
 
 /* ✅ "My Submission" Section */
 .headstats-my-submission {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--dark);
-    padding: 10px;
-    background: var(--light);
-    gap: 15px;
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--dark);
+  padding: 10px;
+  background: var(--light);
+  gap: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 9px;
 }
 
 /* ✅ Divider Below "My Submission" */
 .user-submission-divider {
-    width: 100%;
-    min-height: 1px; /* prevents it from collapsing */
-    background: var(--dark);
-    margin: 15px 0;
-    flex-shrink: 0; /* prevent from being squished in flex container */
-  }
+  width: 100%;
+  min-height: 1px; /* prevents it from collapsing */
+  background: var(--dark);
+  margin: 15px 0;
+  flex-shrink: 0; /* prevent from being squished in flex container */
+}
+.user-submission-divider.no-space {
+  margin: 0;
+}
 /* ✅ My Submission Image */
 .headstats-my-submission-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
 }
 
 /* ✅ My Submission Info */
 .headstats-my-submission-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* ✅ Username Styling */
 .headstats-my-submission-username {
-    font-weight: bold;
-    color: var(--primary);
+  font-weight: bold;
+  color: var(--primary);
 }
 
 /* ✅ Votes Text */
 .headstats-my-submission-votes {
-    font-size: 0.9rem;
-    color: var(--dark-gray);
+  font-size: 0.9rem;
+  color: var(--dark-gray);
 }
 
 /* ✅ My Submission Earnings */
 .headstats-my-submission-earnings {
-    margin-left: auto;
-    padding: 8px 12px;
-    background: var(--cta);
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
-    min-width: 80px;
-    border: 1px solid var(--dark);
+  margin-left: auto;
+  padding: 8px 12px;
+  background: var(--cta);
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 80px;
+  border: 1px solid var(--dark);
 }
 
 /* ✅ Placeholder (No Entry Yet) */
 .headstats-my-submission-placeholder {
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
 .headstats-my-submission-invite {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--dark-gray);
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--dark-gray);
 }
 
 /* ✅ "Enter Contest" Button */
 .headstats-my-submission-btn {
-    background: var(--cta);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s ease;
+  background: var(--cta);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
 }
 
 .headstats-my-submission-btn:hover {
-    background: var(--cta-dark);
+  background: var(--cta-dark);
 }
 
 /* ✅ Leaderboard Submission Image */
 .leaderboard-card .submission-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  position: relative;
 }
 
 /* ✅ User Info */
 .user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    flex-direction: column;
-    align-items: flex-start;
-    flex: 1;
-    padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  padding-left: 10px;
 }
 
 /* ✅ Username */
 .username {
-    font-weight: bold;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    text-align: left;
-    justify-content: left;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  text-align: left;
+  justify-content: left;
 }
 
 /* ✅ Votes */
 .user-votes {
-    font-size: 0.9rem;
-    color: var(--dark-gray);
-    text-align: left;
-    margin-top: -18px;
+  font-size: 0.9rem;
+  color: var(--dark-gray);
+  text-align: left;
+  margin-top: -18px;
 }
 
 /* ✅ Earnings */
 .earnings-container {
-    margin-left: auto;
-    padding: 8px 12px;
-    background: var(--accent);
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
-    min-width: 80px;
-    border: 1px solid var(--dark);
+  margin-left: auto;
+  padding: 8px 12px;
+  background: var(--accent);
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 80px;
+  border: 1px solid var(--dark);
 }
 
 /* ✅ Image Column */
@@ -237,51 +237,47 @@
   display: flex;
   flex-direction: column;
 }
-  
-  
+
 /* ✅ Individual Image Card */
 .image-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 3px solid var(--dark);
-    box-shadow: 4px 4px 0px #464242;
-    aspect-ratio: 1 / 1; /* 🔥 Enforce square shape */
-    width: 100%;
-    max-width: 220px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid var(--dark);
+  box-shadow: 4px 4px 0px #464242;
+  aspect-ratio: 1 / 1; /* 🔥 Enforce square shape */
+  width: 100%;
+  max-width: 220px;
 }
 
 /* ✅ Contest Images */
 .contest-image {
-    width: 100%;
-    max-width: 220px;
-    aspect-ratio: 1 / 1; /* 🔥 Enforce square shape */
-    object-fit: cover;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
-  }
-  
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1; /* 🔥 Enforce square shape */
+  object-fit: cover;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
 
 /* ✅ Votes Display */
 .image-votes {
-    position: absolute;
-    bottom: -17px;
-    background: #e5e5e5;
-    color: var(--dark);
-    border: 2px solid var(--dark);
-    font-weight: bold;
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 1rem;
+  position: absolute;
+  bottom: -17px;
+  background: #e5e5e5;
+  color: var(--dark);
+  border: 2px solid var(--dark);
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 1rem;
 }
 
 /* ✅ Hover Effects */
 .image-card:hover {
-    transform: scale(1.08);
+  transform: scale(1.08);
 }
-
-
 
 .leaderboard-card {
   position: relative;
@@ -295,80 +291,81 @@
   min-height: 80px; /* 🔥 Fix: enforce normal height */
   padding: 8px 0; /* Optional spacing */
 }
-  
-  .rank-badge-wrapper-headstats {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80px;
-    height: 80px;
-    z-index: 2;
-  }
-  
-  .rank-icon-headstats {
-    width: 80px;
-    height: 80px;
-  }
-  
-  /* Wrap content separately so it gets the padding */
-  .leaderboard-content-headstats {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .image-scroll-wrapper {
-    height: 100%;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    align-items: center; /* ✅ Center horizontally */
-  }
-  
-  
-  .image-scroll-wrapper::-webkit-scrollbar {
-    display: none;
-  }
+.leaderboard-card.no-space {
+  margin: 0;
+}
 
-  .jackpot-timer-wrapper {
-    margin-top: 10px;
-    margin-left: 0;
-    font-size: 1rem;
-    color: var(--dark); /* Or any visible fallback */
-    display: flex;
-    align-items: center;
-  }
-  
-  .theme-header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-  
-  .payout-dropdown-container {
-    width: 100%;
-    max-width: 100%; /* Allow full stretch */
-    box-sizing: border-box;
-    margin-bottom: 20px;
-  }
-  
-  .payout-table-container {
-    width: 100%;
-  }
-  
-  .payout-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  /* 📱 Mobile Responsive Styles */
+.rank-badge-wrapper-headstats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  z-index: 2;
+}
+
+.rank-icon-headstats {
+  width: 80px;
+  height: 80px;
+}
+
+/* Wrap content separately so it gets the padding */
+.leaderboard-content-headstats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.image-scroll-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  align-items: center; /* ✅ Center horizontally */
+}
+
+.image-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.jackpot-timer-wrapper {
+  margin-top: 10px;
+  margin-left: 0;
+  font-size: 1rem;
+  color: var(--dark); /* Or any visible fallback */
+  display: flex;
+  align-items: center;
+}
+
+.theme-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.payout-dropdown-container {
+  width: 100%;
+  max-width: 100%; /* Allow full stretch */
+  box-sizing: border-box;
+}
+
+.payout-table-container {
+  width: 100%;
+}
+
+.payout-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* 📱 Mobile Responsive Styles */
 @media (max-width: 768px) {
   .headstats-container {
     padding: 10px;
@@ -415,10 +412,6 @@
     height: auto;
   }
 
-  .payout-dropdown-container {
-    margin-bottom: 10px;
-  }
-
   .headstats-my-submission {
     flex-direction: column;
     align-items: center;
@@ -458,7 +451,7 @@
   }
 
   .username {
-    font-size: .7rem;
+    font-size: 0.7rem;
   }
 
   .user-votes {
@@ -469,7 +462,7 @@
   .earnings-container {
     margin-left: 0;
     margin-top: 8px;
-    transform: scale(.7);
+    transform: scale(0.7);
   }
 
   .image-column {

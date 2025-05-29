@@ -12,7 +12,10 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       axios
         .get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
         })
         .then((res) => {
           setUser(res.data);

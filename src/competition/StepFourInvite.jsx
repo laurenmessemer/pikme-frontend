@@ -3,7 +3,7 @@ import { useContext } from "react";
 import Confirmation from "../components/Cards/Confirmation";
 import { useCompetition } from "../context/CompetitionContext";
 import { WalletContext } from "../context/WalletContext";
-import "../styles/competition/StepFour.css";
+import { SiteUrl } from "../constant/appConstants";
 
 const StepFourInvite = ({ inviteLink, joinedExistingMatch }) => {
   const { imageUrl } = useCompetition();
@@ -17,9 +17,7 @@ const StepFourInvite = ({ inviteLink, joinedExistingMatch }) => {
     return <p className="error">Image is required to proceed.</p>;
   }
 
-  const fullInviteURL = inviteLink
-    ? `https://www.pikme.com/join/${inviteLink}`
-    : null;
+  const fullInviteURL = inviteLink ? `${SiteUrl}/join/${inviteLink}` : null;
 
   return (
     <div className="step-four-container flex">

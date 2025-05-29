@@ -1,12 +1,8 @@
 import PropTypes from "prop-types";
-import "../../styles/buttons/Access.css"; // Ensure this CSS file is created and linked
 
 const Access = ({ text, onClick, variant = "light" }) => {
   return (
-    <button 
-      className={`access-button ${variant}`} 
-      onClick={onClick}
-    >
+    <button className={`access-button ${variant}`} onClick={onClick}>
       {text}
     </button>
   );

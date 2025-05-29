@@ -3,22 +3,33 @@ import { useState } from "react";
 import "../../styles/cards/ResetPasswordCard.css"; // Make sure this file contains .error-message styles
 import UtilityTemplate from "../../utils/UtilityTemplate";
 import ResetPasswordCard from "../Cards/ResetPasswordCard";
+import { useAuth } from "../../context/UseAuth";
 
 const ResetPasswordRequest = () => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const { token } = useAuth();
 
   const handleReset = async (formValues) => {
     setMessage(""); // Clear previous messages
-    setError("");   // Clear previous errors
+    setError(""); // Clear previous errors
 
     if (step === 1) {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password-request`, {
-          email: formValues.email,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/reset-password-request`,
+          {
+            email: formValues.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setEmail(formValues.email);
         setStep(2);
         setMessage(response.data.message);
@@ -28,10 +39,19 @@ const ResetPasswordRequest = () => {
       }
     } else if (step === 2) {
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-code`, {
-          email,
-          code: formValues.verificationCode,
-        });
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/verify-code`,
+          {
+            email,
+            code: formValues.verificationCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setStep(3);
         setMessage("Verification successful. Continue below.");
       } catch (err) {
@@ -51,7 +71,6 @@ const ResetPasswordRequest = () => {
 };
 
 export default ResetPasswordRequest;
-
 
 // import axios from "axios";
 // import { useState } from "react";

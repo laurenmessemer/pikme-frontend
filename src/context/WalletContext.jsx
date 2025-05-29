@@ -6,7 +6,7 @@ import AuthContext from "./AuthContext"; // ✅ Import AuthContext to get user i
 export const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const [balance, setBalance] = useState(0);
 
   // ✅ Function to Fetch Wallet Balance
@@ -14,7 +14,15 @@ export const WalletProvider = ({ children }) => {
     if (!user?.id) return;
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`); // ✅ Use env variable
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/wallet?user_id=${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      ); // ✅ Use env variable
       console.log("✅ Updated Wallet Balance:", response.data.balance);
       setBalance(response.data.balance); // ✅ Ensure setBalance is used
     } catch (error) {
@@ -28,7 +36,9 @@ export const WalletProvider = ({ children }) => {
   }, [user?.id]);
 
   return (
-    <WalletContext.Provider value={{ balance, setBalance, refreshBalance: fetchWalletBalance }}>
+    <WalletContext.Provider
+      value={{ balance, setBalance, refreshBalance: fetchWalletBalance }}
+    >
       {children}
     </WalletContext.Provider>
   );

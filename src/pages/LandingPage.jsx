@@ -1,33 +1,60 @@
 import Lottie from "lottie-react";
 import { useEffect, useRef } from "react";
-import animationData from "../assets/lottie/video2.json";
 import WinnerCard from "../components/Cards/WinnerCard";
 import "../styles/pages/LandingPage.css";
+import { ImageUrl } from "../constant/appConstants";
+import animationData from "../assets/lottie/video2.json";
 
 // ✅ S3 Filenames from your latest image set
 const imageFilenames = [
-  "c111.png", "c121.jpg", "c131.png",
-  "c211.jpg", "c221.jpg", "c231.jpg",
-  "c311.jpg", "c312.jpg", "c321.jpg", "c322.jpg",
-  "c331.jpg", "c332.jpg"
+  "c111.png",
+  "c121.jpg",
+  "c131.png",
+  "c211.jpg",
+  "c221.jpg",
+  "c231.jpg",
+  "c311.jpg",
+  "c312.jpg",
+  "c321.jpg",
+  "c322.jpg",
+  "c331.jpg",
+  "c332.jpg",
 ];
 
 // ✅ Convert to full S3 URLs
 const sampleImages = imageFilenames.map(
-  (filename) => `https://photo-contest-storage.s3.us-east-2.amazonaws.com/uploads/${filename}`
+  (filename) => `${ImageUrl}/uploads/${filename}`
 );
 
 // ✅ Fake user + theme data
 const fakeUsernames = [
-  "snapQueen43", "lens_lord", "bokehBoy", "pixelChic72", "neon_hunter",
-  "depthMaster", "shadowSnaps", "lightnin032", "urbanGlimpse", "noir9Nova",
-  "shutterSavage8593", "blurBabe", "crispy_clicks", "visionVibes"
+  "snapQueen43",
+  "lens_lord",
+  "bokehBoy",
+  "pixelChic72",
+  "neon_hunter",
+  "depthMaster",
+  "shadowSnaps",
+  "lightnin032",
+  "urbanGlimpse",
+  "noir9Nova",
+  "shutterSavage8593",
+  "blurBabe",
+  "crispy_clicks",
+  "visionVibes",
 ];
 
 const fakeThemes = [
-  "Neon Dreams", "Street Shadows", "Quiet Chaos", "Retro Glow",
-  "Offbeat Angles", "Contrast Clash", "Subtle Drama", "Still Motion",
-  "Electric Mood", "Layered Realities"
+  "Neon Dreams",
+  "Street Shadows",
+  "Quiet Chaos",
+  "Retro Glow",
+  "Offbeat Angles",
+  "Contrast Clash",
+  "Subtle Drama",
+  "Still Motion",
+  "Electric Mood",
+  "Layered Realities",
 ];
 
 // ✅ Grouped date ranges per winner trio
@@ -51,7 +78,7 @@ const generateMockWinners = () => {
       username: fakeUsernames[i % fakeUsernames.length],
       theme: fakeThemes[i % fakeThemes.length],
       payout: ["30 Tokens", "20 Tokens", "10 Tokens"][i % 3],
-      entries: 50 + (i * 5) % 90,
+      entries: 50 + ((i * 5) % 90),
       place: (i % 3) + 1,
     };
   });
@@ -108,7 +135,14 @@ const LandingPage = () => {
         </div>
 
         <div className="lottie-container">
-          <Lottie animationData={animationData} className="lottie-animation" />
+          <Lottie
+            animationData={animationData}
+            className="lottie-animation"
+            rendererSettings={{
+              preserveAspectRatio: "xMidYMid slice",
+              progressiveLoad: false, // Disable progressive loading for faster initial render
+            }}
+          />
         </div>
       </div>
 
@@ -119,7 +153,10 @@ const LandingPage = () => {
         <div className="auto-scroll-container" ref={scrollRef}>
           <div className="auto-scroll-track">
             {repeatedWinners.map((card, index) => (
-              <div className="landing-winner-card-wrapper" key={`${card.key}-${index}`}>
+              <div
+                className="landing-winner-card-wrapper"
+                key={`${card.key}-${index}`}
+              >
                 <WinnerCard
                   startDate={card.startDate}
                   endDate={card.endDate}
@@ -148,19 +185,26 @@ export default LandingPage;
 // import animationData from "../assets/lottie/video2.json";
 // import WinnerCard from "../components/Cards/WinnerCard";
 // import "../styles/pages/LandingPage.css";
-
-
+// import { useAuth } from "../context/UseAuth";
 
 // const LandingPage = () => {
+//   const { token } = useAuth();
 //   const [cards, setCards] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
-  
 //   useEffect(() => {
 //     const fetchWinners = async () => {
 //       try {
-//         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/winners`);
+//         const response = await axios.get(
+//           `${import.meta.env.VITE_API_URL}/api/winners`,
+//           {
+//             headers: {
+//               Authorization: `Bearer ${token}`,
+//               "ngrok-skip-browser-warning": "true",
+//             },
+//           }
+//         );
 //         if (response.data.success) {
 //           const allWinners = response.data.winners;
 //           const flatCardList = [];
@@ -268,25 +312,27 @@ export default LandingPage;
 //             </div>
 //           </div>
 //         ) : (
-//         <div className="landing-winners-grid">
-//           <div className="auto-scroll-wrapper">
-//             {cards.map((card) => (
-//               <div className="landing-winner-card-wrapper" key={card.key}>
-//                 <WinnerCard
-//                   startDate={card.startDate}
-//                   endDate={card.endDate}
-//                   image={card.image}
-//                   username={card.username}
-//                   theme={card.theme}
-//                   payout={card.payout}
-//                   entries={card.entries}
-//                   isThemeCard={card.isThemeCard}
-//                   place={card.place}
-//                 />
+//           <div className="landing-winners-grid">
+//             <div className="auto-scroll-wrapper">
+//               <div className="auto-scroll-track">
+//                 {cards.map((card) => (
+//                   <div className="landing-winner-card-wrapper" key={card.key}>
+//                     <WinnerCard
+//                       startDate={card.startDate}
+//                       endDate={card.endDate}
+//                       image={card.image}
+//                       username={card.username}
+//                       theme={card.theme}
+//                       payout={card.payout}
+//                       entries={card.entries}
+//                       isThemeCard={card.isThemeCard}
+//                       place={card.place}
+//                     />
+//                   </div>
+//                 ))}
 //               </div>
-//             ))}
+//             </div>
 //           </div>
-//         </div>
 //         )}
 //       </div>
 //     </div>
@@ -294,8 +340,6 @@ export default LandingPage;
 // };
 
 // export default LandingPage;
-
-
 
 // import axios from "axios";
 // import Lottie from "lottie-react";

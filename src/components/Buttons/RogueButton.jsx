@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import "../../styles/buttons/RogueButton.css"; // Ensure styles are linked
 
 const RogueButton = ({ text, onClick, variant = "default" }) => {
   return (

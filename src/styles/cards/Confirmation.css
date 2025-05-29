@@ -1,144 +1,144 @@
 /* ✅ Main Confirmation Container - Wider */
 .confirmation-container {
-    background: var(--light);
-    border: 3px solid var(--dark);
-    padding: 40px 80px; /* Increased width */
-    box-shadow: 6px 6px 0px var(--dark);
-    text-align: center;
-    margin: 0 auto;
-    margin-right: 10%;
-    max-width: 800px;
+  background: var(--light);
+  border: 3px solid var(--dark);
+  padding: 40px 80px; /* Increased width */
+  box-shadow: 6px 6px 0px var(--dark);
+  text-align: center;
+  margin: 0 auto;
+  margin-right: 10%;
+  max-width: 800px;
 }
 
 /* ✅ Title Styling */
 .confirmation-title {
-    font-size: 2em;
-    font-weight: bold;
-    margin-bottom: 35px;
-
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 35px;
 }
 
 /* ✅ Wallet Balance */
 .confirmation-balance {
-    font-size: 0.9em;
-    font-weight: 600;
-    margin-bottom: 30px;;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-bottom: 30px;
 }
 
 /* ✅ Text & Instructions */
 .confirmation-text {
-    font-size: 0.7em;
-    margin-top: 20px;
-    font-weight: 500;
-    color: var(--dark);
+  font-size: 0.7em;
+  margin-top: 20px;
+  font-weight: 500;
+  color: var(--dark);
 }
 
 .confirmation-subtext {
-    font-size: 0.75em;
-    color: #666;
-    margin-top: 4px;
+  font-size: 0.75em;
+  color: #666;
+  margin-top: 4px;
 }
 
 /* ✅ Invite Link Box */
 .confirmation-link-container {
-    display: flex;
-    align-items: center;
-    border: 2px solid var(--dark);
-    box-shadow: 2px 2px 0px #464242;
-    margin: 15px auto;
-    width: 100%;
-    background: white;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--dark);
+  box-shadow: 2px 2px 0px #464242;
+  margin: 15px auto;
+  width: 100%;
+  background: white;
+  overflow: hidden;
 }
 
 .confirmation-link {
-    border: none;
-    font-size: 0.7em;
-    padding: 12px;
-    outline: none;
-    flex-grow: 1;
-    background: transparent;
-    font-family: 'Azeret Mono', monospace;
+  border: none;
+  font-size: 0.7em;
+  padding: 12px;
+  outline: none;
+  flex-grow: 1;
+  background: transparent;
+  font-family: "Azeret Mono", monospace;
 }
 
 /* ✅ Copy Button */
 .copy-button {
-    background: #FDD663;
-    padding: 10px 15px;
-    cursor: pointer;
-    border: 1px solid var(--dark);
-    outline: none;
-    border-left: 2px solid var(--dark);
-    transition: background 0.2s ease-in-out;
+  background: #fdd663;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: 1px solid var(--dark);
+  outline: none;
+  border-left: 2px solid var(--dark);
+  transition: background 0.2s ease-in-out;
 }
 
 .copy-button:hover {
-    background: #E6C157;
+  background: #e6c157;
 }
 
 /* ✅ Copy Icon */
 .copy-icon {
-    font-size: 1.2em;
-    color: var(--dark);
+  font-size: 1.2em;
+  color: var(--dark);
 }
 
 /* ✅ Copy Success Message */
 .copy-message {
-    color: green;
-    font-size: 0.8em;
-    margin-top: 5px;
-    font-weight: 500;
+  color: green;
+  font-size: 0.8em;
+  margin-top: 5px;
+  font-weight: 500;
 }
 
 /* ✅ Buttons */
 .confirmation-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 45px;
-    gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+  gap: 10px;
 }
 
 /* ✅ View Submission Button */
 .view-submission-btn {
-    background-color: #E6E6E6; /* Explicit light gray */
-    border: 2px solid var(--dark);
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
+  background-color: #e6e6e6; /* Explicit light gray */
+  border: 2px solid var(--dark);
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
 }
 
 .view-submission-btn:hover {
-    background-color: var(--disabled-dark);
+  background-color: var(--disabled-dark);
 }
 
 /* ✅ Vote Now Button */
 .vote-now-btn {
-    background-color: #FDD663;
-    border: 2px solid var(--dark);
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
+  background-color: #fdd663;
+  border: 2px solid var(--dark);
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
 }
 
 .vote-now-btn:hover {
-    background-color: #E6C157;
+  background-color: #e6c157;
 }
 
 /* ✅ Responsive Styles */
 @media (max-width: 500px) {
-    .confirmation-container {
-        width: 90%;
-        padding: 40px;
-    }
+  .confirmation-container {
+    width: 90%;
+    padding: 40px;
+  }
 
-    .confirmation-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .confirmation-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-    .view-submission-btn, .vote-now-btn {
-        width: 100%;
-    }
+  .view-submission-btn,
+  .vote-now-btn {
+    width: 100%;
+  }
 }

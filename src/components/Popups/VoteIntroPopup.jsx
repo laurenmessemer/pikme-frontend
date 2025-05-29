@@ -3,6 +3,7 @@ import "../../styles/popups/VoteIntroPopup.css";
 import Submit from "../Buttons/Submit";
 import XButton from "../Buttons/XButton";
 import SubmissionTimer from "../Timers/SubmissionTimer";
+import LazyImage from "../Common/LazyImage";
 
 const VoteIntroPopup = ({
   contestId,
@@ -22,14 +23,24 @@ const VoteIntroPopup = ({
         <XButton onClick={onStartVoting} className="popup-close" />
 
         <div className="vote-intro-image-container">
-          <img src={themePhoto} alt={themeName} className="vote-intro-image" />
-
-
+          <LazyImage
+            src={themePhoto}
+            alt={themeName}
+            className="vote-intro-image"
+          />
+          {/* <img
+            src={themePhoto}
+            alt={themeName}
+            className="vote-intro-image"
+            onError={onImageError}
+          /> */}
         </div>
 
         <div className="vote-intro-content">
           <h3 className="vote-intro-title text-dark">{themeName}</h3>
-          <p className="vote-intro-description text-subtle">{themeDescription}</p>
+          <p className="vote-intro-description text-subtle">
+            {themeDescription}
+          </p>
 
           <Submit text="Vote Now" onClick={onStartVoting} />
         </div>

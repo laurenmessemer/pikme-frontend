@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import "../styles/admin/Users.css";
+import { useAuth } from "../context/UseAuth";
+import ToastUtils from "../utils/ToastUtils";
+import { checkSuccessResponse } from "../utils/RouterUtils";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
 const Users = () => {
+  const { token } = useAuth();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -13,13 +17,23 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => { fetchUsers(); }, []);
-  useEffect(() => { handleSearch(); }, [search, users]);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  useEffect(() => {
+    handleSearch();
+  }, [search, users]);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+      const response = await fetch(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      if (!response.ok)
+        throw new Error(`HTTP ${response.status}: ${await response.text()}`);
       const data = await response.json();
       setUsers(data);
       setFilteredUsers(data);
@@ -33,10 +47,11 @@ const Users = () => {
 
   const handleSearch = () => {
     const lower = search.toLowerCase();
-    const filtered = users.filter((u) =>
-      u.username.toLowerCase().includes(lower) ||
-      u.email.toLowerCase().includes(lower) ||
-      (u.referral_code || "").toLowerCase().includes(lower)
+    const filtered = users.filter(
+      (u) =>
+        u.username.toLowerCase().includes(lower) ||
+        u.email.toLowerCase().includes(lower) ||
+        (u.referral_code || "").toLowerCase().includes(lower)
     );
     setFilteredUsers(filtered);
   };
@@ -59,7 +74,8 @@ const Users = () => {
   };
 
   const handleInputChange = (e, field) => {
-    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setEditedUser({ ...editedUser, [field]: value });
   };
 
@@ -67,7 +83,11 @@ const Users = () => {
     try {
       const response = await fetch(`${API_URL}/${editedUser.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
         body: JSON.stringify({
           username: editedUser.username,
           email: editedUser.email,
@@ -81,14 +101,17 @@ const Users = () => {
           suspended: editedUser.suspended,
         }),
       });
-
+      if (checkSuccessResponse(response)) {
+        ToastUtils.success("Changes saved successfully.");
+      }
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setEditingUserId(null);
       setEditedUser({});
       fetchUsers();
     } catch (err) {
       console.error("❌ Error saving user:", err);
-      alert("Failed to save user.");
+      // alert("Failed to save user.");
+      ToastUtils.error("Failed to save user.");
     }
   };
 
@@ -100,13 +123,23 @@ const Users = () => {
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
-      const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      if (checkSuccessResponse(response)) {
+        ToastUtils.success("User successfully removed from the list.");
+      }
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setUsers((prev) => prev.filter((u) => u.id !== id));
       setFilteredUsers((prev) => prev.filter((u) => u.id !== id));
     } catch (err) {
       console.error("❌ Error deleting user:", err);
-      alert("Failed to delete user.");
+      // alert("Failed to delete user.");
+      ToastUtils.error("Failed to delete user.");
     }
   };
 
@@ -158,13 +191,22 @@ const Users = () => {
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>
-                    <input value={editedUser.username} onChange={(e) => handleInputChange(e, "username")} />
+                    <input
+                      value={editedUser.username}
+                      onChange={(e) => handleInputChange(e, "username")}
+                    />
                   </td>
                   <td>
-                    <input value={editedUser.email} onChange={(e) => handleInputChange(e, "email")} />
+                    <input
+                      value={editedUser.email}
+                      onChange={(e) => handleInputChange(e, "email")}
+                    />
                   </td>
                   <td>
-                    <select value={editedUser.role} onChange={(e) => handleInputChange(e, "role")}>
+                    <select
+                      value={editedUser.role}
+                      onChange={(e) => handleInputChange(e, "role")}
+                    >
                       <option value="participant">Participant</option>
                       <option value="moderator">Moderator</option>
                       <option value="admin">Admin</option>
@@ -193,7 +235,9 @@ const Users = () => {
                     <input
                       type="checkbox"
                       checked={editedUser.referral_bonus_awarded === true}
-                      onChange={(e) => handleInputChange(e, "referral_bonus_awarded")}
+                      onChange={(e) =>
+                        handleInputChange(e, "referral_bonus_awarded")
+                      }
                     />
                   </td>
                   <td>
@@ -229,7 +273,9 @@ const Users = () => {
                   <td>{user.suspended === true ? "🚫" : "—"}</td>
                   <td>
                     <button onClick={() => handleEditClick(user)}>Edit</button>
-                    <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+                    <button onClick={() => handleDeleteUser(user.id)}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               )

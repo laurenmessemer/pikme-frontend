@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
-import flashIcon from "../../assets/icons/flash.svg";
 import "../../styles/cards/SubmissionWallet.css";
 import Submit from "../Buttons/Submit";
 import SubmissionTimer from "../Timers/SubmissionTimer";
+import LazyImage from "../Common/LazyImage";
+import BackButton from "../Buttons/BackButton";
 
 // ✅ Add token icon URL
 const tokenIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
+const flashIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg";
 
 const SubmissionWallet = ({
   contestTitle,
@@ -16,14 +18,33 @@ const SubmissionWallet = ({
   confirmText = "Confirm & Pay",
   onConfirm,
   disableConfirm,
+  previusStep = () => {},
+  isShowPreviousButton = false,
 }) => {
   const Token = () => (
-    <img
+    <LazyImage
       src={tokenIcon}
       alt="Token"
       className="token-icon"
-      style={{ width: "18px", height: "18px", marginLeft: "4px", verticalAlign: "middle" }}
+      style={{
+        width: "18px",
+        height: "18px",
+        marginLeft: "4px",
+        verticalAlign: "middle",
+      }}
     />
+    // <img
+    //   src={tokenIcon}
+    //   alt="Token"
+    //   className="token-icon"
+    //   style={{
+    //     width: "18px",
+    //     height: "18px",
+    //     marginLeft: "4px",
+    //     verticalAlign: "middle",
+    //   }}
+    //   onError={onImageError}
+    // />
   );
 
   return (
@@ -37,7 +58,7 @@ const SubmissionWallet = ({
         <SubmissionTimer contestId={contestId} />
       </div>
 
-      <div className="submission-wallet-container">
+      <div className="submission-wallet-container with-scroll">
         <div className="wallet-section">
           <div className="wallet-heading">
             <h3>My Tokens</h3>
@@ -45,7 +66,8 @@ const SubmissionWallet = ({
           <div className="wallet-row">
             <span className="wallet-label">Token Balance</span>
             <strong className="wallet-value">
-              {balance.toLocaleString(undefined, { minimumFractionDigits: 0 })}x<Token />
+              {balance.toLocaleString(undefined, { minimumFractionDigits: 0 })}x
+              <Token />
             </strong>
           </div>
         </div>
@@ -56,7 +78,9 @@ const SubmissionWallet = ({
           </div>
           <div className="wallet-row">
             <span className="wallet-label">Entry Fee</span>
-            <strong className="wallet-value">{entryFee.toFixed(0)}x<Token /></strong>
+            <strong className="wallet-value">
+              {entryFee.toFixed(0)}x<Token />
+            </strong>
           </div>
         </div>
 
@@ -64,13 +88,27 @@ const SubmissionWallet = ({
         <div className="wallet-heading">
           <div className="wallet-row">
             <span className="wallet-heading-1">Total Charge</span>
-            <strong className="wallet-value">{totalCharge.toFixed(0)}x<Token /></strong>
+            <strong className="wallet-value">
+              {totalCharge.toFixed(0)}x<Token />
+            </strong>
           </div>
         </div>
       </div>
 
-      <div className="submission-wallet-confirm">
-        <Submit text={confirmText} onClick={onConfirm} disabled={disableConfirm} />
+      <div className="submission-card-submit with-spacing">
+        {isShowPreviousButton && (
+          <BackButton
+            onClick={previusStep}
+            className="no-spacing"
+            disabled={disableConfirm}
+          />
+        )}
+        <Submit
+          className="no-spacing"
+          text={confirmText}
+          onClick={onConfirm}
+          disabled={disableConfirm}
+        />
       </div>
     </div>
   );

@@ -3,30 +3,42 @@ import { useContext } from "react";
 import Confirmation from "../components/Cards/Confirmation";
 import { useCompetition } from "../context/CompetitionContext";
 import { WalletContext } from "../context/WalletContext";
-import "../styles/competition/StepFour.css";
+import { SiteUrl } from "../constant/appConstants";
 
 const StepFour = ({ inviteLink, matchType, joinedExistingMatch }) => {
   const { imageUrl } = useCompetition();
   const { balance } = useContext(WalletContext);
 
-  console.log("🎟️ StepFour Props:", { inviteLink, matchType, joinedExistingMatch });
+  console.log("🎟️ StepFour Props:", {
+    inviteLink,
+    matchType,
+    joinedExistingMatch,
+  });
   console.log("🌟 StepFour Received imageUrl:", imageUrl);
 
   const generateInviteLink = () => {
-    return `https://pikme.com/headtoheadfriendinvite-${Math.floor(1000 + Math.random() * 9000)}`;
+    return `${SiteUrl}/headtoheadfriendinvite-${Math.floor(
+      1000 + Math.random() * 9000
+    )}`;
   };
 
   if (!imageUrl) {
-    console.error("❌ Missing imageUrl in StepFour - Likely an issue in StepThree");
+    console.error(
+      "❌ Missing imageUrl in StepFour - Likely an issue in StepThree"
+    );
     return <p className="error">Image is required to proceed.</p>;
   }
 
   return (
     <div className="step-four-container flex">
-      <Confirmation 
-        newBalance={balance} 
-        inviteLink={matchType === "invite_friend" ? inviteLink || generateInviteLink() : null} 
-        matchType={matchType} 
+      <Confirmation
+        newBalance={balance}
+        inviteLink={
+          matchType === "invite_friend"
+            ? inviteLink || generateInviteLink()
+            : null
+        }
+        matchType={matchType}
         joinedExistingMatch={joinedExistingMatch} // ✅ Pass this down
       />
       <div className="uploaded-image-container">

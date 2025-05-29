@@ -14,7 +14,7 @@
   width: 100vw; /* Full viewport width */
   height: 8em; /* Adjust header height as needed */
   padding: 14px 20px;
-  background-color: #FFD685; /* Header background color */
+  background-color: #ffd685; /* Header background color */
   border-bottom: 3px solid #2d2d2d;
   box-sizing: border-box;
   flex-shrink: 0; /* Prevents shrinking */
@@ -36,11 +36,13 @@
   border-left: none;
   border-right: none;
   border-bottom: none;
-  overflow: auto; /* Allows internal scrolling if needed */
+  overflow-x: hidden;
+  overflow-y: auto; /* Allows internal scrolling if needed */
 }
 
 /* ✅ Prevent body from allowing scrolling */
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -61,7 +63,7 @@ html, body {
   font-size: 14px;
   font-weight: 500;
   color: #2d2d2d;
-  background-color: #FFD685;
+  background-color: #ffd685;
   border: 1.5px solid #2d2d2d;
   border-radius: 12px;
   cursor: pointer;
@@ -75,14 +77,14 @@ html, body {
 
 /* ✅ Adjust Arrow Icon */
 .arrow-left-icon {
-  width: 12px; 
+  width: 12px;
   height: auto;
   margin-right: 8px;
 }
 
 /* ✅ Title Below Button */
 .utility-header-title {
-  font-family: 'Azeret Mono', monospace;
+  font-family: "Azeret Mono", monospace;
   font-size: 1.5rem;
   font-weight: bold;
   color: #2d2d2d;

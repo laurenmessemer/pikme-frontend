@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import "../styles/admin/CreateTheme.css";
+import { onImageError } from "../utils/RouterUtils";
+import { useAuth } from "../context/UseAuth";
+import ToastUtils from "../utils/ToastUtils";
 
 const CreateTheme = () => {
   const [themeName, setThemeName] = useState("");
@@ -11,6 +14,7 @@ const CreateTheme = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const { token } = useAuth();
 
   // ✅ Handle Image Upload to S3
   const handleImageUpload = async (event) => {
@@ -25,16 +29,27 @@ const CreateTheme = () => {
 
     try {
       // Step 1: Get Pre-Signed URL from Backend
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/themes/get-upload-url`, {
-        params: { fileType: file.type },
-      });
-    
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/themes/get-upload-url`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+          params: { fileType: file.type },
+        }
+      );
 
       const { uploadURL, fileKey, bucketName, region } = response.data;
 
       // Step 2: Upload File to S3
       await axios.put(uploadURL, file, {
-        headers: { "Content-Type": file.type },
+        headers: {
+          "Cache-Control": "public, max-age=31536000, immutable",
+          "ngrok-skip-browser-warning": "true",
+          "Content-Type": file.type,
+          "x-amz-acl": "public-read",
+        },
       });
 
       // Step 3: Store Final Image URL
@@ -53,14 +68,16 @@ const CreateTheme = () => {
   // ✅ Ensure Image URL is Ready Before Submitting
   const handleSubmit = async () => {
     if (isUploading) {
-      alert("Image is still uploading. Please wait...");
+      ToastUtils.warning("Image is still uploading. Please wait...");
+      // alert("Image is still uploading. Please wait...");
       return;
     }
 
     console.log("🚀 Attempting to submit theme with image URL:", coverImageUrl);
 
     if (!coverImageUrl) {
-      alert("Please upload a cover image before submitting.");
+      ToastUtils.warning("Please upload a cover image before submitting.");
+      // alert("Please upload a cover image before submitting.");
       return;
     }
 
@@ -68,12 +85,21 @@ const CreateTheme = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/themes/create`, {
-        themeName,
-        description,
-        specialRules,
-        coverImageUrl, // ✅ Send S3 URL
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/themes/create`,
+        {
+          themeName,
+          description,
+          specialRules,
+          coverImageUrl, // ✅ Send S3 URL
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
 
       console.log("✅ Theme created successfully:", response.data);
       setSuccess("Theme added successfully!");
@@ -102,7 +128,12 @@ const CreateTheme = () => {
           <label>Cover Image</label>
           <div className="image-upload">
             {coverImage || coverImageUrl ? (
-              <img src={coverImageUrl || coverImage} alt="Cover" className="uploaded-image" />
+              <img
+                src={coverImageUrl || coverImage}
+                alt="Cover"
+                className="uploaded-image"
+                onError={onImageError}
+              />
             ) : (
               <div className="image-placeholder">+</div>
             )}
@@ -112,19 +143,33 @@ const CreateTheme = () => {
 
         <div className="theme-details">
           <label>Theme Name:</label>
-          <input type="text" value={themeName} onChange={(e) => setThemeName(e.target.value)} />
+          <input
+            type="text"
+            value={themeName}
+            onChange={(e) => setThemeName(e.target.value)}
+          />
 
           <label>Theme Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
 
           <label>Special Rules:</label>
-          <textarea value={specialRules} onChange={(e) => setSpecialRules(e.target.value)} />
+          <textarea
+            value={specialRules}
+            onChange={(e) => setSpecialRules(e.target.value)}
+          />
         </div>
       </div>
 
       <div className="buttons">
         <button className="cancel">Cancel</button>
-        <button className="submit" onClick={handleSubmit} disabled={isUploading}>
+        <button
+          className="submit"
+          onClick={handleSubmit}
+          disabled={isUploading}
+        >
           {isUploading ? "Uploading..." : "Add Theme"}
         </button>
       </div>

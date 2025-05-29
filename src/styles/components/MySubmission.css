@@ -1,16 +1,25 @@
-
 .my-submissions-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.my-submissions-container .new-grid-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .my-submissions-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cards per row by default */
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row by default */
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+.my-submissions-grid.with-more-gap {
+  gap: 30px;
 }
 
 .login-message {
@@ -23,68 +32,74 @@
 }
 
 .no-submissions {
-    display: flex;
-    justify-content: left;
-    align-items: left;
-    height: 300px;
-  }
-  
-  .dashed-box {
-    border: 3px dashed var(--dark);
-    padding: 20px;
-    width: 250px;
-    height: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  height: 300px;
+}
+
+.dashed-box {
+  border: 3px dashed var(--dark);
+  padding: 20px;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
 
 /* Responsive Design */
-@media (max-width: 1024px) { /* Medium screens */
-    .my-submissions-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-    }
+@media (max-width: 1024px) {
+  /* Medium screens */
+  .my-submissions-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  }
 }
 
-@media (max-width: 768px) { /* Tablet size */
-    .my-submissions-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-    }
+@media (max-width: 768px) {
+  /* Tablet size */
+  .my-submissions-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+  }
 }
 
-@media (max-width: 480px) { /* Mobile */
-    .my-submissions-grid {
-        grid-template-columns: 1fr; /* 1 card per row */
-    }
+@media (max-width: 480px) {
+  /* Mobile */
+  .my-submissions-grid {
+    grid-template-columns: 1fr; /* 1 card per row */
+  }
 }
 
 .my-submissions-empty-state {
-    text-align: center;
-    padding: 40px 0;
-  }
-  
-  .my-submissions-empty-text {
-    font-family: monospace;
-    font-size: 16px;
-    margin-bottom: 24px;
-    color: #333;
-  }
-  
-  .dashed-box {
-    display: inline-block;
-    border: 3px dashed #333;
-    padding: 40px;
-    width: 200px;
-    height: 200px;
-    vertical-align: middle;
-    font-family: monospace;
-    font-size: 16px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  text-align: center;
+  padding: 40px 0;
+}
+
+.my-submissions-empty-text {
+  font-family: monospace;
+  font-size: 16px;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.dashed-box {
+  display: inline-block;
+  border: 3px dashed #333;
+  padding: 40px;
+  width: 200px;
+  height: 200px;
+  vertical-align: middle;
+  font-family: monospace;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashed-box.small {
+  height: 100px;
+  width: 100%;
+}

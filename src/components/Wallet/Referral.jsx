@@ -18,11 +18,15 @@ const Referral = () => {
     const fetchReferralCode = async () => {
       try {
         const token = localStorage.getItem("token"); // or however you store it
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/auth/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
 
         const code = response.data.referral_code;
         const fullLink = `${window.location.origin}/signup?ref=${code}`;
@@ -42,7 +46,12 @@ const Referral = () => {
 
       {inviteLink && (
         <div className="referral-link-container">
-          <input type="text" value={inviteLink} readOnly className="referral-link" />
+          <input
+            type="text"
+            value={inviteLink}
+            readOnly
+            className="referral-link"
+          />
           <button className="copy-button" onClick={handleCopy}>
             <FaLink className="copy-icon" />
           </button>
@@ -53,7 +62,8 @@ const Referral = () => {
       {error && <p className="error-message">{error}</p>}
 
       <p className="referral-text">
-        Copy the link to invite a friend to PikMe. You’ll each get 10 tokens when they sign up!
+        Copy the link to invite a friend to PikMe. You’ll each get 10 tokens
+        when they sign up!
       </p>
     </div>
   );

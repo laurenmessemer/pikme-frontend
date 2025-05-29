@@ -1,10 +1,16 @@
 import PropTypes from "prop-types";
-import "../../styles/buttons/Submit.css"; // Ensure styles are correctly linked
 
-const Submit = ({ text = "Submit", onClick, disabled = false, className = "" }) => {
+const Submit = ({
+  text = "Submit",
+  onClick,
+  disabled = false,
+  className = "",
+}) => {
   return (
     <button
-      className={`submit-button ${className} ${disabled ? "button-disabled" : "button-cta"}`}
+      className={`submit-button ${className} ${
+        disabled ? "button-disabled" : "button-cta"
+      }`}
       onClick={onClick}
       disabled={disabled}
     >

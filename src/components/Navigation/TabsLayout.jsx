@@ -13,6 +13,9 @@ function TabsLayout() {
     "/vote": 200,
     "/compete": 300,
     "/leaderboard": 400,
+    "/leaderboard/Live": 400,
+    "/leaderboard/Winners": 400,
+    "/leaderboard/MySubmissions": 400,
     "/join/upload": 300,
   };
 
@@ -21,44 +24,42 @@ function TabsLayout() {
     "/vote": "var(--vote-background)",
     "/compete": "var(--compete-background)",
     "/leaderboard": "var(--leaderboard-background)",
-    "/join/upload": "var(--compete-background)", 
+    "/leaderboard/Live": "var(--leaderboard-background)",
+    "/leaderboard/Winners": "var(--leaderboard-background)",
+    "/leaderboard/MySubmissions": "var(--leaderboard-background)",
+    "/join/upload": "var(--compete-background)",
   };
 
   const getBasePath = (path) => {
     const parts = path.split("/");
     return `/${parts[1] || ""}/${parts[2] || ""}`.replace(/\/$/, ""); // normalize to 2-level
   };
-  
+
   const basePath = getBasePath(location.pathname);
-  
+
   const backgroundColor = tabBackgrounds[basePath] || "transparent";
   const contentZ = zIndices[basePath] || 100;
-  
+
   return (
-    <div className="tabs-layout">
-      <Tabs />
-      
-      {/* ✅ Global Access Menu */}
-      <div className="access-menu-wrapper">
-        <AccessMenu />
-      </div>
+    <>
+      <div className="tabs-layout">
+        <Tabs />
 
-      <div className="tab-content" style={{ backgroundColor, zIndex: contentZ }}>
-        <Outlet />
-      </div>
+        {/* ✅ Global Access Menu */}
+        <div className="access-menu-wrapper">
+          <AccessMenu />
+        </div>
 
-      <div
-        className="footer-hover-wrapper"
-        style={{ "--footer-bg": backgroundColor }}
-      >
-        <div className="footer-hover-zone"></div>
-        <Footer />
+        <div
+          className="tab-content"
+          style={{ backgroundColor, zIndex: contentZ }}
+        >
+          <Outlet />
+          <Footer />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 export default TabsLayout;
-
-
-

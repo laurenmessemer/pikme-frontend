@@ -13,8 +13,7 @@ function AccessMenu() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-  }, [user]);
+  useEffect(() => {}, [user]);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const closeDropdown = () => setIsDropdownOpen(false);
@@ -22,28 +21,51 @@ function AccessMenu() {
   return (
     <div className="access-container">
       {/* ✅ Place WalletBadge next to the username */}
-      <div className="wallet-badge">
-      {user && <WalletBadge />} 
-      </div>
-        <div className="access-menu">
-          {!user ? (
-            <div className="access-links">
-              <Access text="LOG IN" variant="light" onClick={() => navigate("/login")} />
-              <Access text="CREATE ACCOUNT" variant="cta" onClick={() => navigate("/signup")} />
-            </div>
-          ) : (
-            <div className="access-logged-in">
-              <div className="access-username" onClick={toggleDropdown}>
-                <span className="status-dot"></span>
-                <span className="username-text">{user.username}</span>
-                {isDropdownOpen ? <FaChevronUp className="dropdown-arrow" /> : <FaChevronDown className="dropdown-arrow" />}
-              </div>
-            </div>
-          )}
+      {user?.role === "admin" && (
+        <div className="access-links">
+          <Access
+            text="Admin Console"
+            variant="light"
+            onClick={() => navigate("/admin-console/themes")}
+          />
         </div>
-      
+      )}
+      <div className="wallet-badge">{user && <WalletBadge />}</div>
+      <div className="access-menu">
+        {!user ? (
+          <div className="access-links">
+            <Access
+              text="LOG IN"
+              variant="light"
+              onClick={() => navigate("/login")}
+            />
+            <Access
+              text="CREATE ACCOUNT"
+              variant="cta"
+              onClick={() => navigate("/signup")}
+            />
+          </div>
+        ) : (
+          <div className="access-logged-in">
+            <div className="access-username" onClick={toggleDropdown}>
+              <span className="status-dot"></span>
+              <span className="username-text">{user.username}</span>
+              {isDropdownOpen ? (
+                <FaChevronUp className="dropdown-arrow" />
+              ) : (
+                <FaChevronDown className="dropdown-arrow" />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
       {createPortal(
-        <SettingsDropdown isOpen={isDropdownOpen} onClose={closeDropdown} logout={logout} />,
+        <SettingsDropdown
+          isOpen={isDropdownOpen}
+          onClose={closeDropdown}
+          logout={logout}
+        />,
         document.body
       )}
     </div>

@@ -1,13 +1,14 @@
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import themePlaceholder from "../assets/placeholders/snack.jpg";
+import themePlaceholder from "../assets/placeholders/snack.webp";
 import JackpotCard from "../components/Cards/JackpotCard";
-import GeoPopup from "../components/Popups/GeoPopup"; // ✅ Geo restriction popup
 import LoginToCompetePopup from "../components/Popups/LoginToCompete";
 import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
-import "../styles/competition/StepOne.css";
+import { api } from "../api";
+import { checkSuccessResponse } from "../utils/RouterUtils";
+import { ENDPOINTS_CONTEST_LIVE_UPCOMING_API } from "../constant/ApiUrls";
 
 const preloadImages = (urls) => {
   urls.forEach((url) => {
@@ -16,71 +17,53 @@ const preloadImages = (urls) => {
   });
 };
 
-const StepOne = ({ nextStep }) => {
+const StepOne = ({ nextStep, previusStep = () => {} }) => {
   const [contests, setContests] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [showGeoBlock, setShowGeoBlock] = useState(false);
   const { setContestId } = useCompetition();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const isLoggedIn = !!user;
 
   useEffect(() => {
     const fetchLiveContests = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/live-upcoming`);
-        const sorted = response.data.sort((a, b) => {
-          if (a.status === "Live" && b.status !== "Live") return -1;
-          if (a.status !== "Live" && b.status === "Live") return 1;
-          return new Date(a.contest_live_date) - new Date(b.contest_live_date);
+        setIsLoading(true);
+        const response = await api({
+          endpoint: ENDPOINTS_CONTEST_LIVE_UPCOMING_API,
         });
 
-        setContests(sorted);
-        const coverImageUrls = sorted.map(c => c.Theme?.cover_image_url).filter(Boolean);
-        preloadImages(coverImageUrls);
+        if (checkSuccessResponse(response)) {
+          const sorted = response.data.sort((a, b) => {
+            if (a.status === "Live" && b.status !== "Live") return -1;
+            if (a.status !== "Live" && b.status === "Live") return 1;
+            return (
+              new Date(a.contest_live_date) - new Date(b.contest_live_date)
+            ); // secondary sort
+          });
+          setContests(sorted);
+
+          const coverImageUrls = sorted
+            .map((contest) => contest.Theme?.cover_image_url)
+            .filter(Boolean);
+
+          preloadImages(coverImageUrls);
+        } else {
+          setError("Error fetching contests.");
+          console.error("❌ Error fetching contests:");
+        }
       } catch (err) {
         setError("Error fetching contests.");
         console.error("❌ Error fetching contests:", err);
+        setIsLoading(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchLiveContests();
   }, []);
-
-  const handleSubmit = async (contestId) => {
-    if (!isLoggedIn) {
-      setShowLoginPrompt(true);
-      return;
-    }
-
-    try {
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-      const { country, region_code } = data;
-
-      console.log("🌎 User Location:", { country, region_code });
-
-      const blockedRegions = ["AR", "CT", "DE", "LA", "MD", "MI", "MT", "SC", "SD", "DC"];
-
-      if (country !== "US") {
-        console.warn(`🚫 Blocked: user is international (${country})`);
-        setShowGeoBlock(true);
-        return;
-      }
-
-      if (blockedRegions.includes(region_code)) {
-        console.warn(`🚫 Blocked: user is in a restricted U.S. state (${region_code})`);
-        setShowGeoBlock(true);
-        return;
-      }
-
-      console.log(`✅ Allowed: user is in ${region_code}, proceeding to competition`);
-      setContestId(contestId);
-      nextStep(contestId);
-    } catch (err) {
-      console.error("⚠️ Geolocation check failed:", err);
-    }
-  };
 
   return (
     <div className="step-one-container">
@@ -89,41 +72,58 @@ const StepOne = ({ nextStep }) => {
         <button className="step-one-button">HEAD-TO-HEAD</button>
         <p className="step-one-description">
           In Head-to-Head, your photo faces off against a single competitor.
-          Enter as many times as you want and win by the largest margins to claim the prize!
+          Enter as many times as you want and win by the largest margins to
+          claim the prize!
         </p>
       </div>
-
-      {/* ✅ Error */}
-      {error && <p className="error-message">{error}</p>}
-
-      {/* ✅ Contest Cards */}
-      {contests.length === 0 ? (
-        <p className="no-contests-message">No active contests.</p>
+      {isLoading ? (
+        <p className="loading-message">Loading Contests...</p>
       ) : (
-        <div className="step-one-cards-container">
-          {contests.map((contest) => (
-            <JackpotCard
-              key={contest.id}
-              contestId={contest.id}
-              themePhoto={contest.Theme?.cover_image_url || themePlaceholder}
-              entryFee={Number(contest.entry_fee)}
-              prizePool={Number(contest.prize_pool)}
-              themeName={contest.Theme?.name || "Theme"}
-              themeDescription={contest.Theme?.description || "No description available"}
-              onSubmit={() => handleSubmit(contest.id)}
-              className="jackpot-card"
-            />
-          ))}
-        </div>
+        <>
+          {/* ✅ Error Display */}
+          {error && <p className="error-message">{error}</p>}
+
+          {/* ✅ Contests or Loading */}
+          {!error && contests.length === 0 ? (
+            <p className="no-contests-message">No active contests.</p>
+          ) : (
+            <div className="step-one-cards-container">
+              {contests.map((contest) => (
+                <JackpotCard
+                  key={contest.id}
+                  contestId={contest.id}
+                  themePhoto={
+                    contest.Theme?.cover_image_url
+                      ? contest.Theme.cover_image_url
+                      : themePlaceholder
+                  }
+                  entryFee={Number(contest.entry_fee)}
+                  prizePool={Number(contest.prize_pool)}
+                  themeName={contest.Theme?.name || "Theme"}
+                  themeDescription={
+                    contest.Theme?.description || "No description available"
+                  }
+                  allData={contest}
+                  onSubmit={() => {
+                    if (!isLoggedIn) {
+                      setShowLoginPrompt(true);
+                      return;
+                    }
+                    setContestId(contest.id);
+                    nextStep(contest.id);
+                  }}
+                  previusStep={previusStep}
+                  className="jackpot-card"
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
 
-      {/* ✅ Popups */}
+      {/* ✅ Login Popup */}
       {showLoginPrompt && (
         <LoginToCompetePopup onClose={() => setShowLoginPrompt(false)} />
-      )}
-
-      {showGeoBlock && (
-        <GeoPopup onClose={() => setShowGeoBlock(false)} />
       )}
     </div>
   );
@@ -135,15 +135,12 @@ StepOne.propTypes = {
 
 export default StepOne;
 
-
 // import axios from "axios";
 // import PropTypes from "prop-types";
 // import { useEffect, useState } from "react";
-// import themePlaceholder from "../assets/placeholders/snack.jpg";
+// import themePlaceholder from "../assets/placeholders/snack.webp";
 // import JackpotCard from "../components/Cards/JackpotCard";
-// import LoginToCompetePopup from "../components/Popups/LoginToCompete";
 // import { useCompetition } from "../context/CompetitionContext";
-// import { useAuth } from "../context/UseAuth";
 // import "../styles/competition/StepOne.css";
 
 // const preloadImages = (urls) => {
@@ -156,10 +153,7 @@ export default StepOne;
 // const StepOne = ({ nextStep }) => {
 //   const [contests, setContests] = useState([]);
 //   const [error, setError] = useState(null);
-//   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 //   const { setContestId } = useCompetition();
-//   const { user } = useAuth();
-//   const isLoggedIn = !!user;
 
 //   useEffect(() => {
 //     const fetchLiveContests = async () => {
@@ -174,9 +168,10 @@ export default StepOne;
 
 //         const coverImageUrls = sorted
 //           .map((contest) => contest.Theme?.cover_image_url)
-//           .filter(Boolean);
+//           .filter(Boolean); // removes undefined/null
 
 //         preloadImages(coverImageUrls);
+
 //       } catch (err) {
 //         setError("Error fetching contests.");
 //         console.error("❌ Error fetching contests:", err);
@@ -188,7 +183,7 @@ export default StepOne;
 
 //   return (
 //     <div className="step-one-container">
-//       {/* ✅ Header */}
+//       {/* ✅ Restored Heading */}
 //       <div className="step-one-header">
 //         <button className="step-one-button">HEAD-TO-HEAD</button>
 //         <p className="step-one-description">
@@ -197,10 +192,7 @@ export default StepOne;
 //         </p>
 //       </div>
 
-//       {/* ✅ Error Display */}
 //       {error && <p className="error-message">{error}</p>}
-
-//       {/* ✅ Contests or Loading */}
 //       {contests.length === 0 ? (
 //         <p className="no-contests-message">No active contests.</p>
 //       ) : (
@@ -211,7 +203,7 @@ export default StepOne;
 //               contestId={contest.id}
 //               themePhoto={
 //                 contest.Theme?.cover_image_url
-//                   ? contest.Theme.cover_image_url
+//                   ? contest.Theme.cover_image_url // ✅ Use the full database URL directly
 //                   : themePlaceholder
 //               }
 //               entryFee={Number(contest.entry_fee)}
@@ -219,10 +211,6 @@ export default StepOne;
 //               themeName={contest.Theme?.name || "Theme"}
 //               themeDescription={contest.Theme?.description || "No description available"}
 //               onSubmit={() => {
-//                 if (!isLoggedIn) {
-//                   setShowLoginPrompt(true);
-//                   return;
-//                 }
 //                 setContestId(contest.id);
 //                 nextStep(contest.id);
 //               }}
@@ -230,11 +218,6 @@ export default StepOne;
 //             />
 //           ))}
 //         </div>
-//       )}
-
-//       {/* ✅ Login Popup */}
-//       {showLoginPrompt && (
-//         <LoginToCompetePopup onClose={() => setShowLoginPrompt(false)} />
 //       )}
 //     </div>
 //   );
@@ -245,4 +228,3 @@ export default StepOne;
 // };
 
 // export default StepOne;
-

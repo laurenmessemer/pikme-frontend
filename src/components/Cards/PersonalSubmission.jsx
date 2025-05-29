@@ -1,19 +1,40 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import flashIcon from "../../assets/icons/flash.svg";
+import { useEffect, useMemo, useState } from "react";
 import "../../styles/cards/PersonalSubmission.css";
 import RogueButton from "../Buttons/RogueButton";
 import XButton from "../Buttons/XButton";
+import { useAuth } from "../../context/UseAuth";
+import ToastUtils from "../../utils/ToastUtils";
+import LazyImage from "../Common/LazyImage";
+import ReInviteFriendPopup from "../Popups/ReInviteFriendPopup";
+import { FaCopy, FaLink } from "react-icons/fa";
+import { checkSuccessResponse } from "../../utils/RouterUtils";
 
-const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => {
+const flashIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg";
+
+const PersonalSubmission = ({
+  contestData,
+  userId,
+  competitionId,
+  onClose,
+}) => {
   const [opponentEntry, setOpponentEntry] = useState(null);
-  const [resolvedMatchType, setResolvedMatchType] = useState(contestData.matchType);
-  const [resolvedInviteLink, setResolvedInviteLink] = useState(contestData.inviteLink || null);
+  const [isDetailsLoading, setDetailsLoading] = useState(false);
+  const [currentUserEntry, setCurrentUserEntry] = useState(null);
+  const [isFormModel, setFormModel] = useState(false);
+  const [isRandomId, setIsRandomId] = useState("");
+  const [resolvedMatchType, setResolvedMatchType] = useState(
+    contestData.matchType
+  );
+  const [resolvedInviteLink, setResolvedInviteLink] = useState(
+    contestData.inviteUrl || null
+  );
+  const { token } = useAuth();
 
-  // Debug contestData props
-  // console.log("📦 contestData prop:", contestData);
-  // console.log("👤 userId:", userId);
-  // console.log("🏆 competitionId:", competitionId);
+  const finalCode = useMemo(() => {
+    if (!resolvedInviteLink) return null;
+    return resolvedInviteLink.split("=").pop();
+  }, [resolvedInviteLink]);
 
   useEffect(() => {
     const fetchOpponent = async () => {
@@ -21,45 +42,62 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
         console.warn("⚠️ Missing userId or competitionId");
         return;
       }
-  
+
       try {
-        console.log("🚀 Fetching opponent info...");
+        setDetailsLoading(true);
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/leaderboard/opponent?userId=${userId}&competitionId=${competitionId}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/leaderboard/opponent?userId=${userId}&competitionId=${competitionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
         );
-        const data = await res.json();
-        console.log("🎯 Opponent API response:", data);
-        setOpponentEntry(data.opponent || null);
-        setResolvedMatchType(data.matchType || contestData.matchType);
-        setResolvedInviteLink(data.inviteLink || contestData.inviteLink || null);
+        if (checkSuccessResponse(res)) {
+          const data = await res.json();
+          setOpponentEntry(data?.opponent || null);
+          setCurrentUserEntry(data?.currentUser || null);
+          setResolvedMatchType(data.matchType || contestData.matchType);
+          setResolvedInviteLink(
+            data.inviteUrl || contestData.inviteUrl || null
+          );
+          setIsRandomId("");
+          setDetailsLoading(false);
+        }
       } catch (err) {
         console.error("❌ Error fetching opponent data:", err);
+        setDetailsLoading(false);
+      } finally {
+        setDetailsLoading(false);
       }
     };
-  
+
     fetchOpponent();
-  }, [userId, competitionId, contestData]);
-  
-  if (!contestData || !contestData.userEntry) {
-    console.error("❌ Missing contestData or userEntry!");
-    return <p>Error: Contest data is missing.</p>;
+  }, [userId, competitionId, contestData, isRandomId]);
+
+  if (!isDetailsLoading && !contestData) {
+    console.error("❌ Missing contestData or currentUserEntry!");
+    return <p className="error-message">Contest data is missing.</p>;
   }
 
-  const { theme, contestStatus, userEntry } = contestData;
-  const voteDifference = userEntry.votes - (opponentEntry?.votes || 0);
+  const { theme, contestStatus } = contestData;
+  const voteDifference =
+    (currentUserEntry?.votes || 0) - (opponentEntry?.votes || 0);
   const isWinner = voteDifference >= 0;
   const lowerStatus = contestStatus.toLowerCase();
   const isUpcoming = lowerStatus === "upcoming";
   const isActive = lowerStatus === "active" || lowerStatus === "live";
   const isComplete = lowerStatus === "complete";
 
-  console.log("🧠 contestStatus:", contestStatus);
-  console.log("🎮 matchType:", resolvedMatchType);
-  console.log("📊 isUpcoming:", isUpcoming);
-  console.log("🔥 isActive:", isActive);
-  console.log("✅ isComplete:", isComplete);
-  console.log("👥 opponentEntry:", opponentEntry);
-  console.log("📸 userEntry:", userEntry);
+  // console.log("🧠 contestStatus:", contestStatus);
+  // console.log("🎮 matchType:", resolvedMatchType);
+  // console.log("📊 isUpcoming:", isUpcoming);
+  // console.log("🔥 isActive:", isActive);
+  // console.log("✅ isComplete:", isComplete);
+  // console.log("👥 opponentEntry:", opponentEntry);
 
   const renderStatusMessage = () => {
     if (opponentEntry) return null;
@@ -69,18 +107,45 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
       return (
         <div className="ps-upcoming-box">
           <p>Waiting for your friend… 1/2</p>
-          <p className="ps-invite-note">
-            If your friend is taking a while to join, you can choose to find a randomly chosen opponent.
-          </p>
+          {/* <p className="ps-invite-note">
+            If your friend is taking a while to join, you can choose to find a
+            randomly chosen opponent.
+          </p> */}
           <div className="ps-invite-actions">
-          <RogueButton
-              text="View Friend Link"
+            <div className="custom-link-container">
+              <input
+                type="text"
+                value={`${resolvedInviteLink}`}
+                readOnly
+                className="custom-confirmation-link"
+              />
+              <button
+                className="copy-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${resolvedInviteLink}`);
+                  ToastUtils.success("Invite link copied!");
+                }}
+              >
+                <FaLink className="copy-icon" />
+              </button>
+            </div>
+            <div className="custom-link-container only-btn">
+              <button
+                className="copy-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${finalCode}`);
+                  ToastUtils.success("Invite code copied!");
+                }}
+              >
+                <FaCopy className="copy-icon" />
+              </button>
+            </div>
+            <RogueButton
+              text="Reinvite"
               onClick={() => {
-                navigator.clipboard.writeText(`https://www.pikme.com/join/${resolvedInviteLink}`);
-                alert("✅ Invite link copied to clipboard!");
+                setFormModel(true);
               }}
-            >
-            </RogueButton>
+            ></RogueButton>
             {/* <RogueButton
               text="Find New Opponent"
               variant="outline"
@@ -106,79 +171,136 @@ const PersonalSubmission = ({ contestData, userId, competitionId, onClose }) => 
   };
 
   const renderVotes = (votes) => {
-    return typeof votes === "number" && votes > 0 ? `${votes} Votes` : "-- Votes";
+    return typeof votes === "number" && votes > 0
+      ? `${votes} Votes`
+      : "-- Votes";
   };
 
   return (
-    <div className="ps-container">
-      {/* Header */}
-      <div className="headstats-header">
-        <XButton onClick={onClose} />
-        <div className="theme-title">
-          <img src={flashIcon} alt="Flash" className="flash-icon" />
-          <h2 className="contest-name">{theme}</h2>
+    <>
+      <XButton onClick={onClose} newUi={true} />
+      <div className="ps-container">
+        {/* Header */}
+        <div className="headstats-header">
+          <div className="theme-title">
+            <img src={flashIcon} alt="Flash" className="flash-icon" />
+            <h2 className="contest-name">{theme}</h2>
+          </div>
+          <div
+            className={`ps-status-box ps-status-${contestStatus.toLowerCase()}`}
+          >
+            <span className="ps-status-text">{contestStatus}</span>
+          </div>
+          <div>
+            <p className="contest-details">About the Contest.</p>
+          </div>
+          <div className="ps-contest-name">Head-to-Head Contest</div>
         </div>
-        <div className={`ps-status-box ps-status-${contestStatus.toLowerCase()}`}>
-          <span className="ps-status-text">{contestStatus}</span>
-        </div>
-        <div>
-          <p className="contest-details">About the Contest.</p>
-        </div>
-        <div className="ps-contest-name">Head-to-Head Contest</div>
-      </div>
 
-      {/* Content */}
-      <div className="ps-content">
-        <div className="ps-column">
-          {/* User Submission */}
-          <div className="ps-my-submission">
-            <img src={userEntry.imageUrl} alt="My Submission" className="ps-my-image" />
-            <div className="ps-my-info">
-              <p className="ps-my-username">{userEntry.username || "Me"}</p>
-              <p className="ps-my-votes">{renderVotes(userEntry.votes)}</p>
-            </div>
-
-            <div className={`ps-my-diff ${isWinner ? "positive" : "negative"}`}>
-              {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
-            </div>
-
-            {isComplete && (
-              <div className={`ps-result-tag ${isWinner ? "won" : "lost"}`}>
-                {isWinner ? "🏆 Won" : "❌ Lost"}
+        {/* Content */}
+        <div className="ps-content">
+          <div className="ps-column">
+            {/* User Submission */}
+            <div className="ps-opponent-card">
+              <LazyImage
+                src={
+                  currentUserEntry?.imageUrl || contestData?.userEntry?.imageUrl
+                }
+                alt="My Submission"
+                className="ps-my-image"
+              />
+              <div className="ps-opponent-info">
+                <p className="ps-username">
+                  {currentUserEntry?.username ||
+                    contestData?.userEntry?.username ||
+                    "Me"}
+                </p>
+                <p className="ps-votes">
+                  {renderVotes(currentUserEntry?.votes)}
+                </p>
               </div>
+
+              <div
+                className={`ps-my-diff ${isWinner ? "positive" : "negative"}`}
+              >
+                {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
+              </div>
+
+              {isComplete && (
+                <div className={`ps-result-tag ${isWinner ? "won" : "lost"}`}>
+                  {isWinner ? "🏆 Won" : "❌ Lost"}
+                </div>
+              )}
+            </div>
+
+            {/* Conditional Message between user and opponent */}
+            {!opponentEntry && !isDetailsLoading && renderStatusMessage()}
+            {isDetailsLoading ? (
+              <div className="ps-upcoming-box">
+                <p>Fetching opponent</p>
+                <div className="ps-loading-dots">
+                  <span className="dot dot1"></span>
+                  <span className="dot dot2"></span>
+                  <span className="dot dot3"></span>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Opponent Submission */}
+                {opponentEntry && (
+                  <>
+                    <div className="user-submission-divider no-space"></div>
+                    <div className="ps-opponent-card">
+                      <img
+                        src={opponentEntry.imageUrl}
+                        alt="Opponent"
+                        className="ps-opponent-img"
+                      />
+                      <div className="ps-opponent-info">
+                        <p className="ps-username">
+                          {opponentEntry.username || "Opponent"}
+                        </p>
+                        <p className="ps-votes">
+                          {renderVotes(opponentEntry.votes)}
+                        </p>
+                      </div>
+                      <div className="ps-diff">
+                        {voteDifference < 0
+                          ? `+${Math.abs(voteDifference)}`
+                          : voteDifference}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </>
             )}
           </div>
 
-          {/* Conditional Message between user and opponent */}
-          {!opponentEntry && renderStatusMessage()}
-
-          {/* Opponent Submission */}
-          {opponentEntry && (
-            <>
-              <div className="user-submission-divider"></div>
-              <div className="ps-opponent-card">
-                <img src={opponentEntry.imageUrl} alt="Opponent" className="ps-opponent-img" />
-                <div className="ps-opponent-info">
-                  <p className="ps-username">{opponentEntry.username || "Opponent"}</p>
-                  <p className="ps-votes">{renderVotes(opponentEntry.votes)}</p>
-                </div>
-                <div className="ps-diff">
-                  {voteDifference < 0 ? `+${Math.abs(voteDifference)}` : voteDifference}
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Main Image */}
-        <div className="ps-image-column">
-          <div className="ps-image-card">
-            <img src={userEntry.imageUrl} alt="Full Submission" className="ps-main-image" />
-            {userEntry.votes > 0 && <div className="ps-vote-badge">+{userEntry.votes}</div>}
+          {/* Main Image */}
+          <div className="ps-image-column">
+            <div className="ps-image-card">
+              <LazyImage
+                src={
+                  currentUserEntry?.imageUrl || contestData?.userEntry?.imageUrl
+                }
+                alt="Full Submission"
+                className="ps-main-image"
+              />
+              {currentUserEntry?.votes > 0 && (
+                <div className="ps-vote-badge">+{currentUserEntry?.votes}</div>
+              )}
+            </div>
           </div>
         </div>
+        {isFormModel && (
+          <ReInviteFriendPopup
+            onClose={() => setFormModel(false)}
+            competitionId={competitionId}
+            onSubmit={() => setIsRandomId(crypto.randomUUID())}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -188,11 +310,6 @@ PersonalSubmission.propTypes = {
     contestStatus: PropTypes.string.isRequired,
     inviteLink: PropTypes.string,
     matchType: PropTypes.string,
-    userEntry: PropTypes.shape({
-      imageUrl: PropTypes.string.isRequired,
-      votes: PropTypes.number.isRequired,
-      username: PropTypes.string,
-    }).isRequired,
   }).isRequired,
   userId: PropTypes.number.isRequired,
   competitionId: PropTypes.number,

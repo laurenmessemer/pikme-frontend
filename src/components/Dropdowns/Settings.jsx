@@ -25,7 +25,8 @@ const Settings = ({ isOpen, onClose, logout }) => {
 
   // ✅ Check if there are any unread alerts in localStorage
   useEffect(() => {
-    const savedReadAlerts = JSON.parse(localStorage.getItem("readAlerts")) || [];
+    const savedReadAlerts =
+      JSON.parse(localStorage.getItem("readAlerts")) || [];
     const allAlertIds = [
       "alert-1",
       "alert-2",
@@ -46,17 +47,25 @@ const Settings = ({ isOpen, onClose, logout }) => {
       <div className="dropdown-header">Account</div>
 
       <ul>
-        <li>
-          <Link to="/alerts" onClick={onClose} className="dropdown-item">
-            {hasUnreadAlerts && <span className="status-dot" />} Alerts
-          </Link>
+        <li
+          className="dropdown-item"
+          onClick={() => {
+            navigate("/alerts");
+            onClose();
+          }}
+        >
+          {hasUnreadAlerts && <span className="status-dot" />} Alerts
         </li>
 
         {/* ✅ Settings & Privacy */}
-        <li>
-          <Link to="/settings" onClick={onClose}>
-            Settings & Privacy
-          </Link>
+        <li
+          className="dropdown-item"
+          onClick={() => {
+            navigate("/settings");
+            onClose();
+          }}
+        >
+          Settings & Privacy
         </li>
 
         {/* ✅ Join a Contest Option */}
@@ -73,7 +82,15 @@ const Settings = ({ isOpen, onClose, logout }) => {
 
       <hr />
 
-      <li className="logout-btn" onClick={logout}>Sign Out</li>
+      <li
+        className="logout-btn"
+        onClick={() => {
+          onClose();
+          logout();
+        }}
+      >
+        Sign Out
+      </li>
     </div>
   );
 };
@@ -85,7 +102,6 @@ Settings.propTypes = {
 };
 
 export default Settings;
-
 
 // import PropTypes from "prop-types";
 // import { useEffect, useRef } from "react";

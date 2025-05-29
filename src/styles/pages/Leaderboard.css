@@ -1,29 +1,30 @@
 /* Leaderboard Container */
 .leaderboard-container {
-    padding: 2em;
-    text-align: center;
-    color: var(--light);
-    width: 90%;
+  padding: 2em;
+  text-align: center;
+  color: var(--light);
+  width: 90%;
+  position: relative;
 }
 
 /* Leaderboard Toggle Buttons */
 .leaderboard-toggle-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1.5em; /* Space between buttons */
-    margin-bottom: 2em;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1.5em; /* Space between buttons */
+  margin-bottom: 1.5em;
+  flex-wrap: wrap;
 }
 
 /* Leaderboard Content */
 .leaderboard-content {
-    padding: 2em;
-    /* border: 1px solid var(--dark); */
-    color: var(--dark);
-    min-height: 600px; /* Ensures space for dynamic content */
+  padding: 0 2em 2em;
+  /* border: 1px solid var(--dark); */
+  color: var(--dark);
+  min-height: 600px; /* Ensures space for dynamic content */
 }
 
 .headers_leaderboard {
-    color: var(--dark);
-    margin-top: -10px;
+  color: var(--dark);
+  margin: 0 0 1.5em 0;
 }

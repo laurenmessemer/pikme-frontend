@@ -1,17 +1,21 @@
-@import './styles/global.css';
-@import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;700&family=Azeret+Mono:wght@400;700&display=swap');
+@import "./styles/global.css";
+@import url("https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;700&family=Azeret+Mono:wght@400;700&display=swap");
 
 @font-face {
-    font-family: 'Familjen Grotesk';
-    src: url('/fonts/FamiljenGrotesk.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Azeret Mono';
-    src: url('/fonts/AzeretMono.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
+  font-family: "Familjen Grotesk";
+  src: url("/fonts/FamiljenGrotesk.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("/fonts/AzeretMono.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Toast font size */
+.toast-new-container .react-hot-toast {
+  font-size: 14px !important;
+}

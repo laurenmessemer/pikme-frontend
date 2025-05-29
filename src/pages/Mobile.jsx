@@ -1,5 +1,7 @@
 // This page displays a "Check us out on Desktop" message for mobile devices.
 
+import LazyImage from "../components/Common/LazyImage";
+import { ImageUrl } from "../constant/appConstants";
 import "../styles/pages/Mobile.css";
 
 const Mobile = () => {
@@ -7,20 +9,32 @@ const Mobile = () => {
     <div
       className="mobile-overlay"
       style={{
-        backgroundImage: `url('https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/bckgrmob.svg')`,
+        backgroundImage: `url('${ImageUrl}/icons/bckgrmob.svg')`,
       }}
     >
       <div className="mobile-container">
-        <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/pmlogo.png"
+        <LazyImage
+          src={`${ImageUrl}/icons/pmlogo.png`}
           alt="PikMe Logo"
           className="mobile-logo"
         />
-        <img
-          src="https://photo-contest-storage.s3.us-east-2.amazonaws.com/icons/cubes.png"
+        {/* <img
+          src={`${ImageUrl}/icons/pmlogo.png`}
+          alt="PikMe Logo"
+          className="mobile-logo"
+          onError={onImageError}
+        /> */}
+        <LazyImage
+          src={`${ImageUrl}/icons/cubes.png`}
           alt="Cute Cubes"
           className="mobile-cubes"
         />
+        {/* <img
+          src={`${ImageUrl}/icons/cubes.png`}
+          onError={onImageError}
+          alt="Cute Cubes"
+          className="mobile-cubes"
+        /> */}
         <div className="mobile-content">
           <h1 className="mobile-title">
             CHECK US OUT

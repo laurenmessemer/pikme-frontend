@@ -6,12 +6,11 @@ import UploadImage from "../components/Cards/UploadImage"; // ✅ Importing Uplo
 import { useCompetition } from "../context/CompetitionContext";
 import { useAuth } from "../context/UseAuth";
 import { WalletContext } from "../context/WalletContext";
-import "../styles/competition/StepThree.css";
 
 const StepThree = ({ nextStep }) => {
   const { balance, setBalance, refreshBalance } = useContext(WalletContext);
   const { contestId, imageUrl, matchType } = useCompetition();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const userId = user?.id;
 
   const [entryFee, setEntryFee] = useState(null);
@@ -28,7 +27,15 @@ const StepThree = ({ nextStep }) => {
     const fetchContestData = async () => {
       try {
         console.log("📡 Fetching contest data for:", contestId);
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/contests/${contestId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setEntryFee(response.data.entry_fee ?? 0);
       } catch (error) {
         console.error("❌ Error fetching contest details:", error);
@@ -44,13 +51,18 @@ const StepThree = ({ nextStep }) => {
 
   const handleConfirmPayment = async () => {
     if (!userId || !contestId || entryFee === null || !matchType) {
-      console.error("❌ Missing required data:", { userId, contestId, entryFee, matchType });
+      console.error("❌ Missing required data:", {
+        userId,
+        contestId,
+        entryFee,
+        matchType,
+      });
       setError("Missing required data. Please try again.");
       return;
     }
-  
+
     setProcessing(true);
-  
+
     try {
       const payload = {
         user_id: userId,
@@ -58,21 +70,27 @@ const StepThree = ({ nextStep }) => {
         entry_fee: entryFee, // ✅ Send entry fee dynamically
         match_type: matchType, // ✅ Ensure match_type is passed
       };
-  
+
       console.log("📡 Sending Confirm Payment Request:", payload); // ✅ Debugging
-  
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/competition-entry/confirm-payment`,
-        payload
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
       );
-  
+
       if (response.data.new_balance !== undefined) {
         setBalance(response.data.new_balance);
       }
       refreshBalance();
-  
+
       console.log("✅ Payment confirmed, moving to competition entry...");
-      
+
       // ✅ Move to next step and pass received competition data
       nextStep({
         imageUrl,
@@ -81,7 +99,6 @@ const StepThree = ({ nextStep }) => {
         inviteLink: response.data.inviteLink,
         joinedExistingMatch: response.data.joinedExistingMatch,
       });
-  
     } catch (error) {
       console.error("❌ Payment failed:", error.response?.data || error);
       setError(error.response?.data?.message || "Payment failed.");
@@ -89,9 +106,9 @@ const StepThree = ({ nextStep }) => {
       setProcessing(false);
     }
   };
-  
 
-  if (loading) return <p className="loading-message">🔄 Loading contest details...</p>;
+  if (loading)
+    return <p className="loading-message">🔄 Loading contest details...</p>;
   if (error) return <p className="error-message">❌ {error}</p>;
 
   return (
@@ -109,7 +126,11 @@ const StepThree = ({ nextStep }) => {
 
       {imageUrl ? (
         <div className="uploaded-image-container">
-          <img src={imageUrl} alt="Uploaded Preview" className="uploaded-image" />
+          <img
+            src={imageUrl}
+            alt="Uploaded Preview"
+            className="uploaded-image"
+          />
         </div>
       ) : (
         <UploadImage disabled={true} /> // ✅ Disabled Upload, Only Showing UI

@@ -10,7 +10,7 @@ import "../styles/pages/JoinInvite.css";
 const JoinInvite = () => {
   const { inviteLink } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { balance, setBalance, refreshBalance } = useContext(WalletContext);
 
   const [competition, setCompetition] = useState(null);
@@ -18,6 +18,7 @@ const JoinInvite = () => {
   const [entryFee, setEntryFee] = useState(null);
   const [error, setError] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [isImageLoading, setImageLoading] = useState(false); // add this in your component
 
   useEffect(() => {
     if (!user) {
@@ -27,7 +28,17 @@ const JoinInvite = () => {
 
     const fetchCompetition = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/competition-entry/invite/${inviteLink}`);
+        const res = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/competition-entry/invite/${inviteLink}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setCompetition(res.data.competition);
         setEntryFee(res.data.competition?.Contest?.entry_fee || 0);
       } catch (err) {
@@ -41,26 +52,40 @@ const JoinInvite = () => {
 
   const handleUpload = async (file) => {
     if (!file || !competition) return;
+    setImageLoading(true);
 
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`, {
-        params: {
-          user_id: user.id,
-          contest_id: competition.contest_id,
-          match_type: "invite_friend",
-          fileType: file.type,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/competition-entry/get-upload-url`,
+        {
+          params: {
+            user_id: user.id,
+            contest_id: competition.contest_id,
+            match_type: "invite_friend",
+            fileType: file.type,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
 
       await axios.put(res.data.uploadURL, file, {
-        headers: { "Content-Type": file.type },
+        headers: {
+          "Content-Type": file.type,
+          "ngrok-skip-browser-warning": "true",
+        },
       });
 
       const finalUrl = res.data.uploadURL.split("?")[0];
       setImageUrl(finalUrl);
     } catch (err) {
+      setImageLoading(false);
       console.error("❌ Upload error:", err);
       setError("Upload failed. Try again.");
+    } finally {
+      setImageLoading(false);
     }
   };
 
@@ -69,11 +94,20 @@ const JoinInvite = () => {
     setProcessing(true);
 
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/competition-entry/accept-invite`, {
-        inviteLink,
-        user_id: user.id,
-        imageUrl,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/competition-entry/accept-invite`,
+        {
+          inviteLink,
+          user_id: user.id,
+          imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
 
       if (res.data.new_balance !== undefined) {
         setBalance(res.data.new_balance);
@@ -102,7 +136,7 @@ const JoinInvite = () => {
           <img src={imageUrl} alt="Your Upload" className="uploaded-image" />
         </div>
       ) : (
-        <UploadImage onUpload={handleUpload} />
+        <UploadImage onUpload={handleUpload} isImageLoading={isImageLoading} />
       )}
 
       <SubmissionWallet

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useCompetition } from "../context/CompetitionContext"; // Import context
-import "../styles/competition/CompetitionEntry.css";
 import StepFour from "./StepFour";
 import StepOne from "./StepOne";
 import StepThree from "./StepThree";
@@ -31,7 +30,9 @@ const CompetitionEntry = () => {
   return (
     <div className="competition-entry-container">
       {step === 1 && <StepOne nextStep={nextStep} />}
-      {step === 2 && contestId && <StepTwo contestId={contestId} nextStep={nextStep} />}
+      {step === 2 && contestId && (
+        <StepTwo contestId={contestId} nextStep={nextStep} />
+      )}
       {step === 3 && entryData && contestId ? (
         <StepThree
           contestId={contestId}
@@ -40,7 +41,9 @@ const CompetitionEntry = () => {
           nextStep={nextStep}
         />
       ) : (
-        step === 3 && <p className="error">❌ StepThree Not Loading: Missing Entry Data</p>
+        step === 3 && (
+          <p className="error">❌ StepThree Not Loading: Missing Entry Data</p>
+        )
       )}
       {step === 4 && entryData && (
         <StepFour contestId={contestId} imageUrl={entryData.imageUrl} />

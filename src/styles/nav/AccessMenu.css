@@ -2,7 +2,7 @@
 .access-container {
   position: fixed;
   top: 0;
-  right: 20px;
+  right: 16px;
   display: flex;
   flex-direction: row; /* Make it a row layout */
   align-items: center; /* Keep WalletBadge and AccessMenu aligned */
@@ -61,7 +61,6 @@
   color: var(--dark);
 }
 
-
 /* 🔽 NEW: Logged-in User Section */
 .access-logged-in {
   position: relative;
@@ -73,18 +72,24 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: .8em;
+  font-size: 0.8em;
   font-weight: bold;
   cursor: pointer;
   padding: 8px 12px;
   background: var(--light);
+}
+.username-text {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
 }
 
 /* ✅ Pink Dot */
 .status-dot {
   height: 8px;
   width: 8px;
-  background-color: #FF69B4; /* Pink */
+  background-color: #ff69b4; /* Pink */
   border-radius: 50%;
   display: inline-block;
 }
@@ -96,7 +101,6 @@
   z-index: 12;
   pointer-events: auto;
 }
-
 
 /* ✅ Arrow for Dropdown */
 .dropdown-arrow {
@@ -112,9 +116,9 @@
     flex-direction: row; /* Make it a row layout */
     align-items: center; /* Keep WalletBadge and AccessMenu aligned */
     gap: 10px; /* Space between WalletBadge and AccessMenu */
-    transform: scale(.60);
+    transform: scale(0.6);
   }
-  
+
   /* ✅ Ensure AccessMenu stays flush with the viewport */
   .access-menu {
     background-color: var(--light);
@@ -131,5 +135,4 @@
   .access-menu-wrapper {
     z-index: 10;
   }
-  
 }

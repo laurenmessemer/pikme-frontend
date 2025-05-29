@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/nav/TabBackground.css";
+import LazyImage from "../Common/LazyImage";
 
 // ✅ Improved base path parser
 const getBasePath = (path) => {
@@ -11,10 +12,26 @@ const getBasePath = (path) => {
 
 // ✅ Unique tab definitions
 const imageFiles = [
-  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm2.svg", id: "home-tab", route: "/" },
-  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm3.svg", id: "vote-tab", route: "/vote" },
-  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "compete-tab", route: "/compete" },
-  { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm5.svg", id: "lead-tab", route: "/leaderboard" },
+  {
+    src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm2.svg",
+    id: "home-tab",
+    route: "/",
+  },
+  {
+    src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm3.svg",
+    id: "vote-tab",
+    route: "/vote",
+  },
+  {
+    src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg",
+    id: "compete-tab",
+    route: "/compete",
+  },
+  {
+    src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm5.svg",
+    id: "lead-tab",
+    route: "/leaderboard",
+  },
   // { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm4.svg", id: "upload-tab", route: "/join/upload" }
 ];
 
@@ -41,7 +58,7 @@ const TabBackground = () => {
     if (match) {
       const image = document.getElementById(match.id);
       if (image) {
-        const nextZ = topIndex + 1;
+        const nextZ = imageFiles?.length + 1;
         image.style.zIndex = nextZ;
         setTopIndex(nextZ);
         setActiveTabId(match.id);
@@ -64,7 +81,9 @@ const TabBackground = () => {
               <button
                 key={tab.id}
                 className={`tab-button1 ${tab.id}`}
-                onClick={() => handleTabClick(index)}
+                onClick={() => {
+                  handleTabClick(index);
+                }}
               >
                 {tab.id.replace("-tab", "").toUpperCase()}
               </button>
@@ -73,17 +92,16 @@ const TabBackground = () => {
 
           <div className="tab-background-container1">
             {imageFiles.map((tab, index) => (
-              <img
+              <LazyImage
                 key={tab.id}
                 id={tab.id}
                 src={tab.src}
                 alt={`Tab Background ${index + 1}`}
                 className={`tab-background-image1 tab-img-${tab.id}`}
                 style={{ zIndex: tab.id === activeTabId ? topIndex : index }}
-                loading="eager"
-                decoding="async"
-                onClick={() => handleTabClick(index)}
-                onLoad={(e) => e.target.classList.add("loaded")}
+                // onClick={() => {
+                //   handleTabClick(index);
+                // }}
               />
             ))}
           </div>
@@ -95,17 +113,14 @@ const TabBackground = () => {
 
 export default TabBackground;
 
-
 // import { useEffect, useState } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
 // import "../../styles/nav/TabBackground.css";
-
 
 // const getBasePath = (path) => {
 //   const parts = path.split("/");
 //   return `/${parts[1] || ""}/${parts[2] || ""}`.replace(/\/$/, "");
 // };
-
 
 // const imageFiles = [
 //   { src: "https://d38a0fe14bafg9.cloudfront.net/icons/pm2.svg", id: "home-tab", route: "/" },
@@ -122,7 +137,6 @@ export default TabBackground;
 //   });
 // };
 
-
 // const TabBackground = () => {
 //   const [topIndex, setTopIndex] = useState(imageFiles.length);
 //   const [activeTabId, setActiveTabId] = useState(null);
@@ -136,7 +150,6 @@ export default TabBackground;
 
 //     const basePath = getBasePath(location.pathname);
 //     const match = imageFiles.find((tab) => tab.route === basePath);
-    
 
 //     if (match) {
 //       const image = document.getElementById(match.id);
@@ -194,5 +207,3 @@ export default TabBackground;
 // };
 
 // export default TabBackground;
-
-

@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { FaRegClock } from "react-icons/fa";
 import "../../styles/timers/SubmissionTimer.css"; // ✅ Same styles
+import { useAuth } from "../../context/UseAuth";
 
 const JackpotTimer = ({ contestId }) => {
+  const { token } = useAuth(); // ✅ get auth user
   const [timeRemaining, setTimeRemaining] = useState({});
   const [isUpcoming, setIsUpcoming] = useState(false);
 
@@ -13,14 +15,18 @@ const JackpotTimer = ({ contestId }) => {
 
     const fetchContestDetails = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/contests/${contestId}`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/contests/${contestId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         const contest = response.data?.contest || response.data;
 
-        const {
-          submission_deadline,
-          contest_live_date,
-          status
-        } = contest;
+        const { submission_deadline, contest_live_date, status } = contest;
 
         let deadline;
         if (status === "Upcoming") {
@@ -38,7 +44,10 @@ const JackpotTimer = ({ contestId }) => {
         updateTimer(deadline);
         interval = setInterval(() => updateTimer(deadline), 1000);
       } catch (error) {
-        console.error(`❌ Error fetching contest details for contest ${contestId}:`, error);
+        console.error(
+          `❌ Error fetching contest details for contest ${contestId}:`,
+          error
+        );
         setTimeRemaining("Error");
       }
     };
@@ -50,12 +59,12 @@ const JackpotTimer = ({ contestId }) => {
   const updateTimer = (endTime) => {
     const now = new Date();
     const diff = endTime - now;
-  
+
     if (diff <= 0) {
       setTimeRemaining({ expired: true });
       return;
     }
-  
+
     setTimeRemaining({
       days: Math.floor(diff / (1000 * 60 * 60 * 24)),
       hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -64,7 +73,6 @@ const JackpotTimer = ({ contestId }) => {
       expired: false,
     });
   };
-  
 
   return (
     <div className="submission-timer">
@@ -72,10 +80,15 @@ const JackpotTimer = ({ contestId }) => {
         <span className="timer-text">Submission Closed</span>
       ) : timeRemaining?.seconds !== undefined ? (
         <span className="timer-text">
-          {isUpcoming && <span className="yellow-status-dot" />} 
+          {isUpcoming && <span className="yellow-status-dot" />}
           {isUpcoming && "Upcoming | "}
           <FaRegClock className="timer-icon" />
-          {`${String(timeRemaining.days).padStart(2, "0")}:${String(timeRemaining.hours).padStart(2, "0")}:${String(timeRemaining.minutes).padStart(2, "0")}:${String(timeRemaining.seconds).padStart(2, "0")}`}
+          {`${String(timeRemaining.days).padStart(2, "0")}:${String(
+            timeRemaining.hours
+          ).padStart(2, "0")}:${String(timeRemaining.minutes).padStart(
+            2,
+            "0"
+          )}:${String(timeRemaining.seconds).padStart(2, "0")}`}
         </span>
       ) : (
         <span className="timer-text">Loading...</span>

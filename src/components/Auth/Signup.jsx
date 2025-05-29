@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import UtilityTemplate from "../../utils/UtilityTemplate";
 import CreateAccountCard from "../Cards/CreateAccountCard";
+import { checkSuccessResponse } from "../../utils/RouterUtils";
+import ToastUtils from "../../utils/ToastUtils";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,34 +13,96 @@ const Signup = () => {
   const [referralCode, setReferralCode] = useState("");
   const [redirectTo, setRedirectTo] = useState("/");
   const [lastEmail, setLastEmail] = useState("");
+  const [isSignUpLoading, setIsSignUpLoading] = useState(false);
+  const params = new URLSearchParams(location.search);
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const inviteCode = params.get("invite_code");
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
+    if (inviteCode && inviteCode.length >= 6) {
+      async function getUserParticipationHandler() {
+        setError("");
+        setIsSignUpLoading(true);
+        setEmail("");
+        const response = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/competition-entry/validate-invite-code/${inviteCode}`,
+          {
+            headers: {
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
+        if (checkSuccessResponse(response)) {
+          setError("");
+          setIsSignUpLoading(false);
+          setEmail(response?.data?.competition?.invited_friend_email);
+          setUserName(response?.data?.competition?.invited_friend_name);
+          setReferralCode(response?.data?.referralCode);
+          // ToastUtils.success(
+          //   "You're all set! Please check your email to verify your account."
+          // );
+        }
+      }
+      getUserParticipationHandler();
+    }
+  }, [inviteCode]);
+
+  useEffect(() => {
     const code = params.get("ref");
     const redirect = params.get("redirect");
+    if (code) {
+      setReferralCode(code);
+    }
 
-    if (code) setReferralCode(code);
     if (redirect) setRedirectTo(redirect);
   }, [location]);
 
   const handleSignup = async (username, email, password, inputReferralCode) => {
     try {
+      setIsSignUpLoading(true);
       setError("");
       setLastEmail(email); // Store email for potential resend
 
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+      const payload = {
         username,
         email,
         password,
         referralCode: inputReferralCode || referralCode,
-      });
+      };
 
-      console.log("✅ Signup success:", response.data);
-      navigate(redirectTo);
-      window.location.reload();
+      if (inviteCode) {
+        payload.inviteCode = inviteCode;
+      }
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        payload,
+        {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        }
+      );
+      if (checkSuccessResponse(response)) {
+        console.log("✅ Signup success:", response.data);
+        ToastUtils.success(
+          "You're all set! Please check your email to verify your account."
+        );
+        navigate(redirectTo);
+        // window.location.reload();
+      }
     } catch (error) {
-      console.error("❌ Signup failed:", error.response?.data?.message || "Unknown error");
-      setError(error.response?.data?.message || "Signup failed. Please try again.");
+      setIsSignUpLoading(false);
+      console.error(
+        "❌ Signup failed:",
+        error.response?.data?.message || "Unknown error"
+      );
+      setError(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
     }
   };
 
@@ -46,13 +110,18 @@ const Signup = () => {
     if (!lastEmail) return;
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/resend-verification`, {
-        email: lastEmail,
-      });
-      alert("✅ Verification email resent! Please check your inbox.");
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/resend-verification`,
+        {
+          email: lastEmail,
+        }
+      );
+      // alert("✅ Verification email resent! Please check your inbox.");
+      ToastUtils.success("Verification email resent! Please check your inbox.");
     } catch (err) {
       console.error("❌ Failed to resend email:", err);
-      alert("Could not resend verification email. Try again later.");
+      // alert("Could not resend verification email. Try again later.");
+      ToastUtils.error("Could not resend verification email. Try again later.");
     }
   };
 
@@ -63,6 +132,9 @@ const Signup = () => {
         referralCode={referralCode}
         error={error}
         onResendVerification={handleResendEmail}
+        isSignUpLoading={isSignUpLoading}
+        usernameValue={userName}
+        emailValue={email}
       />
     </UtilityTemplate>
   );

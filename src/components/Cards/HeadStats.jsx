@@ -4,6 +4,15 @@ import Dropdown from "../../components/Dropdowns/Dropdown";
 import { useAuth } from "../../context/UseAuth";
 import "../../styles/cards/HeadStats.css";
 import JackpotTimer from "../Timers/JackpotTimer";
+import LazyImage from "../Common/LazyImage";
+import { ImageUrl } from "../../constant/appConstants";
+
+const piggybankIcon =
+  "https://d38a0fe14bafg9.cloudfront.net/icons/piggybank.svg";
+
+const firsttokenprize = `${ImageUrl}/icons/firsttokenprize.svg`;
+const secondtokenprize = `${ImageUrl}/icons/secondtokenprize.svg`;
+const bronzetokenprize = `${ImageUrl}/icons/bronzetokenprize.svg`;
 
 const preloadImages = (urls) => {
   urls.forEach((url) => {
@@ -12,9 +21,8 @@ const preloadImages = (urls) => {
   });
 };
 
-
 const HeadStats = () => {
-  const { user: authUser } = useAuth();
+  const { user: authUser, token } = useAuth();
   const [contestData, setContestData] = useState(null);
   const [groupedUsers, setGroupedUsers] = useState([]);
   const [hoveredUserId, setHoveredUserId] = useState(null);
@@ -26,27 +34,34 @@ const HeadStats = () => {
   useEffect(() => {
     const fetchLiveContest = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/leaderboard/live-contests`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         if (response.data.success) {
           console.log("📥 API Response:", response.data);
-          
+
           setGroupedUsers(response.data.contest.leaderboard);
           setContestData(response.data.contest);
 
-        // Preload the visible leaderboard images
-        const leaderboardUserImages = response.data.contest.leaderboard
-        .map((user) => user.images?.[0]?.imageUrl)
-        .filter(Boolean);
+          // Preload the visible leaderboard images
+          const leaderboardUserImages = response.data.contest.leaderboard
+            .map((user) => user.images?.[0]?.imageUrl)
+            .filter(Boolean);
 
-        // Preload all images that appear in the scrolling column
-        const scrollColumnImages = response.data.contest.leaderboard
-        .flatMap((user) => user.images || [])
-        .map((img) => img.imageUrl)
-        .filter(Boolean);
+          // Preload all images that appear in the scrolling column
+          const scrollColumnImages = response.data.contest.leaderboard
+            .flatMap((user) => user.images || [])
+            .map((img) => img.imageUrl)
+            .filter(Boolean);
 
-        // Merge and preload only those images
-        preloadImages([...leaderboardUserImages, ...scrollColumnImages]);
-
+          // Merge and preload only those images
+          preloadImages([...leaderboardUserImages, ...scrollColumnImages]);
         } else {
           throw new Error("Failed to fetch live contests.");
         }
@@ -57,7 +72,6 @@ const HeadStats = () => {
         setLoading(false);
       }
     };
-    
 
     fetchLiveContest();
   }, []);
@@ -86,37 +100,39 @@ const HeadStats = () => {
   if (error) return <p className="error-message">{error}</p>;
   if (!contestData) return <p>No active contests right now.</p>;
 
-  const loggedInUser = groupedUsers.find((u) => String(u.id) === String(authUser?.id));
+  const loggedInUser = groupedUsers.find(
+    (u) => String(u.id) === String(authUser?.id)
+  );
   const imagesToShow =
-    groupedUsers.find((u) => u.id === hoveredUserId)?.images || loggedInUser?.images || [];
+    groupedUsers.find((u) => u.id === hoveredUserId)?.images ||
+    loggedInUser?.images ||
+    [];
 
   const formatMargin = (margin) =>
     margin > 0 ? `+${margin}` : margin < 0 ? `${margin}` : `±0`;
 
-  const prizeIconUrls = [
-    "https://d38a0fe14bafg9.cloudfront.net/icons/firsttokenprize.svg",
-    "https://d38a0fe14bafg9.cloudfront.net/icons/secondtokenprize.svg",
-    "https://d38a0fe14bafg9.cloudfront.net/icons/bronzetokenprize.svg",
-  ];
+  const prizeIconUrls = [firsttokenprize, secondtokenprize, bronzetokenprize];
 
   return (
     <div className="headstats-container">
       <div className="headstats-header">
         <div className="theme-title">
-          <img
-            src="https://d38a0fe14bafg9.cloudfront.net/icons/piggybank.svg"
+          <LazyImage
+            src={piggybankIcon}
             alt="Piggybank"
             className="piggybank-icon"
           />
           <h2 className="contest-name">{contestData.contestName}</h2>
         </div>
         <div className="jackpot-timer-wrapper">
-          <JackpotTimer contestId={20} />
+          <JackpotTimer contestId={contestData?.contestId} />
         </div>
-        <p className="prize-pool">Ranking the margins of victory for all 1v1 matchups this week.</p>
+        <p className="prize-pool">
+          Ranking the margins of victory for all 1v1 matchups this week.
+        </p>
         <p className="contest-details">
           {contestData.leaderboard.length} Matchups | Entry: 1x
-          <img
+          <LazyImage
             src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
             alt="Token"
             style={{
@@ -141,71 +157,110 @@ const HeadStats = () => {
 
                 <div className="payout-row">
                   <span className="payout-left">
-                    <img
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/firstpayout.svg"
                       alt="1st place"
                       className="payout-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/firstpayout.svg"
+                      alt="1st place"
+                      className="payout-icon"
+                      onError={onImageError}
+                    /> */}
                     1st
                   </span>
                   <span className="payout-right">
-                    30x
-                    <img
+                    {contestData?.winnings?.first
+                      ? `${contestData?.winnings?.first}x`
+                      : "30x"}
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                       alt="Token icon"
                       className="token-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
+                      alt="Token icon"
+                      className="token-icon"
+                      onError={onImageError}
+                    /> */}
                   </span>
                 </div>
 
                 <div className="payout-row">
                   <span className="payout-left">
-                    <img
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/secondpayout.svg"
                       alt="2nd place"
                       className="payout-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/secondpayout.svg"
+                      alt="2nd place"
+                      className="payout-icon"
+                      onError={onImageError}
+                    /> */}
                     2nd
                   </span>
                   <span className="payout-right">
-                    20x
-                    <img
+                    {contestData?.winnings?.second
+                      ? `${contestData?.winnings?.second}x`
+                      : "20x"}
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                       alt="Token icon"
                       className="token-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
+                      alt="Token icon"
+                      className="token-icon"
+                      onError={onImageError}
+                    /> */}
                   </span>
                 </div>
 
                 <div className="payout-row">
                   <span className="payout-left">
-                    <img
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdpayout.svg"
                       alt="3rd place"
                       className="payout-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/thirdpayout.svg"
+                      alt="3rd place"
+                      className="payout-icon"
+                      onError={onImageError}
+                    /> */}
                     3rd
                   </span>
                   <span className="payout-right">
-                    10x
-                    <img
+                    {contestData?.winnings?.third
+                      ? `${contestData?.winnings?.third}x`
+                      : "10x"}
+                    <LazyImage
                       src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                       alt="Token icon"
                       className="token-icon"
                     />
+                    {/* <img
+                      src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
+                      alt="Token icon"
+                      className="token-icon"
+                      onError={onImageError}
+                    /> */}
                   </span>
                 </div>
               </div>
             </Dropdown>
-
-
           </div>
-
           <div className="headstats-my-submission">
             {authUser ? (
               loggedInUser ? (
                 <>
-                  <img
+                  <LazyImage
                     src={loggedInUser.images[0].imageUrl}
                     alt="My Submission"
                     className="headstats-my-submission-image"
@@ -219,17 +274,21 @@ const HeadStats = () => {
                 </>
               ) : (
                 <div className="headstats-my-submission-placeholder">
-                  <p className="headstats-my-submission-invite">You haven’t entered yet!</p>
+                  <p className="headstats-my-submission-invite">
+                    You haven’t entered yet!
+                  </p>
                 </div>
               )
             ) : (
               <div className="headstats-my-submission-placeholder">
-                <p className="headstats-my-submission-invite">Login to see your submission.</p>
+                <p className="headstats-my-submission-invite">
+                  Login to see your submission.
+                </p>
               </div>
             )}
           </div>
 
-          <div className="user-submission-divider"></div>
+          <div className="user-submission-divider no-space"></div>
 
           {groupedUsers.map((user, i) => {
             const isTop3 = i < 3;
@@ -241,15 +300,19 @@ const HeadStats = () => {
             return (
               <div
                 key={user.id}
-                className="leaderboard-card"
+                className="leaderboard-card no-space"
                 onMouseEnter={() => setHoveredUserId(user.id)}
                 onMouseLeave={() => setHoveredUserId(null)}
               >
                 {isTop3 && (
                   <div className="rank-badge-wrapper-headstats">
-                    <img
+                    <LazyImage
                       src={`https://d38a0fe14bafg9.cloudfront.net/icons/${
-                        i === 0 ? "firstplace" : i === 1 ? "secondplace" : "thirdplace"
+                        i === 0
+                          ? "firstplace"
+                          : i === 1
+                          ? "secondplace"
+                          : "thirdplace"
                       }.svg`}
                       alt={`${i + 1} place`}
                       className="rank-icon-headstats"
@@ -257,7 +320,7 @@ const HeadStats = () => {
                   </div>
                 )}
                 <div className="leaderboard-content-headstats">
-                  <img
+                  <LazyImage
                     src={user.images[0].imageUrl}
                     alt={user.username}
                     className="submission-image"
@@ -305,7 +368,11 @@ const HeadStats = () => {
               const backgroundColor = "var(--cta)";
               return (
                 <div key={index} className="image-card">
-                  <img src={img.imageUrl} alt="Entry" className="contest-image" />
+                  <LazyImage
+                    src={img.imageUrl}
+                    alt="Entry"
+                    className="contest-image"
+                  />
                   <div className="image-votes" style={{ backgroundColor }}>
                     {formatMargin(img.margin)}
                   </div>
@@ -320,4 +387,3 @@ const HeadStats = () => {
 };
 
 export default HeadStats;
-

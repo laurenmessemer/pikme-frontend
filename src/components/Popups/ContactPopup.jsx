@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "../../styles/popups/ContactPopup.css";
+import { useAuth } from "../../context/UseAuth";
 
 const ContactPopup = ({ onClose }) => {
+  const { token } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,11 +21,18 @@ const ContactPopup = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
       if (result.success) {
@@ -87,16 +96,16 @@ const ContactPopup = ({ onClose }) => {
               required
             />
             <div className="contact-form-buttons">
-            <button type="button" onClick={onClose} className="btn-cancel">
+              <button type="button" onClick={onClose} className="btn-cancel">
                 CANCEL
-            </button>
-            <button
+              </button>
+              <button
                 type="submit"
                 className="btn-add"
                 disabled={!formData.message.trim()}
-            >
+              >
                 ADD
-            </button>
+              </button>
             </div>
             {error && <p className="error-message">{error}</p>}
           </form>

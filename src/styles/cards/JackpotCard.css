@@ -1,119 +1,179 @@
 .jackpot-card {
-    max-width: 520px !important; /* <-- Force max width */
-    margin-top: 1em;
-    margin-bottom: 2.8em;
-    width: 100%; /* Keeps the card a defined width */
-    border-radius: 0px;
-    overflow: hidden;
-    background: var(--light);
-    border: 3px solid var(--dark);
-    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 50%; /* Makes sure two cards fit per row */
-    position: relative;
-    padding: 0; /* Remove padding so image touches edges */
-    transition: transform 0.2s ease-in-out;
-    min-height: 24em;
+  max-width: 520px !important; /* <-- Force max width */
+  margin: 0;
+  width: 100%; /* Keeps the card a defined width */
+  border-radius: 0px;
+  overflow: hidden;
+  background: var(--light);
+  border: 3px solid var(--dark);
+  box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 50%; /* Makes sure two cards fit per row */
+  position: relative;
+  padding: 0; /* Remove padding so image touches edges */
+  transition: transform 0.2s ease-in-out;
+  min-height: 20em;
 }
 
 /* 🔹 Theme Image Container */
 .jackpot-card__image-container {
-    position: relative;
-    width: 100%; /* Ensures it takes full card width */
-    height: 12em; /* Keeps consistent height */
-    min-height: 12em;
+  position: relative;
+  width: 100%; /* Ensures it takes full card width */
+  height: 12em; /* Keeps consistent height */
+  min-height: 12em;
 }
 
 /* 🔹 Theme Image */
 .jackpot-card__image {
-    width: 100%; /* Ensures image fully stretches inside the container */
-    height: 100%;
-    object-fit: cover;
+  width: 100%; /* Ensures image fully stretches inside the container */
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Prize Pool Badge */
 .jackpot-card__prize-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--cta);
-    color: var(--light);
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 6px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--cta);
+  color: var(--light);
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 6px;
 }
 
 /* Timer */
 .jackpot-card__timer {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    z-index: 5;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 5;
 }
 
 /* ✅ White Content Section - Ensure it Covers the Badge */
 .jackpot-card__content {
-    position: relative;
-    background: var(--light);
-    padding: 5px 20px;
-    z-index: 3; /* Above the entry badge */
+  position: relative;
+  background: var(--light);
+  padding: 12px 20px 20px;
+  z-index: 3; /* Above the entry badge */
 }
 /* Theme Name */
 .jackpot-card__title {
-    margin-top: 1px;
-    margin-bottom: 7px;
-    text-align: left;
-    font-size: 2.3em;
+  margin: 0 0 7px 0;
+  text-align: left;
+  font-size: 1.6em;
+  line-height: 1.2;
 }
 
 /* Theme Description */
 .jackpot-card__description {
-    font-size: 14px;
-    margin: 5px 0 10px 0;
-    color: var(--subtle-text);
-    text-align: left;
-    margin-top: 5px;
+  font-size: 14px;
+  margin: 0 0 16px 0;
+  color: var(--subtle-text);
+  text-align: left;
+  margin-top: 5px;
 }
 
 /* ✅ Medal Container */
 .jackpot-card__medals {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 3px; /* Space between medals */
-    z-index: 5;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 3px; /* Space between medals */
+  z-index: 5;
+}
+.trofy-section {
+  position: relative;
+}
+.trofy-section .wining-text {
+  margin: 0;
+  position: absolute;
+  top: 11px;
+  left: 13px;
+  min-width: 19px;
+  font-size: 9.5px;
+  font-weight: bold;
+  color: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.trofy-section .wining-text.single-digit {
+  min-width: 25px;
+}
+.trofy-section .wining-text.gold {
+  color: #5b3303;
+}
+.trofy-section .wining-text.silver {
+  color: #044473;
+}
+.trofy-section .wining-text.bronze {
+  color: #672001;
 }
 
 /* ✅ Medal Styling */
 .jackpot-medal {
-    width: 60px; /* Adjust as needed */
-    height: auto;
+  width: 60px; /* Adjust as needed */
+  height: auto;
 }
 
 /* Individual Medal Positions */
 .jackpot-medal.gold {
-    order: 1; /* Ensures Gold appears first */
+  order: 1; /* Ensures Gold appears first */
 }
 
 .jackpot-medal.silver {
-    order: 2;
+  order: 2;
 }
 
 .jackpot-medal.bronze {
-    order: 3;
+  order: 3;
 }
-
 
 /* ✅ Entry Badge - Positioned on Top but Clipped */
 /* ✅ Entry Badge - Positioned Above Image but Below White Section */
 .jackpot-card__entry-badge {
-    position: absolute;
-    bottom: -194px; /* Adjust so it slightly peeks out */
-    left: -5%;
-    transform: translateX(-50%);
-    width: 100px; /* Adjust as needed */
-    z-index: 2; /* Below the white section */
-    transform: scale(0.6); /* Slightly smaller */
+  position: absolute;
+  bottom: -194px; /* Adjust so it slightly peeks out */
+  left: -5%;
+  transform: translateX(-50%);
+  width: 100px; /* Adjust as needed */
+  z-index: 2; /* Below the white section */
+  transform: scale(0.6); /* Slightly smaller */
+}
+.jackpot-card__entry-fees {
+  position: absolute;
+  bottom: 3px; /* Adjust so it slightly peeks out */
+  left: -4px;
+  width: 47px; /* Adjust as needed */
+  z-index: 2; /* Below the white section */
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--dark);
+}
+.jackpot-card__entry-fees.single-digit {
+  width: 52px;
+}
+
+/* ✅ Status Message - Contest Already Joined */
+.jackpot-card__status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--light);
+  border: 2px solid var(--dark);
+  border-radius: 6px;
+  margin: 12px 0 0 0;
+}
+
+.jackpot-card__status-text {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--dark);
+  text-align: center;
+  font-family: Arial, sans-serif;
 }

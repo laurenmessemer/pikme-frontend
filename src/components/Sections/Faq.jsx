@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "../../styles/sections/Faq.css";
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -80,7 +79,9 @@ const FAQ = () => {
               onClick={() => toggleFAQ(index)}
             >
               {faq.question}
-              <span className="faq-icon">{openIndex === index ? "−" : "+"}</span>
+              <span className="faq-icon">
+                {openIndex === index ? "−" : "+"}
+              </span>
             </div>
             {openIndex === index && (
               <div className="faq-answer">

@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import "../../styles/components/MySubmission.css";
 import WinnerImagePopup from "../Popups/WinnerImagePopup";
 import WinnerCard from "./WinnerCard";
+import { useAuth } from "../../context/UseAuth";
 
 const WinnerSubmissions = () => {
+  const { token } = useAuth(); // ✅ get auth user
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +16,15 @@ const WinnerSubmissions = () => {
   useEffect(() => {
     const fetchWinners = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/winners`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/winners`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         if (response.data.success) {
           const allWinners = response.data.winners;
           const flatCardList = [];
@@ -111,6 +121,7 @@ const WinnerSubmissions = () => {
                 entries={card.entries}
                 isThemeCard={card.isThemeCard}
                 place={card.place}
+                isNewCardUI={true}
               />
             </div>
           ))}
@@ -118,7 +129,10 @@ const WinnerSubmissions = () => {
       )}
 
       {selectedImage && (
-        <WinnerImagePopup imageUrl={selectedImage} onClose={() => setSelectedImage(null)} />
+        <WinnerImagePopup
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+        />
       )}
     </div>
   );

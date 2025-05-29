@@ -2,234 +2,235 @@
    🎨 Color Variables 
 ========================== */
 :root {
-    --home-background: white;
-    --compete-background: #5CFFC3;
-    --vote-background: #ABFFFF;
-    --leaderboard-background: #FFC2DE;
+  --home-background: white;
+  --compete-background: #5cffc3;
+  --vote-background: #abffff;
+  --leaderboard-background: #ffc2de;
 
-    --challenge-background-1: #FFD4E8;
-    --challenge-background-2: #FFD787;
-    --challenge-background-3: #D4E1EB;
-    --challenge-background-4: #F6B981;
+  --challenge-background-1: #ffd4e8;
+  --challenge-background-2: #ffd787;
+  --challenge-background-3: #d4e1eb;
+  --challenge-background-4: #f6b981;
 
-    /* --primary-brand: #FFD787;  */
-    --secondary-brand: #5CFFC3; /* Aquamarine */
-    --tertiary-brand: #FFC20E; /* Orchid Pink */
-  
-    --pressed-blue: #00E0E0; /* Cyan */
-    --pressed-green: #00CC81; /* Emerald */
-    --pressed-pink: #FF70B3; /* Hot Pink */
-  
-    --cta: #FFD059; /* Sunglow */
-    --cta-pressed-2: #FFA700; /* Xanthous */
-    --cta-pressed: #FFD787; /* Jasmine */
-  
-    --disabled: #AFAFAF; /* Battleship */
-    --disabled-light: #BFBFBF; /* Battleship Light */
-  
-    --dark: #3D3D3D; /* Onyx */
-    --subtle-text: #828282; /* Gray */
-    --accent: #ECF1F4; /* Dorian */
-    --light: #FFFFFF; /* White */
-  
-    --success: #008640; /* Jade */
-    --error: #D00669; /* Indian Red */
+  /* --primary-brand: #FFD787;  */
+  --secondary-brand: #5cffc3; /* Aquamarine */
+  --tertiary-brand: #ffc20e; /* Orchid Pink */
 
-    --live: #00CC81;
-    --upcoming: #F5AF00;
-    --complete: #D02F2F;
+  --pressed-blue: #00e0e0; /* Cyan */
+  --pressed-green: #00cc81; /* Emerald */
+  --pressed-pink: #ff70b3; /* Hot Pink */
 
-    --form-blue: #C6FFFF;
-    --landing-blue: #90FFD6;
-  }
-  
-  /* =======================
+  --cta: #ffd059; /* Sunglow */
+  --cta-pressed-2: #ffa700; /* Xanthous */
+  /* --cta-pressed: #FFD787; */
+  --cta-pressed: #ffe2a9; /* Jasmine */
+
+  --disabled: #afafaf; /* Battleship */
+  --disabled-light: #bfbfbf; /* Battleship Light */
+
+  --dark: #3d3d3d; /* Onyx */
+  --subtle-text: #828282; /* Gray */
+  --accent: #ecf1f4; /* Dorian */
+  --light: #ffffff; /* White */
+
+  --success: #008640; /* Jade */
+  --error: #d00669; /* Indian Red */
+
+  --secondary-button: #dfdfdf;
+
+  --live: #00cc81;
+  --upcoming: #f5af00;
+  --complete: #d02f2f;
+
+  --form-blue: #c6ffff;
+  --landing-blue: #90ffd6;
+}
+
+/* =======================
      🔠 Typography
   ========================== */
 
-  body {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 16px;
-    line-height: 1.4;
-    color: var(--dark);
-    background-color: var(--cta-pressed);
-  }
+body {
+  font-family: "Azeret Mono", monospace;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--dark);
+  background-color: var(--cta-pressed);
+}
 
-  /* Headings */
-  h1 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 54px;
-    font-weight: bold;
-    letter-spacing: -2%;
-    line-height: normal;
-  }
-  
-  h2 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 32px;
-    font-weight: bold;
-    letter-spacing: -2%;
-    line-height: normal;
+/* Headings */
+h1 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 54px;
+  font-weight: bold;
+  letter-spacing: -2%;
+  line-height: normal;
+}
 
-  }
-  
-  h3 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 26px;
-    font-weight: bold;
-    letter-spacing: -2%;
-  }
-  
-  h4 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: -2%;
-  }
-  
-  h5 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  h6 {
-    font-family: 'Familjen Grotesk', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  
-  /* Body text */
-  p {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 12px;
-    line-height: 140%;
-  }
-  
-  .subtitle {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 18px;
-    font-weight: medium;
-  }
-  
-  .bold {
-    font-weight: bold;
-  }
-  
-  .small {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 14px;
-  }
-  
-  .small-regular {
-    font-family: 'Azeret Mono', monospace;
-    font-size: 12px;
-  }
-  
-  .link {
-    font-family: 'Azeret Mono', monospace;
-  }
+h2 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: -2%;
+  line-height: normal;
+}
 
-  /* =======================
+h3 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: -2%;
+}
+
+h4 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: -2%;
+}
+
+h5 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+h6 {
+  font-family: "Familjen Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Body text */
+p {
+  font-family: "Azeret Mono", monospace;
+  font-size: 12px;
+  line-height: 140%;
+}
+
+.subtitle {
+  font-family: "Azeret Mono", monospace;
+  font-size: 18px;
+  font-weight: medium;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.small {
+  font-family: "Azeret Mono", monospace;
+  font-size: 14px;
+}
+
+.small-regular {
+  font-family: "Azeret Mono", monospace;
+  font-size: 12px;
+}
+
+.link {
+  font-family: "Azeret Mono", monospace;
+}
+
+/* =======================
      🟡 Button Styles
   ========================== */
-  .button {
-    font-family: 'Azeret Mono', monospace;
-    font-weight: bold;
-    font-size: 18px;
-    letter-spacing: 3%;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .button-primary {
-    background-color: var(--primary-brand);
-    color: var(--light);
-  }
-  
-  .button-primary:hover {
-    background-color: var(--pressed-pink);
-  }
-  
-  .button-cta {
-    background-color: var(--cta);
-    color: var(--dark);
-  }
-  
-  .button-cta:hover {
-    background-color: var(--cta-pressed);
-  }
-  
-  .button-disabled {
-    background-color: var(--disabled-light);
-    color: var(--dark);
-    cursor: not-allowed;
-  }
-  
-  /* =======================
+.button {
+  font-family: "Azeret Mono", monospace;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 3%;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.button-primary {
+  background-color: var(--primary-brand);
+  color: var(--light);
+}
+
+.button-primary:hover {
+  background-color: var(--pressed-pink);
+}
+
+.button-cta {
+  background-color: var(--cta);
+  color: var(--dark);
+}
+
+.button-cta:hover {
+  background-color: var(--cta-pressed);
+}
+
+.button-disabled {
+  background-color: var(--disabled-light);
+  color: var(--dark);
+  cursor: not-allowed;
+}
+
+/* =======================
      🎭 Utility Classes
   ========================== */
-  .text-dark {
-    color: var(--dark);
-  }
-  
-  .text-light {
-    color: var(--light);
-  }
-  
-  .text-subtle {
-    color: var(--subtle-text);
-  }
-  
-  .text-success {
-    color: var(--success);
-    font-weight: bold;
-  }
-  
-  .text-error {
-    color: var(--error);
-  }
-  
-  .text-accent {
-    color: var(--accent);
-  }
-  
-  .bg-dark {
-    background-color: var(--dark);
-  }
-  
-  .bg-light {
-    background-color: var(--light);
-  }
-  
-  .bg-primary {
-    background-color: var(--primary-brand);
-  }
-  
-  .bg-secondary {
-    background-color: var(--secondary-brand);
-  }
-  
-  .bg-tertiary {
-    background-color: var(--tertiary-brand);
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
+.text-dark {
+  color: var(--dark);
+}
+
+.text-light {
+  color: var(--light);
+}
+
+.text-subtle {
+  color: var(--subtle-text);
+}
+
+.text-success {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.text-error {
+  color: var(--error);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.bg-dark {
+  background-color: var(--dark);
+}
+
+.bg-light {
+  background-color: var(--light);
+}
+
+.bg-primary {
+  background-color: var(--primary-brand);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-brand);
+}
+
+.bg-tertiary {
+  background-color: var(--tertiary-brand);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}

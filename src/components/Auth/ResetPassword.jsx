@@ -3,20 +3,31 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import UtilityTemplate from "../../utils/UtilityTemplate";
 import ResetPasswordCard from "../Cards/ResetPasswordCard";
+import { useAuth } from "../../context/UseAuth";
 
 const ResetPassword = () => {
-  const { token } = useParams();
+  const { token: tokenData } = useParams();
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const { token } = useAuth();
 
   const handleReset = async (formValues) => {
     if (step === 1) {
       // Request reset email
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password-request`, {
-          email: formValues.email,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/reset-password-request`,
+          {
+            email: formValues.email,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setEmail(formValues.email);
         setStep(2);
         setMessage(response.data.message);
@@ -26,10 +37,19 @@ const ResetPassword = () => {
     } else if (step === 2) {
       // Verify code
       try {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/verify-code`, {
-          email,
-          code: formValues.verificationCode,
-        });
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/verify-code`,
+          {
+            email,
+            code: formValues.verificationCode,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setStep(3);
       } catch (error) {
         setMessage(error.response?.data?.message || "Invalid code");
@@ -41,10 +61,19 @@ const ResetPassword = () => {
           setMessage("Passwords do not match");
           return;
         }
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password`, {
-          token,
-          password: formValues.password,
-        });
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/reset-password`,
+          {
+            token: tokenData,
+            password: formValues.password,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+          }
+        );
         setMessage(response.data.message);
       } catch (error) {
         setMessage(error.response?.data?.message || "Something went wrong");
