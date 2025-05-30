@@ -53,7 +53,12 @@ const TabBackground = () => {
     preloadImages(imageFiles);
 
     const basePath = getBasePath(location.pathname);
-    const match = imageFiles.find((tab) => tab.route === basePath);
+    let match = imageFiles.find((tab) => tab.route === basePath);
+
+    // Special case: activate compete-tab when URL contains "join/upload"
+    if (!match && location.pathname.includes("join/upload")) {
+      match = imageFiles.find((tab) => tab.id === "compete-tab");
+    }
 
     if (match) {
       const image = document.getElementById(match.id);

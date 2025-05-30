@@ -98,7 +98,7 @@ const JackpotCard = ({
         </div>
       </div>
 
-      <div className="jackpot-card__content">
+      <div className="jackpot-card__content full-height">
         <h3 className="jackpot-card__title text-dark">{themeName}</h3>
         <p className="jackpot-card__description text-subtle">
           {themeDescription}
@@ -114,7 +114,7 @@ const JackpotCard = ({
           text="Submit Now"
           onClick={onSubmit}
           className="no-spacing"
-          disabled={allData?.Competitions?.length}
+          // disabled={allData?.Competitions?.length}
         />
         {/* )} */}
       </div>

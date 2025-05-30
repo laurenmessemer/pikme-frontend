@@ -18,7 +18,7 @@ const Leaderboard = () => {
 
   const headers = {
     live: "View previous, current, and upcoming submissions.",
-    winners: "All the past first-place winners in Jackpot Mode.",
+    winners: "All the past first-place winners from past contests.",
     mysubmissions: "View previous, current, and upcoming submissions.",
   };
 

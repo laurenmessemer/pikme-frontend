@@ -29,6 +29,11 @@
   margin: 15px 0;
   line-height: 1.2;
 }
+.submission-header .contest-title.fix,
+.submission-wallet-header .contest-title.fix {
+  max-width: calc(100% - 225px);
+  text-align: left;
+}
 
 /* Contest Description */
 .contest-description {

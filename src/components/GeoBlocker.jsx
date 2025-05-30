@@ -24,7 +24,7 @@ const GeoBlocker = () => {
           "DC",
         ];
 
-        if (country !== "US" && country !== "IN") {
+        if (country !== "US") {
           console.warn("User is international – BLOCKED");
           setIsBlocked(true);
           return;

@@ -570,14 +570,6 @@ const Vote = () => {
                               isReporting ? "report-selected" : ""
                             }`}
                           />
-                          {/* <img
-                        src={image}
-                        alt={`Entry ${index + 1}`}
-                        className={`vote-submission ${
-                          isReporting ? "report-selected" : ""
-                        }`}
-                        onError={onImageError}
-                      /> */}
                           <div className="vote-overlay">
                             {!selected && !reportMode && (
                               <div className="vote-label">Vote</div>

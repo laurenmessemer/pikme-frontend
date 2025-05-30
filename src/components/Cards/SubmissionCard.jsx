@@ -72,7 +72,7 @@ const SubmissionCard = ({
       {/* Header */}
       <div className="submission-header">
         <img src={flashIcon} alt="Contest Icon" className="contest-icon" />
-        <h2 className="contest-title">{contestTitle}</h2>
+        <h2 className="contest-title fix">{contestTitle}</h2>
       </div>
 
       {/* Countdown */}
@@ -160,7 +160,7 @@ const SubmissionCard = ({
               1st
             </span>
             <span className="payout-right">
-              30x
+              {allData?.winnings?.first || 30}x
               <LazyImage
                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"
@@ -179,7 +179,7 @@ const SubmissionCard = ({
               2nd
             </span>
             <span className="payout-right">
-              20x
+              {allData?.winnings?.second || 20}x
               <LazyImage
                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"
@@ -198,7 +198,7 @@ const SubmissionCard = ({
               3rd
             </span>
             <span className="payout-right">
-              10x
+              {allData?.winnings?.third || 10}x
               <LazyImage
                 src="https://d38a0fe14bafg9.cloudfront.net/icons/token.svg"
                 alt="Token icon"

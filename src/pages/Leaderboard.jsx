@@ -47,7 +47,7 @@ const Leaderboard = () => {
 
   const headers = {
     live: "View previous, current, and upcoming submissions.",
-    winners: "All the past first-place winners in Jackpot Mode.",
+    winners: "All the past first-place winners from past contests.",
     mysubmissions: "View previous, current, and upcoming submissions.",
   };
 
@@ -106,8 +106,10 @@ const Leaderboard = () => {
             />
           ) : (
             <div className="no-submissions-container">
-              <div className="no-submissions-box">
-                <p className="login-message">Join a Game!</p>
+              <div className="no-submissions">
+                <div className="dashed-box">
+                  <p>Join a game!</p>
+                </div>
               </div>
             </div>
           )

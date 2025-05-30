@@ -3,6 +3,11 @@
   display: flex;
   justify-content: center;
 }
+.no-submissions-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .my-submissions-container .new-grid-parent {
   display: flex;
   flex-direction: column;

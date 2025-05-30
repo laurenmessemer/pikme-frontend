@@ -107,9 +107,11 @@ const MySubmissions = ({
         <p>Loading...</p>
       ) : !isLoggedIn ? (
         <div className="no-submissions">
-          <p className="login-message">Join a Game!</p>
+          <div className="dashed-box">
+            <p>Join a game!</p>
+          </div>
         </div>
-      ) : submissions.length === 0 ? (
+      ) : submissions.length !== 0 ? (
         <div className="no-submissions">
           <div className="dashed-box">
             <p>Join a game!</p>
