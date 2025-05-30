@@ -111,7 +111,7 @@ const MySubmissions = ({
             <p>Join a game!</p>
           </div>
         </div>
-      ) : submissions.length !== 0 ? (
+      ) : submissions.length === 0 ? (
         <div className="no-submissions">
           <div className="dashed-box">
             <p>Join a game!</p>

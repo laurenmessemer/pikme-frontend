@@ -78,7 +78,16 @@ $cta-pressed-2: var(--cta-pressed-2);
   align-items: center;
   cursor: pointer;
   position: relative;
-  font-size: 12px;
+  &:not(.with-new-message) {
+    font-size: 12px;
+  }
+  &.with-new-message {
+    justify-content: center;
+    margin-top: 14px;
+    label {
+      font-weight: 400;
+    }
+  }
 
   .checkbox-input {
     display: none;
@@ -94,12 +103,25 @@ $cta-pressed-2: var(--cta-pressed-2);
     display: inline-block;
     margin-right: 8px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    &.new-ui {
+      border-radius: 0;
+      border: 2px solid var(--dark);
+      box-shadow: 2px 2px 0px 0px var(--dark);
+    }
   }
 
   .checkbox-input:checked + .custom-checkmark {
     background-color: #ffffff;
     border-color: #000;
 
+    &.new-ui {
+      &::after {
+        border: solid var(--dark);
+        border-width: 0 2px 2px 0;
+        left: 4px;
+        top: 0px;
+      }
+    }
     &::after {
       content: "";
       position: absolute;
@@ -233,11 +255,19 @@ $cta-pressed-2: var(--cta-pressed-2);
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease;
+  &.new-button {
+    font-size: 16px;
+  }
   &:disabled {
     cursor: not-allowed;
+    background-color: var(--disable-button-color);
   }
   &.no-spacing {
     margin: 0;
+  }
+  &.full-width {
+    width: 100%;
+    font-size: 16px;
   }
 }
 

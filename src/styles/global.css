@@ -28,6 +28,8 @@
   --disabled: #afafaf; /* Battleship */
   --disabled-light: #bfbfbf; /* Battleship Light */
 
+  --disable-button-color: #8f8f8f;
+
   --dark: #3d3d3d; /* Onyx */
   --subtle-text: #828282; /* Gray */
   --accent: #ecf1f4; /* Dorian */

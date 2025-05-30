@@ -9,6 +9,7 @@ import { useAuth } from "../context/UseAuth";
 import { api } from "../api";
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import { ENDPOINTS_CONTEST_LIVE_UPCOMING_API } from "../constant/ApiUrls";
+import AgeVerification from "../components/Popups/AgeVerification";
 
 const preloadImages = (urls) => {
   urls.forEach((url) => {
@@ -22,7 +23,8 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const { setContestId } = useCompetition();
+  const [ageverificationPopUp, setAgeverificationPopUp] = useState(false);
+  const { setContestId, contestId } = useCompetition();
   const { user, token } = useAuth();
   const isLoggedIn = !!user;
 
@@ -108,9 +110,10 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
                     if (!isLoggedIn) {
                       setShowLoginPrompt(true);
                       return;
+                    } else {
+                      setAgeverificationPopUp(true);
+                      setContestId(contest.id);
                     }
-                    setContestId(contest.id);
-                    nextStep(contest.id);
                   }}
                   previusStep={previusStep}
                   className="jackpot-card"
@@ -121,6 +124,16 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
         </>
       )}
 
+      {/* ✅ Age Verification Popup */}
+      {ageverificationPopUp && (
+        <AgeVerification
+          onClose={() => setAgeverificationPopUp(false)}
+          onSubmit={() => {
+            setAgeverificationPopUp(false);
+            nextStep(contestId);
+          }}
+        />
+      )}
       {/* ✅ Login Popup */}
       {showLoginPrompt && (
         <LoginToCompetePopup onClose={() => setShowLoginPrompt(false)} />

@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
 import { FaChevronLeft } from "react-icons/fa";
 
-const BackButton = ({ onClick, disabled = false, className = "" }) => {
+const BackButton = ({
+  onClick,
+  disabled = false,
+  className = "",
+  text = "",
+}) => {
   return (
     <button
       className={`back-button ${className} ${
@@ -10,7 +15,7 @@ const BackButton = ({ onClick, disabled = false, className = "" }) => {
       onClick={onClick}
       disabled={disabled}
     >
-      <FaChevronLeft />
+      {text ? text : <FaChevronLeft />}
     </button>
   );
 };

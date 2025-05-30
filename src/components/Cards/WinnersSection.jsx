@@ -6,6 +6,7 @@ import "../../styles/components/MySubmission.css";
 import WinnerImagePopup from "../Popups/WinnerImagePopup";
 import { useAuth } from "../../context/UseAuth";
 import WinnerLatestCard from "./WinnerLatestCard";
+import { allDummyWinners } from "../../constant/appConstants";
 
 const WinnerSectionSubmissions = () => {
   const { token } = useAuth(); // ✅ get auth user
@@ -41,7 +42,8 @@ const WinnerSectionSubmissions = () => {
         }
       );
       if (response.data.success) {
-        const allWinners = response.data.winners;
+        const allWinners = allDummyWinners || response.data.winners;
+        console.log("allWinners: ", allWinners);
         const winnersCount = response.data.winnersCount || 0;
         const processedContests = [];
 
@@ -191,7 +193,7 @@ const WinnerSectionSubmissions = () => {
           ))}
 
           {/* Waypoint for infinite scroll */}
-          {hasMore && <Waypoint onEnter={loadMore} bottomOffset="-200px" />}
+          {/* {hasMore && <Waypoint onEnter={loadMore} bottomOffset="-200px" />} */}
 
           {/* Loading indicator for pagination */}
           {loadingMore && (

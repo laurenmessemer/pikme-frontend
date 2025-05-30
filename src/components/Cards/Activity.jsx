@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useAuth } from "../../context/UseAuth";
 import "../../styles/cards/Activity.css";
 import Dropdown from "../Dropdowns/Dropdown";
@@ -98,16 +98,24 @@ const Activity = () => {
     fetchTopReferrers();
   }, [authUser?.id]);
 
-  // const mergedVoters = [
-  //   ...voters.filter((v) => v.count >= MIN_REQUIRED_COUNT),
-  //   ...fallbackVoters,
-  // ].slice(0, 9);
+  const mergedVoters = useMemo(() => {
+    return [
+      ...voters.filter((v) => v.count >= MIN_REQUIRED_COUNT),
+      ...fallbackVoters,
+    ].slice(0, 9);
+  }, [voters]);
 
-  // const mergedReferrers = [
-  //   ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
-  //   ...fallbackReferrers,
-  // ].slice(0, 9);
-
+  const mergedReferrers = useMemo(() => {
+    return [
+      ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
+      ...fallbackReferrers,
+    ].slice(0, 9);
+  }, [referrers]);
+  [
+    // ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
+    ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
+    ...fallbackReferrers,
+  ].slice(0, 9);
   const renderToken = () => (
     <img
       src={tokenImg}
@@ -158,9 +166,9 @@ const Activity = () => {
           <p>Loading voters...</p>
         ) : (
           <>
-            {voters && voters?.length > 0 ? (
+            {mergedVoters && mergedVoters?.length > 0 ? (
               <>
-                {voters.map((user, i) => (
+                {mergedVoters.map((user, i) => (
                   <div
                     key={user.username + i}
                     className="activity-leaderboard-card"
@@ -248,9 +256,9 @@ const Activity = () => {
           <p>Loading referrers...</p>
         ) : (
           <>
-            {referrers && referrers?.length > 0 ? (
+            {mergedReferrers && mergedReferrers?.length > 0 ? (
               <>
-                {referrers.map((user, i) => (
+                {mergedReferrers.map((user, i) => (
                   <div
                     key={user.username + i}
                     className="activity-leaderboard-card"

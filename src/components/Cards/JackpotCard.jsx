@@ -5,6 +5,7 @@ import JackpotTimer from "../Timers/JackpotTimer"; // ✅ Swapped in
 import { onImageError } from "../../utils/RouterUtils";
 import LazyImage from "../Common/LazyImage";
 import { ImageUrl } from "../../constant/appConstants";
+import BackButton from "../Buttons/BackButton";
 
 const entryBadge = `${ImageUrl}/icons/entrybadges.svg`;
 const firsttokenprize = `${ImageUrl}/icons/firsttokenprize.svg`;
@@ -20,6 +21,7 @@ const JackpotCard = ({
   allData = null,
   previusStep = () => {},
 }) => {
+  console.log("allData: ", allData);
   const getClass = (value) =>
     String(value)?.length === 1 ? "single-digit" : "";
 
@@ -103,20 +105,16 @@ const JackpotCard = ({
         <p className="jackpot-card__description text-subtle">
           {themeDescription}
         </p>
-        {/* {allData?.Competitions?.length > 0 ? (
-          <div className="jackpot-card__status-message">
-            <span className="jackpot-card__status-text">
-              You're already in! 🎉
-            </span>
-          </div>
-        ) : ( */}
-        <Submit
-          text="Submit Now"
-          onClick={onSubmit}
-          className="no-spacing"
-          // disabled={allData?.Competitions?.length}
-        />
-        {/* )} */}
+        {allData?.status === "Upcoming" ? (
+          <BackButton
+            text="Coming soon"
+            onClick={onSubmit}
+            className="no-spacing new-button"
+            disabled={true}
+          />
+        ) : (
+          <Submit text="Submit Now" onClick={onSubmit} className="no-spacing" />
+        )}
       </div>
     </div>
   );
