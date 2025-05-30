@@ -61,7 +61,6 @@
 .jackpot-card__content.full-height {
   height: 100%;
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: space-between;
 }
