@@ -9,8 +9,12 @@ import LazyImage from "../Common/LazyImage";
 import ReInviteFriendPopup from "../Popups/ReInviteFriendPopup";
 import { FaCopy, FaLink } from "react-icons/fa";
 import { checkSuccessResponse } from "../../utils/RouterUtils";
+import { ImageUrl } from "../../constant/appConstants";
 
+import GoldMedal from "../../assets/medals/medalgold.svg";
 const flashIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg";
+
+const walletBadgeIcon = `${ImageUrl}/icons/walletbadge.svg`;
 
 const PersonalSubmission = ({
   contestData,
@@ -182,9 +186,32 @@ const PersonalSubmission = ({
       <div className="ps-container">
         {/* Header */}
         <div className="headstats-header">
-          <div className="theme-title">
-            <img src={flashIcon} alt="Flash" className="flash-icon" />
-            <h2 className="contest-name">{theme}</h2>
+          <div className="ps-heading-data">
+            <div className="theme-title">
+              <img src={flashIcon} alt="Flash" className="flash-icon" />
+              <h2 className="contest-name">{theme}</h2>
+            </div>
+            {isComplete && !isDetailsLoading && (
+              <div className={`ps-result-tag ${isWinner ? "won" : "lost"}`}>
+                {isWinner ? (
+                  <>
+                    Won!{" "}
+                    <span>
+                      + 1x
+                      <img
+                        height={15}
+                        width={15}
+                        src={walletBadgeIcon}
+                        alt="Wallet Badge"
+                        className="wallet-icon"
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>Lost</>
+                )}
+              </div>
+            )}
           </div>
           <div
             className={`ps-status-box ps-status-${contestStatus.toLowerCase()}`}
@@ -210,27 +237,50 @@ const PersonalSubmission = ({
                 className="ps-my-image"
               />
               <div className="ps-opponent-info">
-                <p className="ps-username">
+                <p className="ps-username name-with-medal">
+                  {contestStatus === "Complete" ? (
+                    <>
+                      {isWinner ? (
+                        <img
+                          src={GoldMedal}
+                          alt="Medal"
+                          className="custom-icon medal-icon"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )}
                   {currentUserEntry?.username ||
                     contestData?.userEntry?.username ||
                     "Me"}
                 </p>
                 <p className="ps-votes">
-                  {renderVotes(currentUserEntry?.votes)}
+                  {contestStatus === "Complete" ? (
+                    <>{isWinner ? "603 votes" : "10 votes"}</>
+                  ) : (
+                    <>{renderVotes(currentUserEntry?.votes)}</>
+                  )}{" "}
                 </p>
               </div>
 
               <div
                 className={`ps-my-diff ${isWinner ? "positive" : "negative"}`}
               >
-                {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
+                {contestStatus === "Complete" ? (
+                  isWinner ? (
+                    "+593"
+                  ) : (
+                    "-593"
+                  )
+                ) : (
+                  <>
+                    {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
+                  </>
+                )}
               </div>
-
-              {isComplete && (
-                <div className={`ps-result-tag ${isWinner ? "won" : "lost"}`}>
-                  {isWinner ? "🏆 Won" : "❌ Lost"}
-                </div>
-              )}
             </div>
 
             {/* Conditional Message between user and opponent */}
@@ -257,17 +307,46 @@ const PersonalSubmission = ({
                         className="ps-opponent-img"
                       />
                       <div className="ps-opponent-info">
-                        <p className="ps-username">
+                        <p className="ps-username name-with-medal">
+                          {contestStatus === "Complete" ? (
+                            <>
+                              {!isWinner ? (
+                                <img
+                                  src={GoldMedal}
+                                  alt="Medal"
+                                  className="custom-icon medal-icon"
+                                />
+                              ) : (
+                                ""
+                              )}
+                            </>
+                          ) : (
+                            ""
+                          )}
                           {opponentEntry.username || "Opponent"}
                         </p>
                         <p className="ps-votes">
-                          {renderVotes(opponentEntry.votes)}
+                          {contestStatus === "Complete" ? (
+                            <>{!isWinner ? "603 votes" : "10 votes"}</>
+                          ) : (
+                            <>{renderVotes(opponentEntry.votes)}</>
+                          )}{" "}
                         </p>
-                      </div>
-                      <div className="ps-diff">
-                        {voteDifference < 0
-                          ? `+${Math.abs(voteDifference)}`
-                          : voteDifference}
+                      </div>{" "}
+                      <div className={`ps-diff ${!isWinner ? "positive" : ""}`}>
+                        {contestStatus === "Complete" ? (
+                          !isWinner ? (
+                            "+593"
+                          ) : (
+                            "-593"
+                          )
+                        ) : (
+                          <>
+                            {voteDifference < 0
+                              ? `+${Math.abs(voteDifference)}`
+                              : voteDifference}
+                          </>
+                        )}
                       </div>
                     </div>
                   </>

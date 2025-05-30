@@ -95,7 +95,44 @@
   min-width: 80px;
   border: 1px solid var(--dark);
 }
+.name-with-medal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.medal-icon.custom-icon {
+  width: 24px;
+  height: 24px;
+}
+.ps-my-diff.positive,
+.ps-diff.positive {
+  background-color: #5cffc3;
+  color: var(--dark);
+}
+.ps-result-tag {
+  border: 1px solid var(--dark);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dark);
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
 
+.ps-result-tag .wallet-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.ps-result-tag span {
+  color: #00aa6c;
+  display: flex;
+  align-items: center;
+}
 .ps-opponent-card {
   display: flex;
   align-items: center;
