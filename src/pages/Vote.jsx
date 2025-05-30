@@ -53,6 +53,7 @@ const Vote = () => {
 
   const navigate = useNavigate();
   const { user, token } = useAuth();
+  const userId = user?.id;
   const isLoggedIn = !!user;
   const currentUserId = isLoggedIn ? user.id : 99999;
 
@@ -116,6 +117,9 @@ const Vote = () => {
       const voteResponse = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/vote/get-entries`,
         {
+          params: {
+            userId: userId,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "true",
@@ -155,6 +159,9 @@ const Vote = () => {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/vote/get-entries`,
         {
+          params: {
+            userId: userId,
+          },
           headers: {
             Authorization: `Bearer ${token}`,
             "ngrok-skip-browser-warning": "true",
