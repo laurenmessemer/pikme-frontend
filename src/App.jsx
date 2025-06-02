@@ -72,7 +72,7 @@ function App() {
             <div className="app-shell">
               <Mobile />
 
-              <main className="main-content">
+              <main className="main-content main-all-page-content-wrapper">
                 <Routes>
                   {/* ✅ Main App with Tabs and Footer rendered together */}
                   <Route

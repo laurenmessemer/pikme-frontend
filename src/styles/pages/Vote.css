@@ -7,6 +7,9 @@
   overflow: hidden;
   position: relative;
 }
+.vote-container.new-container {
+  min-height: 645px;
+}
 
 .vote-wrapper {
   position: relative;
@@ -162,6 +165,10 @@
   z-index: -1;
   pointer-events: none;
 }
+.vote-animation-container.new-flex {
+  display: flex;
+  align-items: center;
+}
 /*
 .vote-animation {
     display: flex;
@@ -182,10 +189,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 110%;
+  width: 100%;
+  max-width: 1920px;
+  margin: auto;
+  /* width: 110%;
   max-width: 580px;
   margin: 200px auto;
-  transform: scale(2.5);
+  transform: scale(2.5); */
   z-index: 1;
 }
 
@@ -226,8 +236,8 @@
   gap: 25%;
   width: 90%;
   max-width: 75em;
-  top: 345px;
-  /* top: 50%; */
+  /* top: 345px; */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000; /* 🆙 this ensures it sits above the overlay */

@@ -101,7 +101,8 @@ export const api = async ({
     }
   }
 
-  if (res && res.data && !res.data.error && showToast && !succesMsgHide)
+  if (res && res.data && !res.data.error && showToast && !succesMsgHide) {
     // Toast.success(res?.data?.message);
-    return res;
+  }
+  return res;
 };

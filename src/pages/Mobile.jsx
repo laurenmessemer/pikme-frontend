@@ -1,7 +1,7 @@
 // This page displays a "Check us out on Desktop" message for mobile devices.
 
-import LazyImage from "../components/Common/LazyImage";
 import { ImageUrl } from "../constant/appConstants";
+import { onImageError } from "../utils/RouterUtils";
 import "../styles/pages/Mobile.css";
 
 const Mobile = () => {
@@ -13,28 +13,18 @@ const Mobile = () => {
       }}
     >
       <div className="mobile-container">
-        <LazyImage
-          src={`${ImageUrl}/icons/pmlogo.png`}
-          alt="PikMe Logo"
-          className="mobile-logo"
-        />
-        {/* <img
+        <img
           src={`${ImageUrl}/icons/pmlogo.png`}
           alt="PikMe Logo"
           className="mobile-logo"
           onError={onImageError}
-        /> */}
-        <LazyImage
-          src={`${ImageUrl}/icons/cubes.png`}
-          alt="Cute Cubes"
-          className="mobile-cubes"
         />
-        {/* <img
+        <img
           src={`${ImageUrl}/icons/cubes.png`}
           onError={onImageError}
           alt="Cute Cubes"
           className="mobile-cubes"
-        /> */}
+        />
         <div className="mobile-content">
           <h1 className="mobile-title">
             CHECK US OUT

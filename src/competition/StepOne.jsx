@@ -1,4 +1,3 @@
-import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import themePlaceholder from "../assets/placeholders/snack.webp";
@@ -25,7 +24,8 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [ageverificationPopUp, setAgeverificationPopUp] = useState(false);
   const { setContestId, contestId } = useCompetition();
-  const { user, token } = useAuth();
+  const { user } = useAuth();
+  console.log("user: ", user);
   const isLoggedIn = !!user;
 
   useEffect(() => {
@@ -110,9 +110,16 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
                     if (!isLoggedIn) {
                       setShowLoginPrompt(true);
                       return;
-                    } else {
+                    }
+
+                    // Check if age verification is needed
+                    if (user?.age_verified === false) {
                       setAgeverificationPopUp(true);
                       setContestId(contest.id);
+                    } else {
+                      // Age already verified, proceed directly
+                      setContestId(contest.id);
+                      nextStep(contest.id);
                     }
                   }}
                   previusStep={previusStep}

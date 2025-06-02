@@ -44,7 +44,6 @@ const Vote = () => {
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
   const [playLottie, setPlayLottie] = useState(false); // 👈 Start false
-  const [anonVoteCount, setAnonVoteCount] = useState(0);
 
   const [reportMode, setReportMode] = useState(false);
   const [reportSelectedImage, setReportSelectedImage] = useState(null);
@@ -60,6 +59,18 @@ const Vote = () => {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const hasFetchedInitialCompetition = useRef(false);
 
+  const [anonVoteCount, setAnonVoteCount] = useState(() => {
+    // Initialize from localStorage for anonymous users
+    if (!isLoggedIn) {
+      const anonId = localStorage.getItem("anon_id");
+      if (anonId) {
+        const storedCount = localStorage.getItem(`anon_vote_count_${anonId}`);
+        return storedCount ? parseInt(storedCount, 10) : 0;
+      }
+    }
+    return 0;
+  });
+
   const [hasSeenHowToVote, setHasSeenHowToVote] = useState(() => {
     // Only track "has seen" for logged-in users
     return isLoggedIn && localStorage.getItem("hasSeenHowToVote") === "true";
@@ -68,6 +79,18 @@ const Vote = () => {
   useEffect(() => {
     if (!isLoggedIn && !localStorage.getItem("anon_id")) {
       localStorage.setItem("anon_id", uuidv4());
+    }
+  }, [isLoggedIn]);
+
+  // Clear anonymous vote count when user logs in
+  useEffect(() => {
+    if (isLoggedIn && anonVoteCount > 0) {
+      setAnonVoteCount(0);
+      // Also clear from localStorage for all anon_ids (cleanup)
+      const anonId = localStorage.getItem("anon_id");
+      if (anonId) {
+        localStorage.removeItem(`anon_vote_count_${anonId}`);
+      }
     }
   }, [isLoggedIn]);
 
@@ -291,7 +314,17 @@ const Vote = () => {
       setTimeout(() => setAnimationComplete(true), 1500);
 
       if (!isLoggedIn) {
-        setAnonVoteCount((prev) => prev + 1);
+        const newCount = anonVoteCount + 1;
+        setAnonVoteCount(newCount);
+
+        // Persist vote count to localStorage
+        const anonId = localStorage.getItem("anon_id");
+        if (anonId) {
+          localStorage.setItem(
+            `anon_vote_count_${anonId}`,
+            newCount.toString()
+          );
+        }
       }
     } catch (err) {
       err?.response?.data?.message
@@ -454,7 +487,7 @@ const Vote = () => {
       ) : (
         <></>
       )}
-      <div className="vote-container">
+      <div className="vote-container new-container">
         <div className="mobile-full-overlay" />
         {loading ? (
           <p className="loading-message custom">Loading competitions...</p>
@@ -514,7 +547,7 @@ const Vote = () => {
             {!loading && allCompetitions && allCompetitions.length > 0 && (
               <>
                 <div
-                  className={`vote-animation-container ${
+                  className={`vote-animation-container new-flex ${
                     reportMode || showReportPopup || showReportReceived
                       ? "report-mode-background"
                       : ""
@@ -526,12 +559,20 @@ const Vote = () => {
                         <Lottie
                           animationData={desktopLottie}
                           play={playLottie}
-                          loop={!showEndScreen}
+                          loop={false}
                           onComplete={() => setPlayLottie(false)}
                           className="vote-animation"
                         />
                       </div>
-                      <div className="lottie-mobile"></div>
+                      <div className="lottie-mobile">
+                        {/* <Lottie
+                          animationData={mobileLottie}
+                          play={playLottie}
+                          loop={false}
+                          onComplete={() => setPlayLottie(false)}
+                          className="vote-animation"
+                        /> */}
+                      </div>
                     </>
                   )}
                 </div>

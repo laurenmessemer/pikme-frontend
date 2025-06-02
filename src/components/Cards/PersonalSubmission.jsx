@@ -96,13 +96,6 @@ const PersonalSubmission = ({
   const isActive = lowerStatus === "active" || lowerStatus === "live";
   const isComplete = lowerStatus === "complete";
 
-  // console.log("🧠 contestStatus:", contestStatus);
-  // console.log("🎮 matchType:", resolvedMatchType);
-  // console.log("📊 isUpcoming:", isUpcoming);
-  // console.log("🔥 isActive:", isActive);
-  // console.log("✅ isComplete:", isComplete);
-  // console.log("👥 opponentEntry:", opponentEntry);
-
   const renderStatusMessage = () => {
     if (opponentEntry) return null;
 
@@ -129,6 +122,7 @@ const PersonalSubmission = ({
                   navigator.clipboard.writeText(`${resolvedInviteLink}`);
                   ToastUtils.success("Invite link copied!");
                 }}
+                title="Copy link"
               >
                 <FaLink className="copy-icon" />
               </button>
@@ -140,6 +134,7 @@ const PersonalSubmission = ({
                   navigator.clipboard.writeText(`${finalCode}`);
                   ToastUtils.success("Invite code copied!");
                 }}
+                title="Copy code"
               >
                 <FaCopy className="copy-icon" />
               </button>
@@ -238,7 +233,7 @@ const PersonalSubmission = ({
               />
               <div className="ps-opponent-info">
                 <p className="ps-username name-with-medal">
-                  {contestStatus === "Complete" ? (
+                  {isComplete ? (
                     <>
                       {isWinner ? (
                         <img
@@ -258,28 +253,14 @@ const PersonalSubmission = ({
                     "Me"}
                 </p>
                 <p className="ps-votes">
-                  {contestStatus === "Complete" ? (
-                    <>{isWinner ? "603 votes" : "10 votes"}</>
-                  ) : (
-                    <>{renderVotes(currentUserEntry?.votes)}</>
-                  )}{" "}
+                  {renderVotes(currentUserEntry?.votes)}{" "}
                 </p>
               </div>
 
               <div
                 className={`ps-my-diff ${isWinner ? "positive" : "negative"}`}
               >
-                {contestStatus === "Complete" ? (
-                  isWinner ? (
-                    "+593"
-                  ) : (
-                    "-593"
-                  )
-                ) : (
-                  <>
-                    {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
-                  </>
-                )}
+                {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
               </div>
             </div>
 
@@ -308,7 +289,7 @@ const PersonalSubmission = ({
                       />
                       <div className="ps-opponent-info">
                         <p className="ps-username name-with-medal">
-                          {contestStatus === "Complete" ? (
+                          {isComplete ? (
                             <>
                               {!isWinner ? (
                                 <img
@@ -326,27 +307,13 @@ const PersonalSubmission = ({
                           {opponentEntry.username || "Opponent"}
                         </p>
                         <p className="ps-votes">
-                          {contestStatus === "Complete" ? (
-                            <>{!isWinner ? "603 votes" : "10 votes"}</>
-                          ) : (
-                            <>{renderVotes(opponentEntry.votes)}</>
-                          )}{" "}
+                          {renderVotes(opponentEntry.votes)}{" "}
                         </p>
                       </div>{" "}
                       <div className={`ps-diff ${!isWinner ? "positive" : ""}`}>
-                        {contestStatus === "Complete" ? (
-                          !isWinner ? (
-                            "+593"
-                          ) : (
-                            "-593"
-                          )
-                        ) : (
-                          <>
-                            {voteDifference < 0
-                              ? `+${Math.abs(voteDifference)}`
-                              : voteDifference}
-                          </>
-                        )}
+                        {voteDifference < 0
+                          ? `+${Math.abs(voteDifference)}`
+                          : voteDifference}
                       </div>
                     </div>
                   </>

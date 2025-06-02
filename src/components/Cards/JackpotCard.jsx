@@ -21,7 +21,6 @@ const JackpotCard = ({
   allData = null,
   previusStep = () => {},
 }) => {
-  console.log("allData: ", allData);
   const getClass = (value) =>
     String(value)?.length === 1 ? "single-digit" : "";
 

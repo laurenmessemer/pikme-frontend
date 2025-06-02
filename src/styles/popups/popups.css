@@ -11,6 +11,13 @@
   justify-content: center;
   z-index: 9999;
 }
+.common-footer-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-bottom: 10px;
+}
 
 /* ✅ Popup container */
 .popup-container {

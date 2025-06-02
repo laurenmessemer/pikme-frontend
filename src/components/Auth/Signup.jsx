@@ -5,6 +5,7 @@ import UtilityTemplate from "../../utils/UtilityTemplate";
 import CreateAccountCard from "../Cards/CreateAccountCard";
 import { checkSuccessResponse } from "../../utils/RouterUtils";
 import ToastUtils from "../../utils/ToastUtils";
+import RegistrationSuccessPopup from "../Popups/RegistrationSuccessPopup";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Signup = () => {
   const [redirectTo, setRedirectTo] = useState("/");
   const [lastEmail, setLastEmail] = useState("");
   const [isSignUpLoading, setIsSignUpLoading] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const params = new URLSearchParams(location.search);
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -87,12 +89,8 @@ const Signup = () => {
         }
       );
       if (checkSuccessResponse(response)) {
-        console.log("✅ Signup success:", response.data);
-        ToastUtils.success(
-          "You're all set! Please check your email to verify your account."
-        );
-        navigate(redirectTo);
-        // window.location.reload();
+        setIsSignUpLoading(false);
+        setShowSuccessPopup(true);
       }
     } catch (error) {
       setIsSignUpLoading(false);
@@ -125,6 +123,11 @@ const Signup = () => {
     }
   };
 
+  const handleCloseSuccessPopup = () => {
+    setShowSuccessPopup(false);
+    navigate(redirectTo); // Redirect to specified page or landing page
+  };
+
   return (
     <UtilityTemplate>
       <CreateAccountCard
@@ -136,6 +139,9 @@ const Signup = () => {
         usernameValue={userName}
         emailValue={email}
       />
+      {showSuccessPopup && (
+        <RegistrationSuccessPopup onClose={handleCloseSuccessPopup} />
+      )}
     </UtilityTemplate>
   );
 };

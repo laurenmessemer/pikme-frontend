@@ -179,7 +179,11 @@ $small-mobile: 375px;
     }
   }
 }
-
+.alerts-container {
+  &.center {
+    text-align: center;
+  }
+}
 .alert {
   &-box {
     @include flex;
@@ -188,10 +192,18 @@ $small-mobile: 375px;
     border: 1px solid #000;
     padding: 0.75rem 1rem;
     background-color: $color-light;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 
     &.important {
       background-color: $color-alert-bg;
+
+      &:hover {
+        background-color: $color-alert-bg;
+      }
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
     }
   }
 
@@ -236,6 +248,12 @@ $small-mobile: 375px;
     margin: 0;
   }
 
+  &-timestamp {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 0.25rem;
+  }
+
   &-delete {
     background: none;
     border: none;
@@ -244,6 +262,83 @@ $small-mobile: 375px;
     font-size: 1rem;
     margin-left: 0.75rem;
     padding: 0.25rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ff4444;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // Loading state
+  &-loading {
+    @include flex(column);
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    gap: 1rem;
+
+    .spinner {
+      animation: spin 1s linear infinite;
+      font-size: 1.5rem;
+      color: $color-alert-pink;
+    }
+
+    p {
+      color: $color-text-secondary;
+      font-size: 0.9rem;
+    }
+  }
+
+  // Error state
+  &-error {
+    @include flex(column);
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    gap: 1rem;
+    text-align: center;
+
+    p {
+      color: #ff4444;
+      font-size: 0.9rem;
+    }
+  }
+
+  // Empty state
+  &-empty {
+    @include flex(column);
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    gap: 0.5rem;
+    text-align: center;
+
+    p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $color-text-primary;
+      margin: 0;
+    }
+
+    span {
+      font-size: 0.85rem;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+// Spinner animation
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
