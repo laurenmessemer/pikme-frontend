@@ -98,7 +98,7 @@ const Confirmation = ({
       <div className="confirmation-buttons">
         <RogueButton
           text="VIEW SUBMISSION"
-          onClick={() => navigate("/Leaderboard/MySubmissions")}
+          onClick={() => navigate("/leaderboard/MySubmissions")}
           variant="default"
         />
         <RogueButton
@@ -185,7 +185,7 @@ export default Confirmation;
 //       <div className="confirmation-buttons">
 //         <RogueButton
 //           text="VIEW SUBMISSION"
-//           onClick={() => navigate("/Leaderboard/MySubmissions")}
+//           onClick={() => navigate("/leaderboard/MySubmissions")}
 //           variant="default"
 //         />
 //         <RogueButton

@@ -25,7 +25,6 @@ const StepOne = ({ nextStep, previusStep = () => {} }) => {
   const [ageverificationPopUp, setAgeverificationPopUp] = useState(false);
   const { setContestId, contestId } = useCompetition();
   const { user } = useAuth();
-  console.log("user: ", user);
   const isLoggedIn = !!user;
 
   useEffect(() => {

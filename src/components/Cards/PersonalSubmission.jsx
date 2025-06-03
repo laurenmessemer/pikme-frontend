@@ -253,28 +253,14 @@ const PersonalSubmission = ({
                     "Me"}
                 </p>
                 <p className="ps-votes">
-                  {contestStatus === "Complete" ? (
-                    <>{isWinner ? "603 votes" : "10 votes"}</>
-                  ) : (
-                    <>{renderVotes(currentUserEntry?.votes)}</>
-                  )}{" "}
+                  {renderVotes(currentUserEntry?.votes)}{" "}
                 </p>
               </div>
 
               <div
                 className={`ps-my-diff ${isWinner ? "positive" : "negative"}`}
               >
-                {contestStatus === "Complete" ? (
-                  isWinner ? (
-                    "+593"
-                  ) : (
-                    "-593"
-                  )
-                ) : (
-                  <>
-                    {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
-                  </>
-                )}
+                {voteDifference > 0 ? `+${voteDifference}` : voteDifference}
               </div>
             </div>
 
@@ -321,27 +307,13 @@ const PersonalSubmission = ({
                           {opponentEntry.username || "Opponent"}
                         </p>
                         <p className="ps-votes">
-                          {contestStatus === "Complete" ? (
-                            <>{!isWinner ? "603 votes" : "10 votes"}</>
-                          ) : (
-                            <>{renderVotes(opponentEntry.votes)}</>
-                          )}{" "}
+                          {renderVotes(opponentEntry.votes)}{" "}
                         </p>
                       </div>{" "}
                       <div className={`ps-diff ${!isWinner ? "positive" : ""}`}>
-                        {contestStatus === "Complete" ? (
-                          !isWinner ? (
-                            "+593"
-                          ) : (
-                            "-593"
-                          )
-                        ) : (
-                          <>
-                            {voteDifference < 0
-                              ? `+${Math.abs(voteDifference)}`
-                              : voteDifference}
-                          </>
-                        )}
+                        {voteDifference < 0
+                          ? `+${Math.abs(voteDifference)}`
+                          : voteDifference}
                       </div>
                     </div>
                   </>

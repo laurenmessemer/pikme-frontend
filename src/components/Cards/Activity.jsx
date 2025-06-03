@@ -98,24 +98,28 @@ const Activity = () => {
     fetchTopReferrers();
   }, [authUser?.id]);
 
+  // const mergedVoters = useMemo(() => {
+  //   return [
+  //     ...voters.filter((v) => v.count >= MIN_REQUIRED_COUNT),
+  //     ...fallbackVoters,
+  //   ].slice(0, 9);
+  // }, [voters]);
+
+  // const mergedReferrers = useMemo(() => {
+  //   return [
+  //     ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
+  //     ...fallbackReferrers,
+  //   ].slice(0, 9);
+  // }, [referrers]);
+
   const mergedVoters = useMemo(() => {
-    return [
-      ...voters.filter((v) => v.count >= MIN_REQUIRED_COUNT),
-      ...fallbackVoters,
-    ].slice(0, 9);
+    return [...voters];
   }, [voters]);
 
   const mergedReferrers = useMemo(() => {
-    return [
-      ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
-      ...fallbackReferrers,
-    ].slice(0, 9);
+    return [...referrers];
   }, [referrers]);
-  [
-    // ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
-    ...referrers.filter((r) => r.count >= MIN_REQUIRED_COUNT),
-    ...fallbackReferrers,
-  ].slice(0, 9);
+
   const renderToken = () => (
     <img
       src={tokenImg}

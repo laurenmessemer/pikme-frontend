@@ -24,7 +24,6 @@ const preloadImages = (urls) => {
 const HeadStats = () => {
   const { user: authUser, token } = useAuth();
   const [contestData, setContestData] = useState(null);
-  console.log("contestData: ", contestData);
   const [groupedUsers, setGroupedUsers] = useState([]);
   const [hoveredUserId, setHoveredUserId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,8 +44,6 @@ const HeadStats = () => {
           }
         );
         if (response.data.success) {
-          console.log("📥 API Response:", response.data);
-
           setGroupedUsers(response.data.contest.leaderboard);
           setContestData(response.data.contest);
 

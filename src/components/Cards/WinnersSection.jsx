@@ -42,8 +42,8 @@ const WinnerSectionSubmissions = () => {
         }
       );
       if (response.data.success) {
-        const allWinners = allDummyWinners || response.data.winners;
-        console.log("allWinners: ", allWinners);
+        // const allWinners = allDummyWinners || response.data.winners;
+        const allWinners = response.data.winners;
         const winnersCount = response.data.winnersCount || 0;
         const processedContests = [];
 
@@ -193,7 +193,7 @@ const WinnerSectionSubmissions = () => {
           ))}
 
           {/* Waypoint for infinite scroll */}
-          {/* {hasMore && <Waypoint onEnter={loadMore} bottomOffset="-200px" />} */}
+          {hasMore && <Waypoint onEnter={loadMore} bottomOffset="-200px" />}
 
           {/* Loading indicator for pagination */}
           {loadingMore && (

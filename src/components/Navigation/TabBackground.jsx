@@ -46,6 +46,7 @@ const preloadImages = (images) => {
 const TabBackground = () => {
   const [topIndex, setTopIndex] = useState(imageFiles.length);
   const [activeTabId, setActiveTabId] = useState(null);
+  console.log("activeTabId: ", activeTabId);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -58,6 +59,11 @@ const TabBackground = () => {
     // Special case: activate compete-tab when URL contains "join/upload"
     if (!match && location.pathname.includes("join/upload")) {
       match = imageFiles.find((tab) => tab.id === "compete-tab");
+    }
+
+    // Special case: activate lead-tab for all leaderboard sub-routes
+    if (!match && location.pathname.startsWith("/leaderboard")) {
+      match = imageFiles.find((tab) => tab.id === "lead-tab");
     }
 
     if (match) {
