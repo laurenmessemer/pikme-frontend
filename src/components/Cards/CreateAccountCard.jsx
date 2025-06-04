@@ -6,7 +6,7 @@
  */
 
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -14,6 +14,7 @@ import "../../styles/cards/CreateAccountCard.css";
 import ErrorMessage from "../Common/ErrorMessage";
 import CustomSvgIcon from "../../constant/CustomSvgIcons";
 import { EMAIL_REGEX } from "../../constant/appConstants";
+import { getMaxDOB } from "../../utils/RouterUtils";
 
 // Validation schema
 const validationSchema = yup.object().shape({
@@ -28,6 +29,25 @@ const validationSchema = yup.object().shape({
     .trim()
     .matches(EMAIL_REGEX, "Please enter a valid email address")
     .required("Email is required"),
+  dateOfBirth: yup
+    .date()
+    .nullable()
+    .required("Date of birth is required")
+    .max(new Date(), "Date of birth cannot be in the future")
+    .test("age", "You must be at least 18 years old", function (value) {
+      if (!value) return false;
+      const today = new Date();
+      const birthDate = new Date(value);
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        return age - 1 >= 18;
+      }
+      return age >= 18;
+    }),
   password: yup
     .string()
     .trim()
@@ -55,6 +75,7 @@ const CreateAccountCard = ({
     defaultValues: {
       username: usernameValue || "",
       email: emailValue || "",
+      dateOfBirth: null,
       password: "",
       confirmPassword: "",
       referralCode: referralCode || "",
@@ -68,6 +89,7 @@ const CreateAccountCard = ({
       reset({
         username: usernameValue || "",
         email: emailValue || "",
+        dateOfBirth: null,
         password: "",
         confirmPassword: "",
         referralCode: referralCode || "",
@@ -83,7 +105,13 @@ const CreateAccountCard = ({
     setShowConfirmPassword(!showConfirmPassword);
 
   const handleFormSubmit = async (data) => {
-    await onSubmit(data.username, data.email, data.password, data.referralCode);
+    await onSubmit(
+      data.username,
+      data.email,
+      data.dateOfBirth,
+      data.password,
+      data.referralCode
+    );
   };
 
   return (
@@ -141,6 +169,32 @@ const CreateAccountCard = ({
           </div>
           {formState.errors.email && (
             <ErrorMessage message={formState.errors.email.message} />
+          )}
+        </div>
+
+        {/* Date of Birth */}
+        <div className="field-box">
+          <label className="form-label" htmlFor="dateOfBirth">
+            DATE OF BIRTH <span className="star-required">*</span>
+          </label>
+          <div className="password-wrapper">
+            <input
+              id="dateOfBirth"
+              className={`form-input  date-input ${
+                formState.errors.dateOfBirth ? "error-input" : ""
+              }`}
+              type="date"
+              max={getMaxDOB()}
+              disabled={isSignUpLoading}
+              {...register("dateOfBirth")}
+            />
+            {!formState.errors.dateOfBirth &&
+              formState.dirtyFields.dateOfBirth && (
+                <div className="green-custom-checkmark password-checkmark"></div>
+              )}
+          </div>
+          {formState.errors.dateOfBirth && (
+            <ErrorMessage message={formState.errors.dateOfBirth.message} />
           )}
         </div>
 

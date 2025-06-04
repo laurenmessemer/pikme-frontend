@@ -62,7 +62,13 @@ const Signup = () => {
     if (redirect) setRedirectTo(redirect);
   }, [location]);
 
-  const handleSignup = async (username, email, password, inputReferralCode) => {
+  const handleSignup = async (
+    username,
+    email,
+    dateOfBirth,
+    password,
+    inputReferralCode
+  ) => {
     try {
       setIsSignUpLoading(true);
       setError("");
@@ -72,6 +78,7 @@ const Signup = () => {
         username,
         email,
         password,
+        dateOfBirth,
         referralCode: inputReferralCode || referralCode,
       };
 

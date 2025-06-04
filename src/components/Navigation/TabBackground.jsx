@@ -46,7 +46,6 @@ const preloadImages = (images) => {
 const TabBackground = () => {
   const [topIndex, setTopIndex] = useState(imageFiles.length);
   const [activeTabId, setActiveTabId] = useState(null);
-  console.log("activeTabId: ", activeTabId);
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -71,6 +71,26 @@ $cta-pressed-2: var(--cta-pressed-2);
       &.password-input {
         padding: 10px 50px 10px 10px;
       }
+      &.date-input {
+        padding: 10px;
+        /* Hide the default calendar icon but keep functionality */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      /* Hide the default calendar icon in WebKit browsers but keep clickable area */
+      &.date-input::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        z-index: 2;
+      }
+
       &:is(:-webkit-autofill, :autofill) {
         font-family: "Azeret Mono", monospace;
         border: 2px #000 solid;

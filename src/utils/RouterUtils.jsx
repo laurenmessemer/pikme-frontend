@@ -31,3 +31,9 @@ export const checkSuccessResponse = (res) => {
 export const onImageError = (e) => {
   e.target.src = placeholderImage;
 };
+export const getMaxDOB = () => {
+  const today = new Date();
+  today.setFullYear(today.getFullYear() - 18);
+  today.setDate(today.getDate() - 1);
+  return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+};
