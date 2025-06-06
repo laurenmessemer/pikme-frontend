@@ -23,6 +23,9 @@ export const ImageUrl = `${import.meta.env.VITE_IMAGE_URL}`;
 export const SiteUrl = `${import.meta.env.VITE_SITE_URL}`;
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+export const countSkipValue = (page, pageSize) => (page - 1) * pageSize
+
 export const allDummyWinners = [
   {
     contest_id: 21,

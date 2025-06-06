@@ -121,7 +121,7 @@ import { useEffect, useState } from "react";
 import { FaTrashAlt, FaSpinner } from "react-icons/fa";
 import { useAuth } from "../../context/UseAuth";
 import ToastUtils from "../../utils/ToastUtils";
-import DeleteAlertPopup from "../Popups/DeleteAlertPopup";
+import DeletePopup from "../Popups/DeletePopup";
 import { api } from "../../api";
 import {
   GET_ALL_ALERTS_API,
@@ -391,7 +391,12 @@ const Alerts = () => {
 
       {/* Delete Confirmation Popup */}
       {showDeleteConfirm && (
-        <DeleteAlertPopup onClose={cancelDelete} onConfirm={confirmDelete} />
+        <DeletePopup 
+          onClose={cancelDelete} 
+          onConfirm={confirmDelete}
+          title="Delete Alert"
+          message="Are you sure you want to delete this alert? This action cannot be undone."
+        />
       )}
     </>
   );

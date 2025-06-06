@@ -238,6 +238,14 @@ $cta-pressed-2: var(--cta-pressed-2);
   &.no-spacing {
     margin: 0;
   }
+  &.width-auto {
+    width: auto;
+  }
+  &.small-button {
+    padding: 8px 16px;
+    font-size: 12px;
+    box-shadow: 2px 2px 0px $dark;
+  }
 }
 // back Button
 .back-button {
@@ -268,6 +276,14 @@ $cta-pressed-2: var(--cta-pressed-2);
   &.full-width {
     width: 100%;
     font-size: 16px;
+  }
+  &.width-auto {
+    width: auto;
+  }
+  &.small-button {
+    padding: 8px 16px;
+    font-size: 12px;
+    box-shadow: 2px 2px 0px $dark;
   }
 }
 

@@ -3,6 +3,8 @@ import "../styles/admin/Users.css";
 import { useAuth } from "../context/UseAuth";
 import ToastUtils from "../utils/ToastUtils";
 import { checkSuccessResponse } from "../utils/RouterUtils";
+import TableLoader from "../components/common/TableLoader";
+import IconButton from "../components/Buttons/IconButton";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
@@ -98,7 +100,8 @@ const Users = () => {
           referral_bonus_awarded: editedUser.referral_bonus_awarded,
           is_verified: editedUser.is_verified,
           verification_token: editedUser.verification_token,
-          suspended: editedUser.suspended,
+          // suspended: editedUser.suspended,
+          status: editedUser.status,
         }),
       });
       if (checkSuccessResponse(response)) {
@@ -144,144 +147,204 @@ const Users = () => {
   };
 
   return (
-    <div className="users-container">
-      <h2>Users List</h2>
-      <input
-        className="search-bar"
-        type="text"
-        placeholder="Search by username, email, or code..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+    <div className="users-container common-admin-container">
+      <div className="filter-controls new-filter-controls">
+        <div className="header new-header p0 m0">
+          <h2>Users List</h2>
+        </div>
+        <input
+          className="search-bar"
+          type="text"
+          placeholder="Search by username, email, or code..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
       {loading ? (
-        <p>Loading...</p>
+        <div style={{ marginTop: "20px" }}>
+        <TableLoader rows={7} columns={9} />
+        </div>
       ) : error ? (
-        <p className="error">{error}</p>
+        <div className="error-message no-space">
+          <p>{error}</p>
+        </div>
       ) : (
-        <table className="users-table">
-          <thead>
-            <tr>
-              {[
-                { key: "id", label: "ID" },
-                { key: "username", label: "Username" },
-                { key: "email", label: "Email" },
-                { key: "role", label: "Role" },
-                { key: "token_balance", label: "Tokens" },
-                { key: "referred_by_id", label: "Ref By" },
-                { key: "referral_code", label: "Code" },
-                { key: "referral_bonus_awarded", label: "Bonus" },
-                { key: "is_verified", label: "Verified" },
-                { key: "suspended", label: "Suspended" },
-                { key: "actions", label: "Actions" },
-              ].map(({ key, label }) => (
-                <th key={key} onClick={() => key !== "actions" && sortBy(key)}>
-                  {label}{" "}
-                  {sortConfig.key === key
-                    ? sortConfig.direction === "asc"
-                      ? "▲"
-                      : "▼"
-                    : ""}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) =>
-              editingUserId === user.id ? (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>
-                    <input
-                      value={editedUser.username}
-                      onChange={(e) => handleInputChange(e, "username")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      value={editedUser.email}
-                      onChange={(e) => handleInputChange(e, "email")}
-                    />
-                  </td>
-                  <td>
-                    <select
-                      value={editedUser.role}
-                      onChange={(e) => handleInputChange(e, "role")}
-                    >
-                      <option value="participant">Participant</option>
-                      <option value="moderator">Moderator</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      value={editedUser.token_balance}
-                      onChange={(e) => handleInputChange(e, "token_balance")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      value={editedUser.referred_by_id ?? ""}
-                      onChange={(e) => handleInputChange(e, "referred_by_id")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      value={editedUser.referral_code ?? ""}
-                      onChange={(e) => handleInputChange(e, "referral_code")}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={editedUser.referral_bonus_awarded === true}
-                      onChange={(e) =>
-                        handleInputChange(e, "referral_bonus_awarded")
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={editedUser.is_verified === true}
-                      onChange={(e) => handleInputChange(e, "is_verified")}
-                    />
-                  </td>
-                  <td>
+        <div className="common-table-container">
+          <table className="users-table">
+            <thead>
+              <tr>
+                {[
+                  { key: "id", label: "ID" },
+                  { key: "username", label: "Username" },
+                  { key: "email", label: "Email" },
+                  { key: "role", label: "Role" },
+                  { key: "token_balance", label: "Tokens" },
+                  { key: "referred_by_id", label: "Ref By" },
+                  { key: "referral_code", label: "Code" },
+                  { key: "referral_bonus_awarded", label: "Bonus" },
+                  { key: "is_verified", label: "Verified" },
+                  { key: "status", label: "Status" },
+                  // { key: "suspended", label: "Suspended" },
+                  { key: "actions", label: "Actions" },
+                ].map(({ key, label }) => (
+                  <th
+                    key={key}
+                    onClick={() => key !== "actions" && sortBy(key)}
+                  >
+                    {label}{" "}
+                    {sortConfig.key === key
+                      ? sortConfig.direction === "asc"
+                        ? "▲"
+                        : "▼"
+                      : ""}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) =>
+                editingUserId === user.id ? (
+                  <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>
+                      <input
+                        value={editedUser.username}
+                        onChange={(e) => handleInputChange(e, "username")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={editedUser.email}
+                        onChange={(e) => handleInputChange(e, "email")}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={editedUser.role}
+                        onChange={(e) => handleInputChange(e, "role")}
+                      >
+                        <option value="participant">Participant</option>
+                        <option value="moderator">Moderator</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={editedUser.token_balance}
+                        onChange={(e) => handleInputChange(e, "token_balance")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={editedUser.referred_by_id ?? ""}
+                        onChange={(e) => handleInputChange(e, "referred_by_id")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        value={editedUser.referral_code ?? ""}
+                        onChange={(e) => handleInputChange(e, "referral_code")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={editedUser.referral_bonus_awarded === true}
+                        onChange={(e) =>
+                          handleInputChange(e, "referral_bonus_awarded")
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={editedUser.is_verified === true}
+                        onChange={(e) => handleInputChange(e, "is_verified")}
+                      />
+                    </td>
+                    {/* <td>
                     <input
                       type="checkbox"
                       checked={editedUser.suspended === true}
                       onChange={(e) => handleInputChange(e, "suspended")}
                     />
-                  </td>
-                  <td>
-                    <button onClick={handleSaveClick}>Save</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
-                  </td>
-                </tr>
-              ) : (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>{user.token_balance ?? 0}</td>
-                  <td>{user.referred_by_id ?? "—"}</td>
-                  <td>{user.referral_code || "—"}</td>
-                  <td>{user.referral_bonus_awarded === true ? "✅" : "—"}</td>
-                  <td>{user.is_verified === true ? "✅" : "—"}</td>
-                  <td>{user.suspended === true ? "🚫" : "—"}</td>
-                  <td>
-                    <button onClick={() => handleEditClick(user)}>Edit</button>
-                    <button onClick={() => handleDeleteUser(user.id)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              )
-            )}
-          </tbody>
-        </table>
+                  </td> */}
+                    <td>
+                      <select
+                        value={editedUser.status}
+                        onChange={(e) => handleInputChange(e, "status")}
+                      >
+                        <option value="Normal">Normal</option>
+                        <option value="Ban">Ban</option>
+                        <option value="Warn">Warn</option>
+                      </select>
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="SaveIcon"
+                          variant="save"
+                          onClick={handleSaveClick}
+                          title="Save"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="CancelIcon"
+                          variant="edit"
+                          onClick={handleCancelClick}
+                          title="Cancel"
+                          size="small"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={user.id}>
+                    {console.log("user: ", user)}
+                    <td>{user.id}</td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.role}</td>
+                    <td>{user.token_balance ?? 0}</td>
+                    <td>{user.referred_by_id ?? "—"}</td>
+                    <td>{user.referral_code || "—"}</td>
+                    <td>{user.referral_bonus_awarded === true ? "✅" : "—"}</td>
+                    <td>{user.is_verified === true ? "✅" : "—"}</td>
+                    {/* <td>{user.suspended === true ? "🚫" : "—"}</td> */}
+                    <td>
+                      {user.status === "Ban" ? (
+                        <span className="status-tag ban">Ban</span>
+                      ) : user.status === "Warn" ? (
+                        <span className="status-tag warn">Warn</span>
+                      ) : (
+                        <span className="status-tag normal">Normal</span>
+                      )}
+                    </td>
+                    <td>
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="EditIcon"
+                          variant="edit"
+                          onClick={() => handleEditClick(user)}
+                          title="Edit"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="DeleteIcon"
+                          variant="delete"
+                          onClick={() => handleDeleteUser(user.id)}
+                          title="Delete"
+                          size="small"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

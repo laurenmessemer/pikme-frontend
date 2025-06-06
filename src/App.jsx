@@ -24,6 +24,7 @@ import Login from "./components/Auth/Login";
 import ResetPassword from "./components/Auth/ResetPassword";
 import ResetPasswordRequest from "./components/Auth/ResetPasswordRequest";
 import Signup from "./components/Auth/Signup";
+import AuthWarningHandler from "./components/Auth/AuthWarningHandler";
 import Live from "./components/Cards/LiveJackpot";
 import MySubmissions from "./components/Cards/MySubmission";
 import Winners from "./components/Cards/Winners";
@@ -61,6 +62,8 @@ import GeoBlocker from "./components/GeoBlocker";
 
 // ** Third Party Import
 import { Toaster } from "react-hot-toast";
+import FlaggedUserDetails from "./admin/FlaggedUserDetails";
+import ReportDetails from "./admin/ReportDetails";
 
 function App() {
   return (
@@ -69,6 +72,7 @@ function App() {
       <AuthProvider>
         <WalletProvider>
           <CompetitionProvider>
+            <AuthWarningHandler />
             <div className="app-shell">
               <Mobile />
 
@@ -111,6 +115,8 @@ function App() {
                     />
                     <Route path="list-contests" element={<ListAllContests />} />
                     <Route path="reports" element={<Reports />} />
+                    <Route path="reports/:UserId" element={<ReportDetails />} />
+                    <Route path="reports/flagged-user/:UserId" element={<FlaggedUserDetails />} />
                     <Route path="users" element={<Users />} />
                     <Route path="metrics/engagement" element={<Engagement />} />
                     <Route path="metrics/ux" element={<UX />} />
@@ -224,6 +230,7 @@ function App() {
                 </Routes>
               </main>
             </div>
+            
             <Toaster
               position={"top-center"}
               toastOptions={{ className: "react-hot-toast" }}

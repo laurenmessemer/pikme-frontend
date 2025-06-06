@@ -125,11 +125,17 @@ const CreateContest = () => {
   };
 
   return (
-    <div className="create-contest-container">
-      <h2>Manage Contests - Create Contest</h2>
+    <div className="create-contest-container common-admin-container">
+      <div className="header new-header p0">
+        <h2>Manage Contests - Create Contest</h2>
+      </div>
 
-      {error && <p className="error">{error}</p>}
-      {successMessage && <p className="success">{successMessage}</p>}
+      {error && (
+        <div className="error-message no-space">
+          <p>{error}</p>
+        </div>
+      )}
+      {successMessage && <p className="success-message">{successMessage}</p>}
 
       <div className="form-group">
         <label>Theme:</label>

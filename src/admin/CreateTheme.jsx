@@ -117,8 +117,10 @@ const CreateTheme = () => {
   };
 
   return (
-    <div className="create-theme-container">
-      <h2>Manage Themes - Add New Theme</h2>
+    <div className="create-theme-container common-admin-container">
+      <div className="header new-header p0">
+        <h2>Manage Themes - Add New Theme</h2>
+      </div>
 
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}

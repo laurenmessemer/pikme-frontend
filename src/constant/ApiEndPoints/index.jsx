@@ -11,4 +11,19 @@ export const apiEndpoints = {
   ENDPOINTS_GET_ALL_ALERTS: "/api/alerts",
   ENDPOINTS_MARK_ALERT_SEEN: "/api/alerts",
   ENDPOINTS_DELETE_ALERT: "/api/alerts",
+
+  /* ---------------------------------- Reports endpoints ---------------------------------- */
+  ENDPOINTS_GET_ALL_REPORTS: "/api/reports/get-reports",
+  ENDPOINTS_GET_BY_ID_REPORTED: "/api/reports/get-reports/",
+  ENDPOINTS_POST_USER_REPORT_STATUS: "/api/reports/update-report-status",
+  // Flagged users
+  ENDPOINTS_GET_REPORTED_REPORTS: "/api/reports/get-reported-users",
+  ENDPOINTS_GET_BY_ID_REPORTED_REPORTS: "/api/reports/get-reported-user/",
+  ENDPOINTS_POST_USER_REPORT_ACTION: "/api/reports/action-on-reported-user",
+  // Flagged images
+  ENDPOINTS_GET_REPORTED_IMAGES: "/api/reports/get-reported-images",
+
+  /* ---------------------------------- User Warning endpoints ---------------------------------- */
+  ENDPOINTS_POST_CLOSE_WARNING_POPUP:'/api/users/close-warn-popup'
+  
 };

@@ -88,9 +88,9 @@ const AdminNav = () => {
         {/* <NavLink to="/admin-console/metrics/financial" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Financial
         </NavLink> */}
-        <NavLink to="/admin-console/metrics/platform" className={({ isActive }) => (isActive ? "active-link" : "")}>
+        {/* <NavLink to="/admin-console/metrics/platform" className={({ isActive }) => (isActive ? "active-link" : "")}>
           Platform
-        </NavLink>
+        </NavLink> */}
       </nav>
 
       {/* <button className="logout-button" onClick={handleLogout}>

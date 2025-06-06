@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import "../styles/admin/ManageContests.css";
 import { useAuth } from "../context/UseAuth";
 import LazyImage from "../components/Common/LazyImage";
+import TableLoader from "../components/common/TableLoader";
+import IconButton from "../components/Buttons/IconButton";
+import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
@@ -14,6 +17,7 @@ const ManageContests = () => {
   const [contestsError, setContestsError] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editedData, setEditedData] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchData = async (retryCount = 2) => {
@@ -135,77 +139,84 @@ const ManageContests = () => {
   };
 
   return (
-    <div className="manage-contests-container">
-      <div className="header">
+    <div className="manage-contests-container common-admin-container">
+      <div className="header new-header p0">
         <h2>Manage Contests</h2>
       </div>
 
       {contestsLoading ? (
-        <p>Loading contests...</p>
+        <TableLoader rows={7} columns={10} />
       ) : contestsError ? (
-        <p className="error">{contestsError}</p>
+        <div className="error-message no-space">
+          <p>{contestsError}</p>
+        </div>
       ) : contests.length === 0 ? (
         <p>No contests available.</p>
       ) : (
-        <table className="contests-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Status</th>
-              <th>Theme</th>
-              <th>Theme Image</th>
-              <th>Entry Fee</th>
-              <th>Total Entries</th>
-              <th>Prize Pool</th>
-              <th>1st Place</th>
-              <th>2nd Place</th>
-              <th>3rd Place</th>
-              <th>Contest Live Date</th>
-              <th>Submission Deadline</th>
-              <th>Voting Live Date</th>
-              <th>Voting Deadline</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contests.map((contest) => (
-              <tr key={contest.id}>
-                <td>{contest.id}</td>
-                <td>
-                  {editingId === contest.id ? (
-                    <select
-                      value={editedData.status}
-                      onChange={(e) => handleChange(e, "status")}
-                    >
-                      <option value="Upcoming">Upcoming</option>
-                      <option value="Live">Live</option>
-                      <option value="Complete">Complete</option>
-                    </select>
-                  ) : (
-                    <span
-                      className={`status ${
-                        contest.status?.toLowerCase() || "unknown"
-                      }`}
-                    >
-                      {contest.status || "Unknown"}
-                    </span>
-                  )}
-                </td>
-                <td>{contest.Theme?.name || "N/A"}</td>
-                <td>
-                  {contest.Theme?.cover_image_url ? (
-                    <>
-                      <LazyImage
-                        src={contest.Theme.cover_image_url}
-                        alt={contest.Theme.name}
-                        style={{
-                          width: "60px",
-                          height: "40px",
-                          objectFit: "cover",
-                          borderRadius: "4px",
-                        }}
-                      />
-                      {/* // <img
+        <div className="common-table-container">
+          <table className="contests-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Theme</th>
+                <th>Theme Image</th>
+                <th>Entry Fee</th>
+                <th>Total Entries</th>
+                <th>Prize Pool</th>
+                <th>1st Place</th>
+                <th>2nd Place</th>
+                <th>3rd Place</th>
+                <th>Contest Live Date</th>
+                <th>Submission Deadline</th>
+                <th>Voting Live Date</th>
+                <th>Voting Deadline</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contests.map((contest) => (
+                <tr key={contest.id}>
+                  <td>{contest.id}</td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <select
+                        value={editedData.status}
+                        onChange={(e) => handleChange(e, "status")}
+                      >
+                        <option value="Upcoming">Upcoming</option>
+                        <option value="Live">Live</option>
+                        <option value="Complete">Complete</option>
+                      </select>
+                    ) : (
+                      <span
+                        className={`status ${
+                          contest.status?.toLowerCase() || "unknown"
+                        }`}
+                      >
+                        {contest.status || "Unknown"}
+                      </span>
+                    )}
+                  </td>
+                  <td>{contest.Theme?.name || "N/A"}</td>
+                  <td>
+                    {contest.Theme?.cover_image_url ? (
+                      <>
+                        <LazyImage
+                          src={contest.Theme.cover_image_url}
+                          alt={contest.Theme.name}
+                          style={{
+                            width: "60px",
+                            height: "40px",
+                            objectFit: "cover",
+                            borderRadius: "4px",
+                          }}
+                          className="cursor-pointer"
+                          onClick={() =>
+                            setSelectedImage(contest.Theme?.cover_image_url)
+                          }
+                        />
+                        {/* // <img
                       //   src={contest.Theme.cover_image_url}
                       //   alt={contest.Theme.name}
                       //   style={{
@@ -216,135 +227,160 @@ const ManageContests = () => {
                       //   }}
                       //   onError={onImageError}
                       // /> */}
-                    </>
-                  ) : (
-                    "N/A"
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="number"
-                      value={editedData.entry_fee}
-                      onChange={(e) => handleChange(e, "entry_fee")}
-                    />
-                  ) : (
-                    `${contest.entry_fee}`
-                  )}
-                </td>
-                <td>{getTotalEntriesForContest(contest.id)}</td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="number"
-                      value={editedData.prize_pool}
-                      onChange={(e) => handleChange(e, "prize_pool")}
-                    />
-                  ) : (
-                    `${contest.prize_pool}`
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="number"
-                      value={editedData.winnings?.first}
-                      onChange={(e) => handleWinningsChange(e, "first")}
-                    />
-                  ) : (
-                    `${contest.winnings?.first}`
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="number"
-                      value={editedData.winnings?.second}
-                      onChange={(e) => handleWinningsChange(e, "second")}
-                    />
-                  ) : (
-                    `${contest.winnings?.second}`
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="number"
-                      value={editedData.winnings?.third}
-                      onChange={(e) => handleWinningsChange(e, "third")}
-                    />
-                  ) : (
-                    `${contest.winnings?.third}`
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="date"
-                      value={editedData.contest_live_date?.slice(0, 10)}
-                      onChange={(e) => handleChange(e, "contest_live_date")}
-                    />
-                  ) : (
-                    new Date(contest.contest_live_date).toLocaleDateString()
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="date"
-                      value={editedData.submission_deadline?.slice(0, 10)}
-                      onChange={(e) => handleChange(e, "submission_deadline")}
-                    />
-                  ) : (
-                    new Date(contest.submission_deadline).toLocaleDateString()
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="date"
-                      value={editedData.voting_live_date?.slice(0, 10)}
-                      onChange={(e) => handleChange(e, "voting_live_date")}
-                    />
-                  ) : (
-                    new Date(contest.voting_live_date).toLocaleDateString()
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <input
-                      type="date"
-                      value={editedData.voting_deadline?.slice(0, 10)}
-                      onChange={(e) => handleChange(e, "voting_deadline")}
-                    />
-                  ) : (
-                    new Date(contest.voting_deadline).toLocaleDateString()
-                  )}
-                </td>
-                <td>
-                  {editingId === contest.id ? (
-                    <>
-                      <button onClick={() => handleSave(contest.id)}>
-                        Save
-                      </button>
-                      <button onClick={handleCancel}>Cancel</button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => handleEdit(contest)}>Edit</button>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDelete(contest.id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      </>
+                    ) : (
+                      "N/A"
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="number"
+                        value={editedData.entry_fee}
+                        onChange={(e) => handleChange(e, "entry_fee")}
+                      />
+                    ) : (
+                      `${contest.entry_fee}`
+                    )}
+                  </td>
+                  <td>{getTotalEntriesForContest(contest.id)}</td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="number"
+                        value={editedData.prize_pool}
+                        onChange={(e) => handleChange(e, "prize_pool")}
+                      />
+                    ) : (
+                      `${contest.prize_pool}`
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="number"
+                        value={editedData.winnings?.first}
+                        onChange={(e) => handleWinningsChange(e, "first")}
+                      />
+                    ) : (
+                      `${contest.winnings?.first}`
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="number"
+                        value={editedData.winnings?.second}
+                        onChange={(e) => handleWinningsChange(e, "second")}
+                      />
+                    ) : (
+                      `${contest.winnings?.second}`
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="number"
+                        value={editedData.winnings?.third}
+                        onChange={(e) => handleWinningsChange(e, "third")}
+                      />
+                    ) : (
+                      `${contest.winnings?.third}`
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="date"
+                        value={editedData.contest_live_date?.slice(0, 10)}
+                        onChange={(e) => handleChange(e, "contest_live_date")}
+                      />
+                    ) : (
+                      new Date(contest.contest_live_date).toLocaleDateString()
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="date"
+                        value={editedData.submission_deadline?.slice(0, 10)}
+                        onChange={(e) => handleChange(e, "submission_deadline")}
+                      />
+                    ) : (
+                      new Date(contest.submission_deadline).toLocaleDateString()
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="date"
+                        value={editedData.voting_live_date?.slice(0, 10)}
+                        onChange={(e) => handleChange(e, "voting_live_date")}
+                      />
+                    ) : (
+                      new Date(contest.voting_live_date).toLocaleDateString()
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <input
+                        type="date"
+                        value={editedData.voting_deadline?.slice(0, 10)}
+                        onChange={(e) => handleChange(e, "voting_deadline")}
+                      />
+                    ) : (
+                      new Date(contest.voting_deadline).toLocaleDateString()
+                    )}
+                  </td>
+                  <td>
+                    {editingId === contest.id ? (
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="SaveIcon"
+                          variant="save"
+                          onClick={() => handleSave(contest.id)}
+                          title="Save"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="CancelIcon"
+                          variant="edit"
+                          onClick={handleCancel}
+                          title="Cancel"
+                          size="small"
+                        />
+                      </div>
+                    ) : (
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="EditIcon"
+                          variant="edit"
+                          onClick={() => handleEdit(contest)}
+                          title="Edit"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="DeleteIcon"
+                          variant="delete"
+                          onClick={() => handleDelete(contest.id)}
+                          title="Delete"
+                          size="small"
+                        />
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {selectedImage && (
+        <WinnerImagePopup
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+          isFullView={true}
+        />
       )}
     </div>
   );

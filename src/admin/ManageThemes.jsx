@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import "../styles/admin/ManageThemes.css";
 import { useAuth } from "../context/UseAuth";
 import ToastUtils from "../utils/ToastUtils";
+import TableLoader from "../components/common/TableLoader";
+import IconButton from "../components/Buttons/IconButton";
+import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 
 const ManageThemes = () => {
   const { token } = useAuth();
@@ -11,6 +14,7 @@ const ManageThemes = () => {
   const [error, setError] = useState(null);
   const [editingTheme, setEditingTheme] = useState(null);
   const [originalThemeData, setOriginalThemeData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [themeData, setThemeData] = useState({
     name: "",
     description: "",
@@ -197,12 +201,12 @@ const ManageThemes = () => {
   };
 
   return (
-    <div className="manage-themes-container">
-      <div className="header">
+    <div className="manage-themes-container common-admin-container">
+      <div className="header new-header p0">
         <h2>Manage Themes</h2>
       </div>
 
-      <div className="test-upload">
+      {/* <div className="test-upload">
         <label htmlFor="test-upload-input">🧪 Test Upload to S3:</label>
         <input
           id="test-upload-input"
@@ -214,100 +218,132 @@ const ManageThemes = () => {
           }}
           disabled={isUploading}
         />
-      </div>
+      </div> */}
 
       {loading ? (
-        <p>Loading...</p>
+        <TableLoader rows={7} columns={5} />
       ) : error ? (
-        <p className="error-message">{error}</p>
+        <div className="error-message no-space">
+          <p>{error}</p>
+        </div>
       ) : (
-        <table className="themes-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Theme</th>
-              <th>Description</th>
-              <th>Cover</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {themes.map((theme) => (
-              <tr key={theme.id}>
-                {editingTheme === theme.id ? (
-                  <>
-                    <td>{theme.id}</td>
-                    <td>
-                      <input
-                        type="text"
-                        name="name"
-                        value={themeData.name}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                    <td>
-                      <textarea
-                        name="description"
-                        value={themeData.description}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                    <td>
-                      {themeData.coverImageUrl && (
-                        <img
-                          src={themeData.coverImageUrl}
-                          alt="Cover"
-                          className="cover-thumbnail"
-                        />
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleCoverImageUpload}
-                        disabled={isUploading}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        onClick={handleSaveChanges}
-                        disabled={isUploading}
-                      >
-                        {isUploading ? "Saving..." : "✅ Save"}
-                      </button>
-                      <button onClick={handleCancel}>❌ Cancel</button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td>{theme.id}</td>
-                    <td>{theme.name}</td>
-                    <td>{theme.description}</td>
-                    <td>
-                      {theme.cover_image_url && (
-                        <img
-                          src={theme.cover_image_url}
-                          alt="Cover"
-                          width="50"
-                        />
-                      )}
-                    </td>
-                    <td>
-                      <button onClick={() => handleEditClick(theme)}>
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteTheme(theme.id)}
-                        className="delete-btn"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </>
-                )}
+        <div className="common-table-container">
+          <table className="themes-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cover</th>
+                <th>Theme</th>
+                <th>Description</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {themes.map((theme) => (
+                <tr key={theme.id}>
+                  {editingTheme === theme.id ? (
+                    <>
+                      <td>{theme.id}</td>
+                      <td>
+                        {themeData.coverImageUrl && (
+                          <img
+                            src={themeData.coverImageUrl}
+                            alt="Cover"
+                            className="cover-thumbnail"
+                          />
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleCoverImageUpload}
+                          disabled={isUploading}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          name="name"
+                          value={themeData.name}
+                          onChange={handleInputChange}
+                        />
+                      </td>
+                      <td>
+                        <textarea
+                          name="description"
+                          value={themeData.description}
+                          onChange={handleInputChange}
+                        />
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <IconButton
+                            icon="SaveIcon"
+                            variant="save"
+                            onClick={handleSaveChanges}
+                            disabled={isUploading}
+                            title={isUploading ? "Saving..." : "Save"}
+                            size="small"
+                          />
+                          <IconButton
+                            icon="CancelIcon"
+                            variant="edit"
+                            onClick={handleCancel}
+                            title="Cancel"
+                            size="small"
+                          />
+                        </div>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>{theme.id}</td>
+                      <td>
+                        {theme.cover_image_url && (
+                          <img
+                            src={theme.cover_image_url}
+                            alt="Cover"
+                            width="50"
+                            className="cursor-pointer"
+                            onClick={() =>
+                              setSelectedImage(theme.cover_image_url)
+                            }
+                          />
+                        )}
+                      </td>
+                      <td>{theme.name}</td>
+                      <td>{theme.description}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <IconButton
+                            icon="EditIcon"
+                            variant="edit"
+                            onClick={() => handleEditClick(theme)}
+                            title="Edit"
+                            size="small"
+                          />
+                          <IconButton
+                            icon="DeleteIcon"
+                            variant="delete"
+                            onClick={() => handleDeleteTheme(theme.id)}
+                            title="Delete"
+                            size="small"
+                          />
+                        </div>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {selectedImage && (
+        <WinnerImagePopup
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+          isFullView={true}
+        />
       )}
     </div>
   );

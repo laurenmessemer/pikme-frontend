@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import "../../styles/popups/popups.css";
 import LazyImage from "../Common/LazyImage";
 
-const WinnerImagePopup = ({ imageUrl, onClose }) => {
+const WinnerImagePopup = ({ imageUrl, onClose, isFullView = false }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div
-        className="winner-popup-container"
+      className={`winner-popup-container ${isFullView ? "full-view" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <LazyImage
@@ -28,6 +28,7 @@ const WinnerImagePopup = ({ imageUrl, onClose }) => {
 WinnerImagePopup.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
+  isFullView: PropTypes.bool,
 };
 
 export default WinnerImagePopup;

@@ -257,6 +257,9 @@
   width: 100%;
   max-width: 220px;
 }
+.new-image-card{
+  cursor: pointer;
+}
 
 /* ✅ Contest Images */
 .contest-image {
@@ -282,7 +285,7 @@
 }
 
 /* ✅ Hover Effects */
-.image-card:hover {
+.image-card:not(.new-image-card):hover {
   transform: scale(1.08);
 }
 

@@ -23,11 +23,20 @@
 .popup-container {
   background: #a0ffd0; /* Light green background */
   border-radius: 10px;
-  width: 320px;
+  width: 350px;
   text-align: center;
   position: relative;
   border: 2px solid var(--dark);
   box-shadow: 3px 3px 0px #464242; /* Shadow for the card */
+}
+.error-container{
+  background: #E58888; /* Light error background */
+  border-radius: 10px;
+  width: 450px;
+  text-align: center;
+  position: relative;
+  border: 2px solid var(--dark);
+
 }
 
 /* ✅ White Header Section */
@@ -73,12 +82,35 @@
   margin: 0;
   padding: 10px 20px;
 }
+.popup-message .link-text{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.popup-message .link-text:hover{
+  color: #000;
+}
 /* ✅ content styling */
 .popup-content {
   padding: 10px 20px;
 }
 .popup-content.reinvite-content {
   padding: 20px;
+}
+.popup-content.latest-popup-content{
+  padding: 24px 24px 24px;
+}
+.popup-content.latest-popup-content .popup-button{ 
+  padding: 0;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.popup-content.latest-popup-content h2{
+  text-align: center;
+}
+.popup-content.latest-popup-content h2,
+.popup-content.latest-popup-content p{
+  padding: 0;
+  margin: 0 0 16px 0;
 }
 
 /* ✅ Button container */
@@ -147,6 +179,12 @@
   align-items: center;
   border-radius: 0px;
   justify-content: center;
+}
+.winner-popup-container.full-view{
+  aspect-ratio: unset;
+  max-width: 700px;
+  max-height: 70dvh;
+  border: 1px solid var(--challenge-background-3);
 }
 
 .winner-popup-image {

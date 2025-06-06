@@ -1,35 +1,82 @@
 .engagement-container {
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-  }
-  
-  .interval-toggle {
-    margin-bottom: 1rem;
-  }
-  
-  .interval-toggle button {
-    margin-right: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-    cursor: pointer;
-  }
-  
-  .interval-toggle button.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
-  
-  .metric-table table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .metric-table th,
-  .metric-table td {
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    text-align: left;
-  }
-  
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.interval-toggle {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.interval-toggle button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--dark);
+  background-color: var(--light);
+  color: var(--dark);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px var(--dark);
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.interval-toggle button:hover:not(.active) {
+  background-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0px var(--dark);
+}
+
+.interval-toggle button.active {
+  background-color: var(--cta);
+  color: var(--dark);
+  border-color: var(--dark);
+  box-shadow: 1px 1px 0px var(--dark);
+  transform: scale(1.02);
+}
+
+.metric-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.metric-table.top-spacing {
+  margin-top: 20px;
+}
+.metric-table.three-column th,
+.metric-table.three-column td {
+  width: 33.33%;
+  min-width: 150px;
+}
+.metric-table.four-column th,
+.metric-table.four-column td {
+  width: 25%;
+  min-width: 150px;
+}
+.metric-table h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+.metric-table th {
+  padding: 10px 8px;
+  font-weight: semibold;
+  font-size: 14px;
+  color: var(--dark);
+  background-color: var(--secondary-button);
+}
+.metric-table td {
+  padding: 10px 8px;
+  font-size: 13px;;
+}
+
+.metric-table th,
+.metric-table td {
+  border: 1px solid var(--subtle-text);
+  text-align: left;
+}

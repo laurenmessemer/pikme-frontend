@@ -156,7 +156,154 @@ const CustomSvgIcon = ({ icon, color = "#FFFFFF" }) => {
           </g>
         </svg>
       );
-
+    case "ArrowLeftIcon":
+      return (
+        <svg
+          stroke="currentColor"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          height="200px"
+          width="200px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
+        </svg>
+      );
+    case "CloseModelIcon":
+      return (
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M12.2197 0.46967C12.5126 0.176777 12.9874 0.176777 13.2803 0.46967C13.5732 0.762563 13.5732 1.23744 13.2803 1.53033L7.81066 7L13.2803 12.4697C13.5732 12.7626 13.5732 13.2374 13.2803 13.5303C12.9874 13.8232 12.5126 13.8232 12.2197 13.5303L6.75 8.06066L1.28033 13.5303C0.987437 13.8232 0.512563 13.8232 0.21967 13.5303C-0.0732234 13.2374 -0.0732231 12.7626 0.21967 12.4697L5.68934 7L0.21967 1.53033C-0.0732232 1.23744 -0.0732232 0.762563 0.21967 0.46967C0.512563 0.176777 0.987437 0.176777 1.28033 0.46967L6.75 5.93934L12.2197 0.46967Z"
+            fill="#3D3D3D"
+          />
+        </svg>
+      );
+    case "EditIcon":
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.013 1.667a1.5 1.5 0 0 1 2.121 0l1.2 1.2a1.5 1.5 0 0 1 0 2.122L5.5 13.823a.5.5 0 0 1-.177.146l-3.334 1.5a.5.5 0 0 1-.652-.652l1.5-3.334a.5.5 0 0 1 .146-.177L11.013 1.667Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+          <path
+            d="M9.5 3.167L12.833 6.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "DeleteIcon":
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2 4h12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M6.667 4V2.667a1.333 1.333 0 0 1 1.333-1.334h0a1.333 1.333 0 0 1 1.333 1.334V4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+          <path
+            d="M12.667 4v9.333a1.333 1.333 0 0 1-1.334 1.334H4.667A1.333 1.333 0 0 1 3.333 13.333V4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+          <path
+            d="M6.667 7.333v4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M9.333 7.333v4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "SaveIcon":
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.5 4.5L6 12L2.5 8.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "CancelIcon":
+      return (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 4L4 12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M4 4L12 12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
     default:
       if (typeof icon !== "string") {
         return icon;

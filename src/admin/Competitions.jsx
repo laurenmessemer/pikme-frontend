@@ -3,6 +3,10 @@ import "../styles/admin/ManageCompetitions.css";
 import { useAuth } from "../context/UseAuth";
 import ToastUtils from "../utils/ToastUtils";
 import LazyImage from "../components/Common/LazyImage";
+import IconButton from "../components/Buttons/IconButton";
+import TableLoader from "../components/common/TableLoader";
+import Submit from "../components/Buttons/Submit";
+import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
 const WINNERS_API_URL = `${
@@ -18,6 +22,7 @@ const Competitions = () => {
   const [editingId, setEditingId] = useState(null);
   const [editedData, setEditedData] = useState({});
   const [selectedContestId, setSelectedContestId] = useState("all");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchCompetitions = async () => {
     setLoading(true);
@@ -150,164 +155,203 @@ const Competitions = () => {
         );
 
   return (
-    <div className="manage-competitions-content">
-      <h2>Manage Competitions</h2>
-
-      <div className="filter-controls">
-        <label htmlFor="contest-filter">Filter by Contest:</label>
-        <select
-          id="contest-filter"
-          value={selectedContestId}
-          onChange={(e) => setSelectedContestId(e.target.value)}
-        >
-          <option value="all">All Contests</option>
-          {contestIds.map((id) => (
-            <option key={id} value={id}>
-              Contest #{id}
-            </option>
-          ))}
-        </select>
+    <div className="manage-competitions-content common-admin-container">
+      <div className="header new-header p0">
+        <h2>Manage Competitions</h2>
       </div>
 
-      <button
-        className="determine-winners-btn"
-        onClick={handleDetermineWinners}
-        disabled={determiningWinners}
-      >
-        {determiningWinners ? "Determining..." : "Determine Winners"}
-      </button>
+      <div className="filter-controls new-filter-controls">
+        <div className="filter-box">
+          <select
+            className="common-filter-select"
+            id="contest-filter"
+            value={selectedContestId}
+            onChange={(e) => setSelectedContestId(e.target.value)}
+          >
+            <option value="all">All Contests</option>
+            {contestIds.map((id) => (
+              <option key={id} value={id}>
+                Contest #{id}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <Submit
+          className="no-spacing small-button width-auto success-button"
+          text={determiningWinners ? "Determining..." : "Determine Winners"}
+          onClick={handleDetermineWinners}
+          disabled={determiningWinners}
+        />
+      </div>
 
       {loading ? (
-        <p>Loading competitions...</p>
+        <div style={{ marginTop: "20px" }}>
+          <TableLoader rows={7} columns={12} />
+        </div>
       ) : error ? (
-        <p className="error">{error}</p>
+        <div className="error-message no-space">
+          <p>{error}</p>
+        </div>
       ) : filteredCompetitions.length === 0 ? (
         <p>No competitions available for this contest.</p>
       ) : (
-        <table className="competitions-table">
-          <thead>
-            <tr>
-              <th>Competition ID</th>
-              <th>Contest ID</th>
-              <th>Theme ID</th>
-              <th>Theme Name</th>
-              <th>Theme Cover</th>
-              <th>User 1</th>
-              <th>User 2</th>
-              <th>Votes (User 1)</th>
-              <th>Votes (User 2)</th>
-              <th>Winner</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredCompetitions.map((comp) => (
-              <tr key={comp.id}>
-                <td>{comp.id}</td>
-                <td>{comp.contest_id}</td>
-                <td>{comp.Contest?.Theme?.id || "N/A"}</td>
-                <td>{comp.Contest?.Theme?.name || "N/A"}</td>
-                <td>
-                  {comp.Contest?.Theme?.cover_image_url ? (
-                    <LazyImage
-                      src={comp.Contest.Theme.cover_image_url}
-                      alt={comp.Contest.Theme.name}
-                      style={{
-                        width: "60px",
-                        height: "40px",
-                        objectFit: "cover",
-                        borderRadius: "4px",
-                      }}
-                    />
-                  ) : (
-                    // <img
-                    //   src={comp.Contest.Theme.cover_image_url}
-                    //   alt={comp.Contest.Theme.name}
-                    //   style={{
-                    //     width: "60px",
-                    //     height: "40px",
-                    //     objectFit: "cover",
-                    //     borderRadius: "4px",
-                    //   }}
-                    //   onError={onImageError}
-                    // />
-                    "N/A"
-                  )}
-                </td>
-                <td>{comp.User1?.username || "N/A"}</td>
-                <td>{comp.User2?.username || "N/A"}</td>
-                <td>
-                  {editingId === comp.id ? (
-                    <input
-                      type="number"
-                      value={editedData.votes_user1}
-                      onChange={(e) => handleChange(e, "votes_user1")}
-                    />
-                  ) : (
-                    comp.votes_user1
-                  )}
-                </td>
-                <td>
-                  {editingId === comp.id ? (
-                    <input
-                      type="number"
-                      value={editedData.votes_user2}
-                      onChange={(e) => handleChange(e, "votes_user2")}
-                    />
-                  ) : (
-                    comp.votes_user2
-                  )}
-                </td>
-                <td>
-                  {editingId === comp.id ? (
-                    <input
-                      type="text"
-                      value={editedData.winner_username}
-                      onChange={(e) => handleChange(e, "winner_username")}
-                    />
-                  ) : (
-                    comp.winner_username || "TBD"
-                  )}
-                </td>
-                <td>
-                  {editingId === comp.id ? (
-                    <select
-                      value={editedData.status}
-                      onChange={(e) => handleChange(e, "status")}
-                    >
-                      <option value="Waiting">Waiting</option>
-                      <option value="Active">Active</option>
-                      <option value="Complete">Complete</option>
-                    </select>
-                  ) : (
-                    <span className={`status ${comp.status?.toLowerCase()}`}>
-                      {comp.status}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {editingId === comp.id ? (
-                    <>
-                      <button onClick={() => handleSave(comp.id)}>Save</button>
-                      <button onClick={handleCancel}>Cancel</button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => handleEdit(comp)}>Edit</button>
-                      <button
-                        className="delete-button"
-                        onClick={() => handleDelete(comp.id)}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </td>
+        <div className="common-table-container">
+          <table className="competitions-table">
+            <thead>
+              <tr>
+                <th>Competition ID</th>
+                <th>Contest ID</th>
+                <th>Theme ID</th>
+                <th>Theme Name</th>
+                <th>Theme Cover</th>
+                <th>User 1</th>
+                <th>User 2</th>
+                <th>Votes (User 1)</th>
+                <th>Votes (User 2)</th>
+                <th>Winner</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredCompetitions.map((comp) => (
+                <tr key={comp.id}>
+                  <td>{comp.id}</td>
+                  <td>{comp.contest_id}</td>
+                  <td>{comp.Contest?.Theme?.id || "N/A"}</td>
+                  <td>{comp.Contest?.Theme?.name || "N/A"}</td>
+                  <td>
+                    {comp.Contest?.Theme?.cover_image_url ? (
+                      <LazyImage
+                        src={comp.Contest.Theme.cover_image_url}
+                        alt={comp.Contest.Theme.name}
+                        style={{
+                          width: "60px",
+                          height: "40px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                        className="cursor-pointer"
+                        onClick={() =>
+                          setSelectedImage(comp.Contest?.Theme?.cover_image_url)
+                        }
+                      />
+                    ) : (
+                      // <img
+                      //   src={comp.Contest.Theme.cover_image_url}
+                      //   alt={comp.Contest.Theme.name}
+                      //   style={{
+                      //     width: "60px",
+                      //     height: "40px",
+                      //     objectFit: "cover",
+                      //     borderRadius: "4px",
+                      //   }}
+                      //   onError={onImageError}
+                      // />
+                      "N/A"
+                    )}
+                  </td>
+                  <td>{comp.User1?.username || "N/A"}</td>
+                  <td>{comp.User2?.username || "N/A"}</td>
+                  <td>
+                    {editingId === comp.id ? (
+                      <input
+                        type="number"
+                        value={editedData.votes_user1}
+                        onChange={(e) => handleChange(e, "votes_user1")}
+                      />
+                    ) : (
+                      comp.votes_user1
+                    )}
+                  </td>
+                  <td>
+                    {editingId === comp.id ? (
+                      <input
+                        type="number"
+                        value={editedData.votes_user2}
+                        onChange={(e) => handleChange(e, "votes_user2")}
+                      />
+                    ) : (
+                      comp.votes_user2
+                    )}
+                  </td>
+                  <td>
+                    {editingId === comp.id ? (
+                      <input
+                        type="text"
+                        value={editedData.winner_username}
+                        onChange={(e) => handleChange(e, "winner_username")}
+                      />
+                    ) : (
+                      comp.winner_username || "TBD"
+                    )}
+                  </td>
+                  <td>
+                    {editingId === comp.id ? (
+                      <select
+                        value={editedData.status}
+                        onChange={(e) => handleChange(e, "status")}
+                      >
+                        <option value="Waiting">Waiting</option>
+                        <option value="Active">Active</option>
+                        <option value="Complete">Complete</option>
+                      </select>
+                    ) : (
+                      <span className={`status ${comp.status?.toLowerCase()}`}>
+                        {comp.status}
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {editingId === comp.id ? (
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="SaveIcon"
+                          variant="save"
+                          onClick={() => handleSave(comp.id)}
+                          title="Save"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="CancelIcon"
+                          variant="edit"
+                          onClick={handleCancel}
+                          title="Cancel"
+                          size="small"
+                        />
+                      </div>
+                    ) : (
+                      <div className="action-buttons">
+                        <IconButton
+                          icon="EditIcon"
+                          variant="edit"
+                          onClick={() => handleEdit(comp)}
+                          title="Edit"
+                          size="small"
+                        />
+                        <IconButton
+                          icon="DeleteIcon"
+                          variant="delete"
+                          onClick={() => handleDelete(comp.id)}
+                          title="Delete"
+                          size="small"
+                        />
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {selectedImage && (
+        <WinnerImagePopup
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+          isFullView={true}
+        />
       )}
     </div>
   );
