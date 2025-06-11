@@ -10,9 +10,9 @@ import "./animations.scss";
 import "./common.scss";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>
       <App />
     </AuthProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

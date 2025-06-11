@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
+import Submit from "../components/Buttons/Submit";
 import "../styles/admin/CreateContest.css";
 import { useAuth } from "../context/UseAuth";
+import BackButton from "../components/Buttons/BackButton";
+import ToastUtils from "../utils/ToastUtils";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 
 const CreateContest = () => {
   const { token, user } = useAuth();
-  console.log("user: ", user);
   const [themes, setThemes] = useState([]); // Available themes
   const [selectedTheme, setSelectedTheme] = useState("");
+  const [isSubmmiting, setIsSubmmiting] = useState(false);
   const [entryFee, setEntryFee] = useState("");
   const [prizePool, setPrizePool] = useState("");
   const [prizes, setPrizes] = useState(["", "", ""]);
@@ -17,7 +20,6 @@ const CreateContest = () => {
   const [votingStart, setVotingStart] = useState("");
   const [votingEnd, setVotingEnd] = useState("");
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     // ✅ Fetch themes from API
@@ -70,6 +72,20 @@ const CreateContest = () => {
     if (!votingEnd) setVotingEnd(addDays(newVotingStart, 3));
   };
 
+  // Function to reset all form values
+  const resetForm = () => {
+    setIsSubmmiting(false);
+    setSelectedTheme("");
+    setEntryFee("");
+    setPrizePool("");
+    setPrizes(["", "", ""]);
+    setSubmissionStart("");
+    setSubmissionEnd("");
+    setVotingStart("");
+    setVotingEnd("");
+    setError(null);
+  };
+
   const handleCreateContest = async () => {
     // ✅ Validate input
     if (
@@ -104,6 +120,7 @@ const CreateContest = () => {
     };
 
     try {
+      setIsSubmmiting(true);
       const response = await fetch(API_URL, {
         method: "POST",
         headers: {
@@ -117,114 +134,208 @@ const CreateContest = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
-      setSuccessMessage("Contest created successfully!");
+      setIsSubmmiting(false);
+      resetForm()
+      ToastUtils.success("Contest created successfully!");
       setError(null);
     } catch (err) {
+      setIsSubmmiting(false);
       setError(err.message);
     }
   };
 
   return (
     <div className="create-contest-container common-admin-container">
-      <div className="header new-header p0">
+      <div className="header new-header p0 centered">
         <h2>Manage Contests - Create Contest</h2>
       </div>
 
       {error && (
-        <div className="error-message no-space">
+        <div className="error-message no-space margin-bottom-20">
           <p>{error}</p>
         </div>
       )}
-      {successMessage && <p className="success-message">{successMessage}</p>}
 
-      <div className="form-group">
-        <label>Theme:</label>
-        <select
-          value={selectedTheme}
-          onChange={(e) => setSelectedTheme(e.target.value)}
-        >
-          <option value="">Select Theme</option>
-          {themes.map((theme) => (
-            <option key={theme.id} value={theme.id}>
-              {theme.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="common-form">
+        {/* Basic Information Section */}
+        <div className="section-card basic-info-section full-width">
+          <h3 className="section-title">Basic Information</h3>
+          <div className="flex-row">
+            <div className="field-box half-width">
+              <label className="form-label admin-label" htmlFor="entry-fee">
+                Entry Fee <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input number-input"
+                  id="entry-fee"
+                  type="number"
+                  placeholder="Entry fee"
+                  value={entryFee}
+                  disabled={isSubmmiting}
+                  onChange={(e) => setEntryFee(e.target.value)}
+                />
+              </div>
+            </div>
 
-      <div className="form-group">
-        <label>Entry Fee:</label>
-        <input
-          type="number"
-          value={entryFee}
-          onChange={(e) => setEntryFee(e.target.value)}
-        />
-      </div>
-
-      <hr />
-
-      <div className="prizes-section">
-        <h3>Prizes</h3>
-        <label>Prize Pool:</label>
-        <input
-          type="number"
-          value={prizePool}
-          onChange={(e) => setPrizePool(e.target.value)}
-        />
-
-        {["1st Place", "2nd Place", "3rd Place"].map((label, index) => (
-          <div key={index} className="prize-input">
-            <label>{label}:</label>
-            <input
-              type="number"
-              value={prizes[index]}
-              onChange={(e) => {
-                const updatedPrizes = [...prizes];
-                updatedPrizes[index] = e.target.value;
-                setPrizes(updatedPrizes);
-              }}
-            />
+            <div className="field-box half-width">
+              <label className="form-label admin-label" htmlFor="thmeme-select">
+                Theme <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <select
+                  className="form-input admin-input select-input"
+                  id="thmeme-select"
+                  value={selectedTheme}
+                  onChange={(e) => setSelectedTheme(e.target.value)}
+                  placeholder="Select theme"
+                  disabled={isSubmmiting}
+                >
+                  <option value="">Select Theme</option>
+                  {themes.map((theme) => (
+                    <option key={theme.id} value={theme.id}>
+                      {theme.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
 
-      <hr />
+        {/* Prizes and Contest Dates Side by Side */}
+        <div className="flex-row">
+          <div className="section-card prizes-section half-width">
+            <h3 className="section-title">Prize Distribution</h3>
+            <div className="field-box">
+              <label className="form-label admin-label" htmlFor="price-poll">
+                Prize Pool <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input "
+                  id="price-poll"
+                  placeholder="Prize pool"
+                  type="number"
+                  value={prizePool}
+                  disabled={isSubmmiting}
+                  onChange={(e) => setPrizePool(e.target.value)}
+                />
+              </div>
+            </div>
 
-      <div className="form-group">
-        <label>Submission Start:</label>
-        <input
-          type="date"
-          value={submissionStart}
-          onChange={handleSubmissionStartChange}
-        />
-        <label>Voting Start:</label>
-        <input
-          type="date"
-          value={votingStart}
-          onChange={handleVotingStartChange}
-        />
-      </div>
+            {["1st Place", "2nd Place", "3rd Place"].map((label, index) => (
+              <div key={index} className="field-box">
+                <label className="form-label admin-label">
+                  {label} <span className="star-required">*</span>
+                </label>
+                <div className="input-box">
+                  <input
+                    className="form-input admin-input "
+                    type="number"
+                    placeholder={`${label} prize`}
+                    value={prizes[index]}
+                    disabled={isSubmmiting}
+                    onChange={(e) => {
+                      const updatedPrizes = [...prizes];
+                      updatedPrizes[index] = e.target.value;
+                      setPrizes(updatedPrizes);
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
 
-      <div className="form-group">
-        <label>Submission End:</label>
-        <input
-          type="date"
-          value={submissionEnd}
-          onChange={handleSubmissionEndChange}
-        />
-        <label>Voting End:</label>
-        <input
-          type="date"
-          value={votingEnd}
-          onChange={(e) => setVotingEnd(e.target.value)}
-        />
+          <div className="section-card date-section half-width">
+            <h3 className="section-title">Contest Timeline</h3>
+            <div className="field-box">
+              <label
+                className="form-label admin-label"
+                htmlFor="submission-start"
+              >
+                Submission Start <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input date-input"
+                  id="submission-start"
+                  type="date"
+                  placeholder="Start date"
+                  value={submissionStart}
+                  disabled={isSubmmiting}
+                  onChange={handleSubmissionStartChange}
+                />
+              </div>
+            </div>
+            <div className="field-box">
+              <label
+                className="form-label admin-label"
+                htmlFor="submission-end"
+              >
+                Submission End <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input date-input"
+                  id="submission-end"
+                  type="date"
+                  placeholder="End date"
+                  value={submissionEnd}
+                  disabled={isSubmmiting}
+                  onChange={handleSubmissionEndChange}
+                />
+              </div>
+            </div>
+            <div className="field-box">
+              <label className="form-label admin-label" htmlFor="voting-start">
+                Voting Start <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input date-input"
+                  id="voting-start"
+                  type="date"
+                  placeholder="Voting starts"
+                  value={votingStart}
+                  disabled={isSubmmiting}
+                  onChange={handleVotingStartChange}
+                />
+              </div>
+            </div>
+            <div className="field-box">
+              <label className="form-label admin-label" htmlFor="voting-end">
+                Voting End <span className="star-required">*</span>
+              </label>
+              <div className="input-box">
+                <input
+                  className="form-input admin-input date-input"
+                  id="voting-end"
+                  type="date"
+                  placeholder="Voting ends"
+                  value={votingEnd}
+                  disabled={isSubmmiting}
+                  onChange={(e) => setVotingEnd(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="form-actions">
-        <button className="cancel">Cancel</button>
-        <button className="create-contest" onClick={handleCreateContest}>
-          Create Contest
-        </button>
+        <BackButton
+          className="no-spacing small-button width-auto"
+          text={"Reset"}
+          onClick={resetForm}
+        />
+
+        <Submit
+          className="no-spacing small-button width-auto success-button"
+          text={isSubmmiting ? "Creating..." : "Create Contest"}
+          onClick={handleCreateContest}
+          disabled={isSubmmiting}
+        />
       </div>
     </div>
   );
