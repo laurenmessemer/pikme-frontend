@@ -16,6 +16,11 @@
   margin: 12px 0 0 0;
   font-style: italic;
 }
+.metric-table.outside-table{
+  padding: 0;
+  border: 0;
+  margin: 0 !important;
+}
 .metric-table{
   border: 1px solid var(--subtle-text);
   border-radius: 8px;
@@ -33,6 +38,11 @@
 .metric-table.three-column th,
 .metric-table.three-column td {
   width: 33.33%;
+  min-width: 150px;
+}
+.metric-table.two-column th,
+.metric-table.two-column td {
+  width: 50%;
   min-width: 150px;
 }
 .metric-table.four-column th,

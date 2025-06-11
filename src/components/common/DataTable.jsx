@@ -1,3 +1,10 @@
+/*
+ * File: DataTable.jsx
+ * Author: HARSH CHAUHAN
+ * Created Date: June 5th, 2025
+ * Description: This component handles datatable common with pagination and sorting.
+ */
+
 import DataTable from "react-data-table-component";
 import NoData from "./NoData";
 import CustomSvgIcon from "../../constant/CustomSvgIcons";

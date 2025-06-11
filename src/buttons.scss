@@ -285,6 +285,12 @@ $cta-pressed-2: var(--cta-pressed-2);
     font-size: 12px;
     box-shadow: 2px 2px 0px $dark;
   }
+  &.btn-white{
+    background-color: white;
+  }
+  &.btn-secondary{
+    background-color: var(--secondary-button);
+  }
 }
 
 // Toggle Button and Container

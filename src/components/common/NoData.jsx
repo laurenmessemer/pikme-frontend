@@ -1,3 +1,10 @@
+/*
+ * File: NoData.jsx
+ * Author: HARSH CHAUHAN
+ * Created Date: June 5th, 2025
+ * Description: This component handles NoData of any component UI.
+ */
+
 import noDataImg from "../../assets/icons/no-data.png";
 
 const NoData = ({

@@ -119,9 +119,14 @@
   margin-bottom: 10px;
 }
 
-/* 🎯 Specific styling for HowToVote popup */
+/* Specific styling for HowToVote popup */
 .how-to-play-popup {
-  width: 450px; /* or whatever width you want */
+  width: 450px; 
+  max-width: 90vw;
+}
+/* Specific styling for Upload popup */
+.contact-popup.upload-csv-popup {
+  width: 550px;
   max-width: 90vw;
 }
 
@@ -192,6 +197,96 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* ✅ CSV Upload Popup Styles */
+.upload-csv-popup .csv-upload-area {
+  border: 2px dashed var(--subtle-text);
+  padding: 30px 12px;
+  text-align: center;
+  background: var(--home-background);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-csv-popup .csv-upload-area.drag-active {
+  border-color: var(--pressed-blue);
+  background: var(--accent);
+}
+
+.upload-csv-popup .csv-upload-area.has-file {
+  border: 0;
+  padding: 0;
+}
+
+.upload-csv-popup .upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.upload-csv-popup .upload-placeholder label {
+  font-size: 13px;
+  color: var(--dark);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  gap: 24px;
+}
+.upload-csv-popup .upload-placeholder label svg{
+  width: 34px;
+  height: 34px;
+}
+
+.upload-csv-popup .selected-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--light);
+  border-radius: 2px;
+  gap: 16px;
+  border: 1px solid var(--subtle-text);
+}
+
+.upload-csv-popup .file-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload-csv-popup .file-details {
+  text-align: left;
+}
+
+.upload-csv-popup .file-name {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  word-break: break-word;
+  color: var(--dark);
+}
+
+.upload-csv-popup .file-size {
+  font-size: 0.875rem;
+  color: var(--subtle-text);
+  margin: 0;
+}
+
+.upload-csv-popup .csv-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload-csv-popup .right-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+
 
 @media (max-width: 768px) {
   .popup-container {

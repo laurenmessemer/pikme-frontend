@@ -17,6 +17,8 @@ const IconButton = ({
     switch (variant) {
       case "edit":
         return "icon-btn-edit";
+      case "upload":
+        return "icon-btn-upload";
       case "delete":
         return "icon-btn-delete";
       case "save":
@@ -68,6 +70,7 @@ IconButton.propTypes = {
     "primary",
     "secondary", 
     "edit",
+    "upload",
     "delete",
     "save",
     "cancel"

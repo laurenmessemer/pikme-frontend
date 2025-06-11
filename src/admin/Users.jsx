@@ -5,6 +5,14 @@ import ToastUtils from "../utils/ToastUtils";
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import TableLoader from "../components/common/TableLoader";
 import IconButton from "../components/Buttons/IconButton";
+import UploadCSVPopup from "../components/Popups/UploadCSVPopup";
+import Submit from "../components/Buttons/Submit";
+import {
+  GET_USERS_DOWNLOAD_CSV,
+  POST_USERS_UPLOAD_CSV,
+} from "../constant/ApiUrls";
+import { api } from "../api";
+import { set } from "react-hook-form";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/users`;
 
@@ -18,6 +26,9 @@ const Users = () => {
   const [editedUser, setEditedUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showUploadPopup, setShowUploadPopup] = useState(false);
+  const [errorData, setErrorData] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -146,23 +157,68 @@ const Users = () => {
     }
   };
 
+  // Handle CSV file submission
+  const handleCSVSubmit = async (file) => {
+    try {
+      setIsUploading(true);
+
+      // Create FormData object and append the file
+      const formData = new FormData();
+      formData.append("csv", file);
+
+      const response = await api({
+        endpoint: POST_USERS_UPLOAD_CSV,
+        payloadData: formData,
+      });
+
+      if (checkSuccessResponse(response)) {
+        ToastUtils.success(
+          response?.data?.message || "CSV uploaded successfully"
+        );
+        // Refresh users list after successful upload
+        fetchUsers();
+        if (response?.data?.userErrorArr.length > 0) {
+          setErrorData(response?.data?.userErrorArr || []);
+        } else {
+          setShowUploadPopup(false);
+        }
+      } else {
+        ToastUtils.error(response?.data?.error || "Failed to upload CSV");
+      }
+    } catch (error) {
+      console.error("Error uploading CSV:", error);
+      ToastUtils.error(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <div className="users-container common-admin-container">
       <div className="filter-controls new-filter-controls">
         <div className="header new-header p0 m0">
           <h2>Users List</h2>
         </div>
-        <input
-          className="search-bar"
-          type="text"
-          placeholder="Search by username, email, or code..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="filter-box">
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="Search by username, email, or code..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Submit
+            className="no-spacing small-button width-auto success-button"
+            text={"Upload CSV"}
+            onClick={() => setShowUploadPopup(true)}
+          />
+        </div>
       </div>
       {loading ? (
         <div style={{ marginTop: "20px" }}>
-        <TableLoader rows={7} columns={9} />
+          <TableLoader rows={7} columns={9} />
         </div>
       ) : error ? (
         <div className="error-message no-space">
@@ -345,6 +401,25 @@ const Users = () => {
             </tbody>
           </table>
         </div>
+      )}
+      {showUploadPopup && (
+        <UploadCSVPopup
+          title="Upload CSV"
+          onClose={() => {
+            setShowUploadPopup(false)
+            setErrorData([]);
+            setIsUploading(false);
+          }}
+          onSubmit={handleCSVSubmit}
+          downloadAPI={GET_USERS_DOWNLOAD_CSV}
+          downloadFileName="users_template.csv"
+          isSubmitting={isUploading}
+          setIsUploading={setIsUploading}
+          refetchApi={fetchUsers}
+          isDownloadButton={true}
+          errorData={errorData}
+          setErrorData={setErrorData}
+        />
       )}
     </div>
   );

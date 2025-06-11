@@ -5,6 +5,8 @@ import LazyImage from "../components/Common/LazyImage";
 import TableLoader from "../components/common/TableLoader";
 import IconButton from "../components/Buttons/IconButton";
 import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
+import UploadCSVPopup from "../components/Popups/UploadCSVPopup";
+import { GET_CONTEST_DOWNLOAD_CSV, GET_USERS_DOWNLOAD_CSV } from "../constant/ApiUrls";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
@@ -18,6 +20,15 @@ const ManageContests = () => {
   const [editingId, setEditingId] = useState(null);
   const [editedData, setEditedData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadCsvId, setUploadCsvId] = useState({});
+  const [showUploadPopup, setShowUploadPopup] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [errorData, setErrorData] = useState([]);
+
+  // Handle CSV file submission
+  const handleCSVSubmit = async (file) => {
+    console.log("file: ", file);
+  };
 
   useEffect(() => {
     const fetchData = async (retryCount = 2) => {
@@ -75,6 +86,11 @@ const ManageContests = () => {
   const handleEdit = (contest) => {
     setEditingId(contest.id);
     setEditedData({ ...contest, ...contest.winnings });
+  };
+
+  const handleUpload = (contest) => {
+    setUploadCsvId(contest);
+    setShowUploadPopup(true);
   };
 
   const handleChange = (e, key) => {
@@ -352,6 +368,13 @@ const ManageContests = () => {
                       </div>
                     ) : (
                       <div className="action-buttons">
+                        {/* <IconButton
+                          icon="UploadIcon"
+                          variant="upload"
+                          onClick={() => handleUpload(contest)}
+                          title="Upload"
+                          size="small"
+                        /> */}
                         <IconButton
                           icon="EditIcon"
                           variant="edit"
@@ -380,6 +403,24 @@ const ManageContests = () => {
           imageUrl={selectedImage}
           onClose={() => setSelectedImage(null)}
           isFullView={true}
+        />
+      )}
+      {showUploadPopup && (
+        <UploadCSVPopup
+          title={`${uploadCsvId?.Theme?.name}`}
+          onClose={() => {
+            setShowUploadPopup(false)
+            setErrorData([]);
+            setIsUploading(false);
+          }}
+          onSubmit={handleCSVSubmit}
+          downloadAPI={GET_CONTEST_DOWNLOAD_CSV}
+          downloadFileName="contest_template.csv"
+          isSubmitting={isUploading}
+          setIsUploading={setIsUploading}
+          isDownloadButton={true}
+          errorData={errorData}
+          setErrorData={setErrorData}
         />
       )}
     </div>

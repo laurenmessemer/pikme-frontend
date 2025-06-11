@@ -1,3 +1,10 @@
+/*
+ * File: TableLoader.jsx
+ * Author: HARSH CHAUHAN
+ * Created Date: June 5th, 2025
+ * Description: This component handles loading UI of table component.
+ */
+
 const TableLoader = ({ rows = 5, columns = 4 }) => {
   return (
     <div className="table-loader-container">

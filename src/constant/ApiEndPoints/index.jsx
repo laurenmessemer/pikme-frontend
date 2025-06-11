@@ -24,6 +24,13 @@ export const apiEndpoints = {
   ENDPOINTS_GET_REPORTED_IMAGES: "/api/reports/get-reported-images",
 
   /* ---------------------------------- User Warning endpoints ---------------------------------- */
-  ENDPOINTS_POST_CLOSE_WARNING_POPUP:'/api/users/close-warn-popup'
+  ENDPOINTS_POST_CLOSE_WARNING_POPUP:'/api/users/close-warn-popup',
+
+  /* ---------------------------------- Admin user endpoints ---------------------------------- */
+  ENDPOINTS_GET_USERS_DOWNLOAD_CSV:'/api/users/download-csv',
+  ENDPOINTS_POST_USERS_UPLOAD_CSV:'/api/users/upload-userlist',
+
+  /* ---------------------------------- Contest endpoints ---------------------------------- */
+  ENDPOINTS_GET_CONTEST_DOWNLOAD_CSV:'/api/contests/downlaod-contest-template',
   
 };

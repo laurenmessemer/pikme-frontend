@@ -126,3 +126,31 @@ export const POST_CLOSE_WARNING_POPUP = {
   isMultipart: false,
   showToast: false,
 };
+
+// Admin User APIs
+export const GET_USERS_DOWNLOAD_CSV = {
+  url: apiEndpoints.ENDPOINTS_GET_USERS_DOWNLOAD_CSV,
+  method: API_METHOD_GET,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
+  showToast: false,
+};
+export const POST_USERS_UPLOAD_CSV = {
+  url: apiEndpoints.ENDPOINTS_POST_USERS_UPLOAD_CSV,
+  method: API_METHOD_POST,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: true,
+  showToast: false,
+};
+
+// Admin Contest  APIs
+export const GET_CONTEST_DOWNLOAD_CSV = {
+  url: apiEndpoints.ENDPOINTS_GET_CONTEST_DOWNLOAD_CSV,
+  method: API_METHOD_GET,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
+  showToast: false,
+};
