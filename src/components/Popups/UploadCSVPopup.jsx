@@ -261,8 +261,8 @@ const UploadCSVPopup = ({
               <div className="contact-form-buttons more-space csv-buttons">
                 {isDownloadButton ? (
                   <BackButton
-                    className="no-spacing small-button width-auto btn-secondary"
-                    text={isDownloading ? "Downloading..." : "Download"}
+                    className="no-spacing small-button width-auto btn-secondary no-uppercase"
+                    text={isDownloading ? "Downloading..." : "Download Sample CSV"}
                     onClick={handleDownloadTemplate}
                     disabled={isDownloading}
                   />

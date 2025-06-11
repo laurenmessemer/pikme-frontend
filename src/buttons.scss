@@ -215,7 +215,9 @@ $cta-pressed-2: var(--cta-pressed-2);
     width: 100%;
   }
 }
-
+.no-uppercase{
+  text-transform: unset !important;
+}
 // Submit Button
 .submit-button {
   width: 100%;
