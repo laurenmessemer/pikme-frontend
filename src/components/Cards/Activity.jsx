@@ -113,13 +113,20 @@ const Activity = () => {
   // }, [referrers]);
 
   const mergedVoters = useMemo(() => {
-    return [...voters];
+    // Sort voters to put non-uploaded first, then uploaded
+    return [...voters].sort((a, b) => {
+      if (a.isUploaded === b.isUploaded) return 0;
+      return a.isUploaded ? 1 : -1;
+    });
   }, [voters]);
 
   const mergedReferrers = useMemo(() => {
-    return [...referrers];
+    // Sort referrers to put non-uploaded first, then uploaded
+    return [...referrers].sort((a, b) => {
+      if (a.isUploaded === b.isUploaded) return 0;
+      return a.isUploaded ? 1 : -1;
+    });
   }, [referrers]);
-
   const renderToken = () => (
     <img
       src={tokenImg}

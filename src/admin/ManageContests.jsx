@@ -6,7 +6,13 @@ import TableLoader from "../components/common/TableLoader";
 import IconButton from "../components/Buttons/IconButton";
 import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 import UploadCSVPopup from "../components/Popups/UploadCSVPopup";
-import { GET_CONTEST_DOWNLOAD_CSV, GET_USERS_DOWNLOAD_CSV } from "../constant/ApiUrls";
+import {
+  GET_CONTEST_DOWNLOAD_CSV,
+  POST_CONTEST_UPLOAD_CSV,
+} from "../constant/ApiUrls";
+import { checkSuccessResponse } from "../utils/RouterUtils";
+import ToastUtils from "../utils/ToastUtils";
+import { api } from "../api";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
@@ -25,51 +31,45 @@ const ManageContests = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [errorData, setErrorData] = useState([]);
 
-  // Handle CSV file submission
-  const handleCSVSubmit = async (file) => {
-    console.log("file: ", file);
-  };
+  const fetchData = async (retryCount = 2) => {
+    setContestsLoading(true);
+    try {
+      const [contestsRes, competitionsRes] = await Promise.all([
+        fetch(CONTESTS_API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }),
+        fetch(COMPETITIONS_API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true",
+          },
+        }),
+      ]);
 
-  useEffect(() => {
-    const fetchData = async (retryCount = 2) => {
-      setContestsLoading(true);
-      try {
-        const [contestsRes, competitionsRes] = await Promise.all([
-          fetch(CONTESTS_API_URL, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "true",
-            },
-          }),
-          fetch(COMPETITIONS_API_URL, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "ngrok-skip-browser-warning": "true",
-            },
-          }),
-        ]);
-
-        if (!contestsRes.ok || !competitionsRes.ok) {
-          throw new Error("Failed to fetch contests or competitions");
-        }
-
-        const contestsData = await contestsRes.json();
-        const competitionsData = await competitionsRes.json();
-
-        setContests(contestsData);
-        setCompetitions(competitionsData);
-        setContestsError(null);
-      } catch (err) {
-        if (retryCount > 0) {
-          setTimeout(() => fetchData(retryCount - 1), 2000);
-          return;
-        }
-        setContestsError(err.message);
-      } finally {
-        setContestsLoading(false);
+      if (!contestsRes.ok || !competitionsRes.ok) {
+        throw new Error("Failed to fetch contests or competitions");
       }
-    };
 
+      const contestsData = await contestsRes.json();
+      const competitionsData = await competitionsRes.json();
+
+      setContests(contestsData);
+      setCompetitions(competitionsData);
+      setContestsError(null);
+    } catch (err) {
+      if (retryCount > 0) {
+        setTimeout(() => fetchData(retryCount - 1), 2000);
+        return;
+      }
+      setContestsError(err.message);
+    } finally {
+      setContestsLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -107,6 +107,50 @@ const ManageContests = () => {
   const handleCancel = () => {
     setEditingId(null);
     setEditedData({});
+  };
+
+  // Handle CSV file submission
+  const handleCSVSubmit = async (file) => {
+    try {
+      setIsUploading(true);
+
+      // Create FormData object and append the file
+      const formData = new FormData();
+      formData.append("csv", file);
+      formData.append("constestId", uploadCsvId?.id);
+
+      const response = await api({
+        endpoint: POST_CONTEST_UPLOAD_CSV,
+        payloadData: formData,
+      });
+
+      if (checkSuccessResponse(response)) {
+        if (response?.data?.count === 0) {
+          ToastUtils.error(response?.data?.message || "No data uploaded");
+        } else {
+          ToastUtils.success(
+            response?.data?.message || "CSV uploaded successfully"
+          );
+        }
+        // Refresh users list after successful upload
+        fetchData();
+        if (response?.data?.userErrorArr.length > 0) {
+          setErrorData(response?.data?.userErrorArr || []);
+        } else {
+          setUploadCsvId({});
+          setShowUploadPopup(false);
+        }
+      } else {
+        ToastUtils.error(response?.data?.error || "Failed to upload CSV");
+      }
+    } catch (error) {
+      console.error("Error uploading CSV:", error);
+      ToastUtils.error(
+        error.message || "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleSave = async (id) => {
@@ -179,7 +223,7 @@ const ManageContests = () => {
                 <th>Theme Image</th>
                 <th>Entry Fee</th>
                 <th>Total Entries</th>
-                <th>Prize Pool</th>
+                {/* <th>Prize Pool</th> */}
                 <th>1st Place</th>
                 <th>2nd Place</th>
                 <th>3rd Place</th>
@@ -260,7 +304,7 @@ const ManageContests = () => {
                     )}
                   </td>
                   <td>{getTotalEntriesForContest(contest.id)}</td>
-                  <td>
+                  {/* <td>
                     {editingId === contest.id ? (
                       <input
                         type="number"
@@ -270,7 +314,7 @@ const ManageContests = () => {
                     ) : (
                       `${contest.prize_pool}`
                     )}
-                  </td>
+                  </td> */}
                   <td>
                     {editingId === contest.id ? (
                       <input
@@ -368,13 +412,13 @@ const ManageContests = () => {
                       </div>
                     ) : (
                       <div className="action-buttons">
-                        {/* <IconButton
+                        <IconButton
                           icon="UploadIcon"
                           variant="upload"
                           onClick={() => handleUpload(contest)}
                           title="Upload"
                           size="small"
-                        /> */}
+                        />
                         <IconButton
                           icon="EditIcon"
                           variant="edit"
@@ -409,18 +453,17 @@ const ManageContests = () => {
         <UploadCSVPopup
           title={`${uploadCsvId?.Theme?.name}`}
           onClose={() => {
-            setShowUploadPopup(false)
+            setShowUploadPopup(false);
             setErrorData([]);
             setIsUploading(false);
+            setUploadCsvId({});
           }}
           onSubmit={handleCSVSubmit}
           downloadAPI={GET_CONTEST_DOWNLOAD_CSV}
           downloadFileName="contest_template.csv"
           isSubmitting={isUploading}
-          setIsUploading={setIsUploading}
           isDownloadButton={true}
           errorData={errorData}
-          setErrorData={setErrorData}
         />
       )}
     </div>

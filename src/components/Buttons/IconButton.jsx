@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import CustomSvgIcon from "../../constant/CustomSvgIcons";
+import { FiCheck, FiX, FiEdit, FiTrash2, FiUpload } from "react-icons/fi";
 import "./IconButton.scss";
 
 const IconButton = ({
@@ -47,6 +47,24 @@ const IconButton = ({
     return shape === "square" ? "icon-btn-square" : "icon-btn-rounded";
   };
 
+  const renderIcon = () => {
+    // Handle React Icons from Feather Icons
+    switch (icon) {
+      case "SaveIcon":
+        return <FiCheck />;
+      case "CancelIcon":
+        return <FiX />;
+      case "EditIcon":
+        return <FiEdit />;
+      case "DeleteIcon":
+        return <FiTrash2 />;
+      case "UploadIcon":
+        return <FiUpload />;
+      default:
+        return <FiTrash2 />;
+    }
+  };
+
   return (
     <button
       className={`icon-button ${getVariantClass()} ${getSizeClass()} ${getShapeClass()} ${
@@ -56,7 +74,7 @@ const IconButton = ({
       disabled={disabled}
       title={title}
     >
-      {icon && <CustomSvgIcon icon={icon} />}
+      {icon && renderIcon()}
       {children}
     </button>
   );
@@ -68,12 +86,12 @@ IconButton.propTypes = {
   disabled: PropTypes.bool, // Whether button is disabled
   variant: PropTypes.oneOf([
     "primary",
-    "secondary", 
+    "secondary",
     "edit",
     "upload",
     "delete",
     "save",
-    "cancel"
+    "cancel",
   ]), // Button style variant
   shape: PropTypes.oneOf(["rounded", "square"]), // Button shape
   size: PropTypes.oneOf(["small", "medium", "large"]), // Button size

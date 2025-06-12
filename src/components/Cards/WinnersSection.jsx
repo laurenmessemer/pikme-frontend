@@ -1,3 +1,10 @@
+/*
+ * File: WinnerSection.jsx
+ * Author: HARSH CHAUHAN
+ * Created Date: May 29th, 2025
+ * Description: This file contains winner section data.
+ */
+
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -6,7 +13,7 @@ import "../../styles/components/MySubmission.css";
 import WinnerImagePopup from "../Popups/WinnerImagePopup";
 import { useAuth } from "../../context/UseAuth";
 import WinnerLatestCard from "./WinnerLatestCard";
-import { allDummyWinners } from "../../constant/appConstants";
+import WinnerSkeletonCard from "./WinnerSkeletonCard";
 
 const WinnerSectionSubmissions = () => {
   const { token } = useAuth(); // ✅ get auth user
@@ -156,7 +163,15 @@ const WinnerSectionSubmissions = () => {
   return (
     <div className="my-submissions-container">
       {loading ? (
-        <p>Loading...</p>
+        <div className="new-grid-parent">
+          <div className="my-submissions-grid">
+            {[...Array(8)].map((_, index) => (
+              <div key={index}>
+                <WinnerSkeletonCard isFull={true} />
+              </div>
+            ))}
+          </div>
+        </div>
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : contestRows.length === 0 ? (

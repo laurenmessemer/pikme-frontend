@@ -1,92 +1,89 @@
 import Lottie from "lottie-react";
-import { useEffect, useRef } from "react";
-import WinnerCard from "../components/Cards/WinnerCard";
+import { useEffect, useRef, useState } from "react";
 import "../styles/pages/LandingPage.css";
-import { ImageUrl } from "../constant/appConstants";
 import animationData from "../assets/lottie/video2.json";
-
-// ✅ S3 Filenames from your latest image set
-const imageFilenames = [
-  "c111.png",
-  "c121.jpg",
-  "c131.png",
-  "c211.jpg",
-  "c221.jpg",
-  "c231.jpg",
-  "c311.jpg",
-  "c312.jpg",
-  "c321.jpg",
-  "c322.jpg",
-  "c331.jpg",
-  "c332.jpg",
-];
-
-// ✅ Convert to full S3 URLs
-const sampleImages = imageFilenames.map(
-  (filename) => `${ImageUrl}/uploads/${filename}`
-);
-
-// ✅ Fake user + theme data
-const fakeUsernames = [
-  "snapQueen43",
-  "lens_lord",
-  "bokehBoy",
-  "pixelChic72",
-  "neon_hunter",
-  "depthMaster",
-  "shadowSnaps",
-  "lightnin032",
-  "urbanGlimpse",
-  "noir9Nova",
-  "shutterSavage8593",
-  "blurBabe",
-  "crispy_clicks",
-  "visionVibes",
-];
-
-const fakeThemes = [
-  "Neon Dreams",
-  "Street Shadows",
-  "Quiet Chaos",
-  "Retro Glow",
-  "Offbeat Angles",
-  "Contrast Clash",
-  "Subtle Drama",
-  "Still Motion",
-  "Electric Mood",
-  "Layered Realities",
-];
-
-// ✅ Grouped date ranges per winner trio
-const dateGroups = [
-  { startDate: "2025-04-01", endDate: "2025-04-08" },
-  { startDate: "2025-04-04", endDate: "2025-04-11" },
-  { startDate: "2025-04-11", endDate: "2025-04-18" },
-  { startDate: "2025-04-18", endDate: "2025-04-25" },
-];
-
-// ✅ Generate 12 fake winners (4 groups of 3)
-const generateMockWinners = () => {
-  return [...Array(12)].map((_, i) => {
-    const group = Math.floor(i / 3) % dateGroups.length;
-    const { startDate, endDate } = dateGroups[group];
-    return {
-      key: `winner-${i}`,
-      startDate,
-      endDate,
-      image: sampleImages[i % sampleImages.length],
-      username: fakeUsernames[i % fakeUsernames.length],
-      theme: fakeThemes[i % fakeThemes.length],
-      payout: ["30 Tokens", "20 Tokens", "10 Tokens"][i % 3],
-      entries: 50 + ((i * 5) % 90),
-      place: (i % 3) + 1,
-    };
-  });
-};
-
-const mockWinners = generateMockWinners();
+import WinnerLatestCard from "../components/Cards/WinnerLatestCard";
+import WinnerSkeletonCard from "../components/Cards/WinnerSkeletonCard";
+import axios from "axios";
+import { useAuth } from "../context/UseAuth";
 
 const LandingPage = () => {
+  const { token } = useAuth();
+  const [cards, setCards] = useState([]);
+  console.log("cards: ", cards);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWinners = async () => {
+      try {
+        setLoading(true);
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/winners`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "ngrok-skip-browser-warning": "true",
+            },
+            params: {
+              skip: 0,
+              limit: 5,
+            },
+          }
+        );
+        if (response.data.success) {
+          // const allWinners = allDummyWinners || response.data.winners;
+          const allWinners = response.data.winners;
+
+          // Handle both old and new data formats
+          if (Array.isArray(allWinners) && allWinners.length > 0) {
+            // Check if it's the new format (array of contest objects)
+            if (allWinners[0].contest_id !== undefined) {
+              // New format - create flat array of winner cards only
+              const allWinnerCards = [];
+
+              allWinners.forEach((contest) => {
+                // Create winner cards only (no theme cards)
+                contest.winners.forEach((winner) => {
+                  allWinnerCards.push({
+                    type: "winner",
+                    key: `winner-${contest.contest_id}-${winner.position}`,
+                    image: winner.image,
+                    username: winner.username,
+                    startDate: contest.startDate,
+                    endDate: contest.endDate,
+                    theme: contest.name,
+                    payout: winner.payout,
+                    totalVotes: winner.totalVotes,
+                    position: winner.position,
+                    isThemeCard: false,
+                  });
+                });
+              });
+
+              setCards(allWinnerCards);
+            } else {
+              // Old format - handle as before (fallback)
+              console.warn("Using old data format - consider updating API");
+              // You can add old format handling here if needed
+            }
+          }
+        } else {
+          throw new Error("Failed to fetch winners.");
+        }
+      } catch (error) {
+        console.error("❌ Error fetching winners:", error);
+        setError("Failed to load winners.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWinners();
+  }, []);
+
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -119,7 +116,7 @@ const LandingPage = () => {
   }, []);
 
   // Repeat winner cards for infinite scroll effect
-  const repeatedWinners = [...mockWinners, ...mockWinners, ...mockWinners];
+  const repeatedWinners = [...cards, ...cards, ...cards];
 
   return (
     <div className="landing-container">
@@ -149,29 +146,57 @@ const LandingPage = () => {
       {/* ✅ Winners Section */}
       <div className="landing-winners-section">
         <h2 className="landing-winners-title">WINNERS</h2>
-
-        <div className="auto-scroll-container" ref={scrollRef}>
-          <div className="auto-scroll-track">
-            {repeatedWinners.map((card, index) => (
-              <div
-                className="landing-winner-card-wrapper"
-                key={`${card.key}-${index}`}
-              >
-                <WinnerCard
-                  startDate={card.startDate}
-                  endDate={card.endDate}
-                  image={card.image}
-                  username={card.username}
-                  theme={card.theme}
-                  payout={card.payout}
-                  entries={card.entries}
-                  place={card.place}
-                  isLandingWinnersOption={true}
-                />
-              </div>
-            ))}
+        {loading ? (
+          <div className="auto-scroll-container">
+            <div className="auto-scroll-track">
+              {[...Array(45)].map((_, index) => (
+                <div
+                  className="landing-winner-card-wrapper"
+                  key={`skeleton-${index}`}
+                >
+                  <WinnerSkeletonCard />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : cards.length === 0 ? (
+          <div className="no-submissions">
+            <div className="dashed-box">
+              <p>No winners yet!</p>
+            </div>
+          </div>
+        ) : (
+          <div className="auto-scroll-container" ref={scrollRef}>
+            <div className="auto-scroll-track">
+              {repeatedWinners.map((card, index) => (
+                <div
+                  className="landing-winner-card-wrapper"
+                  key={`${card.key}-${index}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                >
+                  <WinnerLatestCard
+                    startDate={card.startDate}
+                    endDate={card.endDate}
+                    image={card.image}
+                    username={card.username}
+                    theme={card.theme}
+                    payout={card.payout}
+                    totalVotes={card.totalVotes}
+                    totalParticipants={card.totalParticipants}
+                    isThemeCard={card.isThemeCard}
+                    position={card.position}
+                    isNewCardUI={true}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -181,21 +206,25 @@ export default LandingPage;
 
 // import axios from "axios";
 // import Lottie from "lottie-react";
-// import { useEffect, useState } from "react";
+// import { useEffect, useRef, useState } from "react";
 // import animationData from "../assets/lottie/video2.json";
-// import WinnerCard from "../components/Cards/WinnerCard";
 // import "../styles/pages/LandingPage.css";
 // import { useAuth } from "../context/UseAuth";
+// import WinnerLatestCard from "../components/Cards/WinnerLatestCard";
 
 // const LandingPage = () => {
 //   const { token } = useAuth();
 //   const [cards, setCards] = useState([]);
+//   console.log("cards: ", cards);
+
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
 //   useEffect(() => {
 //     const fetchWinners = async () => {
 //       try {
+//         setLoading(true);
+
 //         const response = await axios.get(
 //           `${import.meta.env.VITE_API_URL}/api/winners`,
 //           {
@@ -203,68 +232,49 @@ export default LandingPage;
 //               Authorization: `Bearer ${token}`,
 //               "ngrok-skip-browser-warning": "true",
 //             },
+//             params: {
+//               skip: 0,
+//               limit: 5,
+//             },
 //           }
 //         );
 //         if (response.data.success) {
+//           // const allWinners = allDummyWinners || response.data.winners;
 //           const allWinners = response.data.winners;
-//           const flatCardList = [];
 
-//           const grouped = {};
-//           allWinners.forEach((entry) => {
-//             const id = entry.contestId;
-//             if (!grouped[id]) {
-//               grouped[id] = {
-//                 contestId: id,
-//                 theme: entry.Theme?.name || "Theme",
-//                 themeImage: entry.Theme?.cover_image_url || "",
-//                 startDate: entry.startDate,
-//                 endDate: entry.endDate,
-//                 entries: [],
-//               };
-//             }
-//             grouped[id].entries.push(entry);
-//           });
+//           // Handle both old and new data formats
+//           if (Array.isArray(allWinners) && allWinners.length > 0) {
+//             // Check if it's the new format (array of contest objects)
+//             if (allWinners[0].contest_id !== undefined) {
+//               // New format - create flat array of winner cards only
+//               const allWinnerCards = [];
 
-//           Object.values(grouped).forEach((contest) => {
-//             // Add Theme Card
-//             flatCardList.push({
-//               type: "theme",
-//               key: `theme-${contest.contestId}`,
-//               image: contest.themeImage,
-//               startDate: contest.startDate,
-//               endDate: contest.endDate,
-//               theme: contest.theme,
-//               entries: contest.entries.length,
-//               isThemeCard: true,
-//             });
-
-//             // Add top 3 Winner Cards
-//             contest.entries.slice(0, 3).forEach((entry, index) => {
-//               flatCardList.push({
-//                 type: "winner",
-//                 key: `winner-${contest.contestId}-${index}`,
-//                 image: entry.image,
-//                 username: entry.username,
-//                 startDate: contest.startDate,
-//                 endDate: contest.endDate,
-//                 theme: contest.theme,
-//                 payout: parseFloat(entry.payout),
-//                 entries: entry.totalVotes || 0,
-//                 place: index + 1,
-//                 isThemeCard: false,
+//               allWinners.forEach((contest) => {
+//                 // Create winner cards only (no theme cards)
+//                 contest.winners.forEach((winner) => {
+//                   allWinnerCards.push({
+//                     type: "winner",
+//                     key: `winner-${contest.contest_id}-${winner.position}`,
+//                     image: winner.image,
+//                     username: winner.username,
+//                     startDate: contest.startDate,
+//                     endDate: contest.endDate,
+//                     theme: contest.name,
+//                     payout: winner.payout,
+//                     totalVotes: winner.totalVotes,
+//                     position: winner.position,
+//                     isThemeCard: false,
+//                   });
+//                 });
 //               });
-//             });
-//           });
 
-//           setCards(flatCardList);
-//           const allImageUrls = flatCardList
-//             .map((card) => card.image)
-//             .filter(Boolean);
-
-//           allImageUrls.forEach((url) => {
-//             const img = new Image();
-//             img.src = url;
-//           });
+//               setCards(allWinnerCards);
+//             } else {
+//               // Old format - handle as before (fallback)
+//               console.warn("Using old data format - consider updating API");
+//               // You can add old format handling here if needed
+//             }
+//           }
 //         } else {
 //           throw new Error("Failed to fetch winners.");
 //         }
@@ -278,6 +288,39 @@ export default LandingPage;
 
 //     fetchWinners();
 //   }, []);
+//   const scrollRef = useRef(null);
+
+//   useEffect(() => {
+//     const container = scrollRef.current;
+//     if (!container || cards.length === 0) return;
+
+//     const segmentWidth = container.scrollWidth / 3;
+//     container.scrollLeft = segmentWidth;
+
+//     let animationId;
+//     const scrollSpeed = 0.5;
+
+//     const autoScroll = () => {
+//       container.scrollLeft += scrollSpeed;
+
+//       if (container.scrollLeft >= segmentWidth * 2) {
+//         container.scrollLeft = segmentWidth;
+//       }
+
+//       if (container.scrollLeft <= segmentWidth - container.clientWidth) {
+//         container.scrollLeft = segmentWidth;
+//       }
+
+//       animationId = requestAnimationFrame(autoScroll);
+//     };
+
+//     animationId = requestAnimationFrame(autoScroll);
+
+//     return () => cancelAnimationFrame(animationId);
+//   }, [cards]);
+
+//   // Create repeated cards for infinite scroll effect
+//   const repeatedCards = cards.length > 0 ? [...cards,...cards,...cards] : [];
 
 //   return (
 //     <div className="landing-container">
@@ -312,27 +355,27 @@ export default LandingPage;
 //             </div>
 //           </div>
 //         ) : (
-//           <div className="landing-winners-grid">
-//             <div className="auto-scroll-wrapper">
+//             <div className="auto-scroll-container" ref={scrollRef}>
 //               <div className="auto-scroll-track">
-//                 {cards.map((card) => (
-//                   <div className="landing-winner-card-wrapper" key={card.key}>
-//                     <WinnerCard
+//                 {repeatedCards.map((card, index) => (
+//                   <div className="landing-winner-card-wrapper" key={`${card.key}-${index}`}>
+//                     <WinnerLatestCard
 //                       startDate={card.startDate}
 //                       endDate={card.endDate}
 //                       image={card.image}
 //                       username={card.username}
 //                       theme={card.theme}
 //                       payout={card.payout}
-//                       entries={card.entries}
+//                       totalVotes={card.totalVotes}
+//                       totalParticipants={card.totalParticipants}
 //                       isThemeCard={card.isThemeCard}
-//                       place={card.place}
+//                       position={card.position}
+//                       isNewCardUI={true}
 //                     />
 //                   </div>
 //                 ))}
 //               </div>
 //             </div>
-//           </div>
 //         )}
 //       </div>
 //     </div>

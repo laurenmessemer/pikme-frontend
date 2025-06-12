@@ -1,3 +1,10 @@
+/*
+ * File: index.jsx (Contains API Functions)
+ * Author: HARSH CHAUHAN
+ * Created Date: May 29th, 2025
+ * Description: You can create api function to call api using API function.
+ */
+
 import { apiEndpoints } from "../ApiEndPoints";
 import {
   API_METHOD_GET,
@@ -152,5 +159,13 @@ export const GET_CONTEST_DOWNLOAD_CSV = {
   withToken: true,
   module: DEFAULT_SERVICE_KEY,
   isMultipart: false,
+  showToast: false,
+};
+export const POST_CONTEST_UPLOAD_CSV = {
+  url: apiEndpoints.ENDPOINTS_POST_CONTEST_UPLOAD_CSV,
+  method: API_METHOD_POST,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: true,
   showToast: false,
 };

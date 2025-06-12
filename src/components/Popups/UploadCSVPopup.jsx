@@ -36,15 +36,12 @@ import "../../styles/admin/Engagement.css";
 const UploadCSVPopup = ({
   onClose,
   onSubmit,
-  downloadAPI = "",
+  downloadAPI = {},
   downloadFileName = "users_template.csv",
   title = "Upload CSV",
   isSubmitting = false,
-  setIsUploading = () => {},
-  refetchApi = () => {},
   isDownloadButton = false,
   errorData = [],
-  setErrorData = () => {},
 }) => {
   // State for file handling
   const [selectedFile, setSelectedFile] = useState(null);
@@ -84,7 +81,7 @@ const UploadCSVPopup = ({
     if (!file) return;
 
     // Check if file is CSV
-    if (file.type !== "text/csv" && !file.name.toLowerCase().endsWith(".csv")) {
+    if (file.type !== "text/csv" && !file?.name.toLowerCase().endsWith(".csv")) {
       ToastUtils.error("Please select a valid CSV file");
       return;
     }
@@ -159,15 +156,28 @@ const UploadCSVPopup = ({
       <div className="contact-popup upload-csv-popup">
         <div className="contact-header">
           <h2>{title}</h2>
-          <button className="close-btn" onClick={onClose}>
-            <CustomSvgIcon icon={"CloseModelIcon"} />
-          </button>
+          {!isSubmitting && (
+            <button className="close-btn" onClick={onClose}>
+              <CustomSvgIcon icon={"CloseModelIcon"} />
+            </button>
+          )}
         </div>
         {errorData && errorData.length > 0 ? (
           <div className="popup-content reinvite-content">
+            {/* Error message for upload issues */}
+            <div className="upload-error-message-container">
+              <div className="error-content">
+                <div className="error-text">
+                  <div className="error-title">
+                    Please review the errors below and fix them in your CSV file
+                    before uploading again.
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* Currently Competing */}
             <div className="metric-table top-spacing outside-table">
-              <div className="common-table-container with-scrollbar">
+              <div className="common-table-container with-scrollbar max500">
                 <table>
                   <thead>
                     <tr>
@@ -203,90 +213,110 @@ const UploadCSVPopup = ({
           </div>
         ) : (
           <>
-            <div className="popup-content reinvite-content">
-              <div className="common-form flex-form">
-                <div className="field-box popup-data">
-                  {/* File Upload Area */}
-                  <div
-                    className={`csv-upload-area ${
-                      dragActive ? "drag-active" : ""
-                    } ${selectedFile ? "has-file" : ""}`}
-                    onDragEnter={handleDrag}
-                    onDragLeave={handleDrag}
-                    onDragOver={handleDrag}
-                    onDrop={handleDrop}
-                  >
-                    {!selectedFile ? (
-                      <div className="upload-placeholder">
-                        <label>
-                          <FiUpload className="copy-icon" />
-                          Choose a file or drag and drop it here.
-                          <br />
-                          Supported format: CSV (Max 10MB)
-                          <input
-                            type="file"
-                            accept=".csv,text/csv"
-                            onChange={handleFileSelect}
-                            disabled={isSubmitting}
-                            style={{ display: "none" }}
-                          />
-                        </label>
-                      </div>
-                    ) : (
-                      <div className="selected-file">
-                        <div className="file-info">
-                          <div className="file-details">
-                            <p className="file-name">{selectedFile.name}</p>
-                            <p className="file-size">
-                              {(selectedFile.size / 1024).toFixed(2)} KB
-                            </p>
-                          </div>
+            {isSubmitting ? (
+              <div className="upload-progress-overlay">
+                <div className="upload-progress-content">
+                  <div className="upload-spinner">
+                    <div className="spinner-circle"></div>
+                  </div>
+                  <p className="upload-status-text">Uploading your file...</p>
+                  <p className="upload-status-subtext">
+                    Please wait while we process your CSV file
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="popup-content reinvite-content">
+                <div className="common-form flex-form">
+                  <div className="field-box popup-data">
+                    {/* File Upload Area */}
+                    <div
+                      className={`csv-upload-area ${
+                        dragActive ? "drag-active" : ""
+                      } ${selectedFile ? "has-file" : ""}`}
+                      onDragEnter={handleDrag}
+                      onDragLeave={handleDrag}
+                      onDragOver={handleDrag}
+                      onDrop={handleDrop}
+                    >
+                      {!selectedFile ? (
+                        <div className="upload-placeholder">
+                          <label>
+                            <FiUpload className="copy-icon" />
+                            Choose a file or drag and drop it here.
+                            <br />
+                            Supported format: CSV (Max 10MB)
+                            <input
+                              type="file"
+                              accept=".csv,text/csv"
+                              onChange={handleFileSelect}
+                              disabled={isSubmitting}
+                              style={{ display: "none" }}
+                            />
+                          </label>
                         </div>
-                        {!isSubmitting && (
-                          <div
-                            className="remove-file-btn"
-                            onClick={removeFile}
-                            type="button"
-                          >
-                            <CustomSvgIcon icon={"CloseModelIcon"} />
+                      ) : (
+                        <>
+                          <div className="selected-file">
+                            <div className="file-info">
+                              <div className="file-details">
+                                <p className="file-name">
+                                  {selectedFile?.name}
+                                </p>
+                                <p className="file-size">
+                                  {(selectedFile?.size / 1024).toFixed(2)} KB
+                                </p>
+                              </div>
+                            </div>
+                            {!isSubmitting && (
+                              <div
+                                className="remove-file-btn"
+                                onClick={removeFile}
+                                type="button"
+                              >
+                                <CustomSvgIcon icon={"CloseModelIcon"} />
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="contact-form-buttons more-space csv-buttons">
+                  {isDownloadButton ? (
+                    <BackButton
+                      className="no-spacing small-button width-auto btn-secondary no-uppercase"
+                      text={
+                        isDownloading ? "Downloading..." : "Download Sample CSV"
+                      }
+                      onClick={handleDownloadTemplate}
+                      disabled={isDownloading}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
+
+                  <div className="right-buttons">
+                    <BackButton
+                      className="no-spacing small-button width-auto btn-white"
+                      text={"CANCEL"}
+                      onClick={onClose}
+                      disabled={isSubmitting || isDownloading}
+                    />
+
+                    <Submit
+                      className="no-spacing small-button width-auto success-button"
+                      text={isSubmitting ? "Loading..." : "SUBMIT"}
+                      onClick={handleSubmit}
+                      disabled={isSubmitting || !selectedFile || isDownloading}
+                    />
                   </div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="contact-form-buttons more-space csv-buttons">
-                {isDownloadButton ? (
-                  <BackButton
-                    className="no-spacing small-button width-auto btn-secondary no-uppercase"
-                    text={isDownloading ? "Downloading..." : "Download Sample CSV"}
-                    onClick={handleDownloadTemplate}
-                    disabled={isDownloading}
-                  />
-                ) : (
-                  <div></div>
-                )}
-
-                <div className="right-buttons">
-                  <BackButton
-                    className="no-spacing small-button width-auto btn-white"
-                    text={"CANCEL"}
-                    onClick={onClose}
-                    disabled={isSubmitting || isDownloading}
-                  />
-
-                  <Submit
-                    className="no-spacing small-button width-auto success-button"
-                    text={isSubmitting ? "Loading..." : "SUBMIT"}
-                    onClick={handleSubmit}
-                    disabled={isSubmitting || !selectedFile || isDownloading}
-                  />
-                </div>
-              </div>
-            </div>
+            )}
           </>
         )}
       </div>
@@ -299,14 +329,11 @@ UploadCSVPopup.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onDownloadTemplate: PropTypes.func,
   title: PropTypes.string,
-  downloadAPI: PropTypes.string.isRequired,
+  downloadAPI: PropTypes.object.isRequired,
   downloadFileName: PropTypes.string,
   isSubmitting: PropTypes.bool,
-  setIsUploading: PropTypes.func.isRequired,
-  refetchApi: PropTypes.func,
   isDownloadButton: PropTypes.bool,
   errorData: PropTypes.array,
-  setErrorData: PropTypes.func,
 };
 
 export default UploadCSVPopup;

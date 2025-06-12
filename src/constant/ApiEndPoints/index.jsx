@@ -1,6 +1,10 @@
-/****
- * You can put only enpoint of apis inside apiEndpoints object
+/*
+ * File: index.jsx (Contains API endpoints)
+ * Author: HARSH CHAUHAN
+ * Created Date: May 29th, 2025
+ * Description: You can put only enpoint of apis inside apiEndpoints object.
  */
+
 export const apiEndpoints = {
   /* ---------------------------------- authentication endpoints ---------------------------------- */
   ENDPOINTS_REINVITE_OPPONENT: "/api/leaderboard/reinvite-opponent",
@@ -32,5 +36,7 @@ export const apiEndpoints = {
 
   /* ---------------------------------- Contest endpoints ---------------------------------- */
   ENDPOINTS_GET_CONTEST_DOWNLOAD_CSV:'/api/contests/downlaod-contest-template',
+  ENDPOINTS_POST_CONTEST_UPLOAD_CSV:'/api/contests/upload-fake-participents',
+
   
 };

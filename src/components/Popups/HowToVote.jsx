@@ -94,10 +94,10 @@ const HowToVote = ({ onClose }) => {
                   before?
                 </p>
               </div>
-              <p className="popup-message narrow-message">
+              {/* <p className="popup-message narrow-message">
                 Vote for the photo you believe best fits the contest — based on{" "}
                 <em>your</em> personal judgment.
-              </p>
+              </p> */}
             </div>
           )}
 

@@ -13,7 +13,6 @@ const CreateContest = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
   const [isSubmmiting, setIsSubmmiting] = useState(false);
   const [entryFee, setEntryFee] = useState("");
-  const [prizePool, setPrizePool] = useState("");
   const [prizes, setPrizes] = useState(["", "", ""]);
   const [submissionStart, setSubmissionStart] = useState("");
   const [submissionEnd, setSubmissionEnd] = useState("");
@@ -77,7 +76,6 @@ const CreateContest = () => {
     setIsSubmmiting(false);
     setSelectedTheme("");
     setEntryFee("");
-    setPrizePool("");
     setPrizes(["", "", ""]);
     setSubmissionStart("");
     setSubmissionEnd("");
@@ -91,7 +89,6 @@ const CreateContest = () => {
     if (
       !selectedTheme ||
       !entryFee ||
-      !prizePool ||
       !submissionStart ||
       !submissionEnd ||
       !votingStart ||
@@ -106,7 +103,6 @@ const CreateContest = () => {
       creator_id: user?.id,
       theme_id: selectedTheme,
       entry_fee: parseInt(entryFee),
-      prize_pool: parseFloat(prizePool),
       winnings: {
         first: parseFloat(prizes[0]) || 0,
         second: parseFloat(prizes[1]) || 0,
@@ -207,22 +203,6 @@ const CreateContest = () => {
         <div className="flex-row">
           <div className="section-card prizes-section half-width">
             <h3 className="section-title">Prize Distribution</h3>
-            <div className="field-box">
-              <label className="form-label admin-label" htmlFor="price-poll">
-                Prize Pool <span className="star-required">*</span>
-              </label>
-              <div className="input-box">
-                <input
-                  className="form-input admin-input "
-                  id="price-poll"
-                  placeholder="Prize pool"
-                  type="number"
-                  value={prizePool}
-                  disabled={isSubmmiting}
-                  onChange={(e) => setPrizePool(e.target.value)}
-                />
-              </div>
-            </div>
 
             {["1st Place", "2nd Place", "3rd Place"].map((label, index) => (
               <div key={index} className="field-box">

@@ -313,7 +313,7 @@ $cta-pressed-2: var(--cta-pressed-2);
   &.m0 {
     margin: 0;
   }
-  &.centered{
+  &.centered {
     justify-content: center;
   }
   &.header-with-back {
@@ -492,6 +492,9 @@ $cta-pressed-2: var(--cta-pressed-2);
 .common-table-container {
   overflow-y: auto;
   width: 100%;
+  &.max500{
+    max-height: 45dvh
+  }
   @include tablerScroll();
 }
 .reports-container {
@@ -931,5 +934,95 @@ $cta-pressed-2: var(--cta-pressed-2);
   @-moz-document url-prefix() {
     padding-right: 45px;
     text-overflow: ellipsis;
+  }
+}
+
+// Winner Skeleton Card Styles
+.winner-skeleton-card {
+  width: 246px;
+  height: 252px;
+  background: var(--accent);
+  border: 3px solid var(--dark);
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  &.full {
+    width: 100%;
+    height: 291px;
+    .skeleton-image {
+      height: 220px;
+    }
+  }
+  &.with-shadow {
+    box-shadow: 6px 6px 0px #464242; /* Shadow for the card */
+  }
+
+  .skeleton-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(
+      90deg,
+      var(--disabled) 25%,
+      var(--disabled-light) 50%,
+      var(--disabled) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 0;
+  }
+
+  .skeleton-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .skeleton-line {
+    background: linear-gradient(
+      90deg,
+      var(--disabled) 25%,
+      var(--disabled-light) 50%,
+      var(--disabled) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 0;
+    height: 16px;
+
+    &.skeleton-title {
+      width: 80%;
+      height: 20px;
+    }
+
+    &.skeleton-subtitle {
+      width: 60%;
+      height: 14px;
+    }
+  }
+}
+
+// Upload Error Message Styles
+.upload-error-message-container {
+  border: 1px solid var(--complete); // Red border from global.css
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: var(--complete);
+
+  .error-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .error-text {
+      margin: 0;
+      .error-title {
+        font-weight: 500;
+        font-family: "Azeret Mono", monospace;
+        font-size: 12px;
+      }
+
+    }
   }
 }

@@ -356,8 +356,8 @@
 
 .vote-actions {
   position: absolute;
-  top: 35px;
-  right: 40px;
+  top:40px;
+  right: 50px;
   display: flex;
   gap: 16px;
   z-index: 20;

@@ -5,6 +5,7 @@ import { useAuth } from "../../context/UseAuth"; // ✅ Auth hook
 import "../../styles/components/MySubmission.css";
 import MySubmissionCard from "./MySubmissionCard";
 import PersonalSubmission from "./PersonalSubmission";
+import WinnerSkeletonCard from "./WinnerSkeletonCard";
 
 const MySubmissions = ({
   userId,
@@ -104,7 +105,13 @@ const MySubmissions = ({
   return (
     <div className="my-submissions-container">
       {loading ? (
-        <p>Loading...</p>
+        <div className="my-submissions-grid with-more-gap">
+          {[...Array(8)].map((_, index) => (
+            <div key={index}>
+              <WinnerSkeletonCard isFull={true} withShadow={true} />
+            </div>
+          ))}
+        </div>
       ) : !isLoggedIn ? (
         <div className="no-submissions">
           <div className="dashed-box">

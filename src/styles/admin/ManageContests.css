@@ -69,15 +69,19 @@
   }
   
   .status.upcoming {
-    background-color: #4caf50;
-    color: white;
+    background-color: #ffcc00;
+    color: #333;
   }
   
   .status.live {
-    background-color: #e91e63;
+    background-color: #28a745;
     color: white;
   }
   
+  .status.complete {
+    background-color: #dc3545;
+    color: white;
+  }
   .status.past {
     background-color: #f48fb1;
     color: white;
@@ -159,7 +163,7 @@
 
 .status {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 8px;
   font-weight: bold;
   text-transform: uppercase;

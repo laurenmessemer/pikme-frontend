@@ -172,9 +172,13 @@ const Users = () => {
       });
 
       if (checkSuccessResponse(response)) {
-        ToastUtils.success(
-          response?.data?.message || "CSV uploaded successfully"
-        );
+        if (response?.data?.count === 0) {
+          ToastUtils.error(response?.data?.message || "No data uploaded");
+        } else {
+          ToastUtils.success(
+            response?.data?.message || "CSV uploaded successfully"
+          );
+        }
         // Refresh users list after successful upload
         fetchUsers();
         if (response?.data?.userErrorArr.length > 0) {
@@ -406,7 +410,7 @@ const Users = () => {
         <UploadCSVPopup
           title="Upload CSV"
           onClose={() => {
-            setShowUploadPopup(false)
+            setShowUploadPopup(false);
             setErrorData([]);
             setIsUploading(false);
           }}
@@ -414,11 +418,8 @@ const Users = () => {
           downloadAPI={GET_USERS_DOWNLOAD_CSV}
           downloadFileName="users_template.csv"
           isSubmitting={isUploading}
-          setIsUploading={setIsUploading}
-          refetchApi={fetchUsers}
           isDownloadButton={true}
           errorData={errorData}
-          setErrorData={setErrorData}
         />
       )}
     </div>
