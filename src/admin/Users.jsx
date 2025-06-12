@@ -243,6 +243,7 @@ const Users = () => {
                   { key: "referral_code", label: "Code" },
                   { key: "referral_bonus_awarded", label: "Bonus" },
                   { key: "is_verified", label: "Verified" },
+                  { key: "is_uploaded", label: "Fake User" },
                   { key: "status", label: "Status" },
                   // { key: "suspended", label: "Suspended" },
                   { key: "actions", label: "Actions" },
@@ -323,6 +324,8 @@ const Users = () => {
                         onChange={(e) => handleInputChange(e, "is_verified")}
                       />
                     </td>
+                    <td>---
+                    </td>
                     {/* <td>
                     <input
                       type="checkbox"
@@ -361,7 +364,6 @@ const Users = () => {
                   </tr>
                 ) : (
                   <tr key={user.id}>
-                    {console.log("user: ", user)}
                     <td>{user.id}</td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
@@ -371,6 +373,7 @@ const Users = () => {
                     <td>{user.referral_code || "—"}</td>
                     <td>{user.referral_bonus_awarded === true ? "✅" : "—"}</td>
                     <td>{user.is_verified === true ? "✅" : "—"}</td>
+                    <td>{user.is_uploaded === true ? "✅" : "—"}</td>
                     {/* <td>{user.suspended === true ? "🚫" : "—"}</td> */}
                     <td>
                       {user.status === "Ban" ? (
