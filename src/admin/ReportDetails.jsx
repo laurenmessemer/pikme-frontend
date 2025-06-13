@@ -187,12 +187,22 @@ const ReportDetails = () => {
                   </span>
                 </div>
                 <div className="detail-row">
-                  <span className="detail-label">Contest ID:</span>
+                  <span className="detail-label">Competition ID:</span>
                   <span className="detail-value">
                     {flaggedDataLoading ? (
                       <div className="skeleton-only-line"></div>
                     ) : (
                       <>{flaggedReportData?.report?.competition_id || "-"}</>
+                    )}
+                  </span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Contest ID:</span>
+                  <span className="detail-value">
+                    {flaggedDataLoading ? (
+                      <div className="skeleton-only-line"></div>
+                    ) : (
+                      <>{flaggedReportData?.report?.Competition?.contest_id || "-"}</>
                     )}
                   </span>
                 </div>

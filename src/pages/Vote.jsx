@@ -44,6 +44,7 @@ const Vote = () => {
   const [currentContestId, setCurrentContestId] = useState(null);
   const [votedCompetitionIds, setVotedCompetitionIds] = useState([]);
   const [playLottie, setPlayLottie] = useState(false); // 👈 Start false
+  const [isVoting, setIsVoting] = useState(false); // Add voting state
 
   const [reportMode, setReportMode] = useState(false);
   const [reportSelectedImage, setReportSelectedImage] = useState(null);
@@ -54,7 +55,6 @@ const Vote = () => {
   const { user, token } = useAuth();
   const userId = user?.id;
   const isLoggedIn = !!user;
-  const currentUserId = isLoggedIn ? user.id : 99999;
 
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const hasFetchedInitialCompetition = useRef(false);
@@ -273,10 +273,15 @@ const Vote = () => {
     const current = competitions[currentCompetitionIndex];
     if (!current) return;
 
+    // Prevent multiple clicks while voting is in progress
+    if (isVoting) return;
+
     if (!isLoggedIn && anonVoteCount >= 3) {
       setShowLoginPrompt(true);
       return;
     }
+
+    setIsVoting(true); // Set voting state to true
 
     try {
       await axios.post(
@@ -284,7 +289,7 @@ const Vote = () => {
         {
           competitionId: current.id,
           selectedImage,
-          voterId: currentUserId,
+          voterId: token && userId ? userId : 99999, // Use 99999 for anonymous votes
         },
         {
           headers: {
@@ -331,6 +336,8 @@ const Vote = () => {
         ? ToastUtils.error(err?.response?.data?.message)
         : "";
       setError("Vote failed. Try again.");
+    } finally {
+      setIsVoting(false); // Reset voting state regardless of success/failure
     }
   };
 
@@ -339,6 +346,7 @@ const Vote = () => {
       setSelected(null);
       setAnimationComplete(false);
       setPlayLottie(true); // ✅ reset to play animation again
+      setIsVoting(false); // ✅ reset voting state for next competition
 
       const nextIndex = currentCompetitionIndex + 1;
       if (nextIndex < competitions.length) {
@@ -435,7 +443,7 @@ const Vote = () => {
               await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/reports/submit`,
                 {
-                  reporterId: currentUserId,
+                  reporterId: token && userId ? userId : 99999, // Use 99999 for anonymous votes,
                   competitionId: competition.id,
                   imageUrl,
                   categories,
@@ -604,12 +612,19 @@ const Vote = () => {
                         <div
                           className={`vote-wrapper ${
                             isSelected ? "selected" : ""
-                          }`}
-                          onClick={() =>
+                          } ${isVoting ? "voting-disabled" : ""}`}
+                          onClick={() => {
+                            // Prevent clicks while voting is in progress
+                            if (isVoting || isSelected) return;
+                            
                             reportMode || showReportPopup || showReportReceived
                               ? setReportSelectedImage(image)
-                              : handleVote(image)
-                          }
+                              : handleVote(image);
+                          }}
+                          style={{
+                            pointerEvents: isVoting ? "none" : "auto",
+                            opacity: isVoting ? 0.7 : 1
+                          }}
                         >
                           <LazyImage
                             src={image}

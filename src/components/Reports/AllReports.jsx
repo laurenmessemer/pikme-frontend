@@ -99,12 +99,20 @@ const AllReports = () => {
       cell: (row) => row?.Competition?.Contest?.Theme?.name ?? "-",
     },
     {
-      name: "Contest ID",
+      name: "Competition ID",
       selector: (row) => row?.competition_id,
+      minWidth: "150px",
+      width: "150px",
+      center: true,
+      cell: (row) => row?.competition_id ?? "-",
+    },
+    {
+      name: "Contest ID",
+      selector: (row) => row?.Competition?.contest_id,
       minWidth: "130px",
       width: "130px",
       center: true,
-      cell: (row) => row?.competition_id ?? "-",
+      cell: (row) => row?.Competition?.contest_id ?? "-",
     },
     {
       name: "Report Category",
