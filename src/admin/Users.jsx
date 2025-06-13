@@ -108,7 +108,7 @@ const Users = () => {
           token_balance: parseInt(editedUser.token_balance, 10) || 0,
           referred_by_id: editedUser.referred_by_id,
           referral_code: editedUser.referral_code,
-          referral_bonus_awarded: editedUser.referral_bonus_awarded,
+          // referral_bonus_awarded: editedUser.referral_bonus_awarded,
           is_verified: editedUser.is_verified,
           verification_token: editedUser.verification_token,
           // suspended: editedUser.suspended,
@@ -241,7 +241,7 @@ const Users = () => {
                   { key: "token_balance", label: "Tokens" },
                   { key: "referred_by_id", label: "Ref By" },
                   { key: "referral_code", label: "Code" },
-                  { key: "referral_bonus_awarded", label: "Bonus" },
+                  // { key: "referral_bonus_awarded", label: "Bonus" },
                   { key: "is_verified", label: "Verified" },
                   { key: "is_uploaded", label: "Fake User" },
                   { key: "status", label: "Status" },
@@ -308,7 +308,7 @@ const Users = () => {
                         onChange={(e) => handleInputChange(e, "referral_code")}
                       />
                     </td>
-                    <td>
+                    {/* <td>
                       <input
                         type="checkbox"
                         checked={editedUser.referral_bonus_awarded === true}
@@ -316,7 +316,7 @@ const Users = () => {
                           handleInputChange(e, "referral_bonus_awarded")
                         }
                       />
-                    </td>
+                    </td> */}
                     <td>
                       <input
                         type="checkbox"
@@ -371,7 +371,7 @@ const Users = () => {
                     <td>{user.token_balance ?? 0}</td>
                     <td>{user.referred_by_id ?? "—"}</td>
                     <td>{user.referral_code || "—"}</td>
-                    <td>{user.referral_bonus_awarded === true ? "✅" : "—"}</td>
+                    {/* <td>{user.referral_bonus_awarded === true ? "✅" : "—"}</td> */}
                     <td>{user.is_verified === true ? "✅" : "—"}</td>
                     <td>{user.is_uploaded === true ? "✅" : "—"}</td>
                     {/* <td>{user.suspended === true ? "🚫" : "—"}</td> */}
