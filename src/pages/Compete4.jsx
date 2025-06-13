@@ -8,7 +8,6 @@ const Compete = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const handleUpload = (file) => {
-    console.log("Uploaded file:", file.name);
     setUploadedFile(URL.createObjectURL(file));
   };
 

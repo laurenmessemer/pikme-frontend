@@ -29,7 +29,6 @@ const StepFourInviteWrapper = () => {
           }
         );
         const data = await res.json();
-        console.log("data: ", data);
 
         if (!res.ok) throw new Error(data.message || "Invalid invite code.");
         setCompetition(data.competition);

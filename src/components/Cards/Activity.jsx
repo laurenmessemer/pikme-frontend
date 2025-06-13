@@ -12,32 +12,6 @@ const tokenImg = "https://d38a0fe14bafg9.cloudfront.net/icons/token.svg";
 const pointerIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/pointer.svg";
 const fileIcon = `${ImageUrl}/icons/file.svg`;
 
-const MIN_REQUIRED_COUNT = 2;
-
-// 🎭 Fake fallback entries
-const fallbackVoters = [
-  { username: "LunaWrites", count: 2 },
-  { username: "Ash_17", count: 2 },
-  { username: "marblemesa", count: 1 },
-  { username: "Cambria.Skye", count: 2 },
-  { username: "solsticePath", count: 2 },
-  { username: "EchoHollow", count: 1 },
-  { username: "grace.note", count: 1 },
-  { username: "avellino_rise", count: 1 },
-  { username: "quietpine", count: 2 },
-];
-
-const fallbackReferrers = [
-  { username: "NightFox_22", count: 1 },
-  { username: "violetVerse", count: 1 },
-  { username: "aloe.vibes", count: 1 },
-  { username: "JunoTheMoon", count: 1 },
-  { username: "mossytrail", count: 1 },
-  { username: "PixelRider", count: 1 },
-  { username: "FinchWanderer", count: 1 },
-  { username: "neonleaf", count: 1 },
-  { username: "harborlight", count: 1 },
-];
 
 const Activity = () => {
   const { user: authUser, token } = useAuth();
@@ -113,20 +87,45 @@ const Activity = () => {
   // }, [referrers]);
 
   const mergedVoters = useMemo(() => {
-    // Sort voters to put non-uploaded first, then uploaded
-    return [...voters].sort((a, b) => {
-      if (a.isUploaded === b.isUploaded) return 0;
-      return a.isUploaded ? 1 : -1;
+    // Map voters and add random count for uploaded users
+    const processedVoters = [...voters].map((voter) => {
+      if (voter.isUploaded === true) {
+        return {
+          ...voter,
+          count: Math.floor(Math.random() * 13) + 1 // Random number between 1-13
+        };
+      }
+      return voter;
     });
+
+    // Separate non-uploaded and uploaded users
+    const nonUploaded = processedVoters.filter(v => !v.isUploaded).sort((a, b) => b.count - a.count);
+    const uploaded = processedVoters.filter(v => v.isUploaded).sort((a, b) => b.count - a.count);
+
+    // Return non-uploaded first, then uploaded
+    return [...nonUploaded, ...uploaded];
   }, [voters]);
 
   const mergedReferrers = useMemo(() => {
-    // Sort referrers to put non-uploaded first, then uploaded
-    return [...referrers].sort((a, b) => {
-      if (a.isUploaded === b.isUploaded) return 0;
-      return a.isUploaded ? 1 : -1;
+    // Map referrers and add random count for uploaded users
+    const processedReferrers = [...referrers].map((referrer) => {
+      if (referrer.isUploaded === true) {
+        return {
+          ...referrer,
+          count: Math.floor(Math.random() * 3) + 1 // Random number between 1-3
+        };
+      }
+      return referrer;
     });
+
+    // Separate non-uploaded and uploaded users
+    const nonUploaded = processedReferrers.filter(r => !r.isUploaded).sort((a, b) => b.count - a.count);
+    const uploaded = processedReferrers.filter(r => r.isUploaded).sort((a, b) => b.count - a.count);
+
+    // Return non-uploaded first, then uploaded
+    return [...nonUploaded, ...uploaded];
   }, [referrers]);
+  
   const renderToken = () => (
     <img
       src={tokenImg}
@@ -155,7 +154,7 @@ const Activity = () => {
             className="activity-icon"
             onError={onImageError}
           />
-          <h2>Top Voters</h2>
+          <h2>Top 10 Voters</h2>
         </div>
         <ThemeTimer />
         <p className="activity-subtext">Most votes cast this week</p>
@@ -185,6 +184,7 @@ const Activity = () => {
                     className="activity-leaderboard-card"
                   >
                     <div className="rank-badge-wrapper">
+                      {i >= 3 && <div className="rank-number">{i + 1}</div>}
                       {i === 0 && (
                         <LazyImage
                           src={
@@ -243,7 +243,7 @@ const Activity = () => {
       <div className="activity-column">
         <div className="activity-header">
           <img src={fileIcon} alt="Referrals Icon" className="activity-icon" />
-          <h2>Top Referrers</h2>
+          <h2>Top 10 Referrers</h2>
         </div>
         <ThemeTimer />
         <p className="activity-subtext">
@@ -275,6 +275,7 @@ const Activity = () => {
                     className="activity-leaderboard-card"
                   >
                     <div className="rank-badge-wrapper">
+                      {i >= 3 && <div className="rank-number">{i + 1}</div>}
                       {i === 0 && (
                         <img
                           src="https://d38a0fe14bafg9.cloudfront.net/icons/firstplace.svg"

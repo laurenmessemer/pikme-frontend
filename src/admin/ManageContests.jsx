@@ -116,8 +116,8 @@ const ManageContests = () => {
 
       // Create FormData object and append the file
       const formData = new FormData();
-      formData.append("csv", file);
       formData.append("constestId", uploadCsvId?.id);
+      formData.append("file", file);
 
       const response = await api({
         endpoint: POST_CONTEST_UPLOAD_CSV,

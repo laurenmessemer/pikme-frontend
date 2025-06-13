@@ -98,9 +98,13 @@ const HeadStats = () => {
   if (error) return <p className="error-message">{error}</p>;
   if (!contestData) return <p>No active contests right now.</p>;
 
-  const loggedInUser = groupedUsers.find(
+  const loggedInUserIndex = groupedUsers.findIndex(
     (u) => String(u.id) === String(authUser?.id)
   );
+  const loggedInUser = loggedInUserIndex !== -1 
+    ? { ...groupedUsers[loggedInUserIndex], rank: loggedInUserIndex + 1 }
+    : null;
+
   const imagesToShow =
     groupedUsers.find((u) => u.id === hoveredUserId)?.images ||
     loggedInUser?.images ||
@@ -254,15 +258,17 @@ const HeadStats = () => {
               </div>
             </Dropdown>
           </div>
-          <div className="headstats-my-submission">
+          <div className="headstats-my-submission with-number">
             {authUser ? (
               loggedInUser ? (
                 <>
-                  <LazyImage
-                    src={loggedInUser.images[0].imageUrl}
-                    alt="My Submission"
-                    className="headstats-my-submission-image"
-                  />
+                  <div className="headstats-my-submission-image">
+                    <div className="rank-number">{loggedInUser?.rank}</div>
+                    <LazyImage
+                      src={loggedInUser.images[0].imageUrl}
+                      alt="My Submission"
+                    />
+                  </div>
                   <div className="headstats-my-submission-info">
                     <p className="headstats-my-submission-username">Me</p>
                   </div>
@@ -273,7 +279,7 @@ const HeadStats = () => {
               ) : (
                 <div className="headstats-my-submission-placeholder">
                   <p className="headstats-my-submission-invite">
-                    You haven’t entered yet!
+                    You haven't entered yet!
                   </p>
                 </div>
               )
@@ -298,7 +304,7 @@ const HeadStats = () => {
             return (
               <div
                 key={user.id}
-                className="leaderboard-card no-space"
+                className="leaderboard-card no-space with-number"
                 onMouseEnter={() => setHoveredUserId(user.id)}
                 onMouseLeave={() => setHoveredUserId(null)}
               >
@@ -318,11 +324,14 @@ const HeadStats = () => {
                   </div>
                 )}
                 <div className="leaderboard-content-headstats">
-                  <LazyImage
-                    src={user.images[0].imageUrl}
-                    alt={user.username}
-                    className="submission-image"
-                  />
+                  <div className="submission-image">
+                    <div className="rank-number">{i >= 3 && <>{i + 1}</>}</div>
+                    <LazyImage
+                      src={user.images[0].imageUrl}
+                      alt={user.username}
+                      className=""
+                    />
+                  </div>
                   <div className="user-info">
                     <p className="username">{user.username}</p>
                     {user.earnings !== "0" && (

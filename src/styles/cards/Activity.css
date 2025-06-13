@@ -103,6 +103,10 @@
   margin-right: 10px;
   flex-shrink: 0;
 }
+.rank-badge-wrapper .rank-number{
+  background: transparent;
+  border: 0;
+}
 
 .rank-icon {
   width: 80px;

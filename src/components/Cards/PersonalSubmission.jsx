@@ -224,13 +224,27 @@ const PersonalSubmission = ({
           <div className="ps-column">
             {/* User Submission */}
             <div className="ps-opponent-card">
-              <LazyImage
-                src={
-                  currentUserEntry?.imageUrl || contestData?.userEntry?.imageUrl
-                }
-                alt="My Submission"
-                className="ps-my-image"
-              />
+              {isComplete && (
+                <LazyImage
+                  src={
+                    isWinner
+                      ? "https://d38a0fe14bafg9.cloudfront.net/icons/firstplace.svg"
+                      : "https://d38a0fe14bafg9.cloudfront.net/icons/secondplace.svg"
+                  }
+                  alt={isWinner ? "Winner" : "Loser"}
+                  className="complete-rank-icon"
+                />
+              )}
+              <div className="ps-my-image">
+                <LazyImage
+                  src={
+                    currentUserEntry?.imageUrl ||
+                    contestData?.userEntry?.imageUrl
+                  }
+                  alt="My Submission"
+                  className=""
+                />
+              </div>
               <div className="ps-opponent-info">
                 <p className="ps-username name-with-medal">
                   {isComplete ? (
@@ -282,11 +296,20 @@ const PersonalSubmission = ({
                   <>
                     <div className="user-submission-divider no-space"></div>
                     <div className="ps-opponent-card">
-                      <img
-                        src={opponentEntry.imageUrl}
-                        alt="Opponent"
-                        className="ps-opponent-img"
-                      />
+                      {isComplete && (
+                        <LazyImage
+                          src={
+                            !isWinner
+                              ? "https://d38a0fe14bafg9.cloudfront.net/icons/firstplace.svg"
+                              : "https://d38a0fe14bafg9.cloudfront.net/icons/secondplace.svg"
+                          }
+                          alt={!isWinner ? "Winner" : "Loser"}
+                          className="complete-rank-icon"
+                        />
+                      )}
+                      <div className="ps-opponent-img">
+                        <img src={opponentEntry.imageUrl} alt="Opponent" />
+                      </div>
                       <div className="ps-opponent-info">
                         <p className="ps-username name-with-medal">
                           {isComplete ? (

@@ -1,12 +1,14 @@
 import { useReport } from "../../contexts/ReportContext.jsx";
 import { usePagination } from "../../hooks/usePagination.jsx";
 import CommonDataTable from "../common/DataTable.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import WinnerImagePopup from "../Popups/WinnerImagePopup.jsx";
 
 const ReportedImages = () => {
   const { reportedImages, reportedImagesLoading, fetchReportedImages } =
     useReport();
 
+  const [selectedImage, setSelectedImage] = useState(null);
   //** Pagination
   const { paginationData, setPaginationData } = usePagination({
     perPageData: 5,
@@ -28,24 +30,35 @@ const ReportedImages = () => {
       cell: (row) => row?.reported_user_id ?? "-",
     },
     {
+      name: "Image",
+      selector: (row) => row?.image_url,
+      width: "80px",
+      center: true,
+      minWidth: "80px",
+      cell: (row) =>
+        row?.image_url ? (
+          <img
+            src={row.image_url}
+            onClick={() => setSelectedImage(row.image_url)}
+            alt="Reported content"
+            style={{
+              width: "50px",
+              height: "50px",
+              objectFit: "cover",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          />
+        ) : (
+          "-"
+        ),
+    },
+    {
       name: "Theme",
       selector: (row) => row?.theme_name,
       minWidth: "120px",
       cell: (row) => row?.theme_name ?? "-",
     },
-    // {
-    //   name: "Image",
-    //   selector: (row) => row?.image_url,
-    //   width: "100px",
-    //   cell: (row) =>
-    //     row?.image_url ? (
-    //       <img
-    //         src={row.image_url}
-    //         alt="Reported content"
-    //         style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "4px" }}
-    //       />
-    //     ) : "-"
-    // },
     {
       name: "Username",
       selector: (row) => row?.username,
@@ -85,6 +98,13 @@ const ReportedImages = () => {
         title="Flagged Entries (Images)"
         sortServer
       />
+      {selectedImage && (
+        <WinnerImagePopup
+          imageUrl={selectedImage}
+          onClose={() => setSelectedImage(null)}
+          isFullView={true}
+        />
+      )}
     </div>
   );
 };

@@ -6,7 +6,6 @@ const API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 
 const CreateContest = () => {
   const { token, user } = useAuth();
-  console.log("user: ", user);
   const [themes, setThemes] = useState([]); // Available themes
   const [selectedTheme, setSelectedTheme] = useState("");
   const [entryFee, setEntryFee] = useState("");

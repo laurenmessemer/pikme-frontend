@@ -6,11 +6,11 @@ import WinnerLatestCard from "../components/Cards/WinnerLatestCard";
 import WinnerSkeletonCard from "../components/Cards/WinnerSkeletonCard";
 import axios from "axios";
 import { useAuth } from "../context/UseAuth";
+import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 
 const LandingPage = () => {
   const { token } = useAuth();
   const [cards, setCards] = useState([]);
-  console.log("cards: ", cards);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -174,10 +174,6 @@ const LandingPage = () => {
                 <div
                   className="landing-winner-card-wrapper"
                   key={`${card.key}-${index}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                  }}
                 >
                   <WinnerLatestCard
                     startDate={card.startDate}
@@ -191,6 +187,8 @@ const LandingPage = () => {
                     isThemeCard={card.isThemeCard}
                     position={card.position}
                     isNewCardUI={true}
+                    isDeksTop={true}
+                    isLandingWinnersOption={true}
                   />
                 </div>
               ))}

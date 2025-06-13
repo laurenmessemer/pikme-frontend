@@ -164,7 +164,7 @@ const Users = () => {
 
       // Create FormData object and append the file
       const formData = new FormData();
-      formData.append("csv", file);
+      formData.append("file", file);
 
       const response = await api({
         endpoint: POST_USERS_UPLOAD_CSV,

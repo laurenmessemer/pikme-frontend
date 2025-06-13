@@ -43,6 +43,34 @@
   gap: 30px;
   margin-top: 20px;
   align-items: flex-start;
+  position: relative;
+}
+.ps-content .complete-rank-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  z-index: 9;
+}
+.ps-my-image,
+.ps-opponent-img{
+  position: relative;
+}
+.ps-my-image::after,
+.ps-opponent-img::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: rgba(61, 61, 61, 0.4); 
+  border: 0;
+  z-index: 1;
+  color: var(--light);
+
 }
 
 .ps-column {
@@ -63,7 +91,8 @@
   box-sizing: border-box;
 }
 
-.ps-my-image {
+.ps-my-image ,
+.ps-my-image img{
   width: 80px;
   height: 80px;
   border-radius: 8px;
@@ -141,9 +170,11 @@
   padding: 10px;
   background: var(--light);
   gap: 15px;
+  position: relative;
 }
 
-.ps-opponent-img {
+.ps-opponent-img,
+.ps-opponent-img img {
   width: 80px;
   height: 80px;
   border-radius: 8px;
@@ -333,4 +364,12 @@
   gap: 10px;
   margin-top: 1em;
   transform: scale(0.8);
+}
+
+/* 📱 Mobile Responsive Styles for Activity */
+@media (max-width: 768px) {
+  .complete-rank-icon {
+    width: 60px;
+    height: 60px;
+  }
 }

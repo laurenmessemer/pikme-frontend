@@ -19,15 +19,14 @@
   overflow: hidden;
   flex-direction: column;
   border: 3px solid var(--dark);
-  cursor: pointer;
 }
 .winner-card.full-width {
   max-width: 100%;
 }
 
 .winner-card:active {
-  transform: scale(0.98);
-  transition: transform 0.1s ease;
+  /* transform: scale(0.98);
+  transition: transform 0.1s ease; */
 }
 
 /* Image Container */
@@ -49,6 +48,10 @@
   height: auto;
   aspect-ratio: 4 / 3;
   max-height: 80%;
+}
+.card-image:not(.desktop-top){
+  cursor: pointer;
+
 }
 
 /* Winner Label */

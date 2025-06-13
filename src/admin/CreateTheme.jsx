@@ -8,7 +8,6 @@ import ToastUtils from "../utils/ToastUtils";
 const CreateTheme = () => {
   const [themeName, setThemeName] = useState("");
   const [description, setDescription] = useState("");
-  const [specialRules, setSpecialRules] = useState("");
   const [coverImage, setCoverImage] = useState(null); // ✅ Store image for preview
   const [coverImageUrl, setCoverImageUrl] = useState(""); // ✅ Store S3 URL
   const [error, setError] = useState("");
@@ -90,7 +89,6 @@ const CreateTheme = () => {
         {
           themeName,
           description,
-          specialRules,
           coverImageUrl, // ✅ Send S3 URL
         },
         {
@@ -107,7 +105,6 @@ const CreateTheme = () => {
       // Reset form
       setThemeName("");
       setDescription("");
-      setSpecialRules("");
       setCoverImage(null);
       setCoverImageUrl(""); // Reset for the next theme
     } catch (err) {
@@ -155,12 +152,6 @@ const CreateTheme = () => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          />
-
-          <label>Special Rules:</label>
-          <textarea
-            value={specialRules}
-            onChange={(e) => setSpecialRules(e.target.value)}
           />
         </div>
       </div>

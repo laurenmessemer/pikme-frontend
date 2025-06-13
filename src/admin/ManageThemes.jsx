@@ -82,7 +82,7 @@ const ManageThemes = () => {
 
     try {
       const formData = new FormData();
-      formData.append("coverImage", file);
+      formData.append("file", file);
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,
@@ -173,7 +173,7 @@ const ManageThemes = () => {
 
     try {
       const formData = new FormData();
-      formData.append("coverImage", file);
+      formData.append("file", file);
 
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/themes/direct-upload`,

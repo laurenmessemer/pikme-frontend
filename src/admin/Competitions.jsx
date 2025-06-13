@@ -209,6 +209,8 @@ const Competitions = () => {
                 <th>User 2</th>
                 <th>Votes (User 1)</th>
                 <th>Votes (User 2)</th>
+                <th>Image (User 1)</th>
+                <th>Image (User 2)</th>
                 <th>Winner</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -274,6 +276,42 @@ const Competitions = () => {
                       />
                     ) : (
                       comp.votes_user2
+                    )}
+                  </td>
+                  <td>
+                    {comp.user1_image ? (
+                      <LazyImage
+                        src={comp?.user1_image}
+                        alt={comp?.User1?.username || "User Image"}
+                        style={{
+                          width: "60px",
+                          height: "40px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                        className="cursor-pointer"
+                        onClick={() => setSelectedImage(comp.user1_image)}
+                      />
+                    ) : (
+                      "N/A"
+                    )}
+                  </td>
+                  <td>
+                    {comp.user2_image ? (
+                      <LazyImage
+                        src={comp?.user2_image}
+                        alt={comp?.User2?.username || "User Image"}
+                        style={{
+                          width: "60px",
+                          height: "40px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                        className="cursor-pointer"
+                        onClick={() => setSelectedImage(comp.user2_image)}
+                      />
+                    ) : (
+                      "N/A"
                     )}
                   </td>
                   <td>

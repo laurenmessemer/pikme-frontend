@@ -121,10 +121,25 @@
   margin: 0;
 }
 /* ✅ My Submission Image */
-.headstats-my-submission-image {
+.headstats-my-submission-image,
+.headstats-my-submission-image img {
   width: 80px;
   height: 80px;
   border-radius: 8px;
+  object-fit: cover;
+  position: relative;
+}
+.headstats-my-submission.with-number .rank-number{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.4); 
+  border: 0;
+  z-index: 1;
+  color: var(--light);
 }
 
 /* ✅ My Submission Info */
@@ -192,6 +207,7 @@
   height: 80px;
   border-radius: 8px;
   position: relative;
+  object-fit: cover;
 }
 
 /* ✅ User Info */

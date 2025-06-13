@@ -40,6 +40,7 @@ const WinnerLatestCard = ({
   totalVotes,
   totalParticipants,
   isNewCardUI = false,
+  isDeksTop = false,
 }) => {
   const showDateBox = isThemeCard || isLandingWinnersOption;
   const isStandardCard = !isThemeCard || isLandingWinnersOption;
@@ -50,7 +51,7 @@ const WinnerLatestCard = ({
         isLandingWinnersOption ? "landing-winners-option" : ""
       } ${isNewCardUI ? "full-width" : ""}`}
     >
-      <div className="card-image">
+      <div className={`card-image ${isDeksTop ? "desktop-top" : ""}`}>
         <LazyImage
           src={image}
           alt={`${isStandardCard ? username : theme}'s entry`}
