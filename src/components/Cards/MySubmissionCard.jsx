@@ -9,7 +9,7 @@ const MySubmissionCard = ({
   image,
   username,
   theme,
-  contestStatus,
+  contest_status,
   position,
   payout,
   competition_id = 0,
@@ -21,8 +21,8 @@ const MySubmissionCard = ({
   const imageUrl =
     image || "https://d38a0fe14bafg9.cloudfront.net/uploads/default.jpg";
 
-  const statusClass = contestStatus
-    ? `status-${contestStatus.toLowerCase()}`
+  const statusClass = contest_status
+    ? `status-${contest_status.toLowerCase()}`
     : "status-unknown";
 
   return (
@@ -50,7 +50,7 @@ const MySubmissionCard = ({
 
       {/* Contest Status Label */}
       <div className={`my-submission-card__status-box ${statusClass}`}>
-        <span className="my-submission-card__status-text">{contestStatus}</span>
+        <span className="my-submission-card__status-text">{contest_status}</span>
       </div>
 
       {/* Content */}
@@ -87,7 +87,7 @@ MySubmissionCard.propTypes = {
   image: PropTypes.string,
   username: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
-  contestStatus: PropTypes.string.isRequired,
+  contest_status: PropTypes.string.isRequired,
   position: PropTypes.string,
   payout: PropTypes.string,
   isLoggedIn: PropTypes.bool,
