@@ -1,15 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
 import CustomSvgIcon from "../constant/CustomSvgIcons";
 import { useAuth } from "../context/UseAuth";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GET_BY_ID_REPORTED,
+  POST_ADMIN_REVIEW_IMAGE,
   POST_USER_REPORT_STATUS,
 } from "../constant/ApiUrls";
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import { api } from "../api";
 import LazyImage from "../components/Common/LazyImage";
 import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
+import ReplaceViolatedImagePopup from "../components/Popups/ReplaceViolatedImagePopup";
+import { REPORT_STATUS_CLASSES } from "../constant/appConstants";
 
 const ReportDetails = () => {
   const navigate = useNavigate();
@@ -18,48 +21,14 @@ const ReportDetails = () => {
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [flaggedReportData, setFlaggedReportData] = useState([]);
+  console.log("flaggedReportData: ", flaggedReportData);
   const [flaggedDataLoading, setFlaggedDataLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
+  const [isReplaceImageModel, setIsReplaceImageModel] = useState(false);
 
   const handleBackClick = () => {
     navigate(-1); // Go back to previous page
-  };
-
-  const handleButtonClick = async (type) => {
-    if (!type) return;
-
-    try {
-      setIsLoading(true);
-      setLoadingButton(type); // Set which button is loading
-
-      const response = await api({
-        endpoint: POST_USER_REPORT_STATUS,
-        payloadData: {
-          status: type,
-          reportId: UserId,
-        },
-      });
-
-      if (checkSuccessResponse(response)) {
-        // Update the local state to reflect the new status
-        setFlaggedReportData(prevData => ({
-          ...prevData,
-          report: {
-            ...prevData.report,
-            status: type
-          }
-        }));
-        setIsLoading(false);
-        setLoadingButton(null);
-      } else {
-      }
-    } catch (err) {
-      console.error("Failed:", err);
-    } finally {
-      setIsLoading(false);
-      setLoadingButton(null);
-    }
   };
 
   const fetchFlaggedDetails = async () => {
@@ -102,6 +71,85 @@ const ReportDetails = () => {
     // eslint-disable-next-line
   }, [UserId]);
 
+  const handleButtonClick = async (type) => {
+    if (!type) return;
+
+    try {
+      setIsLoading(true);
+      setLoadingButton(type); // Set which button is loading
+
+      const response = await api({
+        endpoint: POST_USER_REPORT_STATUS,
+        payloadData: {
+          status: type,
+          reportId: UserId,
+        },
+      });
+
+      if (checkSuccessResponse(response)) {
+        // Update the local state to reflect the new status
+        fetchFlaggedDetails(UserId);
+        setIsLoading(false);
+        setLoadingButton(null);
+      } else {
+      }
+    } catch (err) {
+      console.error("Failed:", err);
+    } finally {
+      setIsLoading(false);
+      setLoadingButton(null);
+    }
+  };
+
+  const handleApproveDenyClick = async (data) => {
+    if (!flaggedReportData?.report?.ViolationAction?.id) return;
+
+    try {
+      setIsLoading(true);
+      setLoadingButton(data?.type); // Set which button is loading
+
+      const response = await api({
+        endpoint: POST_ADMIN_REVIEW_IMAGE,
+        payloadData: {
+          violationActionId: flaggedReportData?.report?.ViolationAction?.id,
+          isApprove: data?.value,
+        },
+      });
+
+      if (checkSuccessResponse(response)) {
+        // Update the local state to reflect the new status
+        fetchFlaggedDetails(UserId);
+        setIsLoading(false);
+        setLoadingButton(null);
+      } else {
+      }
+    } catch (err) {
+      console.error("Failed:", err);
+    } finally {
+      setIsLoading(false);
+      setLoadingButton(null);
+    }
+  };
+  const handleUploadImage = () => {
+    setIsReplaceImageModel(true);
+  };
+
+  const finalImageUrl = useMemo(() => {
+    if (flaggedReportData?.report?.ViolationAction?.new_image_url) {
+      return flaggedReportData?.report?.ViolationAction?.new_image_url || "";
+    } else {
+      return flaggedReportData?.report?.image_url || "";
+    }
+  }, [flaggedReportData]);
+
+  const finalStatus = useMemo(() => {
+    if (flaggedReportData?.report?.ViolationAction?.status) {
+      return flaggedReportData?.report?.ViolationAction?.status || "";
+    } else {
+      return flaggedReportData?.report?.status || "";
+    }
+  }, [flaggedReportData]);
+
   return (
     <>
       <div className="reports-container">
@@ -120,15 +168,15 @@ const ReportDetails = () => {
                   <div className="image-skeleton"></div>
                 </div>
               </div>
-            ) : flaggedReportData?.report?.image_url ? (
+            ) : finalImageUrl ? (
               <div
                 className="image-card new-image-card"
                 onClick={() => {
-                  setSelectedImage(flaggedReportData?.report?.image_url);
+                  setSelectedImage(finalImageUrl);
                 }}
               >
                 <LazyImage
-                  src={flaggedReportData?.report?.image_url}
+                  src={finalImageUrl}
                   alt="Entry"
                   className="contest-image"
                 />
@@ -164,24 +212,12 @@ const ReportDetails = () => {
                     ) : (
                       <>
                         {flaggedReportData?.report?.ReportedUser?.username ||
-                          "-"}
-                        {flaggedReportData?.report?.status === "Violation" ? (
-                          <span
-                            className="status-tag ban"
-                            style={{ marginLeft: "8px" }}
-                          >
-                            Violation
-                          </span>
-                        ) : flaggedReportData?.report?.status === "No Violation" ? (
-                          <span
-                            className="status-tag warn"
-                            style={{ marginLeft: "8px" }}
-                          >
-                            No Violation
-                          </span>
-                        ) : (
-                          <></>
-                        )}
+                          "-"}{" "}
+                        <span
+                          className={`status-tag ${REPORT_STATUS_CLASSES[finalStatus]}`}
+                        >
+                          {finalStatus}
+                        </span>
                       </>
                     )}
                   </span>
@@ -202,7 +238,10 @@ const ReportDetails = () => {
                     {flaggedDataLoading ? (
                       <div className="skeleton-only-line"></div>
                     ) : (
-                      <>{flaggedReportData?.report?.Competition?.contest_id || "-"}</>
+                      <>
+                        {flaggedReportData?.report?.Competition?.contest_id ||
+                          "-"}
+                      </>
                     )}
                   </span>
                 </div>
@@ -271,22 +310,74 @@ const ReportDetails = () => {
               <button className="action-btn back-btn" onClick={handleBackClick}>
                 Back
               </button>
-              <button
-                className="action-btn warn-btn"
-                disabled={isLoading}
-                onClick={() => handleButtonClick("No Violation")}
-              >
-                {loadingButton === "No Violation"
-                  ? "Loading..."
-                  : "No Violation"}
-              </button>
-              <button
-                className="action-btn violation-btn"
-                onClick={() => handleButtonClick("Violation")}
-                disabled={isLoading}
-              >
-                {loadingButton === "Violation" ? "Loading..." : "Violation"}
-              </button>
+              {finalStatus === "Complete" ? (
+                <></>
+              ) : (
+                <>
+                  {finalStatus === "Admin Review Pending" ? (
+                    <>
+                      <button
+                        className="action-btn warn-btn"
+                        disabled={isLoading}
+                        onClick={() =>
+                          handleApproveDenyClick({
+                            type: "approve",
+                            value: true,
+                          })
+                        }
+                      >
+                        {loadingButton === "approve" ? "Loading..." : "Approve"}
+                      </button>
+
+                      <button
+                        className="action-btn violation-btn"
+                        onClick={() =>
+                          handleApproveDenyClick({ type: "deny", value: false })
+                        }
+                        disabled={isLoading}
+                      >
+                        {loadingButton === "deny" ? "Loading..." : "Deny"}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      {finalStatus !== "No Violation" && (
+                        <button
+                          className="action-btn warn-btn"
+                          disabled={isLoading}
+                          onClick={() => handleButtonClick("No Violation")}
+                        >
+                          {loadingButton === "No Violation"
+                            ? "Loading..."
+                            : "No Violation"}
+                        </button>
+                      )}
+                      {finalStatus !== "Violation" &&
+                        finalStatus !== "User Action Pending" && (
+                          <button
+                            className="action-btn violation-btn"
+                            onClick={() => handleButtonClick("Violation")}
+                            disabled={isLoading}
+                          >
+                            {loadingButton === "Violation"
+                              ? "Loading..."
+                              : "Violation"}
+                          </button>
+                        )}
+
+                      {finalStatus === "User Action Pending" && (
+                        <button
+                          className="action-btn back-btn"
+                          onClick={() => handleUploadImage("Violation")}
+                          disabled={isLoading}
+                        >
+                          Replace Image
+                        </button>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>
@@ -296,6 +387,13 @@ const ReportDetails = () => {
           imageUrl={selectedImage}
           onClose={() => setSelectedImage(null)}
           isFullView={true}
+        />
+      )}
+      {isReplaceImageModel && (
+        <ReplaceViolatedImagePopup
+          onClose={() => setIsReplaceImageModel(null)}
+          reportData={flaggedReportData}
+          fetchFlaggedDetails={fetchFlaggedDetails}
         />
       )}
     </>

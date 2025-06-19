@@ -6,7 +6,7 @@
  */
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FiFlag, FiInfo } from "react-icons/fi";
 import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
@@ -358,12 +358,26 @@ const Vote = () => {
   }, [animationComplete]);
 
   const current = competitions[currentCompetitionIndex];
+  console.log('current: ', current);
   const currentPopup = popupQueue[0];
   const showEndScreen =
     !loading &&
     competitions.length === 0 &&
     popupQueue.length === 0 &&
     !showIntroPopup;
+
+  const isViolatedImage = useCallback(
+    (index) => {
+      if (index === 1) {
+        return !!current?.user1_flagged;
+      } else if (index === 2) {
+        return !!current?.user2_flagged;
+      } else {
+        return false;
+      }
+    },
+    [current]
+  );
 
   const [desktopLottie, setDesktopLottie] = useState(null);
   // const [mobileLottie, setMobileLottie] = useState(null);
@@ -607,6 +621,8 @@ const Vote = () => {
                         key={image}
                         className={`vote-box ${
                           index === 0 ? "slide-in-left" : "slide-in-right"
+                        } ${
+                          isViolatedImage(index + 1) ? "violated-image" : ""
                         }`}
                       >
                         <div
@@ -615,17 +631,31 @@ const Vote = () => {
                           } ${isVoting ? "voting-disabled" : ""}`}
                           onClick={() => {
                             // Prevent clicks while voting is in progress
-                            if (isVoting || isSelected) return;
-                            
+                            if (
+                              isVoting ||
+                              isSelected ||
+                              isViolatedImage(index + 1)
+                            )
+                              return;
+
                             reportMode || showReportPopup || showReportReceived
                               ? setReportSelectedImage(image)
                               : handleVote(image);
                           }}
                           style={{
-                            pointerEvents: isVoting ? "none" : "auto",
-                            opacity: isVoting ? 0.7 : 1
+                            pointerEvents:
+                              isVoting || isViolatedImage(index + 1)
+                                ? "none"
+                                : "auto",
+                            opacity: isVoting ? 0.7 : 1,
                           }}
                         >
+                          {isViolatedImage(index + 1) && (
+                            <div className="blur-image-box">
+                              This image has been flagged for potential policy
+                              violation.
+                            </div>
+                          )}
                           <LazyImage
                             src={image}
                             alt={`Entry ${index + 1}`}
@@ -633,22 +663,26 @@ const Vote = () => {
                               isReporting ? "report-selected" : ""
                             }`}
                           />
-                          <div className="vote-overlay">
-                            {!selected && !reportMode && (
-                              <div className="vote-label">Vote</div>
-                            )}
-                            {isSelected && (
-                              <div className="vote-plus-one">+1</div>
-                            )}
-                            {selected && (
-                              <div className="vote-counter">
-                                {key === "user1_image"
-                                  ? current.votes_user1
-                                  : current.votes_user2}{" "}
-                                votes
-                              </div>
-                            )}
-                          </div>
+                          {isViolatedImage(index + 1) ? (
+                            <></>
+                          ) : (
+                            <div className="vote-overlay">
+                              {!selected && !reportMode && (
+                                <div className="vote-label">Vote</div>
+                              )}
+                              {isSelected && (
+                                <div className="vote-plus-one">+1</div>
+                              )}
+                              {selected && (
+                                <div className="vote-counter">
+                                  {key === "user1_image"
+                                    ? current.votes_user1
+                                    : current.votes_user2}{" "}
+                                  votes
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                     );

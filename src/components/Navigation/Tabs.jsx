@@ -15,6 +15,7 @@ function Tabs() {
     "/leaderboard/Live": "var(--leaderboard-background)",
     "/leaderboard/Winners": "var(--leaderboard-background)",
     "/leaderboard/MySubmissions": "var(--leaderboard-background)",
+    "/leaderboard/ReportedSubmission": "var(--leaderboard-background)",
   };
 
   // Get the background color for the current tab

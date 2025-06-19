@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   const inviteCode = queryParams.get("invite_code");
+  const competitionId = queryParams.get("competitionId");
   const [email, setEmail] = useState("");
 
   const [error, setError] = useState("");
@@ -83,7 +84,11 @@ const Login = () => {
         login(response.data.token, response.data.user);
 
         setTimeout(() => {
-          if (inviteCode && inviteCode?.length >= 6) {
+          if (competitionId) {
+            navigate(
+              `/leaderboard/ReportedSubmission?competitionId=${competitionId}`
+            );
+          } else if (inviteCode && inviteCode?.length >= 6) {
             navigate(`/join/upload/${inviteCode}`);
           } else {
             navigate("/");

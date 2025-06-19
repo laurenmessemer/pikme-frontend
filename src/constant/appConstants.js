@@ -26,6 +26,27 @@ export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const countSkipValue = (page, pageSize) => (page - 1) * pageSize
 
+// Report status classes for styling
+export const REPORT_STATUS_CLASSES = {
+  Violation: "ban",
+  "No Violation": "warn",
+  New: "normal",
+  "User Action Pending": "user-pending",
+  "Admin Review Pending": "admin-pending",
+  Complete: "complete",
+};
+
+// Report filter options
+export const REPORT_FILTER_OPTIONS = [
+  "All",
+  "Violation",
+  "No Violation",
+  "New",
+  "User Action Pending",
+  "Admin Review Pending",
+  "Complete",
+];
+
 export const allDummyWinners = [
   {
     contest_id: 21,

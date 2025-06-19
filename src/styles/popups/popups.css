@@ -129,6 +129,11 @@
   width: 550px;
   max-width: 90vw;
 }
+/* Specific styling for Upload image popup */
+.contact-popup.upload-image-popup {
+  width: 750px;
+  max-width: 90vw;
+}
 
 /* Custom background for voting popup */
 .how-to-vote-popup {

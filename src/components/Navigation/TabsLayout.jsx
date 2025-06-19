@@ -16,6 +16,7 @@ function TabsLayout() {
     "/leaderboard/Live": 400,
     "/leaderboard/Winners": 400,
     "/leaderboard/MySubmissions": 400,
+    "/leaderboard/ReportedSubmission": 400,
     "/join/upload": 300,
   };
 
@@ -27,6 +28,7 @@ function TabsLayout() {
     "/leaderboard/Live": "var(--leaderboard-background)",
     "/leaderboard/Winners": "var(--leaderboard-background)",
     "/leaderboard/MySubmissions": "var(--leaderboard-background)",
+    "/leaderboard/ReportedSubmission": "var(--leaderboard-background)",
     "/join/upload": "var(--compete-background)",
   };
 

@@ -5,6 +5,7 @@ const Submit = ({
   onClick,
   disabled = false,
   className = "",
+  isLoading = false,
 }) => {
   return (
     <button
@@ -14,7 +15,7 @@ const Submit = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {text}
+      {isLoading ? <span className="cu-loader"></span> : <>{text}</>}
     </button>
   );
 };
@@ -24,6 +25,7 @@ Submit.propTypes = {
   onClick: PropTypes.func, // Function to execute on click
   disabled: PropTypes.bool, // Whether button is disabled
   className: PropTypes.string, // Allows custom styling
+  isLoading: PropTypes.bool, // Whether button is isLoading
 };
 
 export default Submit;

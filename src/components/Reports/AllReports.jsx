@@ -4,8 +4,8 @@ import { usePagination } from "../../hooks/usePagination.jsx";
 import CommonDataTable from "../common/DataTable.jsx";
 import { useNavigate } from "react-router-dom";
 import WinnerImagePopup from "../Popups/WinnerImagePopup.jsx";
+import { REPORT_STATUS_CLASSES, REPORT_FILTER_OPTIONS } from "../../constant/appConstants.js";
 
-const options = ["All", "Violation", "No Violation", "New"];
 const AllReports = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { allReports, allReportsLoading, fetchAllReports } = useReport();
@@ -55,20 +55,14 @@ const AllReports = () => {
     },
     {
       name: "Status",
-      selector: (row) => row?.status,
+      selector: (row) => row?.final_status,
       minWidth: "140px",
       width: "140px",
       center: true,
       cell: (row) => (
-        <>
-          {row?.status === "Violation" ? (
-            <span className="status-tag ban">{row?.status}</span>
-          ) : row.status === "No Violation" ? (
-            <span className="status-tag warn">{row?.status}</span>
-          ) : (
-            <span className="status-tag normal">{row?.status}</span>
-          )}
-        </>
+        <span className={`status-tag ${REPORT_STATUS_CLASSES[row?.final_status]}`}>
+          {row?.final_status}
+        </span>
       ),
     },
     {
@@ -82,21 +76,21 @@ const AllReports = () => {
     },
     {
       name: "Reporting User",
-      selector: (row) => row?.Reporter?.username,
+      selector: (row) => row?.reporter_user_username,
       minWidth: "150px",
-      cell: (row) => row?.Reporter?.username ?? "-",
+      cell: (row) => row?.reporter_user_username ?? "-",
     },
     {
       name: "Reported User",
-      selector: (row) => row?.ReportedUser?.username,
+      selector: (row) => row?.reported_user_username,
       minWidth: "140px",
-      cell: (row) => row?.ReportedUser?.username ?? "-",
+      cell: (row) => row?.reported_user_username ?? "-",
     },
     {
       name: "Theme",
-      selector: (row) => row?.Competition?.Contest?.Theme?.name,
+      selector: (row) => row?.theme_name,
       minWidth: "120px",
-      cell: (row) => row?.Competition?.Contest?.Theme?.name ?? "-",
+      cell: (row) => row?.theme_name ?? "-",
     },
     {
       name: "Competition ID",
@@ -108,11 +102,11 @@ const AllReports = () => {
     },
     {
       name: "Contest ID",
-      selector: (row) => row?.Competition?.contest_id,
+      selector: (row) => row?.competition_contest_id,
       minWidth: "130px",
       width: "130px",
       center: true,
-      cell: (row) => row?.Competition?.contest_id ?? "-",
+      cell: (row) => row?.competition_contest_id ?? "-",
     },
     {
       name: "Report Category",
@@ -139,7 +133,7 @@ const AllReports = () => {
             setFilterValue(e.target.value);
           }}
         >
-          {options.map((id) => (
+          {REPORT_FILTER_OPTIONS.map((id) => (
             <option key={id} value={id}>
               {id}
             </option>

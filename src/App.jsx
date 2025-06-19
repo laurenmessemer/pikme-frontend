@@ -64,6 +64,7 @@ import GeoBlocker from "./components/GeoBlocker";
 import { Toaster } from "react-hot-toast";
 import FlaggedUserDetails from "./admin/FlaggedUserDetails";
 import ReportDetails from "./admin/ReportDetails";
+import ReportedSubmission from "./components/Cards/ReportedSubmission";
 
 function App() {
   return (
@@ -94,6 +95,7 @@ function App() {
                       <Route path="MySubmissions" element={<MySubmissions />} />
                       <Route path="Live" element={<Live />} />
                       <Route path="Winners" element={<Winners />} />
+                      <Route path="ReportedSubmission" element={<ReportedSubmission />} />
                     </Route>
                     <Route path="admin" element={<Admin />} />
                   </Route>

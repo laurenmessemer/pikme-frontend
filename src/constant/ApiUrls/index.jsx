@@ -14,7 +14,6 @@ import {
   API_METHOD_PUT,
 } from "../appConstants";
 
-
 export const REINVITE_OPPONENT_API = {
   url: apiEndpoints.ENDPOINTS_REINVITE_OPPONENT,
   method: API_METHOD_POST,
@@ -87,6 +86,14 @@ export const GET_BY_ID_REPORTED = {
 };
 export const POST_USER_REPORT_STATUS = {
   url: apiEndpoints.ENDPOINTS_POST_USER_REPORT_STATUS,
+  method: API_METHOD_POST,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
+  showToast: false,
+};
+export const POST_ADMIN_REVIEW_IMAGE = {
+  url: apiEndpoints.ENDPOINTS_POST_ADMIN_REVIEW_IMAGE,
   method: API_METHOD_POST,
   withToken: true,
   module: DEFAULT_SERVICE_KEY,
@@ -167,5 +174,22 @@ export const POST_CONTEST_UPLOAD_CSV = {
   withToken: true,
   module: DEFAULT_SERVICE_KEY,
   isMultipart: true,
+  showToast: false,
+};
+// Replace image from admin
+export const REPLACE_VIOLATED_IMAGE = {
+  url: apiEndpoints.ENDPOINTS_REPLACE_VIOLATED_IMAGE,
+  method: API_METHOD_POST,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
+  showToast: true,
+};
+export const GET_BY_ID_COMPETITIONS = {
+  url: apiEndpoints.ENDPOINTS_GET_BY_ID_COMPETITIONS,
+  method: API_METHOD_GET,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
   showToast: false,
 };

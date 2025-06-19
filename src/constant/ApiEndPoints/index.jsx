@@ -20,6 +20,7 @@ export const apiEndpoints = {
   ENDPOINTS_GET_ALL_REPORTS: "/api/reports/get-reports",
   ENDPOINTS_GET_BY_ID_REPORTED: "/api/reports/get-reports/",
   ENDPOINTS_POST_USER_REPORT_STATUS: "/api/reports/update-report-status",
+  ENDPOINTS_POST_ADMIN_REVIEW_IMAGE: "/api/reports/update-violation-image-status",
   // Flagged users
   ENDPOINTS_GET_REPORTED_REPORTS: "/api/reports/get-reported-users",
   ENDPOINTS_GET_BY_ID_REPORTED_REPORTS: "/api/reports/get-reported-user/",
@@ -37,6 +38,11 @@ export const apiEndpoints = {
   /* ---------------------------------- Contest endpoints ---------------------------------- */
   ENDPOINTS_GET_CONTEST_DOWNLOAD_CSV:'/api/contests/downlaod-contest-template',
   ENDPOINTS_POST_CONTEST_UPLOAD_CSV:'/api/contests/upload-fake-participents',
+
+
+  /* ---------------------------------- Violated image endpoints ---------------------------------- */
+  ENDPOINTS_REPLACE_VIOLATED_IMAGE: "/api/reports/update-image",
+  ENDPOINTS_GET_BY_ID_COMPETITIONS: "/api/competition-entry/get-competition/",
 
   
 };

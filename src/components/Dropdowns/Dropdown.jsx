@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import "../../styles/dropdowns/Dropdown.css"; // ✅ Update to match your folder structure
 
-const Dropdown = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Dropdown = ({ title, children, defaultOpen = false }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -27,6 +27,7 @@ const Dropdown = ({ title, children }) => {
 Dropdown.propTypes = {
   title: PropTypes.string.isRequired, // The title of the dropdown
   children: PropTypes.node.isRequired, // Any JSX content inside the dropdown
+  defaultOpen: PropTypes.bool, // The defaultOpen of the dropdown
 };
 
 export default Dropdown;

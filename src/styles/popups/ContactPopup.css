@@ -153,8 +153,24 @@
   font-size: 0.95rem;
   width: 120px;
 }
+.btn-new-submit {
+  text-transform: uppercase;
+  background-color: #f7c857;
+  border: 2px solid var(--dark);
+  padding: 0.5rem 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #333;
+  font-family: inherit;
+  font-size: 0.95rem;
+  width: 120px;
+}
+.width-auto{
+  width: auto !important;
+}
 
-.btn-add:disabled {
+.btn-add:disabled,
+.btn-new-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   background: #ddd;
