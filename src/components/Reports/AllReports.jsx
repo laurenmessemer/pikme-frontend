@@ -56,8 +56,8 @@ const AllReports = () => {
     {
       name: "Status",
       selector: (row) => row?.final_status,
-      minWidth: "140px",
-      width: "140px",
+      minWidth: "190px",
+      width: "190px",
       center: true,
       cell: (row) => (
         <span className={`status-tag ${REPORT_STATUS_CLASSES[row?.final_status]}`}>

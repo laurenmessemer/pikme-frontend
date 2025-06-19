@@ -33,7 +33,8 @@ export const REPORT_STATUS_CLASSES = {
   New: "normal",
   "User Action Pending": "user-pending",
   "Admin Review Pending": "admin-pending",
-  Complete: "complete",
+  'Resolved By Admin': "complete",
+  'Resolved': "complete",
 };
 
 // Report filter options
@@ -44,7 +45,8 @@ export const REPORT_FILTER_OPTIONS = [
   "New",
   "User Action Pending",
   "Admin Review Pending",
-  "Complete",
+  "Resolved By Admin",
+  "Resolved",
 ];
 
 export const allDummyWinners = [

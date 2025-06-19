@@ -60,6 +60,15 @@
   color: var(--black);
   border: 1px solid var(--dark);
 }
+.my-submission-card__status-box.admin_status{
+  bottom: 10px;
+  right: 10px; 
+  top: unset;
+  left: unset;
+}
+.my-submission-card__status-box.admin_status::before{
+  background-color: var(--error);
+}
 
 /* Status Text */
 .my-submission-card__status-box .my-submission-card__status-text {

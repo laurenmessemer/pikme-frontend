@@ -13,7 +13,10 @@ import { useState } from "react";
 import { useAuth } from "../../context/UseAuth";
 import LazyImage from "../Common/LazyImage";
 import ToastUtils from "../../utils/ToastUtils";
-import { REPLACE_VIOLATED_IMAGE } from "../../constant/ApiUrls";
+import {
+  DELETE_COMPETITIONS_IMAGE,
+  REPLACE_VIOLATED_IMAGE,
+} from "../../constant/ApiUrls";
 import { api } from "../../api";
 import { checkSuccessResponse } from "../../utils/RouterUtils";
 
@@ -98,6 +101,33 @@ const ReplaceViolatedImagePopup = ({
     }
   };
 
+  const handleDeleteImageAPICall = async () => {
+    try {
+      setIsSubmitting(true);
+
+      const response = await api({
+        endpoint: DELETE_COMPETITIONS_IMAGE,
+        payloadData: {
+          imageUrl: imageUrl,
+        },
+      });
+
+      if (checkSuccessResponse(response)) {
+        setImageUrl("");
+      } else {
+        ToastUtils.error(response?.data?.message || response?.data?.error);
+      }
+    } catch (error) {
+      ToastUtils.error(
+        error.message ||
+          response?.data?.error ||
+          "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="contact-popup-overlay">
       <div className="contact-popup upload-image-popup">
@@ -159,7 +189,7 @@ const ReplaceViolatedImagePopup = ({
                   {!isSubmitting && (
                     <span
                       className="change-image-btn"
-                      onClick={() => setImageUrl("")}
+                      onClick={() => handleDeleteImageAPICall(imageUrl)}
                     >
                       <CustomSvgIcon icon={"CloseModelIcon"} color={"#fff"} />
                     </span>
@@ -176,7 +206,12 @@ const ReplaceViolatedImagePopup = ({
 
           {/* ✅ Action Button */}
           <div className="contact-form-buttons more-space">
-            <button type="button" onClick={onClose} className="btn-cancel">
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn-cancel"
+              disabled={isSubmitting}
+            >
               CANCEL
             </button>
             <button

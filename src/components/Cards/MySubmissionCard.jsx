@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import "../../styles/components/MySubmissionCard.css";
 import LazyImage from "../Common/LazyImage";
+import { useNavigate } from "react-router-dom";
 
 const flashIcon = "https://d38a0fe14bafg9.cloudfront.net/icons/flash.svg";
 
@@ -11,9 +12,12 @@ const MySubmissionCard = ({
   contestStatus,
   position,
   payout,
+  competition_id = 0,
+  violation_action_id = null,
   isLoggedIn,
   isNewCardUi = false,
 }) => {
+  const navigate = useNavigate()
   const imageUrl =
     image || "https://d38a0fe14bafg9.cloudfront.net/uploads/default.jpg";
 
@@ -30,12 +34,18 @@ const MySubmissionCard = ({
           alt={`${username}'s submission`}
           className="my-submission-card__image"
         />
-        {/* <img
-          src={imageUrl}
-          alt={`${username}'s submission`}
-          className="my-submission-card__image"
-          onError={onImageError}
-        /> */}
+        {/* Contest Status Label */}
+        {violation_action_id && (
+          <div
+            className={`my-submission-card__status-box admin_status status-complete`}
+            onClick={() => { navigate(`/leaderboard/ReportedSubmission?competitionId=${competition_id}`); }}
+            role="button"
+          >
+            <span className="my-submission-card__status-text">
+              Action Required!
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Contest Status Label */}

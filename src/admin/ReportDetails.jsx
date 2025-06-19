@@ -21,7 +21,6 @@ const ReportDetails = () => {
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [flaggedReportData, setFlaggedReportData] = useState([]);
-  console.log("flaggedReportData: ", flaggedReportData);
   const [flaggedDataLoading, setFlaggedDataLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
@@ -222,6 +221,24 @@ const ReportDetails = () => {
                     )}
                   </span>
                 </div>
+                {finalStatus === "Admin Review Pending" && (
+                  <div className="detail-row">
+                    <span className="detail-label">Image Changed On</span>
+                    <span className="detail-value">
+                      {flaggedDataLoading ? (
+                        <div className="skeleton-only-line"></div>
+                      ) : (
+                        <>
+                          {flaggedReportData?.report?.ViolationAction?.updatedAt
+                            ? new Date(
+                                flaggedReportData?.report?.ViolationAction?.updatedAt
+                              ).toLocaleDateString()
+                            : "-"}
+                        </>
+                      )}
+                    </span>
+                  </div>
+                )}
                 <div className="detail-row">
                   <span className="detail-label">Competition ID:</span>
                   <span className="detail-value">
@@ -310,7 +327,8 @@ const ReportDetails = () => {
               <button className="action-btn back-btn" onClick={handleBackClick}>
                 Back
               </button>
-              {finalStatus === "Complete" ? (
+              {finalStatus === "Resolved" ||
+              finalStatus === "Resolved By Admin" ? (
                 <></>
               ) : (
                 <>

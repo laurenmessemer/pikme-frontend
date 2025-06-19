@@ -11,6 +11,7 @@ import { useAuth } from "../../context/UseAuth"; // ✅ Auth hook
 import "../../styles/components/MySubmission.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
+  DELETE_COMPETITIONS_IMAGE,
   GET_BY_ID_COMPETITIONS,
   REPLACE_VIOLATED_IMAGE,
 } from "../../constant/ApiUrls";
@@ -21,6 +22,7 @@ import { checkSuccessResponse } from "../../utils/RouterUtils";
 import { api } from "../../api";
 import ToastUtils from "../../utils/ToastUtils";
 import ReporetdImageSkeletonCard from "./ReporetdImageSkeletonCard";
+import CustomSvgIcon from "../../constant/CustomSvgIcons";
 
 const ReportedSubmission = () => {
   const navigate = useNavigate();
@@ -38,7 +40,7 @@ const ReportedSubmission = () => {
   const [loading, setLoading] = useState(true);
   // Fallback to local state if no props provided
   const [selectedSubmission, setSelectedSubmission] = useState(null);
-
+  
   // Handle redirects using useEffect to avoid conditional returns
   useEffect(() => {
     if (!competitionId) {
@@ -52,10 +54,6 @@ const ReportedSubmission = () => {
   }, [competitionId, user?.id, user?.role, token, navigate]);
 
   const handleSubmissionClick = (submission) => {
-    if (!submission?.id) {
-      return;
-    }
-
     const contestData = {
       theme: submission?.Contest?.Theme?.name || "Unknown Theme",
       contestStatus: submission?.Contest?.status || "Upcoming",
@@ -68,6 +66,7 @@ const ReportedSubmission = () => {
 
     setSelectedSubmission({
       contestData,
+      isExpired: submission?.isExpired,
       competitionId: submission.id,
     });
   };
@@ -154,7 +153,7 @@ const ReportedSubmission = () => {
         });
 
         if (response && checkSuccessResponse(response)) {
-          handleSubmissionClick(response.data?.competition);
+          handleSubmissionClick(response.data?.competition || response?.data);
         } else {
           const errorMessage =
             response?.data?.message ||
@@ -187,6 +186,32 @@ const ReportedSubmission = () => {
     return null;
   }
 
+  const handleDeleteImageAPICall = async () => {
+    try {
+      setImageLoading(true);
+
+      const response = await api({
+        endpoint: DELETE_COMPETITIONS_IMAGE,
+        payloadData: {
+          imageUrl: imageUrl,
+        },
+      });
+
+      if (checkSuccessResponse(response)) {
+        setImageUrl("");
+      } else {
+        ToastUtils.error(response?.data?.message || response?.data?.error);
+      }
+    } catch (error) {
+      ToastUtils.error(
+        error.message ||
+          response?.data?.error ||
+          "An unexpected error occurred. Please try again."
+      );
+    } finally {
+      setImageLoading(false);
+    }
+  };
   return (
     <div className="my-submissions-container">
       {loading ? (
@@ -196,34 +221,72 @@ const ReportedSubmission = () => {
           {isLoggedIn ? (
             <>
               {selectedSubmission ? (
-                <div className="step-two-container flex">
-                  <ReportedSubmissionCard
-                    contestTitle={
-                      selectedSubmission.contestData?.theme || "Contest Title"
-                    }
-                    contestDescription={
-                      selectedSubmission.contestData?.Theme?.description
-                    }
-                    allData={selectedSubmission.contestData}
-                    onSubmit={handleSubmitClick}
-                    disabled={imageUrl ? false : true}
-                    isLoading={isFormLoading}
-                  />
-                  {imageUrl ? (
-                    <div className="uploaded-image-container">
-                      <LazyImage
-                        src={imageUrl}
-                        alt="Uploaded Preview"
-                        className="uploaded-image"
-                      />
-                    </div>
+                <>
+                  {selectedSubmission?.isExpired ? (
+                    <>
+                      <div className="no-competitions-container">
+                        <div className="no-competitions-box">
+                          <h3 className="no-competitions-title">
+                            Invalid or Expired Link
+                          </h3>
+                          <p className="no-competitions-message">
+                            The link you're trying to access is no longer valid or has expired. Please check the URL or contact support for assistance.
+                          </p>
+                          <button
+                            className="no-competitions-button"
+                            onClick={() => navigate("/")}
+                          >
+                            Return Home
+                          </button>
+                        </div>
+                      </div>
+                    </>
                   ) : (
-                    <UploadImage
-                      onUpload={handleUpload}
-                      isImageLoading={isImageLoading}
-                    />
+                    <div className="step-two-container flex">
+                      <ReportedSubmissionCard
+                        contestTitle={
+                          selectedSubmission.contestData?.theme ||
+                          "Contest Title"
+                        }
+                        contestDescription={
+                          selectedSubmission.contestData?.Theme?.description
+                        }
+                        allData={selectedSubmission.contestData}
+                        onSubmit={handleSubmitClick}
+                        disabled={imageUrl ? false : true}
+                        isLoading={isFormLoading}
+                      />
+                      {imageUrl ? (
+                        <div className="uploaded-image-container">
+                          <LazyImage
+                            src={imageUrl}
+                            alt="Uploaded Preview"
+                            className="uploaded-image"
+                          />
+                          {(!isImageLoading ||
+                            !isFormLoading )&& (
+                              <span
+                                className="change-image-btn"
+                                onClick={() =>
+                                  handleDeleteImageAPICall(imageUrl)
+                                }
+                              >
+                                <CustomSvgIcon
+                                  icon={"CloseModelIcon"}
+                                  color={"#fff"}
+                                />
+                              </span>
+                            )}
+                        </div>
+                      ) : (
+                        <UploadImage
+                          onUpload={handleUpload}
+                          isImageLoading={isImageLoading}
+                        />
+                      )}
+                    </div>
                   )}
-                </div>
+                </>
               ) : (
                 <></>
               )}

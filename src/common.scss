@@ -1206,3 +1206,15 @@ $cta-pressed-2: var(--cta-pressed-2);
     }
   }
 }
+
+.uploaded-image-container,
+.upload-container {
+  position: relative;
+  .change-image-btn {
+    @include flex-center;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+}

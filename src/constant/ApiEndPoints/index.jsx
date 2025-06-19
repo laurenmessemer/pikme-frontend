@@ -43,6 +43,5 @@ export const apiEndpoints = {
   /* ---------------------------------- Violated image endpoints ---------------------------------- */
   ENDPOINTS_REPLACE_VIOLATED_IMAGE: "/api/reports/update-image",
   ENDPOINTS_GET_BY_ID_COMPETITIONS: "/api/competition-entry/get-competition/",
-
-  
+  ENDPOINTS_DELETE_COMPETITIONS_IMAGE: "/api/competition-entry/delete-image-url",
 };

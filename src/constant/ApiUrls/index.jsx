@@ -193,3 +193,11 @@ export const GET_BY_ID_COMPETITIONS = {
   isMultipart: false,
   showToast: false,
 };
+export const DELETE_COMPETITIONS_IMAGE = {
+  url: apiEndpoints.ENDPOINTS_DELETE_COMPETITIONS_IMAGE,
+  method: API_METHOD_POST,
+  withToken: true,
+  module: DEFAULT_SERVICE_KEY,
+  isMultipart: false,
+  showToast: true,
+};
