@@ -13,6 +13,7 @@ import {
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import ToastUtils from "../utils/ToastUtils";
 import { api } from "../api";
+import { formatDateToDDMMYYYY } from "../constant/appConstants";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
@@ -276,17 +277,6 @@ const ManageContests = () => {
                             setSelectedImage(contest.Theme?.cover_image_url)
                           }
                         />
-                        {/* // <img
-                      //   src={contest.Theme.cover_image_url}
-                      //   alt={contest.Theme.name}
-                      //   style={{
-                      //     width: "60px",
-                      //     height: "40px",
-                      //     objectFit: "cover",
-                      //     borderRadius: "4px",
-                      //   }}
-                      //   onError={onImageError}
-                      // /> */}
                       </>
                     ) : (
                       "N/A"
@@ -356,7 +346,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "contest_live_date")}
                       />
                     ) : (
-                      new Date(contest.contest_live_date).toLocaleDateString()
+                      formatDateToDDMMYYYY(contest.contest_live_date, true)
                     )}
                   </td>
                   <td>
@@ -367,7 +357,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "submission_deadline")}
                       />
                     ) : (
-                      new Date(contest.submission_deadline).toLocaleDateString()
+                      formatDateToDDMMYYYY(contest.submission_deadline, true)
                     )}
                   </td>
                   <td>
@@ -378,7 +368,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "voting_live_date")}
                       />
                     ) : (
-                      new Date(contest.voting_live_date).toLocaleDateString()
+                      formatDateToDDMMYYYY(contest.voting_live_date, true)
                     )}
                   </td>
                   <td>
@@ -389,7 +379,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "voting_deadline")}
                       />
                     ) : (
-                      new Date(contest.voting_deadline).toLocaleDateString()
+                      formatDateToDDMMYYYY(contest.voting_deadline, true)
                     )}
                   </td>
                   <td>

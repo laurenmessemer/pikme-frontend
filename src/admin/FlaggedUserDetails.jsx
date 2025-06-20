@@ -9,6 +9,7 @@ import {
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import { api } from "../api";
 import CommonDataTable from "../components/common/DataTable";
+import { formatDateToDDMMYYYY } from "../constant/appConstants";
 
 export const allFlaggedReportsColumns = [
   {
@@ -39,7 +40,7 @@ export const allFlaggedReportsColumns = [
     selector: (row) => row?.createdAt,
     minWidth: "120px",
     cell: (row) =>
-      row?.createdAt ? new Date(row.createdAt).toLocaleDateString() : "-",
+      row?.createdAt ? formatDateToDDMMYYYY(row?.createdAt, true) : "-",
   },
   {
     name: "Reporting User",
@@ -220,10 +221,8 @@ const FlaggedUserDetails = () => {
                   ) : (
                     <>
                       {flaggedReportData?.report?.date_of_birth
-                        ? new Date(
-                            flaggedReportData?.report?.date_of_birth
-                          ).toLocaleDateString()
-                        : "---"}
+                        ? formatDateToDDMMYYYY(flaggedReportData?.report?.date_of_birth, true)
+                        : "TBD"}
                     </>
                   )}
                 </span>

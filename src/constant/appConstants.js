@@ -24,7 +24,7 @@ export const SiteUrl = `${import.meta.env.VITE_SITE_URL}`;
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-export const countSkipValue = (page, pageSize) => (page - 1) * pageSize
+export const countSkipValue = (page, pageSize) => (page - 1) * pageSize;
 
 // Report status classes for styling
 export const REPORT_STATUS_CLASSES = {
@@ -33,8 +33,8 @@ export const REPORT_STATUS_CLASSES = {
   New: "normal",
   "User Action Pending": "user-pending",
   "Admin Review Pending": "admin-pending",
-  'Resolved By Admin': "complete",
-  'Resolved': "complete",
+  "Resolved By Admin": "complete",
+  Resolved: "complete",
 };
 
 // Report filter options
@@ -256,3 +256,19 @@ export const allDummyWinners = [
     ],
   },
 ];
+// utils/dateFormatter.js
+
+/**
+ * Format date string to 'dd-mm-yyyy'
+ */
+export function formatDateToDDMMYYYY(dateString, isUTC = false) {
+  const date = new Date(dateString);
+
+  const day = isUTC ? date.getUTCDate() : date.getDate();
+  const month = isUTC ? date.getUTCMonth() + 1 : date.getMonth() + 1; // Months are zero-based
+  const year = isUTC ? date.getUTCFullYear() : date.getFullYear();
+
+  return `${day.toString().padStart(2, "0")}-${month
+    .toString()
+    .padStart(2, "0")}-${year}`;
+}

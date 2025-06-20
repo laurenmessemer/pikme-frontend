@@ -4,7 +4,11 @@ import { usePagination } from "../../hooks/usePagination.jsx";
 import CommonDataTable from "../common/DataTable.jsx";
 import { useNavigate } from "react-router-dom";
 import WinnerImagePopup from "../Popups/WinnerImagePopup.jsx";
-import { REPORT_STATUS_CLASSES, REPORT_FILTER_OPTIONS } from "../../constant/appConstants.js";
+import {
+  REPORT_STATUS_CLASSES,
+  REPORT_FILTER_OPTIONS,
+  formatDateToDDMMYYYY,
+} from "../../constant/appConstants.js";
 
 const AllReports = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -60,7 +64,9 @@ const AllReports = () => {
       width: "190px",
       center: true,
       cell: (row) => (
-        <span className={`status-tag ${REPORT_STATUS_CLASSES[row?.final_status]}`}>
+        <span
+          className={`status-tag ${REPORT_STATUS_CLASSES[row?.final_status]}`}
+        >
           {row?.final_status}
         </span>
       ),
@@ -72,7 +78,7 @@ const AllReports = () => {
       width: "130px",
       center: true,
       cell: (row) =>
-        row?.createdAt ? new Date(row.createdAt).toLocaleDateString() : "-",
+        row?.createdAt ? formatDateToDDMMYYYY(row?.createdAt, true): "-",
     },
     {
       name: "Reporting User",

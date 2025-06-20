@@ -38,11 +38,11 @@ const validationSchema = yup.object().shape({
       if (!value) return false;
       const today = new Date();
       const birthDate = new Date(value);
-      const age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
+      const age = today.getUTCFullYear() - birthDate.getUTCFullYear();
+      const monthDiff = today.getUTCMonth() - birthDate.getUTCMonth();
       if (
         monthDiff < 0 ||
-        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+        (monthDiff === 0 && today.getUTCDate() < birthDate.getUTCDate())
       ) {
         return age - 1 >= 18;
       }
@@ -105,10 +105,16 @@ const CreateAccountCard = ({
     setShowConfirmPassword(!showConfirmPassword);
 
   const handleFormSubmit = async (data) => {
+    // Normalize dateOfBirth to 00:00:00 UTC
+    let normalizedDateOfBirth = data?.dateOfBirth;
+    if (normalizedDateOfBirth) {
+      const date = new Date(normalizedDateOfBirth);
+      normalizedDateOfBirth = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    }
     await onSubmit(
       data.username,
       data.email,
-      data.dateOfBirth,
+      normalizedDateOfBirth,
       data.password,
       data.referralCode
     );
