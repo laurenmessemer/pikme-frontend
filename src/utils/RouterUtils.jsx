@@ -33,7 +33,20 @@ export const onImageError = (e) => {
 };
 export const getMaxDOB = () => {
   const today = new Date();
-  today.setFullYear(today.getFullYear() - 18);
-  today.setDate(today.getDate() - 1);
-  return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  
+  const nyDateString = today.toLocaleDateString('en-US', {
+    timeZone: 'America/New_York',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
+  const [month, day, year] = nyDateString.split('/');
+
+  const nyDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
+
+  nyDate.setFullYear(nyDate.getFullYear() - 18);
+  nyDate.setDate(nyDate.getDate() - 1);
+
+  return nyDate.toISOString().split("T")[0];
 };

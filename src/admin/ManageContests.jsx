@@ -13,7 +13,7 @@ import {
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import ToastUtils from "../utils/ToastUtils";
 import { api } from "../api";
-import { formatDateToDDMMYYYY } from "../constant/appConstants";
+import { formatNYDate } from "../utils/dateUtils";
 
 const CONTESTS_API_URL = `${import.meta.env.VITE_API_URL}/api/contests`;
 const COMPETITIONS_API_URL = `${import.meta.env.VITE_API_URL}/api/competitions`;
@@ -154,6 +154,17 @@ const ManageContests = () => {
     }
   };
 
+  // update date to add 4 hours to the date
+  const updatedEditedData = (data) => {
+    return {
+      ...data,
+      contest_live_date: `${data.contest_live_date?.split("T")[0]}T04:00:00.000Z`,
+      submission_deadline: `${data.submission_deadline?.split("T")[0]}T04:00:00.000Z`,
+      voting_live_date: `${data.voting_live_date?.split("T")[0]}T04:00:00.000Z`,
+      voting_deadline: `${data.voting_deadline?.split("T")[0]}T04:00:00.000Z`,
+    };
+  };
+
   const handleSave = async (id) => {
     try {
       const response = await fetch(`${CONTESTS_API_URL}/${id}`, {
@@ -163,7 +174,7 @@ const ManageContests = () => {
           Authorization: `Bearer ${token}`,
           "ngrok-skip-browser-warning": "true",
         },
-        body: JSON.stringify(editedData),
+        body: JSON.stringify(updatedEditedData(editedData)),
       });
 
       if (!response.ok) throw new Error("Failed to update contest");
@@ -346,7 +357,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "contest_live_date")}
                       />
                     ) : (
-                      formatDateToDDMMYYYY(contest.contest_live_date, true)
+                      formatNYDate(contest.contest_live_date)
                     )}
                   </td>
                   <td>
@@ -357,7 +368,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "submission_deadline")}
                       />
                     ) : (
-                      formatDateToDDMMYYYY(contest.submission_deadline, true)
+                      formatNYDate(contest.submission_deadline)
                     )}
                   </td>
                   <td>
@@ -368,7 +379,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "voting_live_date")}
                       />
                     ) : (
-                      formatDateToDDMMYYYY(contest.voting_live_date, true)
+                      formatNYDate(contest.voting_live_date)
                     )}
                   </td>
                   <td>
@@ -379,7 +390,7 @@ const ManageContests = () => {
                         onChange={(e) => handleChange(e, "voting_deadline")}
                       />
                     ) : (
-                      formatDateToDDMMYYYY(contest.voting_deadline, true)
+                      formatNYDate(contest.voting_deadline)
                     )}
                   </td>
                   <td>

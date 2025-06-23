@@ -105,12 +105,16 @@ const CreateAccountCard = ({
     setShowConfirmPassword(!showConfirmPassword);
 
   const handleFormSubmit = async (data) => {
-    // Normalize dateOfBirth to 00:00:00 UTC
     let normalizedDateOfBirth = data?.dateOfBirth;
     if (normalizedDateOfBirth) {
-      const date = new Date(normalizedDateOfBirth);
-      normalizedDateOfBirth = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+      const year = normalizedDateOfBirth.getFullYear();
+      const month = normalizedDateOfBirth.getMonth() + 1;
+      const day = normalizedDateOfBirth.getDate();
+      
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T04:00:00.000Z`;
+      normalizedDateOfBirth = new Date(formattedDate);
     }
+
     await onSubmit(
       data.username,
       data.email,

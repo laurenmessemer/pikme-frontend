@@ -12,7 +12,8 @@ import { api } from "../api";
 import LazyImage from "../components/Common/LazyImage";
 import WinnerImagePopup from "../components/Popups/WinnerImagePopup";
 import ReplaceViolatedImagePopup from "../components/Popups/ReplaceViolatedImagePopup";
-import { formatDateToDDMMYYYY, REPORT_STATUS_CLASSES } from "../constant/appConstants";
+import { REPORT_STATUS_CLASSES } from "../constant/appConstants";
+import { formatNYDate } from "../utils/dateUtils";
 
 const ReportDetails = () => {
   const navigate = useNavigate();
@@ -230,7 +231,7 @@ const ReportDetails = () => {
                       ) : (
                         <>
                           {flaggedReportData?.report?.ViolationAction?.updatedAt
-                            ? formatDateToDDMMYYYY(flaggedReportData?.report?.ViolationAction?.updatedAt, true)
+                            ? formatNYDate(flaggedReportData?.report?.ViolationAction?.updatedAt)
                             : "TBD"}
                         </>
                       )}

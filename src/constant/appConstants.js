@@ -256,19 +256,3 @@ export const allDummyWinners = [
     ],
   },
 ];
-// utils/dateFormatter.js
-
-/**
- * Format date string to 'dd-mm-yyyy'
- */
-export function formatDateToDDMMYYYY(dateString, isUTC = false) {
-  const date = new Date(dateString);
-
-  const day = isUTC ? date.getUTCDate() : date.getDate();
-  const month = isUTC ? date.getUTCMonth() + 1 : date.getMonth() + 1; // Months are zero-based
-  const year = isUTC ? date.getUTCFullYear() : date.getFullYear();
-
-  return `${day.toString().padStart(2, "0")}-${month
-    .toString()
-    .padStart(2, "0")}-${year}`;
-}

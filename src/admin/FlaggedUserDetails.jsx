@@ -9,7 +9,7 @@ import {
 import { checkSuccessResponse } from "../utils/RouterUtils";
 import { api } from "../api";
 import CommonDataTable from "../components/common/DataTable";
-import { formatDateToDDMMYYYY } from "../constant/appConstants";
+import { formatNYDate } from "../utils/dateUtils";
 
 export const allFlaggedReportsColumns = [
   {
@@ -40,7 +40,7 @@ export const allFlaggedReportsColumns = [
     selector: (row) => row?.createdAt,
     minWidth: "120px",
     cell: (row) =>
-      row?.createdAt ? formatDateToDDMMYYYY(row?.createdAt, true) : "-",
+      row?.createdAt ? formatNYDate(row?.createdAt) : "-",
   },
   {
     name: "Reporting User",
@@ -221,7 +221,7 @@ const FlaggedUserDetails = () => {
                   ) : (
                     <>
                       {flaggedReportData?.report?.date_of_birth
-                        ? formatDateToDDMMYYYY(flaggedReportData?.report?.date_of_birth, true)
+                        ? formatNYDate(flaggedReportData?.report?.date_of_birth)
                         : "TBD"}
                     </>
                   )}

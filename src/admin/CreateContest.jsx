@@ -108,11 +108,11 @@ const CreateContest = () => {
         second: parseFloat(prizes[1]) || 0,
         third: parseFloat(prizes[2]) || 0,
       },
-      contest_live_date: submissionStart, // ✅ Add this line
+      contest_live_date: `${submissionStart}T04:00:00.000Z`, // ✅ Add this line
       status: "Live", // ✅ Add this line
-      submission_deadline: submissionEnd,
-      voting_live_date: votingStart,
-      voting_deadline: votingEnd,
+      submission_deadline: `${submissionEnd}T04:00:00.000Z`,
+      voting_live_date: `${votingStart}T04:00:00.000Z`,
+      voting_deadline: `${votingEnd}T04:00:00.000Z`,
     };
 
     try {

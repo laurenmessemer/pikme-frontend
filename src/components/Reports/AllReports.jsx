@@ -7,8 +7,8 @@ import WinnerImagePopup from "../Popups/WinnerImagePopup.jsx";
 import {
   REPORT_STATUS_CLASSES,
   REPORT_FILTER_OPTIONS,
-  formatDateToDDMMYYYY,
 } from "../../constant/appConstants.js";
+import { formatNYDate } from "../../utils/dateUtils.js";
 
 const AllReports = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -78,7 +78,7 @@ const AllReports = () => {
       width: "130px",
       center: true,
       cell: (row) =>
-        row?.createdAt ? formatDateToDDMMYYYY(row?.createdAt, true): "-",
+        row?.createdAt ? formatNYDate(row?.createdAt): "-",
     },
     {
       name: "Reporting User",
