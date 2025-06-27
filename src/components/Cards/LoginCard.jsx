@@ -145,7 +145,7 @@ const LoginCard = ({
           </div>
         )}
 
-        <Link to="/reset-password" className="forgot-password-link">
+        <Link to="/reset-password-request" className="forgot-password-link">
           Forgot your password?
         </Link>
 
