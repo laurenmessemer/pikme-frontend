@@ -86,17 +86,26 @@ const Activity = () => {
   //   ].slice(0, 9);
   // }, [referrers]);
 
+  // const mergedVoters = useMemo(() => {
+  //   // Map voters and add random count for uploaded users
+  //   const processedVoters = [...voters].map((voter) => {
+  //     if (voter.isUploaded === true) {
+  //       return {
+  //         ...voter,
+  //         count: Math.floor(Math.random() * 13) + 1 // Random number between 1-13
+  //       };
+  //     }
+  //     return voter;
+  //   });
+
   const mergedVoters = useMemo(() => {
-    // Map voters and add random count for uploaded users
-    const processedVoters = [...voters].map((voter) => {
-      if (voter.isUploaded === true) {
-        return {
-          ...voter,
-          count: Math.floor(Math.random() * 13) + 1 // Random number between 1-13
-        };
-      }
-      return voter;
-    });
+  // Only include real voters: isUploaded must not be true
+  const realVoters = [...voters]
+    .filter(v => !v.isUploaded)
+    .sort((a, b) => b.count - a.count);
+
+  return realVoters;
+}, [voters]);
 
     // Separate non-uploaded and uploaded users
     const nonUploaded = processedVoters.filter(v => !v.isUploaded).sort((a, b) => b.count - a.count);
