@@ -112,7 +112,8 @@ const Activity = () => {
       if (referrer.isUploaded === true) {
         return {
           ...referrer,
-          count: Math.floor(Math.random() * 3) + 1 // Random number between 1-3
+          // count: Math.floor(Math.random() * 3) + 1 // Random number between 1-3
+          count: 1 // Random number between 1-3
         };
       }
       return referrer;
