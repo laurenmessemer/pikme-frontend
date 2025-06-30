@@ -26,7 +26,7 @@ export const api = async ({
   cancelToken = "",
   onUploadProgress = () => {},
 }) => {
-  const {
+  let {
     method,
     isMultipart,
     url,
