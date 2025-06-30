@@ -98,13 +98,23 @@ const Activity = () => {
       return voter;
     });
 
-    // Separate non-uploaded and uploaded users
+    Separate non-uploaded and uploaded users
     const nonUploaded = processedVoters.filter(v => !v.isUploaded).sort((a, b) => b.count - a.count);
     const uploaded = processedVoters.filter(v => v.isUploaded).sort((a, b) => b.count - a.count);
 
     // Return non-uploaded first, then uploaded
     return [...nonUploaded, ...uploaded];
   }, [voters]);
+
+  
+  // const mergedVoters = useMemo(() => {
+  // // Only include real voters: isUploaded must not be true
+  // const realVoters = [...voters]
+  //   .filter(v => !v.isUploaded)
+  //   .sort((a, b) => b.count - a.count);
+
+  // return realVoters;
+  // }, [voters]);
 
   const mergedReferrers = useMemo(() => {
     // Map referrers and add random count for uploaded users
