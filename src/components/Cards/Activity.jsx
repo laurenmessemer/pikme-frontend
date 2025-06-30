@@ -98,7 +98,7 @@ const Activity = () => {
       return voter;
     });
 
-    Separate non-uploaded and uploaded users
+    // Separate non-uploaded and uploaded users
     const nonUploaded = processedVoters.filter(v => !v.isUploaded).sort((a, b) => b.count - a.count);
     const uploaded = processedVoters.filter(v => v.isUploaded).sort((a, b) => b.count - a.count);
 
